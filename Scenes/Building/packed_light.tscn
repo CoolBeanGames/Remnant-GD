@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://3k3mkp2ekn08"]
+
+[ext_resource type="PackedScene" uid="uid://kc7juqnoh84i" path="res://Scenes/Building/packed_buildable.tscn" id="1_package"]
+[ext_resource type="Resource" path="res://Data/Building/light.tres" id="2_definition"]
+[ext_resource type="PackedScene" uid="uid://b0bb6bphs6qsi" path="res://Models/buildable/buildable_crate.fbx" id="3_86csy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ig4qq"]
+
+[node name="PackedLight" unique_id=1241865519 instance=ExtResource("1_package")]
+definition = ExtResource("2_definition")
+
+[node name="buildable_crate" parent="." index="0" unique_id=2108969236 instance=ExtResource("3_86csy")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1" unique_id=1728342588]
+shape = SubResource("BoxShape3D_ig4qq")

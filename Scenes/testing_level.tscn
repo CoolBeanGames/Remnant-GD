@@ -1,0 +1,187 @@
+[gd_scene format=3 uid="uid://blbs2kyd6bds2"]
+
+[ext_resource type="PackedScene" uid="uid://da63abf1yef55" path="res://Scenes/model_instances/game_stage_base.tscn" id="1_simi3"]
+[ext_resource type="AudioStream" uid="uid://br2vqhxetdtba" path="res://Audio/SFX/machine_run.wav" id="2_s1ufb"]
+[ext_resource type="PackedScene" uid="uid://ci3oy7ni8sysi" path="res://Scenes/Player/player.tscn" id="3_uai4t"]
+[ext_resource type="PackedScene" uid="uid://cho7ut4k28i46" path="res://Models/Chute/ceiling_chute.fbx" id="4_1cks4"]
+[ext_resource type="Script" uid="uid://di3swkqh5sn4a" path="res://Scripts/Actors/ceiling_chute.gd" id="5_rhpwq"]
+[ext_resource type="PackedScene" uid="uid://0851ilsmei5g" path="res://Scenes/test_object.tscn" id="6_ovg1v"]
+[ext_resource type="PackedScene" uid="uid://x4o8rin8xvjo" path="res://Scenes/Actors/lever_assembly.tscn" id="7_esepx"]
+[ext_resource type="Texture2D" uid="uid://b7yhmhlfgdnyq" path="res://Textures/UI/Aim.png" id="8_46ng8"]
+[ext_resource type="PackedScene" uid="uid://3k3mkp2ekn08" path="res://Scenes/Building/packed_light.tscn" id="9_packed_light"]
+[ext_resource type="Script" uid="uid://dydvfnp1pg6a4" path="res://Scripts/UI/prompt_display.gd" id="10_prompts"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/prompt_label.tscn" id="11_label"]
+[ext_resource type="Resource" uid="uid://u6flu1c5065j" path="res://Data/Prompts/carrying.tres" id="12_carrying"]
+[ext_resource type="Resource" uid="uid://bkcrkkbcrhivh" path="res://Data/Prompts/carrying_buildable.tres" id="13_carrying_buildable"]
+[ext_resource type="Resource" uid="uid://bqmg52q3fam1e" path="res://Data/Prompts/placement.tres" id="14_placement"]
+[ext_resource type="Script" uid="uid://bcxrh405f124t" path="res://Scripts/Level/grinding_area.gd" id="15_grinding"]
+[ext_resource type="PackedScene" uid="uid://dnpgvodrsbg0f" path="res://Scenes/Actors/score_sign.tscn" id="16_bfm0w"]
+
+[sub_resource type="Environment" id="Environment_ig4qq"]
+background_mode = 1
+ssao_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.1267241, 0.14171177, 0.16503283, 1)
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0634
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ig4qq"]
+size = Vector3(1.1728973, 17.915207, 6.291382)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ovg1v"]
+size = Vector3(4.1224594, 8.818077, 2.7868042)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_esepx"]
+size = Vector3(4.1224594, 12.871756, 1.561943)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_46ng8"]
+size = Vector3(4.1224594, 7.8334174, 1.2612133)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1aaap"]
+size = Vector3(4.1224594, 5.216106, 1.2612133)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_owqr0"]
+size = Vector3(2.9091797, 0.72546387, 7.401123)
+
+[node name="testing_level" type="Node3D" unique_id=1676298962]
+
+[node name="game_stage_base" parent="." unique_id=1628373784 instance=ExtResource("1_simi3")]
+
+[node name="MachineRun" type="AudioStreamPlayer3D" parent="game_stage_base" unique_id=1326311253]
+stream = ExtResource("2_s1ufb")
+volume_db = -6.0
+autoplay = true
+max_distance = 50.0
+bus = &"SFX"
+
+[node name="PackedLight" parent="." unique_id=341036661 instance=ExtResource("9_packed_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2195344, 0.5, -0.5)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1614001260]
+environment = SubResource("Environment_ig4qq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=620566388]
+transform = Transform3D(1, 0, 0, 0, 0.6507046, 0.7593309, 0, -0.7593309, 0.6507046, 0, 0, 0)
+light_color = Color(0.10747976, 0.10747973, 0.10747973, 1)
+
+[node name="AreaLight3D" type="OmniLight3D" parent="." unique_id=423178080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7904339, 0.9406817, 2.818627)
+light_color = Color(0.5135869, 0.50602263, 0, 1)
+shadow_enabled = true
+
+[node name="AreaLight3D2" type="OmniLight3D" parent="." unique_id=798727261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7904339, 0.9406817, -2.6207402)
+light_color = Color(0.5135869, 0.50602263, 0, 1)
+shadow_enabled = true
+
+[node name="Player" parent="." unique_id=1906623250 instance=ExtResource("3_uai4t")]
+transform = Transform3D(0.41634315, 0, 0.9092075, 0, 1, 0, -0.9092075, 0, 0.41634315, 7.334562, 0.22363675, 1.0056605)
+
+[node name="ceiling_chute" parent="." unique_id=1899975167 node_paths=PackedStringArray("spawn_point") groups=["Chute"] instance=ExtResource("4_1cks4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.1952505, 6.8741517, -6.537792)
+script = ExtResource("5_rhpwq")
+spawn_point = NodePath("Spawn_Location")
+test_actor = ExtResource("6_ovg1v")
+
+[node name="Cube" parent="ceiling_chute" index="0" unique_id=394777762 groups=["Chute"]]
+
+[node name="StaticBody3D" parent="ceiling_chute/Cube" index="0" unique_id=686007670 groups=["Chute"]]
+
+[node name="CollisionShape3D" parent="ceiling_chute/Cube/StaticBody3D" index="0" unique_id=528326347 groups=["Chute"]]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="ceiling_chute" unique_id=1839820588]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.2842555, 2.0291424)
+light_energy = 4.485
+shadow_enabled = true
+spot_range = 9.635247
+
+[node name="Spawn_Location" type="Node3D" parent="ceiling_chute" unique_id=1645039688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.655333, -3.3814478)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ceiling_chute" unique_id=85230521 groups=["Chute"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ceiling_chute/StaticBody3D" unique_id=112592877 groups=["Chute"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4301834, 7.4234233, -1.6834106)
+shape = SubResource("BoxShape3D_ig4qq")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="ceiling_chute/StaticBody3D" unique_id=1114414403 groups=["Chute"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4725418, 7.4234233, -1.6834106)
+shape = SubResource("BoxShape3D_ig4qq")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="ceiling_chute/StaticBody3D" unique_id=248005121 groups=["Chute"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0022392273, 11.971989, -3.4356995)
+shape = SubResource("BoxShape3D_ovg1v")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="ceiling_chute/StaticBody3D" unique_id=1901925244 groups=["Chute"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0022392273, 9.94515, -1.5703087)
+shape = SubResource("BoxShape3D_esepx")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="ceiling_chute/StaticBody3D" unique_id=1549005116 groups=["Chute"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0022392273, 9.94515, -5.1262875)
+shape = SubResource("BoxShape3D_esepx")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="ceiling_chute/StaticBody3D" unique_id=175002911 groups=["Chute"]]
+transform = Transform3D(1, 0, 0, 0, 0.7039254, 0.71027404, 0, -0.71027404, 0.7039254, 0.0022392273, 1.1712966, -2.9026241)
+shape = SubResource("BoxShape3D_46ng8")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="ceiling_chute/StaticBody3D" unique_id=1625346377 groups=["Chute"]]
+transform = Transform3D(1, 0, 0, 0, 0.7039254, 0.71027404, 0, -0.71027404, 0.7039254, 0.0022392273, 2.2272305, -0.114096165)
+shape = SubResource("BoxShape3D_1aaap")
+
+[node name="Lever_Assembly" parent="." unique_id=768832775 node_paths=PackedStringArray("chute") instance=ExtResource("7_esepx")]
+transform = Transform3D(0.35958397, 0, 0.93311274, 0, 1, 0, -0.93311274, 0, 0.35958397, 10.564274, 0.0064259213, -5.414606)
+chute = NodePath("../ceiling_chute")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2093236951]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -400.0
+offset_right = 400.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer" unique_id=1806873442]
+layout_mode = 2
+texture = ExtResource("8_46ng8")
+stretch_mode = 4
+
+[node name="Prompt_Container" type="CenterContainer" parent="." unique_id=418286355]
+custom_minimum_size = Vector2(0, 60)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Prompt_Container" unique_id=754580691 node_paths=PackedStringArray("ray", "pickup", "building")]
+layout_mode = 2
+theme_override_constants/separation = 20
+script = ExtResource("10_prompts")
+ray = NodePath("../../Player/Camera3D/RayCast3D")
+pickup = NodePath("../../Player/Controllers/Player_Pickup")
+building = NodePath("../../Player/Controllers/Player_Building")
+label_scene = ExtResource("11_label")
+carrying_prompts = ExtResource("12_carrying")
+carrying_buildable_prompts = ExtResource("13_carrying_buildable")
+placement_prompts = ExtResource("14_placement")
+
+[node name="grinding_area" type="Area3D" parent="." unique_id=727562887]
+collision_layer = 0
+script = ExtResource("15_grinding")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="grinding_area" unique_id=1834579255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03955078, -0.13726807, -0.07897949)
+shape = SubResource("BoxShape3D_owqr0")
+
+[node name="Score Sign" parent="." unique_id=168954924 instance=ExtResource("16_bfm0w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.002789, 8.339717, -1)
+
+[editable path="ceiling_chute"]

@@ -1,0 +1,18 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b2drc37pqi4f8"]
+
+[ext_resource type="Texture2D" uid="uid://cbf61wjcenykk" path="res://Models/Level/Materials/rust-coated-metal-bl/rust-coated-metal.png" id="1_a51dp"]
+[ext_resource type="Texture2D" uid="uid://dyfsofs63s678" path="res://Models/Level/Materials/rust-coated-metal-bl/rust-coated-basecolor.png" id="1_px0d0"]
+[ext_resource type="Texture2D" uid="uid://dvofx4m2lk8kq" path="res://Models/Level/Materials/rust-coated-metal-bl/rust-coated-normal.png" id="2_px0d0"]
+[ext_resource type="Texture2D" uid="uid://de5lo1pkp3rte" path="res://Models/Level/Materials/rust-coated-metal-bl/rust-coated-roughness.png" id="3_tof41"]
+
+[resource]
+resource_name = "Drum"
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_px0d0")
+metallic = 1.0
+metallic_texture = ExtResource("1_a51dp")
+roughness_texture = ExtResource("3_tof41")
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("2_px0d0")

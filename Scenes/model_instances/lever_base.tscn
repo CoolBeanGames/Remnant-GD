@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://dmjvrbfrrnqx4"]
+
+[ext_resource type="PackedScene" uid="uid://duc6xa1rexktt" path="res://Models/Lever/Lever_Base.fbx" id="1_4m1uc"]
+
+[node name="Lever_Base" unique_id=1117001521 instance=ExtResource("1_4m1uc")]

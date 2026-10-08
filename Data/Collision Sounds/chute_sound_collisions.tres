@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="collision_sound_entry" format=3 uid="uid://ca8v04uj6idly"]
+
+[ext_resource type="Script" uid="uid://ntd28sbuhvl7" path="res://Scripts/Actors/CollisionSoundEntry.gd" id="1_7i3lg"]
+[ext_resource type="AudioStream" uid="uid://dgdypm3hwpbih" path="res://Audio/SFX/Chute Impacts/METLMvmt_Cinematic Metal Whoosh 05_Slava Pogorelsky_CMW.wav" id="2_6mswn"]
+[ext_resource type="AudioStream" uid="uid://rftstg27acwn" path="res://Audio/SFX/Chute Impacts/METLMvmt_Cinematic Metal Whoosh 35_Slava Pogorelsky_CMW.wav" id="3_dtyyy"]
+[ext_resource type="AudioStream" uid="uid://dnn06gmnw8lqh" path="res://Audio/SFX/Chute Impacts/METLMvmt_Cinematic Metal Whoosh 47_Slava Pogorelsky_CMW.wav" id="4_qh1dq"]
+[ext_resource type="AudioStream" uid="uid://7dcrc4o8k58" path="res://Audio/SFX/Chute Impacts/METLMvmt_Cinematic Metal Whoosh 76_Slava Pogorelsky_CMW.wav" id="5_71jn3"]
+[ext_resource type="AudioStream" uid="uid://npmnfko2obrq" path="res://Audio/SFX/Chute Impacts/METLMvmt_Cinematic Metal Whoosh 85_Slava Pogorelsky_CMW.wav" id="6_72bwb"]
+[ext_resource type="AudioStream" uid="uid://doub1va4lw16k" path="res://Audio/SFX/Chute Impacts/METLMvmt_Cinematic Metal Whoosh 96_Slava Pogorelsky_CMW.wav" id="7_5y5ul"]
+
+[resource]
+script = ExtResource("1_7i3lg")
+name = &"test_object_chute"
+group = &"Chute"
+volume = 0.5
+sounds = Array[AudioStream]([ExtResource("2_6mswn"), ExtResource("3_dtyyy"), ExtResource("4_qh1dq"), ExtResource("5_71jn3"), ExtResource("6_72bwb"), ExtResource("7_5y5ul")])
+metadata/_custom_type_script = "uid://ntd28sbuhvl7"

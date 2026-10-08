@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cf5skci1a0fyy"]
+
+[ext_resource type="Script" uid="uid://cevw167f7deqy" path="res://Scripts/Building/buildable.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cqw8baaxxq7gb" path="res://Models/buildings/lamp/Lamp.fbx" id="2_cmxtg"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="3_prompts"]
+[ext_resource type="Resource" path="res://Data/Prompts/unbuild.tres" id="4_prompt_set"]
+
+[sub_resource type="BoxShape3D" id="LightShape"]
+size = Vector3(0.5, 1.42, 0.5)
+
+[node name="WorkLight" type="StaticBody3D" unique_id=1549669773 groups=["building"]]
+script = ExtResource("1_script")
+
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("3_prompts")
+prompts = ExtResource("4_prompt_set")
+
+[node name="Anchor" type="Marker3D" parent="." unique_id=421782971]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1797713412]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.71, 0)
+shape = SubResource("LightShape")
+
+[node name="Lamp" parent="." unique_id=981307406 instance=ExtResource("2_cmxtg")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2012078262]
+light_color = Color(1, 1, 0.4392157, 1)
+light_cull_mask = 4294967293

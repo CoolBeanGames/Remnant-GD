@@ -1,0 +1,22 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dbxbkry24j1s8"]
+
+[ext_resource type="Texture2D" uid="uid://dv3vhnycv1sn3" path="res://Models/buildings/lamp/Materials/scratched-up-steel-bl/scratched-up-steel_albedo.png" id="1_q0cbb"]
+[ext_resource type="Texture2D" uid="uid://dxbviwethb27d" path="res://Models/buildings/lamp/Materials/scratched-up-steel-bl/scratched-up-steel_ao.png" id="2_5tn6b"]
+[ext_resource type="Texture2D" uid="uid://coe62b528uljx" path="res://Models/buildings/lamp/Materials/scratched-up-steel-bl/scratched-up-steel_metallic.png" id="3_y2w5k"]
+[ext_resource type="Texture2D" uid="uid://d2xd1pv3xixot" path="res://Models/buildings/lamp/Materials/scratched-up-steel-bl/scratched-up-steel_normal-ogl.png" id="4_n7biv"]
+[ext_resource type="Texture2D" uid="uid://b78xwiw6q55kn" path="res://Models/buildings/lamp/Materials/scratched-up-steel-bl/scratched-up-steel_roughness.png" id="5_kro5w"]
+
+[resource]
+resource_name = "Lamp_Metal"
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_q0cbb")
+metallic = 1.0
+metallic_texture = ExtResource("3_y2w5k")
+roughness_texture = ExtResource("5_kro5w")
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("4_n7biv")
+ao_enabled = true
+ao_texture = ExtResource("2_5tn6b")
+heightmap_enabled = true

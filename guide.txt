@@ -1,0 +1,174 @@
+================================================================================
+REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
+================================================================================
+
+Target Audience: Future AI agent instances working on the Remnant-GD codebase.
+Last Updated: 2026-10-08 10:06:43
+
+--------------------------------------------------------------------------------
+1. MISSION & DIRECTIVES FOR FUTURE AGENT INSTANCES
+--------------------------------------------------------------------------------
+Whenever you work on this codebase, you are required to maintain:
+1. The interactive HTML Wiki located at `.wiki/index.html`.
+2. The GitHub repository documentation at `README.md`.
+3. This instruction manual and running log at `guide.txt`.
+
+Whenever you add, modify, or remove any script, system, or scene, you MUST:
+- Update `.wiki/index.html` (the sidebar navigation, page content, and search index).
+- Update `README.md` with the corresponding documentation.
+- Add a new timestamped entry to the RUNNING LOG at the bottom of this file.
+  Format: [YYYY-MM-DD][HH:MM:SS] - updated the guide to include '<script_or_feature>'
+
+--------------------------------------------------------------------------------
+2. WIKI NAVIGATION & CATEGORY RULES
+--------------------------------------------------------------------------------
+The HTML wiki (`.wiki/index.html`) must adhere to these hierarchy rules:
+
+Rule A: Top Category must ALWAYS be "Globals"
+- Contains all scripts located in the `Global/` directory.
+- Current global scripts:
+  * Blackboard (`Global/Blackboard.gd`) - Autoload singleton
+  * flag (`Global/flag.gd`) - Reactive Resource class
+  * Flags (`Global/Flags.gd`) - Autoload singleton
+  * scene_def (`Global/scene_def.gd`) - Scene metadata class
+  * SceneManager (`Global/scene_manager.gd`) - Autoload singleton
+  * audio_global (`Global/audio_global.gd`) - Autoload singleton (`Audio`) and global pooled audio dispatcher
+  * Buildings (`Global/building_registry.gd`) - Autoload singleton, Blackboard placed-building array and save snapshots
+- If a new script is added to `Global/`, add it under "Globals".
+
+Rule B: Subcategories below "Globals" represent subfolders in `Scripts/`
+- Break down scripts by their parent subfolder inside `Scripts/`.
+- Active subfolders and scripts:
+  * `Scripts/UI/`: `prompt_entry.gd` (text, InputMap action, key ordering/override), `prompt_set.gd` (ordered resources), `object_prompts.gd` (owner/ancestor component and recipe fallback), `prompt_label.gd` (reusable Label), `prompt_display.gd` (HBox state priority and label reuse). UI labels use Scenes/UI/prompt_label.tscn; text/resources live in Data/Prompts; testing_level Prompt_Container/HBoxContainer is wired to the player.
+  * `Scripts/Building/`: `buildable_definition.gd` (recipe, anchor and placement rules), `packed_buildable.gd` (physics package), `buildable.gd` (placed building and save record).
+  * Root: `Scripts/game.gd` (Game bootstrap controller), `Scripts/interact_pass_through.gd` (Interaction proxy forwarding component), `Scripts/Object_Pool.gd` (Generic PackedScene recycling pool)
+  * `Scripts/Actors/`: `audio_player.gd` (Dual spatial/stereo pooled audio entity), `ceiling_chute.gd` (Overhead stage item spawner), `CollisionSoundEntry.gd` (Group-to-sound resource model), `score_object.gd` (child point-value component; reusable scene Scenes/Actors/score_object.tscn), `collision_sound_matrix.gd` (Contextual physical impact sound component), `object_manager.gd` (Spawn impulse physical bootstrap)
+  * `Scenes/Actors/`: `lever_controller.gd` (FSM interactive lever machine controller)
+  * `Scripts/Level/`: `grinder_rotator.gd` (Angular hazard rotation component), `grinding_area.gd` (Area3D dropped-item destruction and Blackboard score accumulation)
+  * `Scripts/Player/`: `player_building.gd` (visible carrying, first-B ghost mode, second-B placement, wheel rotation and Q repacking), `player_pickup.gd` (F pickup/drop, charged throw, direct receipt and consumption), `player_look_controller.gd` (First-person mouse look), `player_move_controller.gd` (Kinematic WASD locomotion with sprint), `player_interact.gd` (Interaction input dispatcher), `raycaster.gd` (Group-filtered 3D targeting raycast), `Footstep_Audio_Player.gd` (3D alternating footsteps with sprint cadence)
+- As new subdirectories are added (such as `Scripts/Combat/`, `Scripts/AI/`, `Scripts/UI/`, `Scripts/World/`, etc.), you MUST create a matching navigation subcategory in `.wiki/index.html` and `README.md` for that subfolder, listing all scripts within it.
+- Scripts placed directly in `Scripts/` root (like `game.gd`) are listed under the "Scripts" category root items.
+
+Rule C: Searchability & Zero-Dependency Requirement
+- The wiki must remain 100% self-contained in `.wiki/index.html` (or accompanying offline static assets).
+- Do NOT introduce external CDN dependencies that require active internet connections or break offline `file:///` viewing.
+- Whenever a page is added or updated, update the `searchIndex` JavaScript array in `.wiki/index.html`:
+  {
+    id: 'page-<unique-id>',
+    category: '<Category Name>',
+    title: '<Script or Class Name>',
+    keywords: '<space separated keywords, method names, signals, and terms>',
+    summary: '<Brief description of the system>'
+  }
+
+Rule D: Content Page Structure
+Each system or script documentation page in `.wiki/index.html` and `README.md` must include:
+1. Header & Badges (Class Name, Autoload status, Node/Resource inheritance, UID).
+2. Metadata Box (File path, Class name, Inheritance, Godot UID).
+3. System Purpose & Architecture Role (Why it exists, how it decouples systems).
+4. Internal State / Variables table.
+5. Signals table (if applicable).
+6. Methods / API Reference table (parameters, return types, error codes).
+7. Usage Examples / GDScript Code Blocks.
+
+--------------------------------------------------------------------------------
+3. PROJECT ARCHITECTURE & CONVENTIONS
+--------------------------------------------------------------------------------
+Engine: Godot Engine 4.7 Forward+
+Physics: Jolt Physics 3D
+Graphics: Direct3D 12 (Windows)
+Main Scene: `res://Scenes/Game.tscn`
+
+Autoload Singletons (configured in project.godot):
+- Blackboard  -> *uid://b0xpvnyknnyk0  (res://Global/Blackboard.gd)
+- Flags       -> *uid://cmu2qskbjdauq  (res://Global/Flags.gd)
+- SceneManager-> *uid://b0kybwgisrflw  (res://Global/scene_manager.gd)
+- Audio       -> *uid://6htl8d4x7ugw  (res://Global/audio_global.gd)
+- Buildings   -> *res://Global/building_registry.gd (live Blackboard["buildables"] registry)
+
+Startup Flow:
+1. Autoloads initialize: Blackboard, Flags, SceneManager, Audio.
+2. Engine mounts `res://Scenes/Game.tscn` as root scene.
+3. `Scenes/Game.tscn` child node `audio_pool` (`Scripts/Object_Pool.gd`) executes `_ready()` and registers itself into `Blackboard` under `"audio_pool"`.
+4. `Scripts/game.gd` runs `_ready()`:
+   - Registers self as "game_root" via `Blackboard.store_data("game_root", self)`.
+   - Loads initial stage via `SceneManager.load_scene(load("res://Scenes/testing_level.tscn"), "test_level", "stage")`.
+5. `SceneManager` detects no explicit parent was passed to `load_scene()`, so it looks up `Blackboard.read_data("game_root")`, parenting `testing_level` under `Game`.
+6. `testing_level` instances `Player` (with camera, look controller, move controller, raycaster, interact controller, footsteps), `game_stage_base` (with 6 grinder hazard rollers), `ceiling_chute` (with item spawner), and `Lever_Assembly` (interactive lever wired to chute).
+
+Note on Canonical Files:
+- The root folder contains duplicate files `scene_def.gd` and `scene_manager.gd`. The official, active scripts linked to the project autoloads are located in `Global/`. All new systems should import and reference `Global/`.
+
+--------------------------------------------------------------------------------
+4. HOW TO ADD A NEW SCRIPT / SYSTEM (STEP-BY-STEP)
+--------------------------------------------------------------------------------
+When you create a new script:
+1. Decide location:
+   - Global singleton / shared data -> `Global/<ScriptName>.gd`
+   - Feature logic -> `Scripts/<Subsystem>/<ScriptName>.gd`
+2. Open `.wiki/index.html`:
+   - Add a navigation link `<a class="nav-item-link" data-page="page-...">` under the proper category.
+     * If in `Global/`, place under `<div class="nav-category">` with title "Globals".
+     * If in a subfolder of `Scripts/` (e.g. `Scripts/Combat/`), ensure a `<div class="nav-category">` exists for that subfolder and place the link there.
+   - Add a content section `<div id="page-..." class="doc-page">` with the full API reference and examples.
+   - Add an entry to the `searchIndex` array in the `<script>` tag.
+3. Open `README.md`:
+   - Update the system overview table / section to include the new script.
+   - Provide the API reference and usage examples.
+4. Open `guide.txt`:
+   - Add a line to the RUNNING LOG below in the format:
+     [YYYY-MM-DD][HH:MM:SS] - updated the guide to include '<script_or_feature>'
+
+--------------------------------------------------------------------------------
+5. RUNNING LOG
+--------------------------------------------------------------------------------
+[2026-10-08][08:41:10] - updated the guide to include the Building system: Global/building_registry.gd initializes Blackboard["buildables"] as the live placed-building array. Scripts/Building contains buildable_definition.gd (recipe/anchor/surface/rotation settings), packed_buildable.gd (pickable package), and buildable.gd (registered placed instance and JSON-compatible save record). Scripts/Player/player_building.gd controls ghosts, wheel rotation, E placement and Q repacking; player_pickup.gd adds pickup_object/consume_held_object and player_interact.gd routes E. Scenes/Building provides generic package, inherited packed light and floor work light; Data/Building/light.tres connects them. testing_level includes a sample package. Pipe/conveyor connector rules and disk save/load are future work.
+[2026-10-08][01:25:01] - Initialized repository documentation structure (HTML wiki, guide.txt, README.md)
+[2026-10-08][01:28:00] - Created searchable interactive HTML wiki at .wiki/index.html with dark/light themes, live search index, and responsive sidebar
+[2026-10-08][01:30:00] - Updated the guide to include 'Global/Blackboard.gd' (service locator and key-value store)
+[2026-10-08][01:32:00] - Updated the guide to include 'Global/flag.gd' (reactive boolean resource with signals)
+[2026-10-08][01:34:00] - Updated the guide to include 'Global/Flags.gd' (global flag manager and callable event connector)
+[2026-10-08][01:36:00] - Updated the guide to include 'Global/scene_def.gd' (scene metadata definition model and node_type enum)
+[2026-10-08][01:38:00] - Updated the guide to include 'Global/scene_manager.gd' (bundle-aware scene loader, parent resolver, error codes)
+[2026-10-08][01:39:00] - Updated the guide to include 'Scripts/game.gd' (bootstrap controller and game_root registration)
+[2026-10-08][01:39:30] - Documented Scenes/Game.tscn and Scenes/testing_level.tscn runtime structure
+[2026-10-08][01:40:00] - Documented future Scripts/ subfolders convention and maintenance guidelines
+[2026-10-08][01:41:47] - Prefixed wiki folder with period (.wiki) so Godot ignores it in the FileSystem dock
+[2026-10-08][04:03:30] - Updated the guide to include 'Scripts/Level/grinder_rotator.gd' (hazard roller continuous rotation)
+[2026-10-08][04:03:30] - Updated the guide to include 'Scripts/Player/player_look_controller.gd' (first-person mouse look, pitch clamping, escape key)
+[2026-10-08][04:03:30] - Updated the guide to include 'Scripts/Player/Footstep_Audio_Player.gd' (3D alternating L/R footstep audio player)
+[2026-10-08][04:03:30] - Documented Scenes/Player/player.tscn and Scenes/model_instances/game_stage_base.tscn
+[2026-10-08][04:03:30] - Documented default_bus_layout.tres audio routing architecture (Master -> Game_Master [Reverb] -> SFX)
+[2026-10-08][06:30:00] - Updated the guide to include 'Global/audio_global.gd' (autoload singleton Audio and static pooled audio dispatcher)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/interact_pass_through.gd' (proxy component forwarding interactions to target logic)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Object_Pool.gd' (generic object pool with Blackboard auto-registration and reset calls)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Actors/audio_player.gd' (pooled dual 3D/global audio stream player entity)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Actors/ceiling_chute.gd' (overhead item spawner parenting actors to game_root)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Actors/CollisionSoundEntry.gd' (data resource mapping collision groups to sound banks)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Actors/collision_sound_matrix.gd' (body_entered matrix evaluator dispatching 3D audio)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Actors/object_manager.gd' (randomized initial impulse launcher for physical actors)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scenes/Actors/lever_controller.gd' (interactive lever state machine, lights, animations, audio, and chute trigger)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Player/player_move_controller.gd' (WASD kinematic movement, sprint scaling, acceleration)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Player/player_interact.gd' (confirm action input listener dispatching raycast interactions)
+[2026-10-08][06:30:00] - Updated the guide to include 'Scripts/Player/raycaster.gd' (first-person group-filtered RayCast3D targeting interactables)
+[2026-10-08][06:30:00] - Updated the guide to include sprint cadence and audio_global pooling in 'Scripts/Player/Footstep_Audio_Player.gd'
+[2026-10-08][06:30:00] - Documented Scenes/audio_player.tscn, Scenes/test_object.tscn, and Scenes/Actors/lever_assembly.tscn
+[2026-10-08][06:30:00] - Documented Data/Collision Sounds profiles (chute_sound_collisions.tres, object_hit_floor.tres)
+[2026-10-08][06:30:00] - Synchronized searchable HTML wiki at .wiki/index.html with all 32 components and systems
+================================================================================
+
+[2026-10-08][08:41:10] - updated the guide to include 'Building system: recipes, packed_buildable, buildable, Buildings registry, player_building, pickup/interaction integration, floor light scenes/resource, Q input, test-level sample and end-to-end physics checks; synchronized README and searchable offline wiki'
+
+[2026-10-08][09:02:01] - updated the guide to include 'Held crate collision fix: player_pickup snapshots/disables every descendant CollisionObject3D layer and mask, restores them on drop/throw/consumption, and exposes get_held_collision_rids; player_building excludes the full hierarchy from placement rays and clearance. Regression checks cover imported nested static bodies, active Jolt player overlap, floor aiming through a crate, and collision restoration. README and offline wiki synchronized.'
+
+[2026-10-08][09:07:08] - updated the guide to include 'Two-press B building workflow: standard visible crate carrying, B hides crate and starts ghost, B again places; invalid placement allows retry, drop/throw restore visibility, Q returns to carrying mode, E remains interaction only. Updated player_building, player_interact, player scene, build input, integration tests, README and offline wiki.'
+
+[2026-10-08][09:28:33] - updated the guide to include 'Dynamic look-at prompts: five Scripts/UI classes, editable Data/Prompts resources, reusable Scenes/UI/prompt_label.tscn, prefab prompt components and light recipe look_prompts, existing testing-level HBox wiring. Placement/carry/look priority; F cancels placement without dropping; RMB suppressed during placement; pending throw reset; look-prompt targeting group; raycast debugging off. Prompt/building integration checks and rendered label verification completed; README and offline wiki navigation/pages/search synchronized.'
+
+[2026-10-08][09:35:20] - updated the guide to include 'Grinding and scoring: existing testing-level grinding_area wired to Scripts/Level/grinding_area.gd; loose rigid items destroyed, score-group items award child score_object.score or default 1 to Blackboard[score]. Reusable score component/scene, grindable wrapper cleanup, imported collider resolution and queued-root duplicate protection. Player/static scenery ignored. Score initialized to 0 without resetting existing totals. Regression coverage includes real area entry; building and prompt suites pass. README and offline wiki pages/navigation/search synchronized.'
+
+[2026-10-08][09:47:22] - updated the guide to include 'Scripts/Actors/score_sign.gd and score_sign.tscn: live Blackboard score, configurable eighteen-digit zero padding, left edge preservation/right growth, cached updates and overflow support. Packed buildings disable imported nested physics colliders to prevent self-collision/spin while retaining normal root rigid physics. Score sign/physics, building, prompt and grinding suites pass; README and offline wiki navigation/pages/search synchronized.'
+
+[2026-10-08][09:59:13] - updated the guide to include 'Global/score_rewards.gd autoload ScoreRewards: shared positive-point queue, immediate first point, one-point Blackboard updates and loud pooled Score.wav on SFX every 0.5 seconds, queue extension and monotonic cooldown guard. grinding_area now enqueues rewards and plays grind.wav once per accepted item on pooled SFX. Fixed Audio.play_global Blackboard lookup. Added timing/audio/pool regression suite and adapted grinding checks; README/wiki navigation/pages/search synchronized.'
+
+[2026-10-08][10:06:43] - updated the guide to include 'ScoreRewards acceleration: base delay 0.5 decreases by exported interval_decrease 0.02 after each award; new rewards retain acceleration. Delay zero/below flushes all remaining points in one update/sound. Empty queues stop and reset timer, timestamp guard and current delay. Regression tests cover decreasing cadence, extension, zero/negative-delay batch, normal/batch reset and audio pooling; grinding checks pass. README and searchable wiki synchronized.'

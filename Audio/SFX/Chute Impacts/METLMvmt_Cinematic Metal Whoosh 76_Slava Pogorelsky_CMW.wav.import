@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://7dcrc4o8k58"
+path="res://.godot/imported/METLMvmt_Cinematic Metal Whoosh 76_Slava Pogorelsky_CMW.wav-025c28f0b4d42eb631cd1b95b64093e1.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/Chute Impacts/METLMvmt_Cinematic Metal Whoosh 76_Slava Pogorelsky_CMW.wav"
+dest_files=["res://.godot/imported/METLMvmt_Cinematic Metal Whoosh 76_Slava Pogorelsky_CMW.wav-025c28f0b4d42eb631cd1b95b64093e1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

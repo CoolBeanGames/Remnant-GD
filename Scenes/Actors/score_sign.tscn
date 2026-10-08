@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dnpgvodrsbg0f"]
+
+[ext_resource type="PackedScene" uid="uid://bki13qd615ctw" path="res://Models/Sign/Score Sign.fbx" id="1_w4ucc"]
+[ext_resource type="Script" path="res://Scripts/Actors/score_sign.gd" id="2_score"]
+
+[node name="Score Sign" unique_id=168954924 instance=ExtResource("1_w4ucc")]
+
+[node name="Label3D" type="Label3D" parent="." index="1" unique_id=886110391]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.43513346, 3.4028907, 0.2713163)
+modulate = Color(0, 0, 0, 1)
+text = "999999999999999999"
+font_size = 452
+script = ExtResource("2_score")
+
+[node name="AreaLight3D" type="AreaLight3D" parent="." index="2" unique_id=1071592498]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.23972654, 3.4163613, 0)
+light_energy = 16.0
+area_size = Vector2(22.641357, 8.762053)

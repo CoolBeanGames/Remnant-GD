@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="buildable_definition" format=3 uid="uid://c4ts4ruu7wsm5"]
+
+[ext_resource type="Script" uid="uid://dlem4bamrroli" path="res://Scripts/Building/buildable_definition.gd" id="1_definition"]
+[ext_resource type="PackedScene" uid="uid://cf5skci1a0fyy" path="res://Scenes/Building/light.tscn" id="2_building"]
+[ext_resource type="PackedScene" uid="uid://kc7juqnoh84i" path="res://Scenes/Building/packed_buildable.tscn" id="3_package"]
+[ext_resource type="Resource" path="res://Data/Prompts/pickup_light.tres" id="4_prompts"]
+
+[resource]
+script = ExtResource("1_definition")
+id = &"work_light"
+building_scene = ExtResource("2_building")
+packed_scene = ExtResource("3_package")
+look_prompts = ExtResource("4_prompts")

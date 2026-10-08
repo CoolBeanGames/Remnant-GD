@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="collision_sound_entry" format=3 uid="uid://cemrs3dv756c8"]
+
+[ext_resource type="Script" uid="uid://ntd28sbuhvl7" path="res://Scripts/Actors/CollisionSoundEntry.gd" id="1_lw1ly"]
+[ext_resource type="AudioStream" uid="uid://bck7jd56drylc" path="res://Audio/SFX/item_hit_floor/zapsplat_impacts_metal_clunk_hit_metal_on_metal_frame_112540.wav" id="2_5ik20"]
+[ext_resource type="AudioStream" uid="uid://dg1dlpfh73g1o" path="res://Audio/SFX/item_hit_floor/zapsplat_impacts_metal_clunk_metal_on_metal_frame_112541.wav" id="3_qs85a"]
+[ext_resource type="AudioStream" uid="uid://c2cp0btovmd8d" path="res://Audio/SFX/item_hit_floor/zapsplat_impacts_metal_clunk_thud_rattle_metal_on_metal_frame_112542.wav" id="4_ptbfo"]
+[ext_resource type="AudioStream" uid="uid://ctm8l8stx4ybb" path="res://Audio/SFX/item_hit_floor/zapsplat_impacts_metal_clunk_with_a_simultaneous_scrape_screech_001_112543.wav" id="5_xws5s"]
+[ext_resource type="AudioStream" uid="uid://x23l26on3pis" path="res://Audio/SFX/item_hit_floor/zapsplat_impacts_metal_clunk_with_a_simultaneous_scrape_screech_002_112544.wav" id="6_mfs8y"]
+[ext_resource type="AudioStream" uid="uid://iccnp8v3jmc" path="res://Audio/SFX/item_hit_floor/zapsplat_impacts_metal_tubular_hit_clang_007_111169.wav" id="7_44dw6"]
+[ext_resource type="AudioStream" uid="uid://dm8056ck7cwws" path="res://Audio/SFX/item_hit_floor/zapsplat_impacts_metal_tubular_hit_clang_008_111170.wav" id="8_cgfjr"]
+
+[resource]
+script = ExtResource("1_lw1ly")
+name = &"object to floor"
+group = &"Floor"
+sounds = Array[AudioStream]([ExtResource("2_5ik20"), ExtResource("3_qs85a"), ExtResource("4_ptbfo"), ExtResource("5_xws5s"), ExtResource("6_mfs8y"), ExtResource("7_44dw6"), ExtResource("8_cgfjr")])
+metadata/_custom_type_script = "uid://ntd28sbuhvl7"

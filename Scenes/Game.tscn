@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dcrox1fn8bvwe"]
+
+[ext_resource type="Script" uid="uid://b4onouqptgpob" path="res://Scripts/game.gd" id="1_iukft"]
+[ext_resource type="Script" uid="uid://d0spk0ca82aid" path="res://Scripts/Object_Pool.gd" id="2_j5yw3"]
+[ext_resource type="PackedScene" uid="uid://drn170duudujd" path="res://Scenes/audio_player.tscn" id="3_kldst"]
+
+[node name="Game" type="Node" unique_id=357341793]
+script = ExtResource("1_iukft")
+
+[node name="audio_pool" type="Node" parent="." unique_id=605691764]
+script = ExtResource("2_j5yw3")
+pooled_scene = ExtResource("3_kldst")
+reset_method = &"reset"
+register_with_blackboard = true
+blackboard_name = &"audio_pool"

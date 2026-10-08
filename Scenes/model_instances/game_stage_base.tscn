@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://da63abf1yef55"]
+
+[ext_resource type="PackedScene" uid="uid://bb24j338t5s0j" path="res://Models/Level/game_stage_base.fbx" id="1_5mndc"]
+[ext_resource type="Script" uid="uid://bnrtinfng5v8l" path="res://Scripts/Level/grinder_rotator.gd" id="2_k77nl"]
+
+[node name="game_stage_base" unique_id=1628373784 instance=ExtResource("1_5mndc")]
+
+[node name="Grinder_1" parent="." index="0" unique_id=158559926]
+script = ExtResource("2_k77nl")
+roation_speed = Vector3(-25, 0, 0)
+
+[node name="Grinder_2" parent="." index="1" unique_id=1275574331]
+script = ExtResource("2_k77nl")
+roation_speed = Vector3(25, 0, 0)
+
+[node name="Grinder_3" parent="." index="2" unique_id=1797631314]
+script = ExtResource("2_k77nl")
+roation_speed = Vector3(-25, 0, 0)
+
+[node name="Grinder_4" parent="." index="3" unique_id=105510653]
+script = ExtResource("2_k77nl")
+roation_speed = Vector3(25, 0, 0)
+
+[node name="Grinder_5" parent="." index="4" unique_id=804098701]
+script = ExtResource("2_k77nl")
+roation_speed = Vector3(-25, 0, 0)
+
+[node name="Grinder_6" parent="." index="5" unique_id=363463249]
+script = ExtResource("2_k77nl")
+roation_speed = Vector3(25, 0, 0)
+
+[node name="ground" parent="." index="7" unique_id=2081683886 groups=["Floor"]]
+
+[node name="StaticBody3D" parent="ground" index="0" unique_id=1321193747 groups=["Floor"]]
+
+[node name="CollisionShape3D" parent="ground/StaticBody3D" index="0" unique_id=876956182 groups=["Floor"]]

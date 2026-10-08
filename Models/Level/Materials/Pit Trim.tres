@@ -1,0 +1,18 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://crrm6dcqgee4l"]
+
+[ext_resource type="Texture2D" uid="uid://djal5he6tm0fh" path="res://Models/Level/Materials/grimy-metal-bl/grimy-metal-albedo.png" id="1_rpv3u"]
+[ext_resource type="Texture2D" uid="uid://d3vnbvhwdr84j" path="res://Models/Level/Materials/grimy-metal-bl/grimy-metal-metalness.png" id="2_el6oi"]
+[ext_resource type="Texture2D" uid="uid://b1gbsfgoun74o" path="res://Models/Level/Materials/grimy-metal-bl/grimy-metal-normal-ogl.png" id="3_vow5a"]
+[ext_resource type="Texture2D" uid="uid://dx0rrhjwnpvfh" path="res://Models/Level/Materials/grimy-metal-bl/grimy-metal-roughness.png" id="4_rcx5d"]
+
+[resource]
+resource_name = "Pit Trim"
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_rpv3u")
+metallic = 1.0
+metallic_texture = ExtResource("2_el6oi")
+roughness_texture = ExtResource("4_rcx5d")
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("3_vow5a")

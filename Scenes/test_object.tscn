@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://0851ilsmei5g"]
+
+[ext_resource type="Script" uid="uid://charfnmvsr4so" path="res://Scripts/Actors/collision_sound_matrix.gd" id="1_m1e3l"]
+[ext_resource type="Script" uid="uid://casxr53xeio0n" path="res://Scripts/Actors/object_manager.gd" id="1_vvb0h"]
+[ext_resource type="Script" uid="uid://ntd28sbuhvl7" path="res://Scripts/Actors/CollisionSoundEntry.gd" id="2_vvb0h"]
+[ext_resource type="Resource" uid="uid://ca8v04uj6idly" path="res://Data/Collision Sounds/chute_sound_collisions.tres" id="3_n3tix"]
+[ext_resource type="Resource" uid="uid://cemrs3dv756c8" path="res://Data/Collision Sounds/object_hit_floor.tres" id="5_n3tix"]
+[ext_resource type="Script" uid="uid://0ojj3a5mwcai" path="res://Scripts/UI/object_prompts.gd" id="6_prompts"]
+[ext_resource type="Resource" uid="uid://b16h4s4hrl7ej" path="res://Data/Prompts/pickup_strange_object.tres" id="7_prompt_set"]
+[ext_resource type="Script" uid="uid://c4fll2k7fsfr8" path="res://Scripts/Actors/score_object.gd" id="8_ntoxf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_owqr0"]
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ig4qq"]
+size = Vector3(0.25, 0.25, 0.25)
+
+[node name="test_object" type="Node3D" unique_id=604572296 node_paths=PackedStringArray("rb") groups=["grindable", "pick-up"]]
+script = ExtResource("1_vvb0h")
+rb = NodePath("RigidBody3D")
+
+[node name="Prompts" type="Node" parent="." unique_id=808968944]
+script = ExtResource("6_prompts")
+prompts = ExtResource("7_prompt_set")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=391043938 groups=["pick-up", "score"]]
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_m1e3l")
+sound_matrix = Array[ExtResource("2_vvb0h")]([ExtResource("3_n3tix"), ExtResource("5_n3tix")])
+
+[node name="CSGBox3D" type="CSGBox3D" parent="RigidBody3D" unique_id=54781556 groups=["pick-up", "score"]]
+size = Vector3(0.25, 0.25, 0.25)
+material = SubResource("StandardMaterial3D_owqr0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=321939705 groups=["pickup"]]
+shape = SubResource("BoxShape3D_ig4qq")
+
+[node name="collision_sound" type="AudioStreamPlayer3D" parent="RigidBody3D" unique_id=1243604447]
+bus = &"SFX"
+
+[node name="score_object" type="Node" parent="." unique_id=2115529438]
+script = ExtResource("8_ntoxf")
+score = 10
+metadata/_custom_type_script = "uid://c4fll2k7fsfr8"
+
+[connection signal="body_entered" from="RigidBody3D" to="RigidBody3D" method="collide"]

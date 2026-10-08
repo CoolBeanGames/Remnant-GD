@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://x4o8rin8xvjo"]
+
+[ext_resource type="Script" uid="uid://hu82hspe070x" path="res://Scenes/Actors/lever_controller.gd" id="1_4flna"]
+[ext_resource type="PackedScene" uid="uid://duc6xa1rexktt" path="res://Models/Lever/Lever_Base.fbx" id="1_khnb1"]
+[ext_resource type="PackedScene" uid="uid://cppeuw882k1ej" path="res://Models/Lever/Lever.fbx" id="2_4flna"]
+[ext_resource type="AudioStream" uid="uid://befb4amglm6vs" path="res://Audio/SFX/Lever/Lever_Pull.wav" id="2_obgqa"]
+[ext_resource type="AudioStream" uid="uid://bjg4w5ry2vv63" path="res://Audio/SFX/Lever/Lever_Reset.wav" id="3_oj0dp"]
+[ext_resource type="Script" uid="uid://b327fegnr3cah" path="res://Scripts/interact_pass_through.gd" id="4_74eq1"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="5_prompts"]
+[ext_resource type="Resource" path="res://Data/Prompts/pull_lever.tres" id="6_prompt_set"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ig4qq"]
+size = Vector3(1.6590576, 2.1882324, 1.9951782)
+
+[sub_resource type="Animation" id="Animation_74eq1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lever_Base/Lever:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tdebn"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lever_Base/Lever:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_obgqa"]
+resource_name = "pull"
+length = 0.27999999999999997
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lever_Base/Lever:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.26666668),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.9844394, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oj0dp"]
+resource_name = "reset"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lever_Base/Lever:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.9844394, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r3odo"]
+_data = {
+&"RESET": SubResource("Animation_74eq1"),
+&"idle": SubResource("Animation_tdebn"),
+&"pull": SubResource("Animation_obgqa"),
+&"reset": SubResource("Animation_oj0dp")
+}
+
+[node name="Lever_Assembly" type="Node3D" unique_id=768832775 node_paths=PackedStringArray("anim", "green_light", "red_light")]
+script = ExtResource("1_4flna")
+anim = NodePath("AnimationPlayer")
+pull_sound = ExtResource("2_obgqa")
+reset_sound = ExtResource("3_oj0dp")
+green_light = NodePath("Lever_Base/green_light")
+red_light = NodePath("Lever_Base/red_light")
+
+[node name="Lever_Base" parent="." unique_id=1117001521 instance=ExtResource("1_khnb1")]
+
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("5_prompts")
+prompts = ExtResource("6_prompt_set")
+
+[node name="Lever" parent="Lever_Base" unique_id=270473231 instance=ExtResource("2_4flna")]
+
+[node name="green_light" type="OmniLight3D" parent="Lever_Base" unique_id=1758614080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.81040454, 2.0581343, 0)
+light_color = Color(0.2901187, 0.5229122, 9.62615e-08, 1)
+shadow_enabled = true
+omni_range = 0.5
+omni_attenuation = 0.5
+
+[node name="red_light" type="OmniLight3D" parent="Lever_Base" unique_id=2084341890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.81040454, 2.0581343, -0.46209186)
+light_color = Color(0.98549944, 0, 0.17364287, 1)
+shadow_enabled = true
+omni_range = 0.5
+omni_attenuation = 0.5
+
+[node name="lever_body" type="StaticBody3D" parent="." unique_id=700715905 node_paths=PackedStringArray("target") groups=["interact"]]
+script = ExtResource("4_74eq1")
+target = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="lever_body" unique_id=1150576359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3295288, 1.0889893, 0.006439209)
+shape = SubResource("BoxShape3D_ig4qq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1838700501]
+libraries/ = SubResource("AnimationLibrary_r3odo")

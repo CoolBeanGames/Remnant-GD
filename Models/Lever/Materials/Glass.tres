@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://birm68clq4r4b"]
+
+[resource]
+resource_name = "Glass"
+transparency = 1
+depth_draw_mode = 1
+albedo_color = Color(0, 0, 0, 0.21568628)
+metallic = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+refraction_scale = 1.0
