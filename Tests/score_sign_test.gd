@@ -33,20 +33,7 @@ func _run() -> void:
 	Blackboard.store_data("score", -7)
 	label.update_score()
 	check(label.text == "-0007", "Negative scores should retain their sign.")
-	var package := preload("res://Scenes/Building/packed_light.tscn").instantiate() as packed_buildable
-	package.position = Vector3(0, 10, 0)
-	add_child(package)
-	check(not package.freeze and not package.lock_rotation, "Loose crates should use normal rigid body physics.")
-	check(package.collision_layer == 1 and package.collision_mask == 1, "Root crate collider should stay active.")
-	var imported := package.find_children("*", "StaticBody3D", true, false)
-	check(not imported.is_empty(), "Fixture should contain the imported collider.")
-	for collider in imported:
-		check(collider.collision_layer == 0 and collider.collision_mask == 0, "Imported colliders should not push against the crate.")
-	for frame in range(12):
-		await get_tree().physics_frame
-	check(package.angular_velocity.length() < 0.001, "An untouched falling crate should not spin on its own.")
 	sign_scene.queue_free()
-	package.queue_free()
 	await get_tree().process_frame
-	print("Score sign and loose crate tests: ", "PASS" if failures.is_empty() else "FAIL")
+	print("Score sign tests: ", "PASS" if failures.is_empty() else "FAIL")
 	get_tree().quit(0 if failures.is_empty() else 1)

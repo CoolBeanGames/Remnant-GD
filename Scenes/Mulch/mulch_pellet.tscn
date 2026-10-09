@@ -1,0 +1,25 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/Mulch/mulch_pellet.gd" id="script"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/pickup_target.tscn" id="target"]
+[sub_resource type="SphereShape3D" id="Shape"]
+radius = 0.12
+[sub_resource type="SphereMesh" id="Mesh"]
+radius = 0.12
+height = 0.24
+[sub_resource type="StandardMaterial3D" id="Material"]
+albedo_color = Color(0.34, 0.2, 0.07, 1)
+roughness = 0.95
+[sub_resource type="PhysicsMaterial" id="Physics"]
+friction = 1.0
+bounce = 0.15
+[node name="MulchPellet" type="RigidBody3D" groups=["pick-up", "mulch-pellet", "machine-immune"]]
+script = ExtResource("script")
+mass = 0.08
+continuous_cd = true
+physics_material_override = SubResource("Physics")
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh")
+material_override = SubResource("Material")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape")
+[node name="PickupTarget" parent="." instance=ExtResource("target")]

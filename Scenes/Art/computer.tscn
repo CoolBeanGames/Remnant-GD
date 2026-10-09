@@ -1,0 +1,11 @@
+[gd_scene format=3]
+[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/computer_Mesh_0.res" id="mesh2"]
+[ext_resource type="Material" path="res://Materials/Items/computer_Mesh_0.tres" id="material_override2"]
+
+[node name="Model" type="Node3D" unique_id=178357877]
+metadata/source_model = "res://Models/Meshy_AI_a_old_rusty_grungy_co_1009171440_texture_fbx/Meshy_AI_a_old_rusty_grungy_co_1009171440_texture.fbx"
+
+[node name="Mesh_0" type="MeshInstance3D" parent="." unique_id=520188935]
+transform = Transform3D(47.3898, 0, 0, 0, 0, 47.3898, 0, -47.3898, 0, 0.00245064, 0.6762486, -0.0007051462)
+material_override = ExtResource("material_override2")
+mesh = ExtResource("mesh2")

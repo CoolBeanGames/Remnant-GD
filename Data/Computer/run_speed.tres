@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3 uid="uid://76dm0eek20j1"]
+
+[ext_resource type="Script" uid="uid://bqbfjxrccwgvv" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[ext_resource type="Script" uid="uid://dl5o07aajxv84" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+
+[sub_resource type="Resource" id="Effect0"]
+script = ExtResource("effect")
+target = "movement"
+property = NodePath("move_speed")
+amount = 1.15
+
+[resource]
+script = ExtResource("entry")
+id = &"run_speed"
+title = "Run Speed"
+description = "Increase walking and sprinting speed by 15% per level."
+tab = 1
+base_cost = 30
+effects = Array[ExtResource("effect")]([SubResource("Effect0")])

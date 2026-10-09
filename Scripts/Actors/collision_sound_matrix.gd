@@ -6,7 +6,7 @@ extends Node3D
 
 
 func collide(other: Node) -> void:
-	if other == null:
+	if not is_instance_valid(other):
 		return
 
 	var entry: collision_sound_entry = get_collision_entry(other)
@@ -19,19 +19,24 @@ func collide(other: Node) -> void:
 
 	var sound: AudioStream = entry.sounds.pick_random()
 
-	audio_global.play_3d(
+	audio_global.play_collision(
 		sound,
 		global_position,
-		entry.volume
+		entry.volume,
+		1.0
 	)
 
 
 func get_collision_entry(other: Node) -> collision_sound_entry:
+	var fallback: collision_sound_entry
 	for entry: collision_sound_entry in sound_matrix:
-		if entry.group == &"":
+		if entry == null or entry.group == &"":
+			continue
+		if entry.group == &"*":
+			fallback = entry
 			continue
 
 		if other.is_in_group(entry.group):
 			return entry
 
-	return null
+	return fallback

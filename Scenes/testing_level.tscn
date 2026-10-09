@@ -5,17 +5,49 @@
 [ext_resource type="PackedScene" uid="uid://ci3oy7ni8sysi" path="res://Scenes/Player/player.tscn" id="3_uai4t"]
 [ext_resource type="PackedScene" uid="uid://cho7ut4k28i46" path="res://Models/Chute/ceiling_chute.fbx" id="4_1cks4"]
 [ext_resource type="Script" uid="uid://di3swkqh5sn4a" path="res://Scripts/Actors/ceiling_chute.gd" id="5_rhpwq"]
-[ext_resource type="PackedScene" uid="uid://0851ilsmei5g" path="res://Scenes/test_object.tscn" id="6_ovg1v"]
 [ext_resource type="PackedScene" uid="uid://x4o8rin8xvjo" path="res://Scenes/Actors/lever_assembly.tscn" id="7_esepx"]
 [ext_resource type="Texture2D" uid="uid://b7yhmhlfgdnyq" path="res://Textures/UI/Aim.png" id="8_46ng8"]
-[ext_resource type="PackedScene" uid="uid://3k3mkp2ekn08" path="res://Scenes/Building/packed_light.tscn" id="9_packed_light"]
+[ext_resource type="AudioStream" uid="uid://tbj605lnr7v0" path="res://Audio/SFX/LightOn.wav" id="9_5f81q"]
 [ext_resource type="Script" uid="uid://dydvfnp1pg6a4" path="res://Scripts/UI/prompt_display.gd" id="10_prompts"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/prompt_label.tscn" id="11_label"]
 [ext_resource type="Resource" uid="uid://u6flu1c5065j" path="res://Data/Prompts/carrying.tres" id="12_carrying"]
-[ext_resource type="Resource" uid="uid://bkcrkkbcrhivh" path="res://Data/Prompts/carrying_buildable.tres" id="13_carrying_buildable"]
-[ext_resource type="Resource" uid="uid://bqmg52q3fam1e" path="res://Data/Prompts/placement.tres" id="14_placement"]
 [ext_resource type="Script" uid="uid://bcxrh405f124t" path="res://Scripts/Level/grinding_area.gd" id="15_grinding"]
 [ext_resource type="PackedScene" uid="uid://dnpgvodrsbg0f" path="res://Scenes/Actors/score_sign.tscn" id="16_bfm0w"]
+[ext_resource type="Material" uid="uid://c8hi1mot5we01" path="res://Materials/Concrete.tres" id="21_cuoug"]
+[ext_resource type="AudioStream" uid="uid://dns35hdt3bmxe" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L2.wav" id="22_fue33"]
+[ext_resource type="PackedScene" uid="uid://dv68owuoi4dtq" path="res://Models/Door/source/doorway_animated.glb" id="22_y5evj"]
+[ext_resource type="AudioStream" uid="uid://decvroel1cqe5" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L3.wav" id="23_5f81q"]
+[ext_resource type="AudioStream" uid="uid://d2nv7m3vqrrcs" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L4.wav" id="24_axeev"]
+[ext_resource type="AudioStream" uid="uid://c3ru3m68iu8lg" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L5.wav" id="25_4ea81"]
+[ext_resource type="AudioStream" uid="uid://by4jnrduav06" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L6.wav" id="26_skdav"]
+[ext_resource type="AudioStream" uid="uid://c1xbqsqi3pjtx" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L7.wav" id="27_18g63"]
+[ext_resource type="AudioStream" uid="uid://33cv6ny6al6h" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L8.wav" id="28_s0cxs"]
+[ext_resource type="AudioStream" uid="uid://cbobelyj3437v" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L.wav" id="29_sle8o"]
+[ext_resource type="AudioStream" uid="uid://c4g7cys4i07qf" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_R2.wav" id="30_60mjt"]
+[ext_resource type="AudioStream" uid="uid://b01y87vt47s5m" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_R3.wav" id="31_7h8kf"]
+[ext_resource type="AudioStream" uid="uid://4jo1r7wbte6l" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_R4.wav" id="32_ly5yj"]
+[ext_resource type="AudioStream" uid="uid://d34cr2f0dsx3l" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_R5.wav" id="33_xwref"]
+[ext_resource type="AudioStream" uid="uid://bghh6vrwsclv8" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_R6.wav" id="34_65m4h"]
+[ext_resource type="AudioStream" uid="uid://bc1mbn8puo3sb" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_R7.wav" id="35_7ci0b"]
+[ext_resource type="AudioStream" uid="uid://my200vkmbeup" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_R8.wav" id="36_w22jf"]
+[ext_resource type="AudioStream" uid="uid://baqs22b1npjhe" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_R.wav" id="37_3t3jn"]
+[ext_resource type="AudioStream" uid="uid://cxvroce8w3q8m" path="res://Audio/SFX/Sonic_Soundfx_household_kitchen_microwave_door_open_1.wav" id="41_okd6y"]
+[ext_resource type="AudioStream" uid="uid://uumnvveh55wn" path="res://Audio/SFX/zapsplat_household_door_int_wood_close_slight_room_perspective_004_91210.wav" id="43_axeev"]
+[ext_resource type="Script" uid="uid://tkhos0n6dl5f" path="res://Scripts/Level/chute_zone.gd" id="chute_zone"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/combo_display.tscn" id="combo_ui"]
+[ext_resource type="PackedScene" uid="uid://dgdb7704h3tdk" path="res://Scenes/Computer/computer_terminal.tscn" id="computer"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/dialogue_player.tscn" id="dialogue_player"]
+[ext_resource type="Script" uid="uid://bt22t5fy4mlpu" path="res://Scripts/Portal/door_portal.gd" id="door_portal"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/pause_menu.tscn" id="pause_menu"]
+[ext_resource type="Resource" uid="uid://ca7umgs31ux3a" path="res://Data/Prompts/placement.tres" id="place_prompts"]
+[ext_resource type="Script" uid="uid://b8dj368txul6f" path="res://Scripts/Level/light_flicker.gd" id="room_flicker"]
+[ext_resource type="Script" uid="uid://dex5nct350r2k" path="res://Scripts/Level/level_sequence.gd" id="sequence"]
+[ext_resource type="Script" uid="uid://b4dbbusrrdhih" path="res://Scripts/Level/staged_light.gd" id="staged_light"]
+[ext_resource type="Script" uid="uid://cwwtf2o6xs7l3" path="res://Scripts/Actors/start_room_door.gd" id="start_door"]
+[ext_resource type="Script" uid="uid://4io3wicvj051" path="res://Scripts/Level/start_room.gd" id="start_room"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/word_message.tscn" id="word_message"]
+[ext_resource type="Script" uid="uid://ce012vxidcxe0" path="res://Scripts/Level/world_boundary.gd" id="world_boundary"]
+[ext_resource type="Script" uid="uid://ishkfcqyoce0" path="res://Scripts/Level/world_guidance.gd" id="world_guidance"]
 
 [sub_resource type="Environment" id="Environment_ig4qq"]
 background_mode = 1
@@ -40,22 +72,29 @@ size = Vector3(4.1224594, 7.8334174, 1.2612133)
 [sub_resource type="BoxShape3D" id="BoxShape3D_1aaap"]
 size = Vector3(4.1224594, 5.216106, 1.2612133)
 
+[sub_resource type="BoxShape3D" id="ChuteZone"]
+size = Vector3(1.7, 18, 8)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_owqr0"]
 size = Vector3(2.9091797, 0.72546387, 7.401123)
 
-[node name="testing_level" type="Node3D" unique_id=1676298962]
+[node name="testing_level" type="Node3D" unique_id=1676298962 node_paths=PackedStringArray("player", "room", "manual_lever", "chute", "grinder", "computer", "machine_audio")]
+script = ExtResource("sequence")
+player = NodePath("Player")
+room = NodePath("CSGCombiner3D")
+manual_lever = NodePath("Lever_Assembly")
+chute = NodePath("ceiling_chute")
+grinder = NodePath("grinding_area")
+computer = NodePath("Computer")
+machine_audio = NodePath("game_stage_base/MachineRun")
 
 [node name="game_stage_base" parent="." unique_id=1628373784 instance=ExtResource("1_simi3")]
 
 [node name="MachineRun" type="AudioStreamPlayer3D" parent="game_stage_base" unique_id=1326311253]
 stream = ExtResource("2_s1ufb")
 volume_db = -6.0
-autoplay = true
 max_distance = 50.0
 bus = &"SFX"
-
-[node name="PackedLight" parent="." unique_id=341036661 instance=ExtResource("9_packed_light")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2195344, 0.5, -0.5)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1614001260]
 environment = SubResource("Environment_ig4qq")
@@ -63,25 +102,29 @@ environment = SubResource("Environment_ig4qq")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=620566388]
 transform = Transform3D(1, 0, 0, 0, 0.6507046, 0.7593309, 0, -0.7593309, 0.6507046, 0, 0, 0)
 light_color = Color(0.10747976, 0.10747973, 0.10747973, 1)
+script = ExtResource("staged_light")
 
 [node name="AreaLight3D" type="OmniLight3D" parent="." unique_id=423178080]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7904339, 0.9406817, 2.818627)
 light_color = Color(0.5135869, 0.50602263, 0, 1)
 shadow_enabled = true
+script = ExtResource("staged_light")
+unlock_flag = "grinder enabled"
 
 [node name="AreaLight3D2" type="OmniLight3D" parent="." unique_id=798727261]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7904339, 0.9406817, -2.6207402)
 light_color = Color(0.5135869, 0.50602263, 0, 1)
 shadow_enabled = true
+script = ExtResource("staged_light")
+unlock_flag = "grinder enabled"
 
 [node name="Player" parent="." unique_id=1906623250 instance=ExtResource("3_uai4t")]
-transform = Transform3D(0.41634315, 0, 0.9092075, 0, 1, 0, -0.9092075, 0, 0.41634315, 7.334562, 0.22363675, 1.0056605)
+transform = Transform3D(0.9957591, 0, -0.0919998, 0, 1, 0, 0.0919998, 0, 0.9957591, 5.137639, 0.22363722, 20.871561)
 
 [node name="ceiling_chute" parent="." unique_id=1899975167 node_paths=PackedStringArray("spawn_point") groups=["Chute"] instance=ExtResource("4_1cks4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.1952505, 6.8741517, -6.537792)
 script = ExtResource("5_rhpwq")
 spawn_point = NodePath("Spawn_Location")
-test_actor = ExtResource("6_ovg1v")
 
 [node name="Cube" parent="ceiling_chute" index="0" unique_id=394777762 groups=["Chute"]]
 
@@ -89,11 +132,43 @@ test_actor = ExtResource("6_ovg1v")
 
 [node name="CollisionShape3D" parent="ceiling_chute/Cube/StaticBody3D" index="0" unique_id=528326347 groups=["Chute"]]
 
-[node name="SpotLight3D" type="SpotLight3D" parent="ceiling_chute" unique_id=1839820588]
+[node name="ChuteLight" type="SpotLight3D" parent="ceiling_chute" unique_id=1839820588]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.2842555, 2.0291424)
 light_energy = 4.485
 shadow_enabled = true
-spot_range = 9.635247
+spot_range = 10.896327
+spot_angle = 23.225727
+script = ExtResource("staged_light")
+power_on_sound = ExtResource("9_5f81q")
+
+[node name="GrinderLight" type="SpotLight3D" parent="ceiling_chute" unique_id=631665265]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -7.3144393, 2.2842555, 5.733866)
+light_energy = 4.485
+shadow_enabled = true
+spot_range = 10.896327
+spot_angle = 23.225727
+script = ExtResource("staged_light")
+unlock_flag = "grinder enabled"
+power_on_sound = ExtResource("9_5f81q")
+
+[node name="LevelLight" type="SpotLight3D" parent="ceiling_chute" unique_id=309319353]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.5422888, 2.2842555, 0.7085819)
+light_energy = 4.485
+shadow_enabled = true
+spot_range = 10.896327
+spot_angle = 23.225727
+script = ExtResource("staged_light")
+power_on_sound = ExtResource("9_5f81q")
+
+[node name="LevelLight2" type="SpotLight3D" parent="ceiling_chute" unique_id=2044200266]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 8.903375, 2.2842555, 1.2182145)
+light_energy = 4.485
+shadow_enabled = true
+spot_range = 10.896327
+spot_angle = 16.760414
+script = ExtResource("staged_light")
+unlock_flag = "computer enabled"
+power_on_sound = ExtResource("9_5f81q")
 
 [node name="Spawn_Location" type="Node3D" parent="ceiling_chute" unique_id=1645039688]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.655333, -3.3814478)
@@ -128,6 +203,14 @@ shape = SubResource("BoxShape3D_46ng8")
 transform = Transform3D(1, 0, 0, 0, 0.7039254, 0.71027404, 0, -0.71027404, 0.7039254, 0.0022392273, 2.2272305, -0.114096165)
 shape = SubResource("BoxShape3D_1aaap")
 
+[node name="ChuteZone" type="Area3D" parent="ceiling_chute" unique_id=1736673859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.9, -2.8)
+collision_layer = 0
+script = ExtResource("chute_zone")
+
+[node name="Shape" type="CollisionShape3D" parent="ceiling_chute/ChuteZone" unique_id=493295612]
+shape = SubResource("ChuteZone")
+
 [node name="Lever_Assembly" parent="." unique_id=768832775 node_paths=PackedStringArray("chute") instance=ExtResource("7_esepx")]
 transform = Transform3D(0.35958397, 0, 0.93311274, 0, 1, 0, -0.93311274, 0, 0.35958397, 10.564274, 0.0064259213, -5.414606)
 chute = NodePath("../ceiling_chute")
@@ -161,21 +244,23 @@ grow_vertical = 0
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Prompt_Container" unique_id=754580691 node_paths=PackedStringArray("ray", "pickup", "building")]
+[node name="HBoxContainer" type="HBoxContainer" parent="Prompt_Container" unique_id=754580691 node_paths=PackedStringArray("ray", "pickup", "placement")]
 layout_mode = 2
 theme_override_constants/separation = 20
 script = ExtResource("10_prompts")
 ray = NodePath("../../Player/Camera3D/RayCast3D")
 pickup = NodePath("../../Player/Controllers/Player_Pickup")
-building = NodePath("../../Player/Controllers/Player_Building")
+placement = NodePath("../../Player/Controllers/Prop_Placement")
+placement_prompts = ExtResource("place_prompts")
 label_scene = ExtResource("11_label")
 carrying_prompts = ExtResource("12_carrying")
-carrying_buildable_prompts = ExtResource("13_carrying_buildable")
-placement_prompts = ExtResource("14_placement")
 
 [node name="grinding_area" type="Area3D" parent="." unique_id=727562887]
 collision_layer = 0
 script = ExtResource("15_grinding")
+
+[node name="MulcherMount" type="Marker3D" parent="grinding_area"]
+position = Vector3(2.0, 0.55, 1.4)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="grinding_area" unique_id=1834579255]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03955078, -0.13726807, -0.07897949)
@@ -183,5 +268,77 @@ shape = SubResource("BoxShape3D_owqr0")
 
 [node name="Score Sign" parent="." unique_id=168954924 instance=ExtResource("16_bfm0w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.002789, 8.339717, -1)
+
+[node name="ComboDisplay" parent="." unique_id=76884644 instance=ExtResource("combo_ui")]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=1844295386 node_paths=PackedStringArray("door", "player", "camera", "interior", "footsteps")]
+use_collision = true
+script = ExtResource("start_room")
+door = NodePath("../doorway_animated")
+player = NodePath("../Player")
+camera = NodePath("../Player/Camera3D")
+interior = NodePath("Start_Room_Inner")
+footsteps = NodePath("../Player/footstep_sound_players")
+left_foot_sounds = Array[AudioStream]([ExtResource("22_fue33"), ExtResource("23_5f81q"), ExtResource("24_axeev"), ExtResource("25_4ea81"), ExtResource("26_skdav"), ExtResource("27_18g63"), ExtResource("28_s0cxs"), ExtResource("29_sle8o")])
+right_foot_sounds = Array[AudioStream]([ExtResource("30_60mjt"), ExtResource("31_7h8kf"), ExtResource("32_ly5yj"), ExtResource("33_xwref"), ExtResource("34_65m4h"), ExtResource("35_7ci0b"), ExtResource("36_w22jf"), ExtResource("37_3t3jn")])
+
+[node name="Start_Room_Outer" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1601181466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4339104, 1.9159698, 16.670246)
+size = Vector3(7.6358643, 3.8465881, 9.821777)
+
+[node name="Start_Room_Inner" type="CSGBox3D" parent="CSGCombiner3D" unique_id=134672883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.472286, 1.901804, 16.64339)
+operation = 2
+size = Vector3(7.4429626, 3.6608162, 9.476074)
+material = ExtResource("21_cuoug")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="CSGCombiner3D" unique_id=574148879]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.666519, 3.5861616, 11.972476)
+light_color = Color(0.5320108, 0.47980773, 0.2331137, 1)
+shadow_enabled = true
+script = ExtResource("room_flicker")
+
+[node name="DoorOpening" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1730882472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.745911, 1.7, 11.902794)
+operation = 2
+size = Vector3(1.8, 3.4, 1)
+
+[node name="doorway_animated" parent="." unique_id=1549758940 instance=ExtResource("22_y5evj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.745911, 1.4651715e-06, 11.902794)
+script = ExtResource("start_door")
+open_sound = ExtResource("41_okd6y")
+open_sound_bus = &"RoomSFX"
+close_sound = ExtResource("43_axeev")
+close_sound_bus = &"RoomSFX"
+
+[node name="DeliveryPoint" type="Marker3D" parent="." unique_id=257359501]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9587846, 10, 1.6560557)
+
+[node name="Computer" parent="." unique_id=346856222 node_paths=PackedStringArray("player", "delivery_point", "delivery_parent") instance=ExtResource("computer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.069824, -1.1920929e-07, -5.255457)
+player = NodePath("../Player")
+delivery_point = NodePath("../DeliveryPoint")
+delivery_parent = NodePath("..")
+
+[node name="PauseMenu" parent="." unique_id=299915006 instance=ExtResource("pause_menu")]
+
+[node name="DoorPortal" type="Node3D" parent="." unique_id=1263641720 node_paths=PackedStringArray("door", "player")]
+script = ExtResource("door_portal")
+door = NodePath("../doorway_animated")
+player = NodePath("../Player")
+
+[node name="WordMessage" parent="." unique_id=138878723 instance=ExtResource("word_message")]
+word_sound = ExtResource("9_5f81q")
+
+[node name="WorldGuidance" type="Node" parent="." unique_id=1315693518 node_paths=PackedStringArray("level", "messages")]
+script = ExtResource("world_guidance")
+level = NodePath("..")
+messages = NodePath("../WordMessage")
+
+[node name="DialoguePlayer" parent="." unique_id=751087534 instance=ExtResource("dialogue_player")]
+
+[node name="WorldBoundary" type="StaticBody3D" parent="." unique_id=293164494 node_paths=PackedStringArray("centre_target")]
+script = ExtResource("world_boundary")
+centre_target = NodePath("../Player")
 
 [editable path="ceiling_chute"]

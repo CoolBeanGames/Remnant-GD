@@ -1,0 +1,36 @@
+[gd_scene format=3]
+
+
+[ext_resource type="Script" path="res://Scripts/Actors/rotatable_item.gd" id="1"]
+
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="2"]
+
+[ext_resource type="Resource" path="res://Data/Prompts/pickup_steel_plate.tres" id="3"]
+
+
+[ext_resource type="Resource" path="res://Data/Prompts/carrying_rotatable.tres" id="carry"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Art/plate.tscn" id="model"]
+
+[sub_resource type="PhysicsMaterial" id="Physics"]
+friction = 0.15
+bounce = 0.5
+
+[sub_resource type="BoxShape3D" id="R2"]
+size = Vector3(2.4, 2.4, 0.12)
+
+[node name="SteelPlate" type="RigidBody3D" groups=["pick-up", "machine-immune"]]
+script = ExtResource("1")
+mass = 3.0
+carry_prompts = ExtResource("carry")
+physics_material_override = SubResource("Physics")
+
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("2")
+prompts = ExtResource("3")
+
+[node name="Plate" parent="." instance=ExtResource("model")]
+
+[node name="PlateCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("R2")
+

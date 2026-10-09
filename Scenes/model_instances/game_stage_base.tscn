@@ -3,6 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://bb24j338t5s0j" path="res://Models/Level/game_stage_base.fbx" id="1_5mndc"]
 [ext_resource type="Script" uid="uid://bnrtinfng5v8l" path="res://Scripts/Level/grinder_rotator.gd" id="2_k77nl"]
 
+[sub_resource type="BoxShape3D" id="FloorSides"]
+size = Vector3(49998.0893, 0.5, 100000)
+
+[sub_resource type="BoxShape3D" id="FloorEnds"]
+size = Vector3(3.8214, 0.5, 49995.8089)
+
 [node name="game_stage_base" unique_id=1628373784 instance=ExtResource("1_5mndc")]
 
 [node name="Grinder_1" parent="." index="0" unique_id=158559926]
@@ -34,3 +40,22 @@ roation_speed = Vector3(25, 0, 0)
 [node name="StaticBody3D" parent="ground" index="0" unique_id=1321193747 groups=["Floor"]]
 
 [node name="CollisionShape3D" parent="ground/StaticBody3D" index="0" unique_id=876956182 groups=["Floor"]]
+disabled = true
+
+[node name="SolidFloor" type="StaticBody3D" parent="." groups=["Floor"]]
+
+[node name="Left" type="CollisionShape3D" parent="SolidFloor"]
+position = Vector3(-25000.95535, -0.25, 0)
+shape = SubResource("FloorSides")
+
+[node name="Right" type="CollisionShape3D" parent="SolidFloor"]
+position = Vector3(25000.95535, -0.25, 0)
+shape = SubResource("FloorSides")
+
+[node name="Front" type="CollisionShape3D" parent="SolidFloor"]
+position = Vector3(0, -0.25, 25002.09555)
+shape = SubResource("FloorEnds")
+
+[node name="Back" type="CollisionShape3D" parent="SolidFloor"]
+position = Vector3(0, -0.25, -25002.09555)
+shape = SubResource("FloorEnds")

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="collision_sound_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Actors/CollisionSoundEntry.gd" id="script"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_broken_001_28535.wav" id="s0"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_broken_002_28536.wav" id="s1"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_broken_no_squeak_001_28537.wav" id="s2"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_broken_no_squeak_002_28538.wav" id="s3"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_hard_28539.wav" id="s4"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_sequence_001_28540.wav" id="s5"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_sequence_002_28541.wav" id="s6"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_single_001_28542.wav" id="s7"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_single_002_28543.wav" id="s8"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_single_003_28544.wav" id="s9"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_single_004_28545.wav" id="s10"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_single_005_28546.wav" id="s11"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_single_006_28547.wav" id="s12"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_weak_001_28549.wav" id="s13"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_weak_002_28550.wav" id="s14"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_weak_003_28551.wav" id="s15"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Teddy_Bear/zapsplat_pack_squeaky_toy_sounds_wav/zapsplat_leisure_toy_squeaky_squeeze_x4_short_28552.wav" id="s16"]
+[resource]
+script = ExtResource("script")
+name = &"Teddy_Bear impacts"
+group = &"*"
+volume = 0.7
+sounds = Array[AudioStream]([ExtResource("s0"), ExtResource("s1"), ExtResource("s2"), ExtResource("s3"), ExtResource("s4"), ExtResource("s5"), ExtResource("s6"), ExtResource("s7"), ExtResource("s8"), ExtResource("s9"), ExtResource("s10"), ExtResource("s11"), ExtResource("s12"), ExtResource("s13"), ExtResource("s14"), ExtResource("s15"), ExtResource("s16")])

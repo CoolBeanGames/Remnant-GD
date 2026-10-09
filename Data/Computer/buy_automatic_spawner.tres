@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3 uid="uid://6kdrj8bh463o"]
+
+[ext_resource type="Script" uid="uid://bqbfjxrccwgvv" path="res://Scripts/Computer/upgrade_effect.gd" id="2_4fqio"]
+[ext_resource type="Script" uid="uid://dl5o07aajxv84" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/automatic_spawner.tscn" id="scene"]
+
+[resource]
+script = ExtResource("entry")
+id = &"buy_automatic_spawner"
+title = "Automatic Spawner"
+description = "Place it with B to produce an item every 8 seconds. Runs alongside the manual chute."
+tab = 2
+base_cost = 400
+cost_multiplier = 1.8
+escalating_store_price = true
+max_level = 0
+delivery_scene = ExtResource("scene")
+delivery_kind = "spawner"

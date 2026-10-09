@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="collision_sound_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Actors/CollisionSoundEntry.gd" id="script"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Plastic/zapsplat_impacts_plastic_hollow_001_19976.wav" id="s0"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Plastic/zapsplat_impacts_plastic_hollow_002_19977.wav" id="s1"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Plastic/zapsplat_impacts_plastic_hollow_003_19978.wav" id="s2"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Plastic/zapsplat_impacts_plastic_hollow_004_19979.wav" id="s3"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Plastic/zapsplat_impacts_plastic_hollow_005_19980.wav" id="s4"]
+[resource]
+script = ExtResource("script")
+name = &"Plastic impacts"
+group = &"*"
+volume = 0.7
+sounds = Array[AudioStream]([ExtResource("s0"), ExtResource("s1"), ExtResource("s2"), ExtResource("s3"), ExtResource("s4")])

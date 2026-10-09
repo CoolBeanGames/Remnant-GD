@@ -1,0 +1,43 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/Actors/automatic_spawner.gd" id="1"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
+[ext_resource type="Resource" path="res://Data/Prompts/carrying_rotatable.tres" id="carry"]
+[ext_resource type="Resource" path="res://Data/Prompts/pickup_automatic_spawner.tres" id="look"]
+[sub_resource type="StandardMaterial3D" id="Metal"]
+albedo_color = Color(0.28, 0.32, 0.3, 1)
+metallic = 0.6
+[sub_resource type="BoxMesh" id="Body"]
+size = Vector3(1.2, 1.4, 1.0)
+material = SubResource("Metal")
+[sub_resource type="BoxShape3D" id="Shape"]
+size = Vector3(1.2, 1.4, 1.0)
+[sub_resource type="CylinderMesh" id="Outlet"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.45
+material = SubResource("Metal")
+[node name="AutomaticSpawner" type="RigidBody3D" groups=["pick-up", "machine-immune"]]
+script = ExtResource("1")
+mass = 12.0
+carry_prompts = ExtResource("carry")
+[node name="Body" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.7, 0)
+mesh = SubResource("Body")
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.7, 0)
+shape = SubResource("Shape")
+[node name="Outlet" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1, -0.6)
+rotation = Vector3(1.570796, 0, 0)
+mesh = SubResource("Outlet")
+[node name="Output" type="Marker3D" parent="."]
+position = Vector3(0, 1, -1.0)
+[node name="Label" type="Label3D" parent="."]
+position = Vector3(0, 0.8, 0.51)
+text = "AUTO
+SPAWNER"
+font_size = 32
+pixel_size = 0.004
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("prompts")
+prompts = ExtResource("look")

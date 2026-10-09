@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="prompt_set" format=3 uid="uid://by3jxxtyn1vlu"]
+
+[ext_resource type="Script" uid="uid://bemke5wgfbexu" path="res://Scripts/UI/prompt_set.gd" id="1"]
+[ext_resource type="Script" uid="uid://lojqp4d1v7g4" path="res://Scripts/UI/prompt_entry.gd" id="2"]
+
+[sub_resource type="Resource" id="P0"]
+script = ExtResource("2")
+text = "Pickup Basket"
+action = &"pickup"
+
+[sub_resource type="Resource" id="P1"]
+script = ExtResource("2")
+text = "Empty Basket"
+action = &"confirm"
+
+[resource]
+script = ExtResource("1")
+entries = Array[ExtResource("2")]([SubResource("P0"), SubResource("P1")])

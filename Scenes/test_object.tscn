@@ -43,7 +43,8 @@ bus = &"SFX"
 
 [node name="score_object" type="Node" parent="." unique_id=2115529438]
 script = ExtResource("8_ntoxf")
-score = 10
+score = 1
+mulch_value = 5
 metadata/_custom_type_script = "uid://c4fll2k7fsfr8"
 
 [connection signal="body_entered" from="RigidBody3D" to="RigidBody3D" method="collide"]

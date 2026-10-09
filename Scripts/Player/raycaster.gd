@@ -15,6 +15,7 @@ var previous_target: Node3D = null
 func _ready() -> void:
 	target_position = Vector3(0.0, 0.0, -ray_distance)
 	enabled = true
+	collide_with_areas = true
 
 	_debug("Ready. Distance: %s" % ray_distance)
 	_debug("Target groups: %s" % str(target_groups))
@@ -37,6 +38,10 @@ func _update_looked_at() -> void:
 		return
 
 	var collider: Object = get_collider()
+	if collider is pickup_target:
+		if not collider.can_target() or _pickup_occluded(collider):
+			_set_looked_at(null)
+			return
 
 	if collider == null:
 		_set_looked_at(null)
@@ -58,6 +63,17 @@ func _update_looked_at() -> void:
 		return
 
 	_set_looked_at(target)
+
+func _pickup_occluded(area: pickup_target) -> bool:
+	var query := PhysicsRayQueryParameters3D.create(global_position, area.body.global_position, collision_mask)
+	var exclusions: Array[RID] = [area.body.get_rid()]
+	var parent: Node = get_parent()
+	while parent != null:
+		if parent is PhysicsBody3D:
+			exclusions.append(parent.get_rid())
+		parent = parent.get_parent()
+	query.exclude = exclusions
+	return not get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 
 
 func _find_grouped_parent(object: Object) -> Node3D:
@@ -92,6 +108,8 @@ func _find_grouped_parent(object: Object) -> Node3D:
 
 
 func _is_valid_target(target: Node3D) -> bool:
+	if not interaction_allowed(target):
+		return false
 	for group: StringName in target_groups:
 		if target.is_in_group(group):
 			return true
@@ -125,11 +143,18 @@ func _set_looked_at(target: Node3D) -> void:
 
 
 func get_looked_at() -> Node3D:
-	return looked_at
+	return looked_at if is_instance_valid(looked_at) and interaction_allowed(looked_at) else null
 
 
 func is_looking_at_something() -> bool:
-	return is_instance_valid(looked_at)
+	return get_looked_at() != null
+
+static func interaction_allowed(target: Node) -> bool:
+	while is_instance_valid(target):
+		if not target.get_meta("interaction_enabled", true):
+			return false
+		target = target.get_parent()
+	return true
 
 
 func _debug(message: String) -> void:

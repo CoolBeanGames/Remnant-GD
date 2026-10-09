@@ -1,0 +1,39 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/Actors/note_drop.gd" id="script"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
+[ext_resource type="Resource" path="res://Data/Prompts/read_note.tres" id="read"]
+[ext_resource type="PackedScene" path="res://Scenes/Art/note_bottle.tscn" id="model"]
+[ext_resource type="Resource" path="res://Data/Collision Sounds/glass_all.tres" id="glass"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/pickup_target.tscn" id="pickup_target"]
+[sub_resource type="CapsuleShape3D" id="RoundedCollision"]
+radius = 0.075
+height = 0.28
+[sub_resource type="PhysicsMaterial" id="BottlePhysics"]
+friction = 0.02
+bounce = 0.05
+[node name="NoteDrop" type="RigidBody3D" groups=["pick-up", "machine-immune"]]
+script = ExtResource("script")
+mass = 0.25
+physics_material_override = SubResource("BottlePhysics")
+gravity_scale = 1.5
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 8
+collision_sounds = ExtResource("glass")
+[node name="Model" parent="." instance=ExtResource("model")]
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("RoundedCollision")
+[node name="Title" type="Label3D" parent="."]
+visible = false
+position = Vector3(0, 0.16, 0)
+rotation = Vector3(-1.5707963, 0, 0)
+text = "NOTE"
+font_size = 18
+pixel_size = 0.001
+outline_size = 0
+modulate = Color(0.08, 0.08, 0.08, 1)
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("prompts")
+prompts = ExtResource("read")
+
+[node name="PickupTarget" parent="." instance=ExtResource("pickup_target")]

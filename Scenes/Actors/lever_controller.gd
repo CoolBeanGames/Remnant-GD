@@ -1,5 +1,7 @@
 class_name lever
 extends Node3D
+signal pulled
+@export var enabled: bool = true
 
 # 0 = idle, 1 = pull, 2 = reset
 var state: int = 0
@@ -16,12 +18,11 @@ func _ready() -> void:
 	green_light.light_energy = 1
 	red_light.light_energy = 0
 	anim.animation_finished.connect(_on_animation_finished)
+	set_enabled(enabled)
 
 
 func interact() -> void:
-	print("interact")
-	
-	if state != 0:
+	if not enabled or state != 0:
 		return
 	
 	green_light.light_energy = 0
@@ -38,6 +39,7 @@ func _on_animation_finished(animation_name: StringName) -> void:
 
 			state = 2
 			chute.spawn()
+			pulled.emit()
 			Audio.play_3d(pull_sound,global_position,1,1,"SFX")
 			Audio.play_3d(reset_sound,global_position,1,1,"SFX")
 			anim.play("reset")
@@ -50,3 +52,15 @@ func _on_animation_finished(animation_name: StringName) -> void:
 			green_light.light_energy = 1
 			red_light.light_energy = 0
 			state = 0
+
+func set_enabled(value: bool) -> void:
+	enabled = value
+	set_meta("interaction_enabled", value)
+	green_light.light_energy = 1 if value else 0
+	red_light.light_energy = 0
+	for light in find_children("*", "Light3D", true, false):
+		if light == green_light or light == red_light:
+			continue
+		if not light.has_meta("enabled_energy"):
+			light.set_meta("enabled_energy", light.light_energy)
+		light.light_energy = light.get_meta("enabled_energy") if value else 0.0

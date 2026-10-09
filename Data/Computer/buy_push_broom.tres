@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/push_broom.tscn" id="scene"]
+
+[resource]
+script = ExtResource("entry")
+id = &"buy_push_broom"
+title = "Push Broom"
+description = "Drops from the marked delivery point above the workshop."
+tab = 2
+base_cost = 10
+max_level = 0
+delivery_scene = ExtResource("scene")
+delivery_kind = "none"

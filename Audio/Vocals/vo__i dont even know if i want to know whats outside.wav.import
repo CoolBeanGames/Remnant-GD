@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://do2lk6b0q0q6j"
+path="res://.godot/imported/vo__i dont even know if i want to know whats outside.wav-f97d620b507eb454430dcb399cdd25ce.sample"
+
+[deps]
+
+source_file="res://Audio/Vocals/vo__i dont even know if i want to know whats outside.wav"
+dest_files=["res://.godot/imported/vo__i dont even know if i want to know whats outside.wav-f97d620b507eb454430dcb399cdd25ce.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

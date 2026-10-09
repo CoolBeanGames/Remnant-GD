@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3 uid="uid://bkjxg5a6l5ah2"]
+
+[ext_resource type="Script" uid="uid://bqbfjxrccwgvv" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[ext_resource type="Script" uid="uid://dl5o07aajxv84" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+
+[sub_resource type="Resource" id="Effect0"]
+script = ExtResource("effect")
+target = "movement"
+property = NodePath("jump_enabled")
+operation = 2
+amount = 1
+
+[resource]
+script = ExtResource("entry")
+id = &"jump"
+title = "Jump Module"
+description = "Unlock Space to jump while grounded."
+tab = 1
+base_cost = 60
+max_level = 1
+effects = Array[ExtResource("effect")]([SubResource("Effect0")])

@@ -26,6 +26,30 @@ extends Node3D
 
 var left_next: bool = true
 var sprinting: bool = false
+var sound_override_source: WeakRef
+var override_left_sounds: Array[AudioStream] = []
+var override_right_sounds: Array[AudioStream] = []
+
+
+func set_sound_override(source: Node, left: Array[AudioStream], right: Array[AudioStream]) -> void:
+	sound_override_source = weakref(source)
+	override_left_sounds = left
+	override_right_sounds = right
+
+
+func clear_sound_override(source: Node) -> void:
+	if sound_override_source != null and sound_override_source.get_ref() == source:
+		sound_override_source = null
+		override_left_sounds = []
+		override_right_sounds = []
+
+
+func get_step_sounds(left: bool) -> Array[AudioStream]:
+	if sound_override_source != null and is_instance_valid(sound_override_source.get_ref()):
+		var sounds: Array[AudioStream] = override_left_sounds if left else override_right_sounds
+		if not sounds.is_empty():
+			return sounds
+	return left_foot_sounds if left else right_foot_sounds
 
 
 func _ready() -> void:
@@ -75,11 +99,11 @@ func _on_footstep_timer_timeout() -> void:
 
 
 func play_L() -> void:
-	play(left_player, left_foot_sounds)
+	play(left_player, get_step_sounds(true))
 
 
 func play_R() -> void:
-	play(right_player, right_foot_sounds)
+	play(right_player, get_step_sounds(false))
 
 
 func play(

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="prompt_set" format=3 uid="uid://knot5k5jm8sg"]
+
+[ext_resource type="Script" uid="uid://lojqp4d1v7g4" path="res://Scripts/UI/prompt_entry.gd" id="entry"]
+[ext_resource type="Script" uid="uid://bemke5wgfbexu" path="res://Scripts/UI/prompt_set.gd" id="set"]
+
+[sub_resource type="Resource" id="Read"]
+script = ExtResource("entry")
+text = "Pickup / Read Note"
+action = &"pickup"
+
+[resource]
+script = ExtResource("set")
+entries = Array[ExtResource("entry")]([SubResource("Read")])

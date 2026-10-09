@@ -1,0 +1,109 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/UI/computer_ui.gd" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/computer_row.tscn" id="row"]
+[sub_resource type="SystemFont" id="Font"]
+font_names = PackedStringArray("Consolas", "Courier New")
+[sub_resource type="StyleBoxFlat" id="Border"]
+bg_color = Color(0.015, 0.035, 0.025, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.28, 0.75, 0.45, 1)
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+[sub_resource type="Theme" id="Theme"]
+default_font = SubResource("Font")
+default_font_size = 16
+Label/colors/font_color = Color(0.5, 0.95, 0.65, 1)
+Button/colors/font_color = Color(0.5, 0.95, 0.65, 1)
+Button/colors/font_hover_color = Color(0.9, 1, 0.9, 1)
+Button/styles/normal = SubResource("Border")
+Button/styles/hover = SubResource("Border")
+Button/styles/pressed = SubResource("Border")
+PanelContainer/styles/panel = SubResource("Border")
+TabContainer/colors/font_selected_color = Color(0.5, 0.95, 0.65, 1)
+TabContainer/colors/font_unselected_color = Color(0.3, 0.6, 0.4, 1)
+TabContainer/styles/panel = SubResource("Border")
+TabContainer/styles/tab_selected = SubResource("Border")
+TabContainer/styles/tab_unselected = SubResource("Border")
+[node name="ComputerUI" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1")
+row_scene = ExtResource("row")
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme")
+[node name="Dim" type="ColorRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.82)
+mouse_filter = 2
+[node name="Center" type="CenterContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+[node name="Panel" type="PanelContainer" parent="Screen/Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(780, 540)
+[node name="Margin" type="MarginContainer" parent="Screen/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+[node name="Rows" type="VBoxContainer" parent="Screen/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+[node name="Title" type="Label" parent="Screen/Center/Panel/Margin/Rows"]
+layout_mode = 2
+text = "REMNANT / WORKSHOP TERMINAL v1.0"
+theme_override_font_sizes/font_size = 22
+[node name="Header" type="HBoxContainer" parent="Screen/Center/Panel/Margin/Rows"]
+layout_mode = 2
+[node name="Score" type="Label" parent="Screen/Center/Panel/Margin/Rows/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CREDIT: 00000000"
+[node name="Close" type="Button" parent="Screen/Center/Panel/Margin/Rows/Header"]
+layout_mode = 2
+text = "EXIT [ESC]"
+[node name="Tabs" type="TabContainer" parent="Screen/Center/Panel/Margin/Rows"]
+layout_mode = 2
+size_flags_vertical = 3
+[node name="Mechanics" type="ScrollContainer" parent="Screen/Center/Panel/Margin/Rows/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+[node name="List" type="VBoxContainer" parent="Screen/Center/Panel/Margin/Rows/Tabs/Mechanics"]
+layout_mode = 2
+size_flags_horizontal = 3
+[node name="Self" type="ScrollContainer" parent="Screen/Center/Panel/Margin/Rows/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+[node name="List" type="VBoxContainer" parent="Screen/Center/Panel/Margin/Rows/Tabs/Self"]
+layout_mode = 2
+size_flags_horizontal = 3
+[node name="Store" type="ScrollContainer" parent="Screen/Center/Panel/Margin/Rows/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+[node name="List" type="VBoxContainer" parent="Screen/Center/Panel/Margin/Rows/Tabs/Store"]
+layout_mode = 2
+size_flags_horizontal = 3
+[node name="Mulch" type="ScrollContainer" parent="Screen/Center/Panel/Margin/Rows/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+[node name="List" type="VBoxContainer" parent="Screen/Center/Panel/Margin/Rows/Tabs/Mulch"]
+layout_mode = 2
+size_flags_horizontal = 3
+[node name="Status" type="Label" parent="Screen/Center/Panel/Margin/Rows"]
+layout_mode = 2
+autowrap_mode = 2
+text = "READY"

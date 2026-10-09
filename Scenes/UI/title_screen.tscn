@@ -1,0 +1,49 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/UI/title_screen.gd" id="script"]
+[sub_resource type="SystemFont" id="Font"]
+font_names = PackedStringArray("Consolas", "Courier New")
+[sub_resource type="Theme" id="Theme"]
+default_font = SubResource("Font")
+default_font_size = 24
+[node name="TitleScreen" type="Node3D"]
+script = ExtResource("script")
+[node name="Background" type="Node3D" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
+[node name="Screen" type="ColorRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.015, 0.015, 0.015, 0.85)
+theme = SubResource("Theme")
+[node name="Center" type="CenterContainer" parent="UI/Screen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+[node name="Rows" type="VBoxContainer" parent="UI/Screen/Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(400, 0)
+theme_override_constants/separation = 18
+[node name="Title" type="Label" parent="UI/Screen/Center/Rows"]
+layout_mode = 2
+text = "REMNANT"
+theme_override_font_sizes/font_size = 58
+[node name="NewGame" type="Button" parent="UI/Screen/Center/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+text = "NEW GAME"
+[node name="Continue" type="Button" parent="UI/Screen/Center/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+text = "CONTINUE"
+[node name="Options" type="Button" parent="UI/Screen/Center/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+text = "OPTIONS"
+[node name="Exit" type="Button" parent="UI/Screen/Center/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+text = "EXIT"
+[node name="Status" type="Label" parent="UI/Screen/Center/Rows"]
+layout_mode = 2
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 16

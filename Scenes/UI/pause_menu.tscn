@@ -1,0 +1,101 @@
+[gd_scene load_steps=4 format=3]
+[ext_resource type="Script" path="res://Scripts/UI/pause_menu.gd" id="script"]
+[sub_resource type="StyleBoxFlat" id="Panel"]
+bg_color = Color(0.025, 0.025, 0.025, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.75, 1)
+[sub_resource type="Theme" id="Theme"]
+default_font_size = 20
+Label/colors/font_color = Color(0.9, 0.9, 0.85, 1)
+RichTextLabel/colors/default_color = Color(0.9, 0.9, 0.85, 1)
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 50
+script = ExtResource("script")
+[node name="Screen" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+theme = SubResource("Theme")
+[node name="Center" type="CenterContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Panel" type="PanelContainer" parent="Screen/Center"]
+custom_minimum_size = Vector2(760, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Panel")
+[node name="Margin" type="MarginContainer" parent="Screen/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+[node name="Rows" type="VBoxContainer" parent="Screen/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+[node name="Header" type="Label" parent="Screen/Center/Panel/Margin/Rows"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "PAUSED"
+[node name="Line" type="HSeparator" parent="Screen/Center/Panel/Margin/Rows"]
+layout_mode = 2
+[node name="Main" type="VBoxContainer" parent="Screen/Center/Panel/Margin/Rows"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+[node name="Continue" type="Button" parent="Screen/Center/Panel/Margin/Rows/Main"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "CONTINUE"
+[node name="Options" type="Button" parent="Screen/Center/Panel/Margin/Rows/Main"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "OPTIONS"
+[node name="Notes" type="Button" parent="Screen/Center/Panel/Margin/Rows/Main"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "NOTES"
+[node name="Exit" type="Button" parent="Screen/Center/Panel/Margin/Rows/Main"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "EXIT"
+[node name="Journal" type="VBoxContainer" parent="Screen/Center/Panel/Margin/Rows"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+[node name="Columns" type="HBoxContainer" parent="Screen/Center/Panel/Margin/Rows/Journal"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+[node name="List" type="ItemList" parent="Screen/Center/Panel/Margin/Rows/Journal/Columns"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+[node name="Reader" type="VBoxContainer" parent="Screen/Center/Panel/Margin/Rows/Journal/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+[node name="Title" type="Label" parent="Screen/Center/Panel/Margin/Rows/Journal/Columns/Reader"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "NOTE"
+autowrap_mode = 2
+[node name="Body" type="RichTextLabel" parent="Screen/Center/Panel/Margin/Rows/Journal/Columns/Reader"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = false
+text = ""
+[node name="Back" type="Button" parent="Screen/Center/Panel/Margin/Rows/Journal"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "BACK"

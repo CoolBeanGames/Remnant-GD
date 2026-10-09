@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="note_definition" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Scripts/Notes/note_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"door"
+title = "The door"
+body = "I left the door open so I could find my way back.\n\nThe door was still there. The room wasn't."

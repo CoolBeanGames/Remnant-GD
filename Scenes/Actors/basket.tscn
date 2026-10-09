@@ -1,0 +1,132 @@
+[gd_scene format=3]
+
+
+[ext_resource type="Script" path="res://Scripts/Actors/basket.gd" id="1"]
+
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="2"]
+
+[ext_resource type="Resource" path="res://Data/Prompts/basket.tres" id="3"]
+
+
+[ext_resource type="Resource" path="res://Data/Prompts/carrying_basket.tres" id="carry"]
+
+[sub_resource type="StandardMaterial3D" id="Material"]
+albedo_color = Color(0.6, 0.35, 0.12, 1)
+metallic = 0.45
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="ArrowMaterial"]
+albedo_color = Color(1, 0.8, 0.15, 1)
+emission_enabled = true
+emission = Color(0.25, 0.12, 0, 1)
+
+[sub_resource type="PhysicsMaterial" id="Physics"]
+friction = 0.65
+
+
+
+[sub_resource type="BoxMesh" id="R1"]
+size = Vector3(1.6, 0.15, 1.4)
+material = SubResource("Material")
+
+[sub_resource type="BoxShape3D" id="R2"]
+size = Vector3(1.6, 0.15, 1.4)
+
+[sub_resource type="BoxMesh" id="R3"]
+size = Vector3(0.1, 1, 1.4)
+material = SubResource("Material")
+
+[sub_resource type="BoxShape3D" id="R4"]
+size = Vector3(0.1, 1, 1.4)
+
+[sub_resource type="BoxMesh" id="R5"]
+size = Vector3(0.1, 1, 1.4)
+material = SubResource("Material")
+
+[sub_resource type="BoxShape3D" id="R6"]
+size = Vector3(0.1, 1, 1.4)
+
+[sub_resource type="BoxMesh" id="R7"]
+size = Vector3(1.6, 1, 0.1)
+material = SubResource("Material")
+
+[sub_resource type="BoxShape3D" id="R8"]
+size = Vector3(1.6, 1, 0.1)
+
+[sub_resource type="BoxMesh" id="R9"]
+size = Vector3(1.6, 1, 0.1)
+material = SubResource("Material")
+
+[sub_resource type="BoxShape3D" id="R10"]
+size = Vector3(1.6, 1, 0.1)
+
+[sub_resource type="BoxMesh" id="R11"]
+size = Vector3(1.8, 0.12, 0.12)
+material = SubResource("Material")
+
+[sub_resource type="BoxShape3D" id="R12"]
+size = Vector3(1.4, 0.95, 1.2)
+
+[node name="Basket" type="RigidBody3D" groups=["pick-up", "interact", "machine-immune"]]
+script = ExtResource("1")
+mass = 4.0
+carry_prompts = ExtResource("carry")
+physics_material_override = SubResource("Physics")
+
+[node name="Anchor" type="Marker3D" parent="."]
+
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("2")
+prompts = ExtResource("3")
+
+[node name="Bottom" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.075, 0)
+mesh = SubResource("R1")
+
+[node name="BottomCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.075, 0)
+shape = SubResource("R2")
+
+[node name="Left" type="MeshInstance3D" parent="."]
+position = Vector3(-0.75, 0.6, 0)
+mesh = SubResource("R3")
+
+[node name="LeftCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-0.75, 0.6, 0)
+shape = SubResource("R4")
+
+[node name="Right" type="MeshInstance3D" parent="."]
+position = Vector3(0.75, 0.6, 0)
+mesh = SubResource("R5")
+
+[node name="RightCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.75, 0.6, 0)
+shape = SubResource("R6")
+
+[node name="Front" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.6, -0.65)
+mesh = SubResource("R7")
+
+[node name="FrontCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.6, -0.65)
+shape = SubResource("R8")
+
+[node name="Back" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.6, 0.65)
+mesh = SubResource("R9")
+
+[node name="BackCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.6, 0.65)
+shape = SubResource("R10")
+
+[node name="Handle" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.4, 0)
+mesh = SubResource("R11")
+
+[node name="Contents" type="Area3D" parent="."]
+position = Vector3(0, 0.625, 0)
+collision_layer = 0
+collision_mask = 1
+
+[node name="Shape" type="CollisionShape3D" parent="Contents"]
+shape = SubResource("R12")

@@ -1,15 +1,15 @@
-[gd_resource type="Resource" script_class="prompt_set" format=3 uid="uid://bqmg52q3fam1e"]
+[gd_resource type="Resource" script_class="prompt_set" format=3 uid="uid://ca7umgs31ux3a"]
 
 [ext_resource type="Script" uid="uid://bemke5wgfbexu" path="res://Scripts/UI/prompt_set.gd" id="1_set"]
 [ext_resource type="Script" uid="uid://lojqp4d1v7g4" path="res://Scripts/UI/prompt_entry.gd" id="2_entry"]
 
-[sub_resource type="Resource" id="Place"]
+[sub_resource type="Resource" id="Drop"]
 script = ExtResource("2_entry")
 text = "Place"
 action = &"build"
 key_first = true
 
-[sub_resource type="Resource" id="Cancel"]
+[sub_resource type="Resource" id="Throw"]
 script = ExtResource("2_entry")
 text = "Cancel"
 action = &"pickup"
@@ -17,4 +17,4 @@ key_first = true
 
 [resource]
 script = ExtResource("1_set")
-entries = Array[ExtResource("2_entry")]([SubResource("Place"), SubResource("Cancel")])
+entries = Array[ExtResource("2_entry")]([SubResource("Drop"), SubResource("Throw")])

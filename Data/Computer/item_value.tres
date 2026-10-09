@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3 uid="uid://bisdrjwypebqc"]
+
+[ext_resource type="Script" uid="uid://bqbfjxrccwgvv" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[ext_resource type="Script" uid="uid://dl5o07aajxv84" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+
+[sub_resource type="Resource" id="Effect0"]
+script = ExtResource("effect")
+target = "item_value"
+property = NodePath("score")
+amount = 2
+
+[resource]
+script = ExtResource("entry")
+id = &"item_value"
+title = "Item Value"
+description = "New chute items are worth twice as much per level. Existing items stay unchanged."
+base_cost = 50
+cost_multiplier = 3.5
+max_level = 4
+effects = Array[ExtResource("effect")]([SubResource("Effect0")])

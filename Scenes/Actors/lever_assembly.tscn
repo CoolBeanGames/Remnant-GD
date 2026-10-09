@@ -81,7 +81,7 @@ _data = {
 &"reset": SubResource("Animation_oj0dp")
 }
 
-[node name="Lever_Assembly" type="Node3D" unique_id=768832775 node_paths=PackedStringArray("anim", "green_light", "red_light")]
+[node name="Lever_Assembly" type="Node3D" unique_id=768832775 node_paths=PackedStringArray("anim", "green_light", "red_light") groups=["lever"]]
 script = ExtResource("1_4flna")
 anim = NodePath("AnimationPlayer")
 pull_sound = ExtResource("2_obgqa")

@@ -1,0 +1,97 @@
+[gd_scene format=3]
+
+
+[ext_resource type="Script" path="res://Scripts/Actors/fan.gd" id="1"]
+
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="2"]
+
+[ext_resource type="Resource" path="res://Data/Prompts/pickup_fan.tres" id="3"]
+
+
+[ext_resource type="Resource" path="res://Data/Prompts/carrying_rotatable.tres" id="carry"]
+
+[ext_resource type="PackedScene" path="res://Scenes/UI/build_direction.tscn" id="direction"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Art/fan.tscn" id="model"]
+
+[sub_resource type="PhysicsMaterial" id="Physics"]
+friction = 0.65
+
+[sub_resource type="BoxShape3D" id="R2"]
+size = Vector3(1.14, 0.15, 0.6)
+
+[sub_resource type="BoxShape3D" id="R4"]
+size = Vector3(0.2, 0.65, 0.2)
+
+[sub_resource type="BoxShape3D" id="R6"]
+size = Vector3(1.14, 1.1, 0.52)
+
+[sub_resource type="BoxShape3D" id="R9"]
+size = Vector3(2.8, 2.8, 8)
+
+[sub_resource type="StandardMaterial3D" id="AirMaterial"]
+shading_mode = 0
+transparency = 1
+albedo_color = Color(0.65, 0.9, 1, 0.35)
+[sub_resource type="BoxMesh" id="AirMesh"]
+size = Vector3(0.025, 0.025, 0.3)
+material = SubResource("AirMaterial")
+
+[node name="Fan" type="RigidBody3D" groups=["pick-up", "machine-immune"]]
+script = ExtResource("1")
+mass = 5.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0.15, 0.1)
+carry_prompts = ExtResource("carry")
+toggle_name = "Fan"
+build_direction_preview = ExtResource("direction")
+physics_material_override = SubResource("Physics")
+
+[node name="Anchor" type="Marker3D" parent="."]
+
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("2")
+prompts = ExtResource("3")
+
+[node name="Model" parent="." instance=ExtResource("model")]
+
+[node name="BaseCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.075, 0.1)
+shape = SubResource("R2")
+
+[node name="StemCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.4, 0.15)
+shape = SubResource("R4")
+
+[node name="HousingCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.0, -0.1)
+shape = SubResource("R6")
+
+[node name="Wind" type="Area3D" parent="."]
+position = Vector3(0, 1, -4.02)
+collision_layer = 0
+collision_mask = 1
+
+[node name="Shape" type="CollisionShape3D" parent="Wind"]
+shape = SubResource("R9")
+
+[node name="Airflow" type="CPUParticles3D" parent="."]
+position = Vector3(0, 1, -0.2)
+amount = 48
+lifetime = 1.5
+mesh = SubResource("AirMesh")
+emission_shape = 3
+emission_box_extents = Vector3(0.42, 0.42, 0.03)
+direction = Vector3(0, 0, -1)
+spread = 7.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 4.0
+initial_velocity_max = 5.0
+scale_amount_min = 0.6
+scale_amount_max = 1.0
+
+[node name="FanSound" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(0, 1, 0)
+bus = &"SFX"
+volume_db = -12.0
+max_distance = 18.0

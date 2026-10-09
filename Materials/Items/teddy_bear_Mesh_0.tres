@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://Models/items/Meshy_AI_a_teddy_bear_1009172346_texture_fbx/Meshy_AI_a_teddy_bear_1009172346_texture.png" id="1_uoowk"]
+[ext_resource type="Texture2D" path="res://Models/items/Meshy_AI_a_teddy_bear_1009172346_texture_fbx/Meshy_AI_a_teddy_bear_1009172346_texture_metallic.png" id="2_110iy"]
+[ext_resource type="Texture2D" path="res://Models/items/Meshy_AI_a_teddy_bear_1009172346_texture_fbx/Meshy_AI_a_teddy_bear_1009172346_texture_normal.png" id="3_5ao2r"]
+[ext_resource type="Texture2D" path="res://Models/items/Meshy_AI_a_teddy_bear_1009172346_texture_fbx/Meshy_AI_a_teddy_bear_1009172346_texture_roughness.png" id="4_a3gih"]
+
+[resource]
+albedo_texture = ExtResource("1_uoowk")
+metallic = 1.0
+metallic_texture = ExtResource("2_110iy")
+roughness_texture = ExtResource("4_a3gih")
+normal_enabled = true
+normal_scale = 0.6
+normal_texture = ExtResource("3_5ao2r")

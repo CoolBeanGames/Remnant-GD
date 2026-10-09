@@ -77,3 +77,10 @@ func _reset_object(object: Node) -> void:
 
 	if object.has_method(reset_method):
 		object.call(reset_method)
+
+
+func _exit_tree() -> void:
+	if register_with_blackboard and Blackboard.read_data(blackboard_name) == self:
+		Blackboard.remove_data(blackboard_name)
+	available.clear()
+	active.clear()

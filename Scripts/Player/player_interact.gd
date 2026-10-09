@@ -20,6 +20,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if Blackboard.read_data("player_input_blocked") or (Dialogue.view != null and Dialogue.view.blocks_confirm()):
+		return
 	if not Input.is_action_just_released("confirm"):
 		return
 

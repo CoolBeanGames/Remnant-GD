@@ -1,0 +1,39 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/Actors/object_manager.gd" id="manager"]
+[ext_resource type="Script" path="res://Scripts/Actors/collision_sound_matrix.gd" id="matrix"]
+[ext_resource type="Script" path="res://Scripts/Actors/CollisionSoundEntry.gd" id="entry"]
+[ext_resource type="Resource" path="res://Data/Collision Sounds/book_all.tres" id="sounds"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
+[ext_resource type="Resource" path="res://Data/Prompts/pickup_book.tres" id="look"]
+[ext_resource type="Script" path="res://Scripts/Actors/score_object.gd" id="score"]
+[ext_resource type="PackedScene" path="res://Scenes/Art/book.tscn" id="model"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/pickup_target.tscn" id="pickup_target"]
+[sub_resource type="BoxShape3D" id="Collision"]
+size = Vector3(0.36, 0.1, 0.251)
+[sub_resource type="PhysicsMaterial" id="Physics"]
+friction = 0.35
+bounce = 0.1
+[node name="Book" type="Node3D" node_paths=PackedStringArray("rb") groups=["grindable", "pick-up"]]
+script = ExtResource("manager")
+start_force = 0.0
+rb = NodePath("RigidBody3D")
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("prompts")
+prompts = ExtResource("look")
+[node name="RigidBody3D" type="RigidBody3D" parent="." groups=["pick-up", "score"]]
+mass = 0.8
+physics_material_override = SubResource("Physics")
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("matrix")
+sound_matrix = Array[ExtResource("entry")]([ExtResource("sounds")])
+[node name="Model" parent="RigidBody3D" instance=ExtResource("model")]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("Collision")
+[node name="score_object" type="Node" parent="."]
+script = ExtResource("score")
+score = 1
+mulch_value = 3
+[node name="PickupTarget" parent="RigidBody3D" instance=ExtResource("pickup_target")]
+[connection signal="body_entered" from="RigidBody3D" to="RigidBody3D" method="collide"]

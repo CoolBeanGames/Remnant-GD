@@ -1,0 +1,16 @@
+[gd_scene format=3]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/steel_plate.tscn" id="base"]
+[ext_resource type="Resource" path="res://Data/Prompts/pickup_upgraded_steel_plate.tres" id="look"]
+[ext_resource type="Resource" path="res://Data/Prompts/carrying_air_prop.tres" id="carry"]
+[node name="UpgradedPlate" instance=ExtResource("base")]
+air_placeable = true
+carry_prompts = ExtResource("carry")
+
+[node name="Prompts" parent="." index="0"]
+prompts = ExtResource("look")
+
+[node name="UpgradeLabel" type="Label3D" parent="."]
+position = Vector3(0, 0.5, 0.2)
+text = "Plate+"
+font_size = 36
+pixel_size = 0.007

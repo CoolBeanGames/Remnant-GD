@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="effect0"]
+script = ExtResource("effect")
+target = "spawner"
+property = NodePath("spawn_interval")
+operation = 1
+amount = 0.5
+[resource]
+script = ExtResource("entry")
+id = &"mulch_spawner"
+title = "Permanent Spawner Speed"
+description = "Stacks with regular upgrades. Persists across New Game. Each level doubles the bonus."
+tab = 3
+base_cost = 8
+cost_multiplier = 2.5
+max_level = 0
+effects = Array[ExtResource("effect")]([SubResource("effect0")])

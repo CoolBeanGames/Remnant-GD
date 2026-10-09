@@ -4,13 +4,12 @@ extends HBoxContainer
 @export_category("Player")
 @export var ray: raycaster
 @export var pickup: player_pickup
-@export var building: player_building
+@export var placement: prop_placement
+@export var placement_prompts: prompt_set
 
 @export_category("Presentation")
 @export var label_scene: PackedScene
 @export var carrying_prompts: prompt_set
-@export var carrying_buildable_prompts: prompt_set
-@export var placement_prompts: prompt_set
 
 var labels: Array[prompt_label] = []
 var displayed_texts: Array[String] = []
@@ -27,10 +26,10 @@ func _process(_delta: float) -> void:
 
 func get_current_prompts() -> prompt_set:
 	if pickup != null and pickup.is_holding_object():
-		if building != null and building.is_building():
+		if placement != null and placement.is_building():
 			return placement_prompts
-		if pickup.held_object is packed_buildable:
-			return carrying_buildable_prompts
+		if pickup.held_object.has_method("get_carry_prompts"):
+			return pickup.held_object.get_carry_prompts()
 		return carrying_prompts
 	if ray == null or not ray.is_looking_at_something():
 		return null
@@ -47,6 +46,29 @@ func refresh() -> void:
 			if entry != null:
 				entries.append(entry)
 				texts.append(entry.get_display_text())
+	if pickup != null and pickup.is_holding_object() and pickup.held_object is rotatable_item:
+		if placement != null and placement.is_building() and pickup.held_object.air_placeable:
+			var air_prompt := prompt_entry.new()
+			air_prompt.text = "Lock In Air"
+			air_prompt.action = &"place_in_air"
+			air_prompt.key_first = true
+			entries.append(air_prompt)
+			texts.append(air_prompt.get_display_text())
+		var axis_prompt := prompt_entry.new()
+		axis_prompt.text = "Axis: " + pickup.held_object.get_rotation_axis_name()
+		axis_prompt.action = &"rotate_axis"
+		axis_prompt.key_first = true
+		entries.append(axis_prompt)
+		texts.append(axis_prompt.get_display_text())
+	if pickup != null and pickup.is_holding_object() and pickup.held_object is switchable_prop and (placement == null or not placement.is_building()):
+		var toggle_prompt := prompt_entry.new()
+		toggle_prompt.text = "Turn Off" if pickup.held_object.powered else "Turn On"
+		toggle_prompt.action = &"confirm"
+		entries.append(toggle_prompt)
+		texts.append(toggle_prompt.get_display_text())
+	if Blackboard.read_data("player_input_blocked"):
+		entries.clear()
+		texts.clear()
 	if texts == displayed_texts:
 		visible = not texts.is_empty()
 		return

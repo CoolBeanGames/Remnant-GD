@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="collision_sound_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Actors/CollisionSoundEntry.gd" id="script"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hard_back_heavy_set_down_table_84329.wav" id="s0"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hard_back_pick_up_from_hard_ground_001_54190.wav" id="s1"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hard_back_pick_up_from_hard_ground_002_54191.wav" id="s2"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hard_back_set_down_hard_ground_001_54192.wav" id="s3"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hard_back_set_down_hard_ground_002_54193.wav" id="s4"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hard_back_set_down_hard_ground_003_54194.wav" id="s5"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hard_back_set_down_table_84330.wav" id="s6"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hardback_glossy_pages_close_77726.wav" id="s7"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Collision_Sounds/Book/zapsplat_household_book_hardback_glossy_pages_page_turn_010_77741.wav" id="s8"]
+[resource]
+script = ExtResource("script")
+name = &"Book impacts"
+group = &"*"
+volume = 0.7
+sounds = Array[AudioStream]([ExtResource("s0"), ExtResource("s1"), ExtResource("s2"), ExtResource("s3"), ExtResource("s4"), ExtResource("s5"), ExtResource("s6"), ExtResource("s7"), ExtResource("s8")])

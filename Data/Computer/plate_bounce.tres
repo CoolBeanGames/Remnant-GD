@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3 uid="uid://yhlo5ifsraen"]
+
+[ext_resource type="Script" uid="uid://bqbfjxrccwgvv" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[ext_resource type="Script" uid="uid://dl5o07aajxv84" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+
+[sub_resource type="Resource" id="Effect0"]
+script = ExtResource("effect")
+target = "plate"
+property = NodePath("physics_material_override:bounce")
+operation = 0
+amount = 0.1
+
+[resource]
+script = ExtResource("entry")
+id = &"plate_bounce"
+title = "Plate Rebound"
+description = "Future plate purchases: +0.10 bounce per level."
+base_cost = 30
+effects = Array[ExtResource("effect")]([SubResource("Effect0")])

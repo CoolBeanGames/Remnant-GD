@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://ci3oy7ni8sysi"]
 
+[ext_resource type="Script" path="res://Scripts/Player/player_wake_up.gd" id="wake_up"]
+[ext_resource type="Script" path="res://Scripts/Player/camera_breathing.gd" id="camera_breathing"]
+
 [ext_resource type="Script" uid="uid://dopt5ybemmifn" path="res://Scripts/Player/raycaster.gd" id="1_bmb2s"]
 [ext_resource type="Script" uid="uid://dnnbhrne61at7" path="res://Scripts/Player/Footstep_Audio_Player.gd" id="1_uvnfx"]
 [ext_resource type="AudioStream" uid="uid://culd8v0xi7ehl" path="res://Audio/SFX/Footsteps/Footstep_R1.wav" id="2_rqdc0"]
@@ -29,7 +32,7 @@
 [ext_resource type="Script" uid="uid://bk5h65t12flbr" path="res://Scripts/Player/player_move_controller.gd" id="26_ythyg"]
 [ext_resource type="Script" uid="uid://dhx0pwxpcthco" path="res://Scripts/Player/player_interact.gd" id="28_ur3l4"]
 [ext_resource type="Script" uid="uid://2t6n5cae53ei" path="res://Scripts/Player/player_pickup.gd" id="29_2ahak"]
-[ext_resource type="Script" path="res://Scripts/Player/player_building.gd" id="30_building"]
+[ext_resource type="Script" uid="uid://djmqfnex7by5r" path="res://Scripts/Player/prop_placement.gd" id="placement"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ig4qq"]
 
@@ -43,8 +46,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8877647, 0)
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1029817061]
 target_position = Vector3(0, 0, -3)
 script = ExtResource("1_bmb2s")
-target_groups = Array[StringName]([&"interact", &"pick-up", &"building", &"look-prompt"])
-debug_enabled = false
+target_groups = Array[StringName]([&"interact", &"pick-up", &"look-prompt"])
 
 [node name="Pickup_Position" type="Node3D" parent="Camera3D" unique_id=2105592367]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14920646, -0.14614582, -1.1632568)
@@ -62,6 +64,7 @@ right_player = NodePath("Footstep_R")
 footstep_timer = NodePath("Footstep_Timer")
 sprint_timer = 0.35
 walk_timer = 0.75
+bus = &"Footsteps"
 
 [node name="Footstep_R" type="Node3D" parent="footstep_sound_players" unique_id=1810591360]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47272938, 0, 0)
@@ -90,18 +93,24 @@ footstep_player = NodePath("../../footstep_sound_players")
 script = ExtResource("28_ur3l4")
 ray = NodePath("../../Camera3D/RayCast3D")
 pickup = NodePath("../Player_Pickup")
-debug_enabled = true
 
-[node name="Player_Pickup" type="Node" parent="Controllers" unique_id=1211459590 node_paths=PackedStringArray("ray", "hold_position", "player_body", "building")]
+[node name="Player_Pickup" type="Node" parent="Controllers" unique_id=1211459590 node_paths=PackedStringArray("ray", "hold_position", "player_body", "placement")]
 script = ExtResource("29_2ahak")
 ray = NodePath("../../Camera3D/RayCast3D")
 hold_position = NodePath("../../Camera3D/Pickup_Position")
 player_body = NodePath("../..")
-building = NodePath("../Player_Building")
-debug_enabled = true
+placement = NodePath("../Prop_Placement")
 
-[node name="Player_Building" type="Node" parent="Controllers" node_paths=PackedStringArray("pickup", "camera", "ray")]
-script = ExtResource("30_building")
+[node name="Prop_Placement" type="Node" parent="Controllers" unique_id=754338505 node_paths=PackedStringArray("pickup", "camera")]
+script = ExtResource("placement")
 pickup = NodePath("../Player_Pickup")
 camera = NodePath("../../Camera3D")
-ray = NodePath("../../Camera3D/RayCast3D")
+
+[node name="Camera_Breathing" type="Node" parent="Controllers" node_paths=PackedStringArray("camera")]
+script = ExtResource("camera_breathing")
+camera = NodePath("../../Camera3D")
+
+[node name="Wake_Up" type="Node" parent="Controllers" node_paths=PackedStringArray("player", "camera")]
+script = ExtResource("wake_up")
+player = NodePath("../..")
+camera = NodePath("../../Camera3D")

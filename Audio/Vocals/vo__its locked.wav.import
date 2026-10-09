@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ct7l12prs8mnj"
+path="res://.godot/imported/vo__its locked.wav-9c8110718cc4b41633f033d6343caf9d.sample"
+
+[deps]
+
+source_file="res://Audio/Vocals/vo__its locked.wav"
+dest_files=["res://.godot/imported/vo__its locked.wav-9c8110718cc4b41633f033d6343caf9d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

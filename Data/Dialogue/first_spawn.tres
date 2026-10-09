@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="dialogue_sequence" format=3 uid="uid://de6vtiuo5h2tm"]
+
+[ext_resource type="Script" uid="uid://c08iw1y3tl01g" path="res://Scripts/Dialogue/dialogue_line.gd" id="line"]
+[ext_resource type="Script" uid="uid://chxo6i74ojp1q" path="res://Scripts/Dialogue/dialogue_sequence.gd" id="sequence"]
+[ext_resource type="AudioStream" uid="uid://coha4puscw4oo" path="res://Audio/Vocals/vo__what the hell (intro).wav" id="voice1"]
+[ext_resource type="AudioStream" uid="uid://c5t3pb04j480n" path="res://Audio/Vocals/vo__where am I.wav" id="voice2"]
+
+[sub_resource type="Resource" id="First"]
+script = ExtResource("line")
+text = "what the hell?"
+voiceover = ExtResource("voice1")
+
+[sub_resource type="Resource" id="Second"]
+script = ExtResource("line")
+text = "where am I?"
+voiceover = ExtResource("voice2")
+
+[resource]
+script = ExtResource("sequence")
+id = &"first_spawn"
+once = true
+lines = Array[ExtResource("line")]([SubResource("First"), SubResource("Second")])

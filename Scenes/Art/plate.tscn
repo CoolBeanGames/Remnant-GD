@@ -1,0 +1,11 @@
+[gd_scene format=3]
+[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/plate_Mesh_0.res" id="mesh2"]
+[ext_resource type="Material" path="res://Materials/Items/plate_Mesh_0.tres" id="material_override2"]
+
+[node name="Model" type="Node3D" unique_id=332987251]
+metadata/source_model = "res://Models/Meshy_AI_a_small_sheet_of_corr_1009172032_texture_fbx/Meshy_AI_a_small_sheet_of_corr_1009172032_texture.fbx"
+
+[node name="Mesh_0" type="MeshInstance3D" parent="." unique_id=2053000179]
+transform = Transform3D(126.227293, -0.0885152709, -0.0698919518, 0.131833286, 95.1041029, 117.650076, -0.0192048004, -75.7148442, 61.2051868, -3.49461509e-06, -0.0105850005, -0.0123925717)
+material_override = ExtResource("material_override2")
+mesh = ExtResource("mesh2")

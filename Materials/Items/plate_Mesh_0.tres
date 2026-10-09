@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://Models/Meshy_AI_a_small_sheet_of_corr_1009172032_texture_fbx/Meshy_AI_a_small_sheet_of_corr_1009172032_texture.png" id="1_ck6k2"]
+[ext_resource type="Texture2D" path="res://Models/Meshy_AI_a_small_sheet_of_corr_1009172032_texture_fbx/Meshy_AI_a_small_sheet_of_corr_1009172032_texture_metallic.png" id="2_ixop0"]
+[ext_resource type="Texture2D" path="res://Models/Meshy_AI_a_small_sheet_of_corr_1009172032_texture_fbx/Meshy_AI_a_small_sheet_of_corr_1009172032_texture_normal.png" id="3_u2gar"]
+[ext_resource type="Texture2D" path="res://Models/Meshy_AI_a_small_sheet_of_corr_1009172032_texture_fbx/Meshy_AI_a_small_sheet_of_corr_1009172032_texture_roughness.png" id="4_kxj6r"]
+
+[resource]
+albedo_texture = ExtResource("1_ck6k2")
+metallic = 1.0
+metallic_texture = ExtResource("2_ixop0")
+roughness_texture = ExtResource("4_kxj6r")
+normal_enabled = true
+normal_scale = 0.6
+normal_texture = ExtResource("3_u2gar")

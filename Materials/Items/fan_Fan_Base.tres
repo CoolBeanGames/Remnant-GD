@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bfhpq2n1j1hmr"]
+
+[ext_resource type="Texture2D" uid="uid://duf11q4tyrbae" path="res://Models/buildings/Fan/Meshy_AI_a_room_fan_without_th_1009172228_texture.png" id="1_xh4oq"]
+[ext_resource type="Texture2D" uid="uid://c6um0oqvkgpwy" path="res://Models/buildings/Fan/Meshy_AI_a_room_fan_without_th_1009172228_texture_metallic.png" id="2_abn6o"]
+[ext_resource type="Texture2D" uid="uid://bp3mv86ypms3l" path="res://Models/buildings/Fan/Meshy_AI_a_room_fan_without_th_1009172228_texture_normal.png" id="3_k178h"]
+[ext_resource type="Texture2D" uid="uid://n24uibd8mw2e" path="res://Models/buildings/Fan/Meshy_AI_a_room_fan_without_th_1009172228_texture_roughness.png" id="4_cs1yi"]
+
+[resource]
+albedo_texture = ExtResource("1_xh4oq")
+metallic = 1.0
+metallic_texture = ExtResource("2_abn6o")
+roughness_texture = ExtResource("4_cs1yi")
+normal_enabled = true
+normal_scale = 0.6
+normal_texture = ExtResource("3_k178h")

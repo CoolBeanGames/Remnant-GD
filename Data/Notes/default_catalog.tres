@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="note_catalog" load_steps=6 format=3]
+[ext_resource type="Script" path="res://Scripts/Notes/note_catalog.gd" id="catalog"]
+[ext_resource type="Script" path="res://Scripts/Notes/note_definition.gd" id="definition"]
+[ext_resource type="Resource" path="res://Data/Notes/first_shift.tres" id="first"]
+[ext_resource type="Resource" path="res://Data/Notes/power.tres" id="power"]
+[ext_resource type="Resource" path="res://Data/Notes/door.tres" id="door"]
+[resource]
+script = ExtResource("catalog")
+notes = Array[ExtResource("definition")]([ExtResource("first"), ExtResource("power"), ExtResource("door")])

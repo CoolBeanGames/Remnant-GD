@@ -1,0 +1,35 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/Mulch/mulcher_station.gd" id="script"]
+[sub_resource type="SystemFont" id="Font"]
+font_names = PackedStringArray("Consolas", "Courier New")
+[sub_resource type="BoxShape3D" id="Shape"]
+size = Vector3(1.2, 1.1, 0.8)
+[sub_resource type="BoxMesh" id="Mesh"]
+size = Vector3(1.2, 1.1, 0.8)
+[sub_resource type="StandardMaterial3D" id="Material"]
+albedo_color = Color(0.13, 0.16, 0.12, 1)
+metallic = 0.6
+roughness = 0.8
+[node name="Mulcher" type="StaticBody3D" groups=["interact", "machine-immune"]]
+script = ExtResource("script")
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh")
+material_override = SubResource("Material")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape")
+[node name="Output" type="Marker3D" parent="."]
+position = Vector3(0, 0.55, 0.65)
+[node name="Status" type="Label3D" parent="."]
+position = Vector3(0, 0.38, 0.43)
+font = SubResource("Font")
+font_size = 34
+pixel_size = 0.002
+outline_size = 5
+text = "MULCHER"
+[node name="DamageGrid" type="Label3D" parent="."]
+position = Vector3(0, -0.12, 0.43)
+font = SubResource("Font")
+font_size = 26
+pixel_size = 0.002
+outline_size = 0
+modulate = Color(0.92, 0.87, 0.72, 1)

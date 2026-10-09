@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://Models/Note/Meshy_AI_a_message_in_a_clear__1009171459_texture.png" id="1_usqwp"]
+[ext_resource type="Texture2D" path="res://Models/Note/Meshy_AI_a_message_in_a_clear__1009171459_texture_metallic.png" id="2_50tdw"]
+[ext_resource type="Texture2D" path="res://Models/Note/Meshy_AI_a_message_in_a_clear__1009171459_texture_normal.png" id="3_jvux7"]
+
+[resource]
+transparency = 1
+albedo_color = Color(0.88, 1, 0.96, 0.26)
+albedo_texture = ExtResource("1_usqwp")
+metallic_texture = ExtResource("2_50tdw")
+roughness = 0.18
+normal_enabled = true
+normal_scale = 0.6
+normal_texture = ExtResource("3_jvux7")

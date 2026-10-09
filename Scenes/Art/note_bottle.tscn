@@ -1,0 +1,18 @@
+[gd_scene format=3]
+[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/note_bottle_bottle.res" id="mesh2"]
+[ext_resource type="Material" path="res://Materials/Items/note_bottle_bottle.tres" id="material_override2"]
+[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/note_bottle_note.res" id="mesh3"]
+[ext_resource type="Material" path="res://Materials/Items/note_bottle_note.tres" id="material_override3"]
+
+[node name="Model" type="Node3D" unique_id=410581782]
+metadata/source_model = "res://Models/Note/message_in_a_bottle.fbx"
+
+[node name="bottle" type="MeshInstance3D" parent="." unique_id=113644920]
+transform = Transform3D(63.166706, 0, 0, 0, -7.530058e-06, 63.166702, 0, -63.166702, -7.530058e-06, 0.00100739, 0.0003201875, 0.00029229803)
+material_override = ExtResource("material_override2")
+mesh = ExtResource("mesh2")
+
+[node name="note" type="MeshInstance3D" parent="." unique_id=204560008]
+transform = Transform3D(23.997232, 18.165361, 15.438587, -18.301556, 4.0323725e-06, 28.447329, 15.276892, -28.534492, 9.828373, -0.0129065355, -0.08258589, 0.00029229803)
+material_override = ExtResource("material_override3")
+mesh = ExtResource("mesh3")

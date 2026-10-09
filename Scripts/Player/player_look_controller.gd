@@ -27,16 +27,17 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if Blackboard.read_data("player_input_blocked"):
+		return
 
 	if event is InputEventMouseMotion:
 		mouse_input += event.relative
 
-	elif event is InputEventKey:
-		if event.pressed and event.keycode == quit_key:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
 
 func _process(delta: float) -> void:
+	if Blackboard.read_data("player_input_blocked"):
+		mouse_input = Vector2.ZERO
+		return
 	look(delta)
 
 	mouse_input = Vector2.ZERO
@@ -45,8 +46,8 @@ func _process(delta: float) -> void:
 func look(delta: float) -> void:
 
 	# Convert mouse movement into rotation.
-	target_rotation.y -= mouse_input.x * sensitivity.x
-	target_rotation.x -= mouse_input.y * sensitivity.y
+	target_rotation.y -= mouse_input.x * sensitivity.x * float(Settings.values.sensitivity) * (-1.0 if Settings.values.invert_x else 1.0)
+	target_rotation.x -= mouse_input.y * sensitivity.y * float(Settings.values.sensitivity) * (-1.0 if Settings.values.invert_y else 1.0)
 
 	# Prevent looking too far up/down.
 	target_rotation.x = clamp(

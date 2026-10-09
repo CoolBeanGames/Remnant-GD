@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://coha4puscw4oo"
+path="res://.godot/imported/vo__what the hell (intro).wav-bbf9bd6636c12fcb894f2b4b9861efec.sample"
+
+[deps]
+
+source_file="res://Audio/Vocals/vo__what the hell (intro).wav"
+dest_files=["res://.godot/imported/vo__what the hell (intro).wav-bbf9bd6636c12fcb894f2b4b9861efec.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

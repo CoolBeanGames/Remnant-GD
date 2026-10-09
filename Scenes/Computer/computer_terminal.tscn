@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://dgdb7704h3tdk"]
+
+[ext_resource type="Script" uid="uid://222a5aa8d5t6" path="res://Scripts/Computer/computer_terminal.gd" id="1"]
+[ext_resource type="Resource" path="res://Data/Computer/default_catalog.tres" id="catalog"]
+[ext_resource type="PackedScene" path="res://Scenes/Art/computer.tscn" id="model"]
+
+[sub_resource type="StandardMaterial3D" id="Screen"]
+shading_mode = 0
+albedo_color = Color(0.01, 0.08, 0.03, 1)
+
+[sub_resource type="QuadMesh" id="Display"]
+material = SubResource("Screen")
+size = Vector2(0.38, 0.284)
+
+[sub_resource type="StandardMaterial3D" id="Off"]
+shading_mode = 0
+albedo_color = Color(0.005, 0.007, 0.006, 1)
+
+[sub_resource type="QuadMesh" id="Offline"]
+material = SubResource("Off")
+size = Vector2(0.38, 0.284)
+
+[sub_resource type="BoxShape3D" id="Collision"]
+size = Vector3(0.7445, 1.35, 0.5634)
+
+[node name="Computer" type="StaticBody3D" unique_id=1801794339]
+script = ExtResource("1")
+catalog = ExtResource("catalog")
+
+[node name="Model" parent="." unique_id=1244409665 instance=ExtResource("model")]
+
+scale = Vector3(2.1101585185185185, 2.1101585185185185, 2.1101585185185185)
+[node name="Screen" type="MeshInstance3D" parent="." unique_id=1216180029]
+transform = Transform3D(2.1101585, 0, 0, 0, 2.1101585, 0, 0, 0, 2.1101585, -0.021101585, 1.1626973, 0.60350534)
+cast_shadow = 0
+mesh = SubResource("Display")
+
+[node name="OfflineScreen" type="MeshInstance3D" parent="." unique_id=651880102]
+transform = Transform3D(2.1101585, 0, 0, 0, 2.1101585, 0, 0, 0, 2.1101585, -0.021101585, 1.1626973, 0.60350534)
+visible = false
+cast_shadow = 0
+mesh = SubResource("Offline")
+
+[node name="Text" type="Label3D" parent="." unique_id=1662380564]
+transform = Transform3D(2.1101585, 0, 0, 0, 2.1101585, 0, 0, 0, 2.1101585, -0.021101585, 1.1626973, 0.60561549)
+pixel_size = 0.0012
+modulate = Color(0.4, 1, 0.6, 1)
+text = "WORKSHOP
+TERMINAL
+
+[E] CONNECT"
+font_size = 26
+outline_size = 0
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=653009669]
+transform = Transform3D(2.1101585, 0, 0, 0, 2.1101585, 0, 0, 0, 2.1101585, 0, 1.424357, 0)
+shape = SubResource("Collision")

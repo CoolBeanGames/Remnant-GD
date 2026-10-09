@@ -11,13 +11,9 @@ func _ready() -> void:
 
 
 func get_prompts() -> prompt_set:
-	if prompts != null:
-		return prompts
-	# Generic/repacked crates inherit the recipe's prompts without scene duplication.
-	var parent: Node = get_parent()
-	if parent is packed_buildable and parent.definition != null:
-		return parent.definition.look_prompts
-	return null
+	if get_parent().has_method("get_look_prompts"):
+		return get_parent().get_look_prompts()
+	return prompts
 
 
 static func find_for(target: Node) -> object_prompts:

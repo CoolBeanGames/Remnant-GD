@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cf27k7ot1o8ss"
+path="res://.godot/imported/vo__I thought I died.wav-834cf4f3ac1b54b76b053961f3039a90.sample"
+
+[deps]
+
+source_file="res://Audio/Vocals/vo__I thought I died.wav"
+dest_files=["res://.godot/imported/vo__I thought I died.wav-834cf4f3ac1b54b76b053961f3039a90.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

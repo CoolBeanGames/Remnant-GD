@@ -1,0 +1,11 @@
+[gd_scene format=3]
+[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/book_Mesh_0.res" id="mesh2"]
+[ext_resource type="Material" path="res://Materials/Items/book_Mesh_0.tres" id="material_override2"]
+
+[node name="Model" type="Node3D" unique_id=1449201698]
+metadata/source_model = "res://Models/items/Meshy_AI_a_book_1009172452_texture_fbx/Meshy_AI_a_book_1009172452_texture.fbx"
+
+[node name="Mesh_0" type="MeshInstance3D" parent="." unique_id=283673119]
+transform = Transform3D(42.144196, 0, 0, 0, 0, 42.144196, 0, -42.144196, 0, 0.00046265827, 0.00056429964, 0.00061030046)
+material_override = ExtResource("material_override2")
+mesh = ExtResource("mesh2")

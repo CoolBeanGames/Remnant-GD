@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="prompt_set" format=3 uid="uid://ucvmj05s4mh2"]
+
+[ext_resource type="Script" uid="uid://bemke5wgfbexu" path="res://Scripts/UI/prompt_set.gd" id="1"]
+[ext_resource type="Script" uid="uid://lojqp4d1v7g4" path="res://Scripts/UI/prompt_entry.gd" id="2"]
+
+[sub_resource type="Resource" id="P0"]
+script = ExtResource("2")
+text = "Put Down"
+action = &"pickup"
+key_first = true
+
+[sub_resource type="Resource" id="P1"]
+script = ExtResource("2")
+text = "Push"
+action = &"push"
+key_first = true
+
+[resource]
+script = ExtResource("1")
+entries = Array[ExtResource("2")]([SubResource("P0"), SubResource("P1")])

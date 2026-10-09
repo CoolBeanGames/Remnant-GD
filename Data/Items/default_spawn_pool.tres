@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="item_spawn_pool" format=3 uid="uid://dudfdiaoxtybp"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Items/beer_bottle.tscn" id="beer_bottle"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/book.tscn" id="book"]
+[ext_resource type="Script" uid="uid://dh6aqxub3dcnh" path="res://Scripts/Actors/item_spawn_pool.gd" id="pool"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/syringe.tscn" id="syringe"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/teddy_bear.tscn" id="teddy_bear"]
+[ext_resource type="PackedScene" uid="uid://0851ilsmei5g" path="res://Scenes/test_object.tscn" id="test"]
+
+[resource]
+script = ExtResource("pool")
+items = Array[PackedScene]([ExtResource("test"), ExtResource("beer_bottle"), ExtResource("book"), ExtResource("syringe"), ExtResource("teddy_bear")])

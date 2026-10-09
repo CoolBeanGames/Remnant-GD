@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://e4bplyycw7cw"
+path="res://.godot/imported/vo__is this hell.wav-68d3f96eed09627c0e0200c1c9483b90.sample"
+
+[deps]
+
+source_file="res://Audio/Vocals/vo__is this hell.wav"
+dest_files=["res://.godot/imported/vo__is this hell.wav-68d3f96eed09627c0e0200c1c9483b90.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

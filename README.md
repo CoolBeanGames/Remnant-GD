@@ -18,7 +18,8 @@ flowchart TD
     Autoloads --> FL[Flags]
     Autoloads --> SM[SceneManager]
     Autoloads --> AG[Audio / audio_global]
-    Autoloads --> BR[Buildings / placed-building registry]
+    Autoloads --> GC[GrindCombo / timed score chains]
+    Autoloads --> PR[Progression / computer upgrades and purchases]
 
     Autoloads --> MainScene[Load Main Scene: Scenes/Game.tscn]
     MainScene --> PoolNode[Child: audio_pool / Object_Pool.gd]
@@ -71,7 +72,7 @@ Remnant-GD/
 │   ├── scene_def.gd                       # Scene metadata model & node_type enum
 │   ├── scene_manager.gd                   # Dynamic scene instancer & bundle manager
 │   ├── audio_global.gd                    # Global spatial and stereo pooled audio dispatcher
-│   └── building_registry.gd               # Buildings autoload, live registry and save snapshots
+│   └── grind_combo.gd                     # Timed chain multiplier and batched score payout
 ├── Scenes/                                # Game scene definitions (.tscn)
 │   ├── Game.tscn                          # Main root entry scene (hosts audio_pool)
 │   ├── testing_level.tscn                 # 3D sandbox testing stage with lighting & fog
@@ -83,7 +84,6 @@ Remnant-GD/
 │   │   └── score_object.tscn              # Reusable child score-value component
 │   ├── Player/                            # Player actor scenes
 │   │   └── player.tscn                    # CharacterBody3D with camera, look, move, raycast, audio
-│   ├── Building/                          # Generic package, packed light, and placed work light
 │   ├── UI/                                # Reusable prompt_label.tscn styling
 │   └── model_instances/                   # Pre-composed environment & prop instances
 │       ├── game_stage_base.tscn           # Instanced FBX level geometry with 6 grinder rollers
@@ -107,15 +107,13 @@ Remnant-GD/
 │   ├── UI/                                # Prompt entries/sets, object components, labels, and display
 │   └── Player/                            # Player mechanics
 │       ├── player_look_controller.gd      # Smooth mouse-look with pitch clamping & escaping
-│       ├── player_move_controller.gd      # Kinematic WASD locomotion with sprint scaling
+│       ├── player_move_controller.gd      # CharacterBody gravity, stair climbing and WASD sprint movement
 │       ├── player_interact.gd             # Interaction input listener dispatching raycasts
 │       ├── player_pickup.gd               # Pickup/drop, charged throwing, and item consumption
-│       ├── player_building.gd             # Ghost placement, wheel rotation, and Q repacking
 │       ├── raycaster.gd                   # Group-filtered 3D raycast targeting component
 │       └── Footstep_Audio_Player.gd       # Positional 3D alternating footstep audio orchestrator
 ├── Data/                                  # Data-driven resources
-│   ├── Building/light.tres                # Floor work light recipe and anchor/rotation settings
-│   ├── Prompts/                           # Editable look-at, carrying, and placement hint resources
+│   ├── Prompts/                           # Editable look-at, carrying and rotation hint resources
 │   └── Collision Sounds/                  # Material impact sound profiles (.tres)
 │       ├── chute_sound_collisions.tres    # Whoosh audio profiles for chute collisions
 │       └── object_hit_floor.tres          # Clunk/impact audio profiles for floor collisions
@@ -320,10 +318,10 @@ audio_global.play_3d(footstep_sample, foot_position, 0.8, 1.0, "SFX")
 - **Class Name**: `ceiling_chute`
 - **Inherits**: `Node3D`
 - **UID**: `uid://di3swkqh5sn4a`
-- **Description**: Overhead industrial chute spawner. Instantiates `test_actor` (configured as `test_object.tscn`) and parents it to `Blackboard["game_root"]` at `spawn_point.global_position`.
+- **Description**: Overhead industrial chute spawner. Chooses a random scene from `item_pool` (default pool currently contains `test_object.tscn`) and parents it to `Blackboard["game_root"]` at `spawn_point.global_position`.
 - **Exported Properties**:
   - `@export var spawn_point: Node3D`: Spawn marker transform.
-  - `@export var test_actor: PackedScene`: Prefab scene to instantiate.
+  - `@export var item_pool: item_spawn_pool`: Editable pool of physical item scenes.
 
 ##### `CollisionSoundEntry.gd`
 - **Class Name**: `collision_sound_entry`
@@ -396,7 +394,7 @@ audio_global.play_3d(footstep_sample, foot_position, 0.8, 1.0, "SFX")
 ##### `player_move_controller.gd`
 - **Inherits**: `Node`
 - **UID**: `uid://bk5h65t12flbr`
-- **Description**: Kinematic WASD locomotion controller. Computes direction relative to body orientation, manages acceleration and deceleration smoothing, scales by sprint multiplier, runs `move_and_slide()`, and drives the footstep sound player cadence.
+- **Description**: CharacterBody WASD locomotion, gravity and stair-climbing controller. Computes direction relative to body orientation, manages acceleration and deceleration smoothing, scales by sprint multiplier, runs `move_and_slide()`, and drives the footstep sound player cadence.
 - **Exported Properties**:
   - `move_speed: float = 10.0` (configured in player.tscn as `2.5`).
   - `sprint_speed_mult: float = 2.0`: Speed multiplier when holding `sprint` action.
@@ -480,326 +478,100 @@ audio_global.play_3d(footstep_sample, foot_position, 0.8, 1.0, "SFX")
 
 ---
 
-## Building System (`Scripts/Building/`)
+## Manual props and timed grinding combos
 
-The test level includes a packed work light beside the player's starting position (`1.6, 0.5, -0.5`). Pick it up with **F** and carry the visible crate normally. Press **B** to hide the crate and show its building ghost, aim at a floor within **8 metres**, rotate with the **mouse wheel**, and press **B again** to place. Green ghosts are valid; red ghosts are blocked or on an unsupported surface. An invalid second B press leaves placement active so you can adjust and retry. Aim at a placed building within the player's **3 metre** interaction range and release **Q** with empty hands to return it directly to a visible held package in carrying mode. **F cancels placement back to carrying**, keeping the crate in hand and restoring its visibility. In carrying mode F drops the crate and right mouse charges/throws it. Throw input is suppressed during placement. **E** remains the ordinary interaction key.
+Run `Scenes/Game.tscn`. The testing level provides two loose fans, two loose flat steel plates and a basket. Pull the lever with E to spawn scored items, then manually guide or carry them into the grinder. Fan/plate scenes are RigidBody3D props using their visible art directly. The plate is a 2.4×2.4×0.12 m sheet with one matching collider and no T base. Fans keep their housing, stand, wind sensor and airflow particles.
 
-The light is a directional work light, so rotating it changes where it shines. Its base marker snaps to the aimed floor point with a 0.01 metre clearance. Placement accepts the `Floor` group, rejects slopes above 15 degrees, and checks the light's collision footprint against other bodies, including the player. Ghosts have translucent materials, no gameplay scripts, no collision layers, no audio, and no active lights. They never enter the save registry.
+F picks up/drops, RMB charges/throws, wheel rotates held fans/plates by 15°, and R cycles Y→Z→X axes. Pickup preserves the item's orientation relative to the camera and carries a composed orthonormal rotation. Solid carried colliders are disabled; the fan Wind sensor remains active. Fans blow loose physical objects along local -Z while held or loose. They push the CharacterBody player only when unheld, using independent wind velocity that survives normal movement deceleration. Wind decays after leaving airflow.
 
-### Building files and metadata
+Every ground item starts/extends a shared chain. First item: 1.0× and 3 seconds. Each next item adds 0.5× and refills a window shorter by 0.4 seconds, down to 0.5 seconds. Scoring items contribute their score_object value, default 1; unscored destroyed items advance the chain with zero base value. On expiry, round(sum of base values × final multiplier) is queued for accelerating one-point Blackboard score awards. Two 10-point items earn 30 points at 1.5×. A new chain resets multiplier and window. Grind.wav plays for each item; Score.wav plays loudly on SFX for each queued score award.
 
-| File | Class / autoload | Inherits | UID |
-|---|---|---|---|
-| `Global/building_registry.gd` | `Buildings` autoload (no class_name) | Node | `uid://bkx4k3sdfa02k` |
-| `Scripts/Building/buildable_definition.gd` | `buildable_definition` | Resource | `uid://dlem4bamrroli` |
-| `Scripts/Building/packed_buildable.gd` | `packed_buildable` | RigidBody3D | `uid://bdipyvcg31bb0` |
-| `Scripts/Building/buildable.gd` | `buildable` | StaticBody3D | `uid://cevw167f7deqy` |
-| `Scripts/Player/player_building.gd` | `player_building` | Node | `uid://cn7o6qrvr8b7w` |
-| `Scripts/Player/player_pickup.gd` | `player_pickup` | Node | `uid://2t6n5cae53ei` |
+Reusable Scenes/UI/combo_display.tscn pops up at the top centre with multiplier, item count, pending score, countdown text. The display has no background or bar. Expiry shows the banked points for two seconds. Labels/styles are editable in the scene.
 
-`Scenes/Building/packed_buildable.tscn` is a generic physics package. `Scenes/Building/packed_light.tscn` inherits it and assigns `Data/Building/light.tres`. That resource references `Scenes/Building/light.tscn` and the generic package. The generic package does not reference the resource, avoiding a circular scene/resource dependency. The player scene wires `Player_Building` to pickup, camera, and raycaster; the raycaster includes the `building` group. `Player_Building` handles the `build` input action (B press) for both entering placement and committing a building. `player_interact.gd` handles ordinary E interaction and blocks it while holding any item.
+Baskets keep real contained bodies, preserve their original wrapper/value, and restore physics on drop/throw/empty. F drops, RMB throws and E empties. Containment uses full collider bounds with 0.025 m contact tolerance. Fan, plate and basket are machine-immune: the grinder rejects them. physics_items.gd now lives in Scripts/Actors.
 
-### `buildable_definition.gd`: recipes and anchors
+Removed runtime: Buildings registry, ScoreRewards queue, packed crates, recipes, build sockets, automators, bounce pads, processors, conveyors, splitters, bursts, hoppers, platforms, stairs, editable building signs, and machine_sandbox. Original imported source art is retained as unused art. The ordinary manual lever, test item, score sign, audio pool and dynamic prompts remain.
 
-Each recipe provides the placement rules independently of the player controller. Floor placement is the initial policy; pipe/conveyor connector matching is future work.
-
-| Variable | Default | Purpose |
-|---|---|---|
-| `id` | empty StringName | Stable recipe identifier (`work_light` in the sample). |
-| `building_scene` | null | Scene whose root uses `buildable.gd`. |
-| `packed_scene` | null | Scene whose root uses `packed_buildable.gd`; definition is assigned when unbuilding. |
-| `preview_scene` | null | Optional alternative ghost, otherwise the building scene is used. Must share the anchor and collision footprint. |
-| `look_prompts` | null | Prompt set shown when aiming at this recipe's packed crate, including generic packages returned by Q. |
-| `anchor_path` | `Anchor` | Marker path relative to the building/preview root. Its position is placed on the surface after rotation. |
-| `surface_groups` | `[Floor]` | Allowed collider or ancestor groups; an empty array allows any group. |
-| `maximum_slope_degrees` | 15 | Maximum surface slope relative to world up. |
-| `align_to_surface` | true | Align the building's up direction to the surface normal. |
-| `surface_offset` | 0.01 | Clearance above the hit surface. |
-| `placement_distance` | 8 | Maximum placement ray distance in metres. |
-| `placement_mask` | 1 | Physics layers used for surface rays and overlap validation. |
-| `rotation_axis` | Vector3.UP | Normalized local rotation axis; zero falls back to up. |
-| `rotation_step_degrees` | 15 | Rotation for each mouse wheel tick. |
-
-`accepts_surface(collider: Node, normal: Vector3) -> bool` checks slope and walks collider ancestors to find an allowed group. No custom signals.
-
-```gdscript
-# Create an external .tres recipe in the Inspector and configure these fields.
-var recipe: buildable_definition = load("res://Data/Building/light.tres")
-print(recipe.anchor_path, recipe.rotation_axis)
-```
-
-### `packed_buildable.gd` and `buildable.gd`: item lifecycle
-
-`packed_buildable.definition` stores the recipe. `_ready()` adds `pick-up`, so the existing pickup controller can hold, drop, or throw it. A missing definition produces a warning and prevents placement. No custom signals or other public methods.
-
-`buildable.definition` retains the recipe after placement; `save_id` is a generated instance identifier that a future loader may assign before entering the tree. `_ready()` adds `building` and registers with `Buildings` when a definition exists. `_exit_tree()` unregisters on removal. `get_save_data() -> Dictionary` returns JSON-compatible values: save ID, external definition resource path, recipe ID, global position (3 numbers), and global basis (9 numbers preserving rotation and scale). No custom signals.
-
-```gdscript
-# Assign the definition before adding an authored building to the world.
-var recipe: buildable_definition = load("res://Data/Building/light.tres")
-var light: buildable = recipe.building_scene.instantiate()
-light.definition = recipe
-Blackboard.read_data("game_root").add_child(light)
-```
-
-### `building_registry.gd`: global save registry
-
-The `Buildings` autoload initializes after `Blackboard` and exposes the same mutable `Array[buildable]` at `Blackboard["buildables"]`. It contains placed instances only. Packages and ghosts are excluded, repeated registration is ignored, and unbuilding removes an entry immediately before freeing its node.
-
-| Method | Return | Purpose |
-|---|---|---|
-| `register_building(building: buildable)` | void | Append if not already registered. |
-| `unregister_building(building: buildable)` | void | Remove the instance; safe to call repeatedly. |
-| `get_save_data()` | Array[Dictionary] | Snapshot valid, nonqueued buildings into serializable records. |
-
-State: `buildables: Array[buildable] = []`. No custom signals. This implements the registry and serialization snapshot; saving/loading files is not yet implemented. Author definitions as external `.tres` resources so their paths can be resolved by a future loader.
-
-```gdscript
-var placed: Array = Blackboard.read_data("buildables")
-var save_json: String = JSON.stringify(Buildings.get_save_data())
-```
-
-### `player_building.gd`: preview and placement controller
-
-| State / reference | Purpose |
-|---|---|
-| `pickup`, `camera`, `ray` | Exported controller references wired in `player.tscn`. |
-| `valid_color`, `invalid_color` | Exported translucent green/red ghost colors. |
-| `package`, `definition`, `preview` | Current held package, its recipe, and preview node. |
-| `placement_valid`, `rotation_angle` | Current clearance result and wheel rotation in radians. |
-| `anchor_position`, `original_basis` | Preview-local anchor offset and authored root basis. |
-| `preview_material`, `preview_shapes` | Unique material and cached collision footprint. |
-| `package_hidden`, `package_original_visible` | Placement visibility override and original crate visibility restored when placement ends. |
-
-| Method | Return | Purpose |
-|---|---|---|
-| `is_building()` | bool | Whether a held package has a live preview. |
-| `start_building()` | bool | Enter placement from carrying mode: create/validate the ghost, save and hide crate visibility, and update aim. Returns false without hiding the crate when references/preview configuration are invalid. |
-| `cancel_building()` | bool | Clear placement and restore visible carrying without dropping the package; false if placement is inactive. |
-| `try_build()` | bool | Recheck aim and clearance, instantiate/register a building at the ghost transform, consume the package, and clear the ghost. Returns false without consuming on invalid placement/configuration. |
-| `try_unbuild()` | bool | With empty hands, find a targeted building, create its package, hand it to pickup, and remove the building. Returns false if references, recipe, target, or package are invalid. |
-
-The physics update tracks the held package without automatically starting a preview. The first B press calls `start_building()`; the next B press calls `try_build()`. Wheel events change recipe-local rotation only during placement. Placement rays exclude the player and every collision object in the held package hierarchy; clearance excludes the same package hierarchy while retaining the player. This includes static bodies generated inside imported models. Unsupported hits show red, missing hits hide the ghost. Dropping, throwing, consuming, changing packages, or removing the controller clears the preview and restores the crate's original visibility. Build transforms are converted into parent space before entering the scene tree, so a transformed `game_root` is supported. No custom signals.
-
-```gdscript
-# B starts placement or commits it; Q returns a building to carrying mode.
-var controller: player_building = $Player/Controllers/Player_Building
-if controller.is_building():
-    controller.try_build()
-```
-
-### Pickup API additions (`Scripts/Player/`)
-
-`player_pickup.gd` now exposes `pickup_object(target: RigidBody3D) -> bool` to receive a package directly, returning false if hands are occupied or the hold reference/target is invalid. Raycast pickup delegates to the same method. `consume_held_object(expected: RigidBody3D) -> bool` clears holding, throw charge, and collision exceptions and frees exactly the expected package; false leaves the held object alone. The existing movement, freeze restoration, F toggle, and charged right-mouse throw behavior are retained. No custom signals.
-
-Held items have collision layers and masks disabled for their entire `CollisionObject3D` hierarchy, including imported nested bodies and areas. `held_collision_state: Array[Dictionary]` snapshots each collider and its original layer/mask. Drop, throw, and consumption restore those settings and clear the snapshot; freed descendants are safely skipped. `get_held_collision_rids() -> Array[RID]` supplies every live held collider to the building controller's ray and clearance exclusions. This prevents carried crates from pushing the player or becoming placement surfaces.
-
-The exported `building` reference points at `Player_Building`. F release calls `cancel_building()` when placement is active, retaining the held crate; otherwise it keeps the normal pickup/drop toggle. Throw input is suppressed during placement. `cancel_throw_charge() -> void` clears any pending throw when placement begins so an old charge cannot leak into carrying mode.
-
-### Adding another building
-
-1. Create a scene with a `StaticBody3D` root using `buildable.gd`, visible geometry, collision shapes describing its clearance footprint, and an `Anchor` marker.
-2. Create an external `buildable_definition` `.tres`, assign its building and generic package scenes, and configure anchor, surface groups, slope, distance, physics mask, local rotation axis, and step.
-3. Create an inherited package scene and assign that definition. Place the package in the level.
-4. For an optional separate ghost scene, use the same anchor and matching collision footprint. Scripts are stripped before preview nodes enter the tree; gameplay code never runs on ghosts.
-5. Add matching wiki/README documentation and a guide log entry.
-
-### Validation
-
-Run `godot --headless --path . Tests/building_system_test.tscn`. The integration scene checks F-compatible visible carrying, first-B crate hiding and ghost activation, second-B placement, E remaining interaction-only, invalid-B retries, ghost isolation, wheel rotation, floor anchoring, transformed parents, active light placement, registry/JSON records, Q returning to carrying mode, rebuild cycles, external deletion, obstruction rejection, slope/group rules, nonzero anchors, configurable axes, missing hits, drop/throw visibility cleanup, and ordinary prop pickup/throw regression.
-
-The collision regression also checks imported and synthetic nested crate bodies, player overlap with the character kept active in Jolt, floor aiming through a held crate, hierarchy-wide RID exclusions even with collision layers enabled, exact drop/throw layer-mask restoration, and repeated pickup without snapshot accumulation.
-
-## Dynamic Look-at Prompts (`Scripts/UI/`)
-
-The testing level's existing `Prompt_Container/HBoxContainer` now uses `prompt_display.gd`. Its spacing/layout is retained; placeholder labels are replaced with instances of `Scenes/UI/prompt_label.tscn`. Every hint uses this reusable Label scene, so font, outline, color, alignment, and child visuals can be edited in one place. The display and label ignore mouse input.
-
-| Context | Prompts |
-|---|---|
-| Looking at the lever | `Pull Lever [E]` |
-| Looking at the light crate | `Pickup Light [F]` |
-| Looking at a test object | `Pickup Strange Object [F]` |
-| Carrying a crate | `[F] Drop` / `[RMB] Throw` / `[B] Build` |
-| Placing a building | `[B] Place` / `[F] Cancel` |
-| Carrying an ordinary object | `[F] Drop` / `[RMB] Throw` |
-| Looking at a placed light | `Unbuild [Q]` |
-| No target and empty hands | Hidden |
-
-Placement prompts have priority over carrying prompts, which have priority over look-at prompts. Keys are read from the action's current InputMap binding; rebinding an action updates the hint. Resource edits update dynamically without changing UI scripts. The player raycaster's debugging is disabled in `player.tscn`.
-
-### Prompt script metadata
-
-| File | Class | Inherits | UID |
-|---|---|---|---|
-| `Scripts/UI/prompt_entry.gd` | `prompt_entry` | Resource | `uid://lojqp4d1v7g4` |
-| `Scripts/UI/prompt_set.gd` | `prompt_set` | Resource | `uid://bemke5wgfbexu` |
-| `Scripts/UI/object_prompts.gd` | `object_prompts` | Node | `uid://0ojj3a5mwcai` |
-| `Scripts/UI/prompt_label.gd` | `prompt_label` | Label | `uid://b43gj5mlpu3xp` |
-| `Scripts/UI/prompt_display.gd` | `prompt_display` | HBoxContainer | `uid://dydvfnp1pg6a4` |
-
-No prompt script defines custom signals; the display samples the current target/player state each frame and only changes labels when their displayed text changes.
-
-### Prompt entries and sets
-
-`prompt_entry` describes a hint independently of UI presentation. `prompt_set` is an ordered reusable resource holding `entries: Array[prompt_entry] = []`. Null entries are skipped.
-
-| Entry variable | Default | Purpose |
-|---|---|---|
-| `text: String` | empty | Action wording, e.g. `Pull Lever`. |
-| `action: StringName` | empty | InputMap action, e.g. `confirm`, `pickup`, `build`, `throw`, or `unbuild`. |
-| `key_first: bool` | false | False formats `Pull Lever [E]`; true formats `[F] Drop`. |
-| `key_override: String` | empty | Optional fixed display label; otherwise use the action's first supported keyboard/mouse binding. |
-
-`get_display_text() -> String` renders the entry. Missing actions/bindings yield text without a key suffix. Mouse hints use `LMB`, `RMB`, and `MMB`; keyboard hints use physical keycodes when available. `prompt_set` has no public methods.
-
-```gdscript
-var entry := prompt_entry.new()
-entry.text = "Use Machine"
-entry.action = &"confirm"
-var hints := prompt_set.new()
-hints.entries.append(entry)
-```
-
-### `object_prompts.gd`: configuring object hints
-
-Add a Node using this script under a collider or one of its ancestors, then assign its exported `prompts: prompt_set`. `_ready()` adds a Node3D owner to `look-prompt`, which is included in the player raycaster's target groups. Existing interaction/pickup scripts remain separate. `find_for(target: Node) -> object_prompts` walks the looked-at node and its ancestors, finding the nearest child component. `get_prompts() -> prompt_set` returns the configured resource; an unconfigured component directly below a `packed_buildable` falls back to `definition.look_prompts`. Other unconfigured components return null.
-
-The lever and test object carry configured components in their prefabs. The generic package has a fallback component, so both the initial crate and a package returned by unbuilding show the recipe's pickup hint. The light scene provides an Unbuild hint.
-
-```gdscript
-var component := object_prompts.new()
-component.prompts = load("res://Data/Prompts/pull_lever.tres")
-$Machine.add_child(component)
-```
-
-### `prompt_label.gd`: reusable label presentation
-
-`set_prompt(entry: prompt_entry) -> void` assigns `entry.get_display_text()` to the inherited Label text. No custom state or signals. Edit `Scenes/UI/prompt_label.tscn` to change all hint styling; the default is white 22px text with a dark outline.
-
-```gdscript
-var label: prompt_label = load("res://Scenes/UI/prompt_label.tscn").instantiate()
-$HBoxContainer.add_child(label)
-label.set_prompt(load("res://Data/Prompts/pull_lever.tres").entries[0])
-```
-
-### `prompt_display.gd`: state priority and label reuse
-
-| Variable | Purpose |
-|---|---|
-| `ray`, `pickup`, `building` | Exported player references assigned on the level HBoxContainer. |
-| `label_scene` | Exported PackedScene using `prompt_label.gd`. |
-| `carrying_prompts` | Exported generic held-object prompt set. |
-| `carrying_buildable_prompts` | Exported held-crate prompt set including Build. |
-| `placement_prompts` | Exported active-placement prompt set. |
-| `labels: Array[prompt_label]` | Current reusable label instances. |
-| `displayed_texts: Array[String]` | Cached formatted hints used to avoid unnecessary UI changes. |
-
-`get_current_prompts() -> prompt_set` selects placement, carried crate, ordinary carried object, or nearest looked-at component. `refresh() -> void` updates text, reuses existing labels, adds/removes instances to match the entry count, and hides the row when empty. Missing/wrong label scenes produce a warning; unknown/freed targets produce an empty row. `_process()` calls `refresh()` automatically.
-
-```gdscript
-var display: prompt_display = $Prompt_Container/HBoxContainer
-display.placement_prompts = load("res://Data/Prompts/placement.tres")
-display.refresh()
-```
-
-### Editing and extending prompts
-
-All default text is in `Data/Prompts/`: `pull_lever.tres`, `pickup_light.tres`, `pickup_strange_object.tres`, `carrying.tres`, `carrying_buildable.tres`, `placement.tres`, and `unbuild.tres`. Add entries to a prompt set in the Inspector to show multiple hints in order. Assign sets to object components, building recipes, or the display's state slots. Add an `object_prompts` component to a new object to make it targetable and configurable without hardcoded names in the UI controller.
-
-Run `godot --headless --path . Tests/prompt_system_test.tscn`. It loads the actual testing level and verifies scene references, all requested wording, ancestor component resolution, carrying/placement priority, F cancel versus drop, RMB suppression during placement, label reuse, runtime configuration edits, key rebinding, repacked crate hints, freed targets, arbitrary prompt-only objects, viewport bounds, and disabled raycast debugging. The building regression suite also continues to pass. Reusable label styling has been rendered and visually inspected.
-
-## Grinding and Score
-
-The existing `grinding_area` Area3D in `testing_level.tscn` uses `Scripts/Level/grinding_area.gd`. Its authored volume/position is preserved, monitoring is enabled, and `body_entered` drives item destruction. It has collision layer 0 and retains its detection mask (default layer 1). Use its collision mask to select additional item physics layers.
-
-Loose rigid-body items are destroyed on entry, including crates whose imported child StaticBody3D collider enters first. Characters and ordinary static scenery are ignored. To remove a wrapper together with its physics body, put the wrapper root in `grindable` or `score`. The test-object prefab root is now `grindable`, so grinding its RigidBody3D also removes its object manager and prompts. A bare RigidBody3D needs no group to be destroyed. The enclosing level/game root is never inferred as an item owner.
-
-Items in the **`score` group** increase `Blackboard["score"]`. An optional child `score_object` supplies the amount; without one, the amount is **1**. A component alone does not make an item score: mark the item's body or logical wrapper root with `score`. Unmarked items are destroyed without points. The grinder initializes a missing score to 0, preserves an existing numeric total, and adds the amount before queuing deletion. The queued item-root check prevents double scoring across multiple colliders or grinder callbacks before deletion.
-
-### `score_object.gd`: configurable child points
+### GrindCombo API
 
 | Metadata | Value |
 |---|---|
-| File | `Scripts/Actors/score_object.gd` |
-| Class / inheritance | `score_object` / Node |
-| UID | `uid://c4fll2k7fsfr8` |
-| Reusable scene | `Scenes/Actors/score_object.tscn` |
-| Autoload | None |
-| State | Exported `score: int = 1` |
-| Signals / methods | No custom signals or methods. |
+| File | Global/grind_combo.gd |
+| Class / inheritance | No class_name / Node |
+| UID | uid://b2vhko1kxul63 |
+| Autoload | GrindCombo |
 
-Add the reusable scene as a child of the item and set its **Score** property in the Inspector. A Node using this script works equally well. The grinder prefers a direct child component, then searches within that item's descendants, so components below a physics/model wrapper are supported. Zero values are honored. When multiple components exist, the first matching component supplies the amount; values are not summed.
+Exports: initial_window: float=3, window_decrease: float=0.4, minimum_window: float=0.5, multiplier_step: float=0.5, score_sound: AudioStream=Score.wav, score_volume: float=2. Runtime: item_count/base_points: int, remaining/current_window: float. Signals: combo_changed(), combo_paid(points: int, multiplier: float, items: int).
 
-```gdscript
-# Enable scoring and give an item a custom value.
-item.add_to_group("score")
-var value: score_object = load("res://Scenes/Actors/score_object.tscn").instantiate()
-value.score = 5
-item.add_child(value)
-```
+| Method | Behavior |
+|---|---|
+| record_item(points: int) -> void | Counts a destroyed item, adds nonnegative base value, boosts multiplier and refills the shortened window. |
+| multiplier() -> float | 1 + item_count × nonnegative multiplier_step. |
+| pending_points() -> int | Rounded base_points × multiplier. |
+| _process(delta: float) -> void | Advances countdown and pays at expiry. |
+| finish_combo() -> void | Banks once, resets, plays pooled score sound and emits payout. |
+| reset() -> void | Clears pending chain without payment; game bootstrap calls this before loading the level. |
 
-### `grinding_area.gd`: item destruction and score accumulation
+### Loose fan, plate and shared physics
+
+| File | Class / inheritance | UID | Autoload |
+|---|---|---|---|
+| Scripts/Actors/rotatable_item.gd | rotatable_item / RigidBody3D | uid://dc3n6qssprqkg | None |
+| Scripts/Actors/fan.gd | No class_name / rotatable_item | uid://ixf0wp2jrttr | None |
+| Scripts/Actors/physics_items.gd | physics_items / RefCounted | uid://cc4hgy4crenub | None |
+
+rotatable_item exports carry_prompts: prompt_set and rotation_step: float=15. State: held: bool, rotation_axis: int=1, held_rotation: Basis. APIs: on_picked_up()/on_released(), get_carry_prompts() -> prompt_set, get_hold_offset() -> Vector3, get_hold_rotation() -> Basis, get_rotation_axis_name() -> String, cycle_rotation_axis(), rotate_held(direction: float). No custom signals.
+
+fan exports force: float=18, maximum_speed: float=12, player_acceleration: float=22. _physics_process(delta) reads Wind overlaps, accelerates loose rigid bodies and sends unheld player wind to Controllers/Player_Move_Controller. on_held_transform_updated() keeps Wind.collision_mask=1 after solid pickup collision disabling. Direction is -global_basis.z. Held fans skip players; reusable tools remain physical wind targets. A low custom centre of mass stabilizes its stand.
+
+physics_items APIs: rigid_body(node) resolves enclosing RigidBody3D while rejecting characters; is_loose(body) checks live/unfrozen; is_processable(body) also requires in-tree and no machine-immune group on body/logical root. item_root(body) resolves score/grindable wrappers; score_component(node) finds a score_object; collider_states(node) stores weak collision snapshots; set_collisions(states, enabled) restores them; support_extent(body, axis) measures active collider bounds.
+
+Scenes/Actors/fan.tscn and steel_plate.tscn are actual pick-up/machine-immune RigidBody3D props, with reusable pickup/carrying prompt resources. No packing, recipes, ghost or save registry is involved.
+
+### combo_display.gd and reusable popup
 
 | Metadata | Value |
 |---|---|
-| File | `Scripts/Level/grinding_area.gd` |
-| Class / inheritance | `grinding_area` / Area3D |
-| UID | `uid://bcxrh405f124t` |
+| File | Scripts/UI/combo_display.gd |
+| Class / inheritance | No class_name / CanvasLayer |
+| UID | uid://b8xldoix6nde3 |
+| Scene | Scenes/UI/combo_display.tscn |
 | Autoload | None |
-| Persistent script state | None; the total is kept in Blackboard. |
-| Inherited state | `monitoring`, `collision_layer`, and `collision_mask` control detection. |
-| Signals | Uses inherited `body_entered`; no custom signals. |
 
-`grind(body: Node3D) -> bool` processes an entering physics body, finds its enclosing RigidBody3D and optional marked wrapper, checks score-group membership between the entering collider and item root, enqueues the positive child value/default with ScoreRewards, plays grind audio, and queues the complete item for deletion. It returns true when an item is accepted and false for invalid bodies, static scenery, characters, or items already queued for deletion. Nested static colliders inside a rigid item are accepted; unrelated static bodies are not. The area connects this method to `body_entered` in `_ready()` without duplicate connections.
+Export payout_display_time: float=2. Runtime payout_time, pulse: float and last_count: int. _ready() connects GrindCombo signals; refresh() shows current multiplier/value/count/time, resetting pulse for each item; _show_payout(points, multiplier, items) shows the full banked amount and hides timer bar; _process(delta) animates pulse and dismisses payout. No custom signals. Preserve Position/Panel/Rows and child Title/Points/Countdown/Time paths. CanvasLayer layer 5 is wired into the testing level. Panel and bar ignore mouse input.
 
-`_find_rigid_body`, `_find_item_root`, `_is_scoring_item`, and `_find_score_object` are private resolution helpers. Temporary variables hold the rigid body, logical item root, optional component, and amount. ScoreRewards awards points at accelerating intervals and flushes the remainder when its delay reaches zero. Held items retain the existing disabled-collider behavior and become detectable again when dropped/thrown.
+### Pickup, movement and dynamic prompts
 
-```gdscript
-# Read the user's accumulated score from another system.
-var total: Variant = Blackboard.read_data("score")
-# Normal gameplay uses Area3D.body_entered automatically.
-$grinding_area.grind(dropped_body)
-```
+player_pickup.gd keeps F drop/pickup, charged RMB throw, collision snapshots and container hooks. _unhandled_input(event) handles wheel and R only for held rotatable_item objects. _update_held_object(delta) composes the hold marker basis with get_hold_rotation() before smoothing, then calls on_held_transform_updated() when provided. The building reference, placement cancellation and package/query helper APIs were removed.
 
-Run `godot --headless --path . Tests/grinding_system_test.tscn`. It checks score initialization/preservation, unmarked destruction, default/custom/zero values, component-only non-scoring, duplicate events, multi-body wrapper cleanup, imported crate colliders, player/scenery exclusion, real Area3D entry signals, and the saved level/prefab wiring. Building and prompt integration suites also pass.
+player_move_controller.gd exports wind_drag: float=3, with wind_velocity/applied_wind: Vector3. apply_wind(direction: Vector3, force: float, maximum_speed: float, delta: float) accumulates capped wind separately from walking. _physics_process subtracts the last applied wind from locomotion before adding current wind, retains gravity and disables floor snapping during upward wind. Gravity and ordinary stepping remain.
 
-## Score Sign and Loose Crate Physics
+object_prompts.get_prompts() returns only its configured prompt_set; recipe fallback is removed. prompt_display has ray/pickup references, label_scene and carrying_prompts. Held-object get_carry_prompts() overrides ordinary carrying; otherwise look-at providers apply. Rotatable props append a live [R] Axis hint. The player/level have no building controller. Raycast debugging is off. Reusable prompt labels, key rebinding and ancestor provider resolution remain supported.
 
-`Scenes/Actors/score_sign.tscn` uses `Scripts/Actors/score_sign.gd` on its Label3D. The sign reads `Blackboard["score"]` each frame and only changes its text when the formatted value changes. Missing/nonnumeric scores display zero. The default is eighteen digits, matching the authored sign; change **Minimum Digits** on its Label3D to choose another width. Leading zeros pad short scores, larger scores are never truncated, and negative values keep their minus sign.
+### basket.gd
 
-The label aligns left and grows to the right. On startup it shifts the text offset by half the authored centered text width, preserving the existing left edge and the sign's model, lighting, and placement.
+| Metadata | Value |
+|---|---|
+| File | Scripts/Actors/basket.gd |
+| Class / inheritance | No class_name / RigidBody3D |
+| UID | uid://broq62geh48lm |
+| Autoload | None |
 
-`score_sign` inherits Label3D, has no custom signals or autoload, and exports `minimum_digits: int = 18` (editor range 1–32). `_displayed_text: String` caches the last output. `_ready()` sets alignment/offset and refreshes immediately; `_process(delta)` calls `update_score()`, which can also be called explicitly after changing score or digit count. The script uses inherited `text`, `font`, `font_size`, `offset`, and `horizontal_alignment`.
+Exports carry_prompts: prompt_set, containment_tolerance: float=0.025. State contents: Array[Dictionary] (weak body, local pose, original freeze/mode, collider snapshot and extent), carried: bool, last_carry_pose: Transform3D. Bounds x ±0.7, y 0.15..1.1, z ±0.6, with tolerance for small contact penetrations. Fully outside/rim-intersecting items are excluded.
 
-```gdscript
-Blackboard.store_data("score", 27)
-# The default sign automatically displays 000000000000000027.
-$"Score Sign/Label3D".minimum_digits = 6
-$"Score Sign/Label3D".update_score() # 000027
-```
+contained_bodies() -> Array[RigidBody3D] finds contained loose eligible bodies. on_picked_up() captures, freezes and disables item collisions; on_held_transform_updated() follows immediately and releases externally removed bodies; _physics_process also synchronizes. on_released() synchronizes then restores collisions/freeze and inherits basket velocity. empty_contents()/interact() release all with size-aware spacing and outward velocity. get_carry_prompts() supplies F/RMB/E hints, get_hold_offset() provides carry offset, _exit_tree() restores survivors. No custom signals. Basket belongs to pick-up/interact/machine-immune.
 
-Packed buildings remain unfrozen ordinary RigidBody3D objects while loose. `packed_buildable._ready()` recursively disables descendant PhysicsBody3D collision layers/masks through `_disable_imported_colliders(parent: Node)`, leaving the root rigid collider active. Imported crate static colliders otherwise push against the enclosing rigid body and cause spontaneous motion/spinning. Author collision shapes directly under the packed rigid body; imported model bodies are visual-only. Pickup/drop/throw retain their existing collision snapshot behavior; angular motion from actual impacts remains normal physics.
+### Grinding and score components
 
-Run `godot --headless --path . Tests/score_sign_test.tscn` for live score updates, zero padding, configurable width, overflow, negative scores, imported collider suppression, and spontaneous-spin regression checks. Building, prompt, and grinding integration suites also pass.
+Scripts/Level/grinding_area.gd (grinding_area / Area3D, UID uid://bcxrh405f124t, no autoload) exports grind_sound=grind.wav and grind_volume=1. grind(body: Node3D) -> bool accepts loose processable items, rejects reusable tools/characters/scenery, resolves score/grindable wrappers and guards duplicate callbacks. Each accepted item calls GrindCombo.record_item(value), plays pooled SFX and destroys the complete wrapper. score_object child value overrides default 1 only when the item has the score group; non-scoring items add zero base value but advance the chain.
 
-## Queued Score Rewards and Grinding Audio
+Scripts/Actors/score_object.gd remains the child score-value component, with editable score: int. Scenes/Actors/score_object.tscn is reusable. score_sign.gd keeps left-aligned, leading-zero Blackboard score display; combo payment updates it once. Existing eighteen-digit default and configurable minimum_digits remain.
 
-`ScoreRewards` is an autoload using `Global/score_rewards.gd` (Node, UID `uid://bs0i77t3jtdef`, no custom signals). `enqueue(amount: int)` adds positive item rewards to a shared queue. The first award is immediate. The starting delay is 0.5 seconds and decreases by 0.02 after each award: waits are 0.48, 0.46, 0.44 seconds, and so on. Each normal award adds 1 to `Blackboard["score"]` and plays loud `Audio/SFX/Score.wav` through pooled global SFX playback. New items extend the pending queue without resetting acceleration.
+### Active scenes and regression coverage
 
-When the reduced delay reaches zero or below (with a tiny floating-point tolerance), all remaining points are added in one Blackboard update with one score sound. When the queue empties normally or by this batch, the timer stops, its elapsed-time guard clears, and the delay resets to 0.5. The next queue starts immediately at the base speed. Zero/negative rewards are ignored. Queued rewards survive deletion of source items/areas; the timer pauses with the scene tree.
+Scenes/Game.tscn hosts the audio pool and loads Scenes/testing_level.tscn. The level includes the player, chute/manual lever, grinder, score sign, ordinary prompt display, loose fan/plate props, basket and ComboDisplay. There is no machine sandbox or stock-refill rack. Fans, restored lights and plates support B/B/F ghost placement on any solid surface; Q retrieves placed props without crates.
 
-Exports: `score_sound: AudioStream`, `score_volume: float = 2.0` (linear, about +6 dB), `point_interval: float = 0.5` (base delay), and `interval_decrease: float = 0.02`. `pending_points: int` is the remaining count. `_current_interval: float` stores the accelerating delay, `_timer: Timer` is a one-shot timer, and `_next_point_time_usec: int` prevents early timer delivery from skipping the selected delay. `_ready()` sets up the timer. `_award_next_point()` reduces the delay, selects one point or the entire remaining batch, updates the total (missing/nonnumeric means zero), plays audio once and schedules the next delay or resets on completion.
-
-`grinding_area.grind()` destroys accepted items immediately and plays `Audio/SFX/grind.wav` once through pooled global SFX, including unscored items. Its exported `grind_sound: AudioStream` and `grind_volume: float = 1.0` are editable on the area. Score-group items enqueue their child score value or default 1. Duplicate queued-root events replay neither sound nor reward. The score sign reflects every normal award and the final batch.
-
-`Global/audio_global.gd` uses `Blackboard.read_data("audio_pool")` in `play_global()`. Standard pooled audio_player playback sets stream, linear volume, pitch and SFX bus, then returns the player on completion.
-
-```gdscript
-ScoreRewards.enqueue(5) # Immediate point, then shorter waits per point.
-ScoreRewards.enqueue(100) # Extend the queue; flush the rest at zero delay.
-```
-
-`Tests/score_rewards_test.tscn` checks decreasing delays, mid-count extension, batch completion at zero/negative delay, reset after normal/batch completion, duplicate suppression, sound counts, loud SFX routing, real pooled playback and return. The grinding suite checks complete queued totals separately.
+Tests/grind_combo_test.tscn checks live countdown/refill/minimum, 0.5 boosts, full payout exactly once, reset, real expiry, pooled loud SFX and popup visibility/content. Tests/grinding_system_test.tscn checks Area entry, score fallback/wrappers, duplicate callbacks, tool immunity and deferred combo payment. Tests/manual_props_test.tscn checks actual player displacement, held-player suppression, live held fan sensor, wheel/R rotation, directional loose-item wind, flat sheet collision and real settled basket capture/carry/empty. Tests/prompt_system_test.tscn checks actual level wiring, live axis hints, label reuse, overrides and rebinding. Tests/score_sign_test.tscn checks score formatting. All five suites pass and the Godot editor import reports no errors.
 
 ## Agent Maintenance Protocol
 
@@ -810,3 +582,361 @@ For future AI agents modifying this repository:
 4. Update `README.md` to reflect new or modified systems.
 5. Append every change to the running log in [`guide.txt`](guide.txt) using the format:
    `[YYYY-MM-DD][HH:MM:SS] - updated the guide to include '<script_or_feature>'`
+
+
+## Prop placement update
+
+Fans, restored lights and flat plates use B to enter ghost placement, B to place and F to cancel. Wheel rotates and R cycles local axes in both carrying and placement. Any solid surface is accepted: floors, walls, ceilings and physical props. Placed tools stay fixed relative to their support and can be picked up again with F. No crates are involved. Scripts/Player/prop_placement.gd (prop_placement / Node) owns ray, clearance, ghost and support placement. Held rotation now composes around the item local axis and applies the target basis directly to avoid multi-axis smoothing drift. Combo UI uses a compact black/white square panel, left-aligned type and a thin square countdown bar without scaling animation.
+
+
+Placement API: Scripts/Player/prop_placement.gd (class prop_placement, Node; UID uid://djmqfnex7by5r; no autoload/signals) exports pickup: player_pickup, camera: Camera3D and reach: float=6. State includes preview: Node3D, shapes: Array[Dictionary], placement_valid: bool, host: Node3D, item: rotatable_item and ghost material. is_building() -> bool, start_building() -> bool, try_build() -> bool and cancel_building() -> void implement B/B/F; Q retrieves a placed prop directly into the hand. _prepare() strips ghost scripts/groups/collision/light/particle behavior; _update_preview() raycasts any solid layer-1 surface, offsets full collider bounds outside it and checks unrelated obstacles. rotatable_item adds placed, support WeakRef and support_pose; place_on(host) fixes the prop to its support, and _physics_process follows it or releases physics when it disappears. Picking up clears support and restores loose-drop behavior. Imported static colliders are disabled so the root rigid collider owns prop physics. Fan calls the support update before applying wind and suppresses invisible ghost-mode wind. Tests/prop_placement_test.tscn verifies all three props on floor/wall/ceiling, local-axis invariance, cancellation, support movement/removal and repickup. Existing wind, combo, prompt, grinding and score tests remain active.
+
+## Text-only combos, bottom-empty basket and manual tools
+
+Combo UI now draws only white text: multiplier, item count/pending points and countdown, followed by earned total. No background, border or timer bar. The first item is 1.0×; the second is 1.5×; each further item adds 0.5×. The refilled window shrinks from 3 seconds by 0.4 seconds per item to a 0.5-second minimum. When the timer expires, the earned total joins ScoreRewards; it does not instantly change the score by the entire amount.
+
+ScoreRewards awards the first point immediately, then waits 0.5 seconds. Each subsequent point reduces the interval by 0.02 seconds. New payouts extend the active queue without resetting its speed. If the interval reaches zero or below, all remaining queued score is awarded together, and speed resets. Score.wav plays loudly through pooled SFX for each award. Grinding still plays Grind.wav per destroyed item. The score sign updates from the actual counting Blackboard score.
+
+E Empty releases basket items at their current positions with zero velocity/angular velocity. Temporary collision exceptions let them fall through the basket bottom under gravity; no forward/upward force, repositioning or spreading is added. Original collider/freeze settings and item wrappers remain intact. Exceptions clear when items leave beneath or beside the basket, or on basket deletion. Carrying still keeps the basket held after emptying.
+
+Push broom: F equips/puts down and LMB pushes. It cannot be thrown, rotated or built. The head stays on the ground in front of the player, facing the player's horizontal view. A 0.45-second stroke extends forward 0.8 m and returns. A wide Sweep sensor pushes multiple loose eligible items, capped at 7.5 m/s. Ground probing ignores loose rigid bodies so item piles do not lift the broom. Broom is machine-immune and the grinder rejects it.
+
+Upgraded fan and upgraded steel plate keep ordinary wheel/R holding controls. One V press immediately freezes the original prop at its exact current global position/rotation, without a ghost, ray or support. They remain suspended in the air and can be retrieved with F/Q; dropping a retrieved upgrade restores physics. Ordinary fans, lights and plates keep B ghost / B place / F cancel. Upgrades have distinct pickup/carrying prompts and Fan+/Plate+ labels. The saved testing level adds a broom and both upgrades without restoring props removed from the user's layout.
+
+### ScoreRewards
+
+| Metadata | Value |
+|---|---|
+| File | Global/score_rewards.gd |
+| Class / inheritance | No class_name / Node |
+| UID | uid://vpq007m5fks6 |
+| Autoload | ScoreRewards |
+
+Exports score_sound: AudioStream=Score.wav, score_volume: float=2, point_interval: float=0.5, interval_decrease: float=0.02. Runtime pending_points: int, current_interval/remaining: float. No custom signals. enqueue(points: int) -> void extends queue and starts only when idle; _process(delta) waits/decreases interval; _award() updates Blackboard score and pooled SFX; reset() clears queue and restores base interval. Game bootstrap resets both combo and queue. GrindCombo.multiplier() now uses max(item_count-1,0); finish_combo() queues pending_points and emits combo_paid for earned-total UI. Sound settings live on ScoreRewards rather than GrindCombo.
+
+### push_broom.gd and air upgrades
+
+| Metadata | Value |
+|---|---|
+| File | Scripts/Actors/push_broom.gd |
+| Class / inheritance | No class_name / RigidBody3D |
+| UID | uid://r4obti7uqlw6 |
+| Autoload / signals | None |
+| Scene | Scenes/Actors/push_broom.tscn |
+
+Exports carry_prompts: prompt_set, hold_distance: float=1.5, stroke_distance: float=0.8, push_acceleration: float=52.5, maximum_speed: float=7.5. State held: bool, stroke_time: float and direction: Vector3. can_throw() -> bool returns false; get_carry_prompts() supplies F Put Down / LMB Push. on_picked_up()/on_released() change held state; release disables Sweep. push() starts a stroke only when held/idle. _unhandled_input(event) consumes LMB push while held. update_equipped_pose(player: PhysicsBody3D, marker: Node3D, delta: float) raycasts the ground and animates head travel; _physics_process(delta) accelerates eligible bodies in Sweep during the forward stroke.
+
+player_pickup calls update_equipped_pose before ordinary carrying movement for items supplying that hook. can_throw guards both charging and direct throw_object. Broom is a normal pickup RigidBody3D with solid Head and Handle art, bottom bristles and a 1.8×0.6×1.0 m Sweep sensor; sensor works while held despite disabled solid collisions.
+
+rotatable_item exports air_placeable: bool=false. place_on(null) fixes an upgraded prop without a support; its physics update retains that pose. prop_placement.place_in_air() -> bool preserves current global_transform, releases pickup collision state and locks the original item. V input selects this path only for air_placeable props; B retains normal ghost placement. Scenes/Actors/upgraded_fan.tscn and upgraded_steel_plate.tscn inherit their standard art/physics and set the flag, carrying_air_prop and distinct pickup prompt resources. Standard surface placement remains unchanged.
+
+### Validation
+
+Tests/manual_expansion_test.tscn checks queue timing, .02 acceleration, extension without instant payment, terminal flush/reset, two gravity-settled basket items dropping without launch/repositioning, temporary collision cleanup, exact one-press air pose and retrieval, grounded broom sweeping multiple bodies, and throw/build rejection. Grind combo test now verifies first 1.0×/second 1.5×, text-only presentation and deferred point counting. Grinding integration drains the queue for correct final score. Prompt test creates its own fan fixture, preserving user scene edits. Existing manual_props, prop_placement and score_sign suites remain active: seven total suites.
+
+## Carry assemblies, transparency and upgraded placement
+
+Broom push_acceleration is now 52.5 (was 35) and maximum_speed is 7.5 (was 5): both are 50% stronger. F/LMB controls remain unchanged.
+
+player_pickup exports held_transparency: float=0.35. GeometryInstance3D transparency is applied per instance to held geometry, basket contents and attached props, preserving original values and shared materials. Existing transparency composes multiplicatively (0.1 becomes 0.415). Release restores original rendering; emptied basket items stop fading on the next carry update.
+
+Placed props are tracked through the placed-prop group. rotatable_item.is_supported_by(root: Node3D) -> bool follows weak support/ancestor chains with cycle protection; sync_support_pose() -> void follows supports without applying fan forces. Pickup collects direct/nested attached props, snapshots their collider states and disables their solid physics while carried. carry metadata suppresses attached-fan player wind while retaining Wind sensing for loose items. Original layers/masks and opacity return on drop/throw; attachments stay mounted/frozen. Collision exceptions prevent mounted props fighting their own physical support and are removed when that prop is picked up. Freed held roots restore surviving attachments; detached or emptied assemblies shed temporary carry state.
+
+New player_pickup runtime held_visual_state: Array[Dictionary] stores weak geometry/owner plus original transparency; held_attachments: Array[WeakRef] stores supported props. _set_carry_visuals(), _refresh_carry_visuals(), _belongs_to_carry(), _sync_attachments() and _restore_carry_state() manage the lifecycle. basket.get_carried_bodies() -> Array[RigidBody3D] exposes live contained bodies for carry presentation and attached-prop resolution.
+
+Upgraded fans/plates now have both placement modes: B enters the normal ghost, B places, F cancels; V (place_in_air InputMap action) locks the original prop at its exact held position and rotation without support. V also works while previewing. Wheel/R rotation remains. carrying_air_prop.tres and ghost HUD show Build plus Lock In Air hints. Ordinary props do not accept V.
+
+Tests/carry_attachment_test.tscn uses a Node runner (Tests/carry_attachment_test.gd, no class_name/autoload) to check basket→light→fan collider disabling, immediate support following, 35% fade/material preservation and exact restoration. It validates both B/B surface placement and V air placement for both upgrades and their opacity restoration. manual_expansion_test now uses V for its air-lock assertions. Eight active suites cover current behavior.
+
+## Bottom anchors and rotation restoration
+
+Scripts/Player/prop_placement.gd (class prop_placement, Node, existing UID) starts every fan/light/plate ghost with held_rotation Basis.IDENTITY and Y axis. Surface alignment maps local UP to the hit normal; collider minimum projection places the bottom against the surface, including walls/ceilings. Build-time wheel/R rotations affect the preview. Runtime carry_rotation: Basis and carry_axis: int preserve the previous carried orientation and selected axis. cancel_building restores both and the actual held basis immediately; successful placement commits the preview pose. V during an upgraded ghost locks the original carried pose, not the temporary anchor orientation. B/B/F and V controls are unchanged.
+
+Tests/prop_placement_test.tscn now checks angled carry → upright bottom ghost → exact angle/axis restoration for fan, plate and light. Tests/carry_attachment_test.tscn also checks V from a rotated ghost preserves the carried pose.
+
+## Animated start room door
+
+Scripts/Actors/start_room_door.gd: class start_room_door extends Node3D, UID uid://cwwtf2o6xs7l3, no autoload. Attached directly to testing_level/doorway_animated (Models/Door/source/doorway_animated.glb); the door remains a sibling of the disposable room.
+
+Exports open_animation: StringName=4_open_left and close_animation: StringName=4_close_left. Runtime is_open: bool, animation: AnimationPlayer, prompt_component: object_prompts. Signal opened fires when opening begins. interact() toggles open/close, ignoring repeated interaction while the animation is playing. _ready creates mesh triangle collisions which follow the imported hinge animation, registers the interact group and creates a reusable object_prompts/prompt_set/prompt_entry component. Dynamic prompts read Open Door [E] or Close Door [E] through the existing confirm action. No new player input or interaction path.
+
+Imported 0_idle_closed establishes the initial pose; the authored two-second open/close animations move the physical door clear of the doorway. The door stays interactive after room removal.
+
+## Start room visibility and exit flag
+
+Scripts/Level/start_room.gd: class start_room extends CSGCombiner3D, UID uid://4io3wicvj051, no autoload. Exports door: start_room_door, player: CharacterBody3D, camera: Camera3D, interior: CSGBox3D, darkness_threshold: float=0.015, unseen_delay: float=0.2, visibility_check_interval: float=0.1. Runtime exit_armed: bool, unseen_time: float, visibility_elapsed: float, erased: bool. Signal room_erased fires once. Public is_room_visible() -> bool returns conservative visibility of room OR door.
+
+Scene dependencies: testing_level/CSGCombiner3D has collision enabled and references the existing player/camera, sibling doorway_animated and Start_Room_Inner. A subtractive DoorOpening CSG box matches the mesh passage. Existing outer/inner room geometry, player spawn and light layout are preserved.
+
+Opening arms exit tracking. A player inside the interior bounds plus 0.35 m safety margin cannot trigger removal. Outside, visibility samples a 13x9 screen grid and actual CSG/door triangle surfaces, using camera frustum and collision rays with the player excluded. Partial visible door/room protects the room; foreground occlusion counts as unseen. Darkness is conservatively estimated from ambient, directional, omni, spot and area lights, their shadows, and exponential fog distance attenuation; it is not a rendered-pixel brightness measurement. The configurable threshold can be tuned for art/material/exposure changes. Keeping a visible light or flashlight on the room keeps it present.
+
+When both room and door are unseen continuously for 0.2 seconds, only CSGCombiner3D (including room light and collision) is queued for deletion. doorway_animated is retained and stays usable. Flags.set_flag("exited room", true) is set exactly at removal. A previously set flag skips recreating the room on scene load, retaining the door. This integrates with existing Flags; disk serialization remains future work.
+
+Tests/start_room_test.gd and .tscn (Node runner, no class/autoload) verify E prompt/ray targeting, closed/open collision, unobstructed doorway, inside protection, visible look-back, turn-away removal, darkness, retained door and existing flag loading. Other placement/carry/prompt/manual expansion tests cover integration.
+
+## Start room audio and footstep overrides
+
+Scripts/Level/start_room.gd (start_room, CSGCombiner3D, UID uid://4io3wicvj051) adds Room Audio exports footsteps: footstep_audio, left_foot_sounds/right_foot_sounds: Array[AudioStream] (empty until authored), mute_sfx_until_open: bool=true. testing_level/CSGCombiner3D references Player/footstep_sound_players. Assign room sound lists directly on CSGCombiner3D in the inspector. Interior bounds plus 0.1 m tolerance select room footsteps; outside restores normal footsteps, including when stepping out then reentering. Empty banks fall back independently to the player's normal left/right banks.
+
+On ready, unless Flags[exited room] is already true, room snapshots SFX volume and mute preference, sets its volume to -80 dB and mutes it completely. Existing world loops can continue running silently. First door opened signal restores the exact previous volume/mute before door sound dispatch; closing does not re-mute. Unloading or deleting the room before opening also restores SFX. Runtime sfx_gated: bool, previous_sfx_volume: float, previous_sfx_mute: bool; _on_door_opened(), _restore_sfx(), _update_footsteps(), _exit_tree() manage lifecycle. Saved exit flag skips the gate entirely. Footsteps retain the existing Master bus so they stay audible while SFX is gated.
+
+Scripts/Player/Footstep_Audio_Player.gd (footstep_audio, Node3D, existing UID uid://dnnbhrne61at7) now has set_sound_override(source: Node, left/right: Array[AudioStream]) -> void, clear_sound_override(source: Node) -> void and get_step_sounds(left: bool) -> Array[AudioStream]. Weak sound_override_source and override_left_sounds/override_right_sounds preserve normal exported banks without mutating them. Only the matching source clears an override; expired weak sources automatically fall back. play_L()/play_R() route the selected bank through the existing audio_global pool and existing footstep bus, volume, pitch and timing. Room teardown clears its override.
+
+Scripts/Actors/start_room_door.gd (start_room_door, Node3D, UID uid://cwwtf2o6xs7l3) adds Audio exports open_sound: AudioStream (unassigned), open_sound_volume: float=1, open_sound_pitch: float=1, open_sound_bus: StringName=SFX. Assign your clip to doorway_animated > Audio > Open Sound. After opened listeners run, audio_global.play_3d dispatches the assigned stream at the door position on SFX. Each opening plays once; interaction while animating is ignored. No sound plays until a clip is assigned.
+
+Tests/start_room_audio_test.gd/.tscn (Node runner, no class/autoload) creates the real audio pool and level, injects existing WAVs as test fixtures only, and verifies room left/right playback, audible Master footsteps during SFX mute, original -7 dB restoration before pooled door SFX, no duplicate opening sound, normal outside footsteps, reentry/fallback/teardown, close without re-mute, unload restoration of an existing mute preference and saved-exit flag bypass. start_room_test and prompt_system_test also pass.
+
+## Strange door, closing audio and room light flicker
+
+Scripts/Actors/start_room_door.gd (start_room_door extends Node3D, UID uid://cwwtf2o6xs7l3) adds close_sound: AudioStream, close_sound_volume: float=1, close_sound_pitch: float=1 and close_sound_bus: StringName=SFX. testing_level overrides the closing bus to RoomSFX, matching the user's opening sound routing. Closing dispatches one audio_global.play_3d at the door position when its animation starts. Unassigned close_sound falls back to the already assigned open_sound; set doorway_animated > Audio > Close Sound to replace it. Existing opening WAV, concrete footstep lists and player bus are preserved. Repeated interactions during either animation cannot duplicate audio; closing does not re-mute SFX.
+
+Runtime is_strange: bool=false and public mark_strange() -> void update the existing prompt_set/component immediately. start_room._physics_process calls mark_strange once the opened-room player is outside its protected interior bounds, before visibility-dependent room removal. The name stays Strange Door even if the player reenters. Existing Flags[exited room] initializes this state on load; connect_to_flag listens for flag_set and calls mark_strange. Prompts read Open Door/Close Door before exit and Open Strange Door [E]/Close Strange Door [E] after exit. Node identity/path stays doorway_animated; the room-removal flag still waits until the room actually disappears.
+
+Scripts/Level/light_flicker.gd: class light_flicker extends Light3D, UID uid://b8dj368txul6f, no autoload/signals. Attached to testing_level/CSGCombiner3D/OmniLight3D. Exports flicker_enabled: bool=true, steady_interval: Vector2=(1.5,4), off_interval: Vector2=(0.04,0.18), on_interval: Vector2=(0.03,0.12), outage_count: Vector2i=(2,5). Runtime original_energy: float, remaining: float, transitions_left: int, powered: bool and random: RandomNumberGenerator. _duration(interval: Vector2) -> float safely sorts/clamps ranges to positive durations. Irregular steady-lit intervals alternate with bursts of two to five brief full outages. Each on phase restores the authored energy; disabling or removing the component restores it as well. Light color, visibility, shadows and position are preserved. Tune these settings on the room light in the inspector. The existing visibility/darkness test uses the live light energy; inside-room deletion protection remains.
+
+Tests/start_room_audio_test injects a separate closing clip and verifies its configured RoomSFX route, immediate strange label before the exit flag, open/close prompt changes, saved-label restoration, repeated-input suppression and seeded flicker off/on/burst completion/disable restoration. Existing room and prompt integration suites pass. Footstep playback tests honor the user's selected bus and Godot's Master fallback if that bus is absent from the saved layout.
+
+## Workshop computer editing
+
+See [the authoring guide](Data/Computer/README.md) for prices, new offers, effects, delivery, UI scenes and optional audio.
+
+## Progression
+
+Global/progression.gd extends Node, UID uid://wmyou0qisasn, autoload Progression in project.godot. Signals changed and purchased(entry: computer_entry, delivered: Node3D). Runtime entries: Dictionary and levels: Dictionary; Blackboard upgrade_levels references live levels. register_catalog(catalog), level(entry), score(), purchase(entry, world, spawn_point, player) -> String, apply_effects(node, kind), apply_player(player), apply_new_prop(actor, kind), apply_spawned_value(actor) are public APIs. Empty purchase return means success; nonempty explains failure. Score is deducted only after a valid delivery or upgrade. Self requires a player; store requires a 3D scene/world/delivery point. Tier caps and available credit are checked. Generic numeric/bool effects retain per-object upgrade_base_values metadata to prevent double application. Fan/plate upgrades are snapshots for future store deliveries; apply_spawned_value is called by ceiling_chute.spawn for future scoring items. Materials are copied per purchase. Player upgrades apply immediately. No disk serialization added.
+
+
+## Catalog resources
+
+Scripts/Computer/computer_catalog.gd: class computer_catalog extends Resource, UID uid://db6sfmir5a706, entries: Array[computer_entry]. Scripts/Computer/computer_entry.gd: class computer_entry extends Resource, UID uid://dl5o07aajxv84; Tab enum MECHANICS/SELF/STORE. Exports id: StringName, title: String, description: multiline String, tab, base_cost: int, cost_multiplier: float, max_level: int, effects: Array[upgrade_effect], delivery_scene: PackedScene, delivery_kind: String (none/fan/plate/spawner). cost(level: int) -> int supports escalating_store_price, scaling opted-in store prices/upgrades and bounded nonnegative costs. Scripts/Computer/upgrade_effect.gd: class upgrade_effect extends Resource, UID uid://bqbfjxrccwgvv; exports target, property: NodePath, operation ADD/MULTIPLY/SET, amount: float. apply_value(value) preserves int/bool/float types. No signals/autoload for these resources.
+
+Data/Computer contains default_catalog.tres, six editable upgrade resources and seven store entry resources. Base prices/limits are starter balancing values. Adding resource entries automatically populates UI tabs. Read Data/Computer/README.md for the full authoring guide.
+
+# Editing the workshop computer
+
+Open `Scenes/testing_level.tscn` and select **Computer**. Press E in-game to connect; use the tabs and mouse, then Esc or Exit to close.
+
+## Catalog and prices
+
+The Computer's **Catalog** is `Data/Computer/default_catalog.tres`. Each entry is its own `.tres` in this folder. Select an entry in Godot to edit its title, description, tab (Mechanics / Self / Store), base cost, cost multiplier, and maximum level. A zero maximum is unlimited; Store entries are repeatable; selected props increase in price after each purchase.
+
+To add something, duplicate an entry, give it a unique **Id**, and add it to the catalog's Entries array. Upgrade entries need one or more Effects. Store entries need a Delivery Scene and Delivery Kind. No UI code changes are needed to add rows.
+
+## Upgrade effects
+
+Each `upgrade_effect` has a Target, Property, Operation (Add / Multiply / Set), and Amount. Examples:
+
+| Target | Property | Operation / amount | Applies to |
+| --- | --- | --- | --- |
+| fan | force | Multiply / 1.25 | New store fans only |
+| fan | maximum_speed | Multiply / 1.15 | New store fans only |
+| plate | physics_material_override:bounce | Add / 0.1 | New store plates only |
+| item_value | score | Multiply / 2 | New chute items only |
+| movement | move_speed | Multiply / 1.15 | Current player |
+| movement | jump_enabled | Set / 1 | Unlock Space jump |
+| pickup | grab_capacity | Add / 1 | Current player |
+
+Effects repeat once per purchased level and use original values as baselines. Existing fans, plates and spawned items keep their stats; do not call `Progression.apply_new_prop` on old props. Fan/plate physics materials are duplicated per purchase so shared resources cannot change old objects.
+
+For another player ability, implement an exported numeric/bool property in the appropriate controller, then target it with an effect. For another mechanical target, extend Progression's target resolver and Delivery Kind enum. Use unique entry IDs across all terminals in the session.
+
+## Delivery and artwork
+
+Move **DeliveryPoint** in the testing level to choose where purchases drop from the sky. Computer > Delivery Point and Delivery Parent can be changed independently. Store entries can reference any Node3D scene; current stock is Fan, Steel Plate, Light, Basket, Push Broom, Air Fan and Air Plate. Mark future fan/plate entries with their matching Delivery Kind to receive purchased Mechanics upgrades.
+
+`Scenes/Computer/computer_terminal.tscn` is the placeholder physical computer. Keep its root script and collider when replacing the artwork. `Scenes/UI/computer_ui.tscn` controls the overlay layout/theme and `computer_row.tscn` is the reusable offer row. Keep named control paths referenced by `computer_ui.gd` when rearranging those scenes.
+
+## Controls and state
+
+F with Multi Grab collects nearby loose items up to Grab Capacity (defaults to one); Grab Radius is adjustable on Player_Pickup. Tools and baskets remain single pickups. F drops the group; RMB throws the whole group. Extra items retain spacing, disable collisions, fade while carried, and recover their physics on release. Jump is disabled until purchased; Space only jumps while grounded. Speed upgrades affect both walking and sprinting.
+
+Purchases spend the current Blackboard `score`, including points as they arrive from the existing payout queue. `Progression.levels` and Blackboard `upgrade_levels` contain purchased tiers; disk saving remains separate. Invalid, unaffordable and completed purchases do not deduct score. UI refreshes score as payouts arrive and restores the previous mouse/input state when closed or removed.
+
+## Optional audio
+
+The Footsteps bus now sends to Game_Master directly, so the room's SFX mute does not silence walking. Your selected footstep sound banks are preserved.
+
+Fan > Optional Audio > Fan Sound accepts a clip, or assign a stream directly on its **FanSound** AudioStreamPlayer3D child. Volume and bus are configurable; its max distance is editable on the player node. The sound repeats while the fan is visible, stops during ghost placement, and resumes afterward. Empty streams are silent and safe. Both normal and upgraded fans inherit this player.
+
+Room OmniLight3D > Optional Audio > Flicker Sounds is an optional random sound bank. Each outage plays one assigned sound at the light position using the existing pool, with configurable volume/bus (RoomSFX default). An empty array or a null slot is safely skipped.
+
+## computer_terminal
+
+Scripts/Computer/computer_terminal.gd: class computer_terminal extends StaticBody3D, UID uid://222a5aa8d5t6, no autoload/signals. Exports catalog: computer_catalog, player: CharacterBody3D, delivery_point: Node3D, delivery_parent: Node, interface_scene: PackedScene default computer_ui.tscn. Runtime interface: CanvasLayer. _ready registers interact, reusable Use Computer [E] prompt, catalog and player stats. interact defers opening until tree setup finishes; buy(entry) -> String delegates transaction/delivery to Progression. _exit_tree removes the overlay, which restores input. Existing player_interact/raycaster systems are used.
+
+Scenes/Computer/computer_terminal.tscn has placeholder CRT, desk, keyboard, lit screen/3D text and solid collider. testing_level instantiates it at (2,0,5), references Player and a movable DeliveryPoint at (6,10,4), and parents deliveries to the level. It lives outside the disappearing room. Art and UI can be independently replaced.
+
+
+## computer_ui
+
+Scripts/UI/computer_ui.gd: class computer_ui extends CanvasLayer, UID uid://bjci6pu4481e4, no autoload/signals. Export row_scene: PackedScene. Runtime terminal, previous_mouse/previous_block, is_open, rows: Array[Dictionary], last_score. open(source), close(), refresh() manage the overlay, current credit, tier labels and affordability/completion buttons. _build_rows uses the editable catalog; _buy routes purchase and status text. _input handles Escape; _process refreshes on score changes and closes on lost terminal. Progression.changed triggers refresh. Gameplay is blocked and mouse released while open; both previous states are restored on close/teardown.
+
+Scenes/UI/computer_ui.tscn is a green monochrome square-border terminal with Mechanics/Self/Store tabs, live score, scrollable offers, status and Exit button. Theme/font/layout are scene resources. computer_row.tscn is a reusable HBox with title, description, tier and buy controls.
+
+
+## Purchased abilities
+
+player_move_controller exports jump_enabled: bool=false and jump_speed: float=5. Space InputMap action jump only applies grounded upward velocity after purchase and while gameplay input is enabled. Upward movement bypasses stair stepping. Move speed upgrades preserve original scene speed as baseline and affect sprinting too.
+
+player_pickup exports grab_capacity: int=1 (editor range 1..12) and grab_radius: float=1.2. Runtime extra_items: Array[Dictionary] holds weak body refs, original freeze/mode and pose relative to the main item. _collect_extra_items uses a sphere overlap sorted nearest first, deduplicates body RIDs and skips tools/baskets/other machine-immune bodies. Extra solid collisions are disabled with existing held-collider snapshots, transparency uses the primary held owner's lifecycle, and physics synchronizes their spacing. _release_extra_items restores freeze/mode, wakes bodies and clears carry metadata. F releases the whole group; RMB gives extras the same velocity as the primary item. Freed primaries also restore surviving extras through _restore_carry_state. Baseline single-item pickup behavior is preserved.
+
+Tests/computer_test.gd/.tscn (Node runner, no class/autoload) verifies catalog, deductions, future-only fan/plate/item value effects, material isolation, no duplicate application, speed, actual grounded jump, multi-grab carry/drop/throw, unaffordable purchases, tier caps, live UI credit/input restoration and blank/assigned fan/flicker audio. Ten existing suites also pass.
+
+
+## Footstep and prop audio
+
+Footsteps bus now sends to Game_Master instead of SFX, preserving reverb while bypassing the room gate. project.godot references default_bus_layout.tres by stable path. Existing concrete room banks, door RoomSFX clips and player's Footsteps route are retained.
+
+fan.gd (extends rotatable_item, UID uid://ixf0wp2jrttr) exports fan_sound: AudioStream=null, fan_sound_volume_db: float=-12, fan_sound_bus: StringName=SFX; onready fan_audio references FanSound AudioStreamPlayer3D. _ready preserves a directly assigned node stream when export is empty; _process repeats non-null streams only while visible. Blank streams or absent player nodes are silent and safe. Scenes/Actors/fan.tscn adds the local player with max_distance=18, inherited by upgraded_fan. prop_placement._prepare stops/turns off autoplay on ghost audio duplicates.
+
+light_flicker adds optional flicker_sounds: Array[AudioStream]=[], sound_volume: float=1, sound_bus: StringName=RoomSFX. Each off transition randomly chooses a stream and dispatches pooled 3D playback only if non-null. Empty arrays/null slots do nothing without warnings or crashes. Existing light timing, energy restoration and inside-room protection remain.
+
+## Staged workshop and runtime restoration
+
+`Scenes/testing_level.tscn` uses `Scripts/Level/level_sequence.gd`. Its exported delay defaults to 3 seconds after the player physically exits the room. Until then the lever/chute is disabled and its prompts are hidden. Five successful manual lever pulls enable the grinder; 30 awarded score enables the computer screen and interaction. These unlocks remain enabled after spending score.
+
+| Flag | Result |
+| --- | --- |
+| exited room | Existing visibility rule removes the room and retains the door; startup skips the room |
+| level enabled | Chute, manual lever, level and chute lights enabled |
+| grinder enabled | Grinder intake, rollers, running audio and grinder lights enabled |
+| computer enabled | Computer screen, interaction and overhead spotlight enabled |
+
+Startup reads these flags before lights initialize. A later stage implies the initial level stage. Restored lights turn on silently; live transitions play one optional pooled 3D power-on clip per light. `Scripts/Level/staged_light.gd` exports Unlock Flag, Power On Sound, Sound Volume and Sound Bus; clearing the sound is safe. The provided `Audio/SFX/light_power_on.wav` can be replaced. Spotlights preserve their authored intensity. Select the testing-level root to change delay, thresholds, system references and Kill Height (default -10).
+
+The testing level contains no loose test props. The manual chute remains available alongside store deliveries. Every base spawned scoring item is worth 1; value upgrades and combo bonuses still apply.
+
+### Automatic spawner
+
+`Scenes/Actors/automatic_spawner.tscn` is a pickup/ghost-placeable prop sold for 400 score initially. Place it using B/B/F like other props. Its Output marker determines where items appear; Item Pool determines which random scene is selected. It produces one item every 8 seconds while placed, unheld and the level is enabled. Inspector exports configure the item pool, interval, minimum interval and required flag. Empty Required Flag removes the level requirement.
+
+`Data/Computer/spawner_speed.tres` starts at 250 score, scales by 3.0, has five tiers and multiplies the interval by 0.8 each tier. This upgrade applies to existing and future spawners. The default catalog has 15 entries: four Mechanics, three Self and eight Store. Edit these resources to change prices and effects. The effect target and store delivery kind accept spawner.
+
+### Blackboard state
+
+`Global/world_state.gd` is autoloaded as WorldState. `begin(level, player, kill_height)` restores player and spawned props after tree setup. `spawn_item(scene, parent, transform, apply_value)` and `track(actor)` register runtime deliveries; `untrack(actor)` removes ground items before deletion. `capture()` updates the item array. New custom spawn paths should call spawn_item or track after adding the actor to the level or game root.
+
+Player state updates every physics tick: `player_transform` (Transform3D), `player_position` and `player_rotation` (Vector3), and `player_camera_rotation` (Vector3). Player Transform is preferred at startup; position/rotation are the fallback. Look-controller targets synchronize to the restored camera and body rotation.
+
+`spawned_items` is an Array of Dictionaries refreshed every 0.1 seconds and on registry changes. Each entry holds a stable id, scene resource path, actor transform, nested rigid-body transforms/velocities/freeze state, score value, saved mechanics properties/baselines, placement/support links, and spawner interval/cooldown. Restoration preserves purchased item properties rather than reapplying current upgrades. Held props and basket contents restore as released physics objects. `lever_pulls` and `upgrade_levels` are also restored.
+
+Items with all their rigid bodies below Kill Height are destroyed without score or grinding audio and removed from the array. Wrapper root positions do not prevent culling fallen child bodies. This is in-memory state prepared for future saving; no disk save/load is implemented.
+
+`Tests/level_progression_test.tscn` checks stages, delay, automatic output, existing-spawner speed upgrades, score-one defaults, falling cleanup, exact player/body restoration and preserved item values.
+
+# Notes, switches and pause menu
+
+## Add another note
+
+1. Duplicate a note resource in `Data/Notes`, such as `door.tres`.
+2. Give it a unique Id, a Title and its Body text in the Inspector. Body supports multiple lines.
+3. Select `Data/Notes/default_catalog.tres` and add your resource to its Notes array.
+
+Select **ceiling_chute** in `Scenes/testing_level.tscn`. **Note Drop Chance** is 0.5 for testing (50% of successful pulls). Set it to 0.01–0.03 for normal play (1–3%). This is a shared chance for a note drop; eligible notes are selected equally. Already spawned or found notes are excluded. With no eligible notes, the chute always drops its normal item. A note replaces that pull's scoring block; the automatic spawner continues to produce ordinary items.
+
+The note scene is `Scenes/Actors/note_drop.tscn`: a textured message in a partially transparent bottle with separate opaque rolled-paper material and a rounded 0.30 m collider, continuous collision detection, increased gravity and a configurable downward exit speed. It fits through the same chute as the blocks. Notes are machine-immune and grant no score. F picks up and reads a note immediately; the note leaves the world, the game pauses and the reader opens. Continue or Esc resumes play.
+
+## Journal and pause
+
+Esc opens `Scenes/UI/pause_menu.tscn`. Continue resumes, Options is a disabled placeholder, Notes lists discovered titles and their text, and Exit closes the game. Esc returns from the journal to the menu, then resumes. Mouse capture, input blocking and the prior pause state are restored on close. The computer keeps its existing Esc-to-close behavior.
+
+Blackboard **found_notes** stores an Array of Dictionaries `{id, title, body}`. Each unique Id is stored once; already found notes can still be reread without duplicates. This is in-memory data prepared for saving, not a disk save implementation. WorldState also snapshots the definition resource path for uncollected notes, so level restoration preserves their contents and physical position.
+
+## Fan and light switches
+
+Look at a fan or work light and press E to turn it off/on. The prompt follows the current state. E also toggles a held fan/light, except during building. Turning off a fan stops its imported blades, wind, particles and its optional audio; turning off a light hides its light sources. Both ordinary and upgraded fans support toggling. Blackboard spawned-item records retain the Powered state.
+
+The facing arrow lives in `Scenes/UI/build_direction.tscn`, referenced by the fan's **Build Direction Preview**. It appears only in the ghost and rotates with it. The placed and held models have no arrow. Other rotatable props can opt into a preview scene using the same exported property.
+
+The authored PC-area spotlight **ceiling_chute/LevelLight2** uses the **computer enabled** flag, so it turns on at 30 awarded score. The redundant additional spotlight was removed. Your assigned power-on sounds remain unchanged.
+
+## Combo tuning
+
+GrindCombo starts at 1.0× with a 3-second window. Each subsequent item adds 0.5× and refills a window 0.4 seconds shorter, down to 0.5 seconds. Thus multipliers are 1.0, 1.5, 2.0, 2.5... Payout still joins the accelerating one-point score queue. Tune the exported values in `Global/grind_combo.gd`.
+
+## Debugger cleanup and validation
+
+Removed the obsolete Buildings autoload referring to the deleted building_registry.gd. Interaction proxies no longer print repeatedly and safely ignore missing targets. Optional null audio streams are ignored before touching the pool, collision matrices skip empty entries, and pools unregister/clear their Blackboard state when removed. The start-room fixture now supplies an actual audio pool.
+
+`Tests/notes_and_switches_test.tscn` verifies actual chute passage, F pickup/read, deduplicated Blackboard collection, pause/journal/Esc/Continue, dropped-note and fan-state restoration, wind/light switches, ghost-only arrow, and the authored PC spotlight at 30 score. Existing combo, physics, placement, purchase, audio, prompt and score suites remain active.
+
+## Notes autoload
+
+`Global/notes.gd` extends Node, UID `uid://oeuhwghfiw60`, autoload **Notes**. Signals `note_read(note: Dictionary)` and `collection_changed()`; no exported settings or duplicate runtime collection. `all_notes() -> Array[Dictionary]` reads/validates/clones Blackboard found_notes; `has_note(id: StringName) -> bool`; `collect(note: note_definition)` saves a unique snapshot and emits the reader signal. The journal persists independently of the level. Dependencies: Blackboard, note_definition and pause_menu's signal connection.
+
+## Note resources
+
+`Scripts/Notes/note_definition.gd` is class note_definition extending Resource, UID `uid://dp7ou5pac15xo`. Exports id: StringName, title: String and multiline body: String. `snapshot() -> Dictionary` creates serializable text data. `Scripts/Notes/note_catalog.gd` is class note_catalog extending Resource, UID `uid://yypk3kgv6j3h`. Export notes: Array[note_definition]; `available()` filters blank/found definitions. No autoloads/signals/runtime state. The chute exports notes_catalog, note_drop_chance=0.5, note_scene and note_exit_speed=3.
+
+`Scripts/Actors/note_drop.gd` is class note_drop extending RigidBody3D, UID `uid://buk04abkbs3on`. Export note: note_definition; runtime collected: bool. `_ready` sets its world label; `read_note()` guards duplicate input, untracks, collects and deletes. No autoload or signals. The scene uses reusable object_prompts/read_note.tres, machine-immune and pick-up groups; player_pickup.try_pickup recognizes read_note before conventional carry handling.
+
+## Switchable props and ghost direction
+
+`Scripts/Actors/switchable_prop.gd` is class switchable_prop extending rotatable_item, UID `uid://bf7ydt82dpfrn`. Exports powered=true and toggle_name. Signal `power_changed(value: bool)`. Public `interact()`, `set_powered(value)`, `get_look_prompts()`; virtual `_apply_power()`. Adds interact group and appends an E toggle to authored pickup prompts. `Scripts/Actors/work_light.gd` extends switchable_prop, UID `uid://41vpi4kluaya`; `_apply_power` controls descendant Light3D visibility. No additional exports, signals or autoload. fan.gd also extends switchable_prop and gates force, sensor mask, particles and audio.
+
+rotatable_item exports optional build_direction_preview: PackedScene. prop_placement instantiates it after stripping scripts/collisions from the ghost; real props never receive it. object_prompts delegates get_prompts to a parent's get_look_prompts when available. prompt_display shows a held E power hint; player_pickup routes E to held switches and F to note read. WorldState persists powered under properties and note resource path under note.
+
+## Pause menu script
+
+`Scripts/UI/pause_menu.gd` is class pause_menu extending CanvasLayer, UID `uid://ciplhqtpq62j`, no autoload or exported settings/signals. Scene dependency: Scenes/UI/pause_menu.tscn, instanced by testing_level. Runtime is_open, previous_mouse/previous_block/previous_pause, pickup_reader, entries and UI references. Runs ALWAYS to receive Esc and buttons while gameplay is paused. Public open(), close(), show_main(), show_notes(); internal _select_note/_display update plain text (BBCode disabled), _on_note_read defers reader creation, _back navigates/resumes, _quit captures items and exits. Registers Blackboard pause_menu and unregisters on teardown. Notes.note_read supplies pickup readers; Notes.all_notes supplies the list. Open respects existing computer input blocking; player look no longer independently handles Esc.
+
+## Solid floor collision
+
+The imported level floor was a zero-thickness triangle mesh; small fast note capsules could pass through it despite continuous collision detection. `Scenes/model_instances/game_stage_base.tscn` now disables the inherited ground/StaticBody3D/CollisionShape3D and uses **SolidFloor**, a Floor-group StaticBody3D with four BoxShape3D slabs. They are 0.5 m thick with their top at world Y=0, preserve the authored floor extent and leave the original 3.8214 m × 8.3822 m grinder opening clear. Visual geometry, note artwork and chute geometry remain as authored.
+
+The Left/Right colliders share FloorSides; Front/Back share FloorEnds. Edit these collision shapes/positions alongside any future floor or grinder-opening model changes. The note's rounded collider and continuous collision detection remain active and can be reused with the planned bottle artwork.
+
+`Tests/floor_collision_test.tscn` verifies note impacts at 40 m/s on all four sections and a clear grinder opening. `Tests/notes_and_switches_test.tscn` now waits for the actual chute note to land, checks it remains above the floor and then checks collection; passage alone is insufficient.
+
+# Random item spawn pool
+
+The lever/chute and automatic spawner share `Data/Items/default_spawn_pool.tres`. Select it in Godot and add physical item scenes to **Items**. Each nonempty entry has an equal chance. The pool contains `Scenes/test_object.tscn` plus `Scenes/Items/beer_bottle.tscn`, `book.tscn`, `syringe.tscn` and `teddy_bear.tscn`, each with base value 1 and its own collision bank. See [imported art guide](ART.md) for materials, sounds and replacement props. Models alone are not entries: each needs a gameplay scene with rigid-body collision, pick-up/score groups, prompts, score component and collision sounds matching the test item. Keep the colliders small enough to clear the chute and enable continuous collision detection. Base item value remains 1; value upgrades still apply at spawn.
+
+Select **ceiling_chute** or a placed automatic spawner to override its **Item Pool** with another resource. Lever pulls first try the eligible-note roll (2% by default); if that roll fails or no eligible notes remain, they pick a random regular item. Automatic spawners use the item pool without notes. Null scene entries are ignored; an empty/null pool produces no regular item safely.
+
+## Notes spawn only once
+
+Blackboard **spawned_notes** stores an Array of note Id strings as soon as the physical note enters the world. These are separate from **found_notes**, which remains the picked-up journal. The note catalog excludes both already spawned and already found notes, so leaving a note on the floor cannot create duplicates. Culling an unread note below the floor or in the chute releases its spawn history; scene unload and collected notes do not. Restored world notes mark their Id as spawned too; older found-note data also suppresses duplicates without requiring spawn history.
+
+To deliberately reset a note during development, clear its Id from spawned_notes and its entry from found_notes. Set Note Drop Chance to 0.01–0.03 for production. Add new note definitions to Data/Notes/default_catalog.tres as before; each must have a unique Id.
+
+## Script API
+
+`Scripts/Actors/item_spawn_pool.gd`: class item_spawn_pool extends Resource, UID `uid://dh6aqxub3dcnh`; no autoload, signals or runtime state. Export `items: Array[PackedScene]`; `pick_item() -> PackedScene` returns a random valid entry or null. Default resource: Data/Items/default_spawn_pool.tres. ceiling_chute and automatic_spawner now export `item_pool` instead of their former single-scene properties test_actor/item_scene. WorldState.spawn_item still applies value effects, positions, tracks and restores each selected scene separately.
+
+Notes adds `has_spawned(id: StringName) -> bool` and `mark_spawned(id: StringName)`; note_drop._ready calls mark_spawned for fresh and restored drops, and collect also marks legacy journal entries. note_catalog.available uses has_spawned.
+
+`Tests/spawn_pool_test.tscn` checks unique uncollected drops, exhausted-note fallback, random selection across two physical scene types, ordinary scoring, deletion without respawn, older journal compatibility, null/empty pools and automatic output.
+
+## Doorway sky-room prototype
+
+After the initial room disappears, open the retained Strange Door and walk through it into a small isolated room 1600 metres along X at the same floor height as the workshop. Its doorway gives a perspective view and a return route. Held baskets/attachments and tracked thrown items cross with their motion; player and item space are recorded in Blackboard. Edit `Scenes/Portal/sky_test_room.tscn` and the testing level DoorPortal settings. Authoring and API: [Data/Portal/README.md](Data/Portal/README.md). Regression: `Tests/door_portal_test.tscn`.
+
+## Imported gameplay art
+
+Four textured item scenes are now in the random pool: beer bottle (glass sounds), book (book sounds), syringe (plastic sounds) and teddy bear (squeak sounds). All collision targets use their custom bank on SFX. The old computer, corrugated plate and fan replace their placeholder art; fan blades stop when off. Notes use the partially transparent bottle and separate paper materials with glass sounds. Portal colour conversion is corrected, with full-resolution and matching MSAA. See [Data/Items/ART.md](Data/Items/ART.md) for editable resources and API details. `Tests/imported_items_test.tscn` covers physics, chute flow, sound, scoring and restoration.
+
+## World messages and item handling
+
+The level now has an editable word-at-a-time message system, one-time grinder/first-note/computer warnings and a repeating unused-grinder reminder. Grinder entry returns the player to the concrete room while preserving score and world items. The initial door closes after exiting; the portal room is now at workshop floor height. Notes drop at 2%; items settle with higher friction after leaving the chute and are deleted after 30 seconds stuck inside it. Small imported items and notes have larger aim targets without larger physics colliders. Grinding clips cannot overlap. The computer size and corrected fan pivot/materials are restored. Configure **WordMessage**, **WorldGuidance** and **ceiling_chute/ChuteZone** in the testing level. Full settings/API: [Data/Level/README.md](Data/Level/README.md).
+
+Camera breathing is adjustable under **Player → Controllers → Camera_Breathing**: strength, breathing rate, smooth noise and an Enabled toggle. It pauses during menus and resets on respawn. See [camera settings](Data/Level/CAMERA.md).
+
+## Wake-up, dialogue and longer progression
+
+Startup/load and grinder respawn now fade in from a sideways floor view, rise through several body poses, look around, then restore control. The sequence is adjustable under Player / Controllers / Wake_Up. A right-wall scratch tally is added for every startup/load and death, backed by Blackboard respawn_tallies. Camera_Breathing has a stronger visible bob/roll and the gameplay camera is made current. WorldBoundary adds six invisible faces 500 m away; the portal destination moves to X1600 beyond that boundary.
+
+Dialogue is reusable through `Dialogue.play(sequence)` or `Dialogue.say(text)`. Edit Data/Dialogue resources for text, typing/hold/fade timing and optional voiceover; use Scenes/Dialogue/dialogue_trigger.tscn for player-entry/E triggers. The first spawn says "what the hell?" / "where am I?" once; grinder respawns say "I..." / "I thought I died...". Authoring/API: [dialogue guide](Data/Dialogue/README.md), [wake-up and tally settings](Data/Level/WAKE_UP.md).
+
+Notes slide through the chute with low friction and a stall nudge. Culling unread notes returns them to the spawn pool. Collision sounds share a ten-clip cap. Revised item masses put syringes below teddy bears below books. Upgrade costs now rise 3.0x per tier (3.5x for item value); fans, plates, baskets and automatic spawners rise 1.8x per purchase, while lights stay fixed. [Computer price settings](Data/Computer/README.md) remain resource-driven.
+
+## Saving and player voices
+
+The title’s New Game/Continue enters `Scenes/save_loader.tscn`, which restores the single `user://remnant.save` Blackboard/flags file, then loads Game and the testing level. Autosaves run every 10 unpaused seconds; Exit/window close/reload save too. Shared Options provides DELETE SAVE AND EXIT, which deletes the save and prevents teardown from writing it again. See [saving guide](Data/SAVING.md).
+
+Wake-up now has a slower 12.8-second look-around, timed slide/effort sounds and the recorded intro/death dialogue. E skips a line and its voice. Jumps pick a random grunt; five seconds of sprinting starts non-overlapping heavy breathing. Grinder death fades to black and finishes a random death voice before respawning. Door close audio plays when closing finishes. See [voice authoring](Data/Level/VOICE.md).
+
+## Mulch, title and Options
+
+Startup now opens the title screen: New Game / Continue (saved runs only) / Options / Exit. New Game clears the run but keeps banked mulch coins, permanent mulch tiers and settings. One save file holds both run and profile. Shared Options controls Master/SFX/Vocals/Music, mouse inversion and sensitivity; verified DELETE SAVE AND EXIT moved there from pause. See [Options](Data/OPTIONS.md) and [saving](Data/SAVING.md).
+
+The Store sells an automatically mounted Mulcher and a physical Mulch Bin. Items contribute editable 1–5 mulch values; 100 points eject a pellet, and depositing it banks one permanent coin. Wear fills the machine’s damage grid; E repairs over time for escalating score. Mechanics buys durability/efficiency; the unlocked Mulch tab adds permanent bonuses on top of regular upgrades. Scenes and prices are modular; [mulcher authoring](Data/Mulch/README.md).

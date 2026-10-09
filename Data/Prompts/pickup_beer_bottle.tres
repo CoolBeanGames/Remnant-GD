@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="prompt_set" format=3 uid="uid://0vohqrx2gwjh"]
+
+[ext_resource type="Script" uid="uid://lojqp4d1v7g4" path="res://Scripts/UI/prompt_entry.gd" id="entry"]
+[ext_resource type="Script" uid="uid://bemke5wgfbexu" path="res://Scripts/UI/prompt_set.gd" id="set"]
+
+[sub_resource type="Resource" id="Pickup"]
+script = ExtResource("entry")
+text = "Pickup Beer Bottle"
+action = &"pickup"
+
+[resource]
+script = ExtResource("set")
+entries = Array[ExtResource("entry")]([SubResource("Pickup")])

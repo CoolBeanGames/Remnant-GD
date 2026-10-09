@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://Models/Note/Meshy_AI_a_rolled_up_piece_of__1009171724_texture.png" id="1_ifclw"]
+[ext_resource type="Texture2D" path="res://Models/Note/Meshy_AI_a_rolled_up_piece_of__1009171724_texture_metallic.png" id="2_ylxjl"]
+[ext_resource type="Texture2D" path="res://Models/Note/Meshy_AI_a_rolled_up_piece_of__1009171724_texture_normal.png" id="3_jah1h"]
+[ext_resource type="Texture2D" path="res://Models/Note/Meshy_AI_a_rolled_up_piece_of__1009171724_texture_roughness.png" id="4_x17hw"]
+
+[resource]
+albedo_texture = ExtResource("1_ifclw")
+metallic = 1.0
+metallic_texture = ExtResource("2_ylxjl")
+roughness_texture = ExtResource("4_x17hw")
+normal_enabled = true
+normal_scale = 0.6
+normal_texture = ExtResource("3_jah1h")

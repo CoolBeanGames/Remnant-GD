@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3 uid="uid://c533ylejbw64h"]
+
+[ext_resource type="Script" uid="uid://bqbfjxrccwgvv" path="res://Scripts/Computer/upgrade_effect.gd" id="2_p3f4b"]
+[ext_resource type="Script" uid="uid://dl5o07aajxv84" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/steel_plate.tscn" id="scene"]
+
+[resource]
+script = ExtResource("entry")
+id = &"buy_steel_plate"
+title = "Steel Plate"
+description = "Drops from the marked delivery point above the workshop."
+tab = 2
+base_cost = 20
+cost_multiplier = 1.8
+escalating_store_price = true
+max_level = 0
+delivery_scene = ExtResource("scene")
+delivery_kind = "plate"

@@ -1,0 +1,21 @@
+[gd_scene format=3]
+[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/fan_Fan_Base.res" id="mesh2"]
+[ext_resource type="Material" path="res://Materials/Items/fan_Fan_Base.tres" id="material_override2"]
+[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/fan_Fan_Blades.res" id="mesh4"]
+[ext_resource type="Material" path="res://Materials/Items/fan_Fan_Blades.tres" id="material_override4"]
+
+[node name="Model" type="Node3D" unique_id=1530558752]
+metadata/source_model = "res://Models/buildings/Fan/Fan.fbx"
+
+[node name="Fan_Base" type="MeshInstance3D" parent="." unique_id=772803436]
+transform = Transform3D(-81.589424, 7.1327736e-06, 8.502929e-13, 0, -9.726217e-06, 81.58942, 7.132774e-06, 81.58942, 9.726217e-06, -0.0016391107, 0.7767133, -0.0001338083)
+material_override = ExtResource("material_override2")
+mesh = ExtResource("mesh2")
+
+[node name="BladePivot" type="Node3D" parent="." unique_id=788210427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00018364878, 0.97700006, -0.3526536)
+
+[node name="Fan_Blades" type="MeshInstance3D" parent="BladePivot" unique_id=618476292]
+transform = Transform3D(-81.589424, 7.1327736e-06, 8.502929e-13, 0, -9.726217e-06, 81.58942, 7.132774e-06, 81.58942, 9.726217e-06, 0, 0, 0)
+material_override = ExtResource("material_override4")
+mesh = ExtResource("mesh4")
