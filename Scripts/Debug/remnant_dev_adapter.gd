@@ -32,6 +32,7 @@ func teleport(position: Vector3) -> String:
 	if controller != null:
 		controller.wind_velocity = Vector3.ZERO
 		controller.applied_wind = Vector3.ZERO
+		controller.reset_platform_motion()
 	return result
 func set_movement_mode(mode: String, requested: String) -> String:
 	var avatar := player()

@@ -1,0 +1,102 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Actors/train_rail.gd" id="script"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
+[ext_resource type="Resource" path="res://Data/Prompts/pickup_train_rail.tres" id="look"]
+[ext_resource type="Resource" path="res://Data/Prompts/carrying_rotatable.tres" id="carry"]
+
+[sub_resource type="StandardMaterial3D" id="Steel"]
+albedo_color = Color(0.25, 0.27, 0.28, 1)
+metallic = 0.8
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="TieMaterial"]
+albedo_color = Color(0.16, 0.13, 0.11, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="RailMesh"]
+size = Vector3(0.09, 0.12, 3)
+material = SubResource("Steel")
+
+[sub_resource type="BoxShape3D" id="RailShape"]
+size = Vector3(0.09, 0.12, 3)
+
+[sub_resource type="BoxMesh" id="TieMesh"]
+size = Vector3(0.85, 0.07, 0.13)
+material = SubResource("TieMaterial")
+
+[sub_resource type="BoxMesh" id="StopMesh"]
+size = Vector3(0.72, 0.26, 0.12)
+material = SubResource("Steel")
+
+[sub_resource type="BoxShape3D" id="StopShape"]
+size = Vector3(0.72, 0.26, 0.12)
+
+[node name="TrainRail" type="RigidBody3D" groups=["pick-up", "machine-immune"]]
+mass = 6.0
+script = ExtResource("script")
+carry_prompts = ExtResource("carry")
+
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("prompts")
+prompts = ExtResource("look")
+
+[node name="LeftRail" type="MeshInstance3D" parent="."]
+position = Vector3(-0.28, 0.13, 0)
+mesh = SubResource("RailMesh")
+
+[node name="LeftRailCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-0.28, 0.13, 0)
+shape = SubResource("RailShape")
+
+[node name="RightRail" type="MeshInstance3D" parent="."]
+position = Vector3(0.28, 0.13, 0)
+mesh = SubResource("RailMesh")
+
+[node name="RightRailCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.28, 0.13, 0)
+shape = SubResource("RailShape")
+
+[node name="Tie0" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.035, -1.350)
+mesh = SubResource("TieMesh")
+
+[node name="Tie1" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.035, -0.900)
+mesh = SubResource("TieMesh")
+
+[node name="Tie2" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.035, -0.450)
+mesh = SubResource("TieMesh")
+
+[node name="Tie3" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.035, 0.000)
+mesh = SubResource("TieMesh")
+
+[node name="Tie4" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.035, 0.450)
+mesh = SubResource("TieMesh")
+
+[node name="Tie5" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.035, 0.900)
+mesh = SubResource("TieMesh")
+
+[node name="Tie6" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.035, 1.350)
+mesh = SubResource("TieMesh")
+
+[node name="FrontStop" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.13, -1.5)
+mesh = SubResource("StopMesh")
+
+[node name="FrontStopCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.13, -1.5)
+shape = SubResource("StopShape")
+
+[node name="BackStop" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.13, 1.5)
+mesh = SubResource("StopMesh")
+
+[node name="BackStopCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.13, 1.5)
+shape = SubResource("StopShape")

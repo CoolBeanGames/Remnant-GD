@@ -28,6 +28,7 @@ var original_cull_mask: int
 var original_environment: Environment
 var previous_camera_position: Vector3
 var previous_bodies: Dictionary = {}
+var graphics_revision: int = -1
 var half_turn := Transform3D(Basis(Vector3.UP, PI), Vector3.ZERO)
 
 func _ready() -> void:
@@ -72,6 +73,7 @@ func activate() -> void:
 	# display conversion instead of treating an sRGB image as linear lighting.
 	viewport.use_hdr_2d = RenderingServer.get_current_rendering_method() != "gl_compatibility"
 	add_child(viewport)
+	Settings.register_environment(room_environment)
 	portal_camera = Camera3D.new()
 	viewport.add_child(portal_camera)
 	portal_camera.current = true
@@ -121,8 +123,9 @@ func _update_view() -> void:
 	var target_size := Vector2i(maxi(2, int(size.x)), maxi(2, int(size.y)))
 	if viewport.size != target_size:
 		viewport.size = target_size
-	if viewport.msaa_3d != camera.get_viewport().msaa_3d:
-		viewport.msaa_3d = camera.get_viewport().msaa_3d
+	if graphics_revision != Settings.graphics_revision:
+		Settings.apply_viewport(viewport)
+		graphics_revision = Settings.graphics_revision
 	portal_camera.fov = camera.fov
 	portal_camera.keep_aspect = camera.keep_aspect
 	portal_camera.near = camera.near
@@ -185,6 +188,7 @@ func teleport_player(pose_map: Transform3D) -> void:
 	player.global_transform = pose_map * player.global_transform
 	player.velocity = pose_map.basis * player.velocity
 	var movement: Node = player.get_node("Controllers/Player_Move_Controller")
+	movement.reset_platform_motion()
 	for property in ["wind_velocity", "applied_wind", "velocity_target"]:
 		movement.set(property, pose_map.basis * movement.get(property))
 	var look: Node = player.get_node("Controllers/Player_Look_Controller")
@@ -216,8 +220,14 @@ func _transfer_loose_items() -> void:
 		if not is_instance_valid(actor) or actor.get_meta("carried_by_player", false):
 			previous_bodies.erase(id)
 			continue
+		# A mounted carriage is dynamic, but belongs to its support's space.
+		# Its loose/held parent crossing transfers the complete assembly instead.
+		if actor is rotatable_item and actor.placed and actor.support != null and is_instance_valid(actor.support.get_ref()):
+			previous_bodies.erase(id)
+			continue
 		var bodies: Array[RigidBody3D] = WorldState._bodies(actor)
 		if bodies.is_empty() or bodies[0].freeze:
+			previous_bodies.erase(id)
 			continue
 		var body: RigidBody3D = bodies[0]
 		var in_room: bool = actor.get_meta("portal_inside", false)
@@ -226,16 +236,53 @@ func _transfer_loose_items() -> void:
 		var previous: Vector3 = previous_bodies.get(id, body.global_position)
 		if door.is_open and crosses_aperture(from, previous, body.global_position):
 			var pose_map: Transform3D = mapping(from, to)
-			actor.global_transform = pose_map * actor.global_transform
-			for rigid in bodies:
-				rigid.linear_velocity = pose_map.basis * rigid.linear_velocity
-				rigid.angular_velocity = pose_map.basis * rigid.angular_velocity
-			portal_space.apply_actor(actor, not in_room)
-			for prop in get_tree().get_nodes_in_group("placed-prop"):
-				if prop is rotatable_item and prop != actor and prop.is_supported_by(actor):
-					portal_space.apply_actor(prop, not in_room)
-					prop.sync_support_pose()
+			_transfer_assembly(actor, pose_map, not in_room)
 		previous_bodies[id] = body.global_position
+
+func _assembly_actors(root: Node3D) -> Array[Node3D]:
+	var actors: Array[Node3D] = [root]
+	var props: Array[Node] = get_tree().get_nodes_in_group("placed-prop")
+	var index: int = 0
+	while index < actors.size():
+		var current: Node3D = actors[index]
+		if current.has_method("get_carried_bodies"):
+			for body in current.get_carried_bodies():
+				if not is_instance_valid(body):
+					continue
+				var actor: Node3D = physics_items.item_root(body)
+				if not actors.has(actor):
+					actors.append(actor)
+		for prop in props:
+			if prop is rotatable_item and not actors.has(prop) and prop.is_supported_by(current):
+				actors.append(prop)
+		index += 1
+	return actors
+
+func _transfer_assembly(root: Node3D, pose_map: Transform3D, inside_room: bool) -> void:
+	var actors: Array[Node3D] = _assembly_actors(root)
+	var poses: Array[Transform3D] = []
+	for actor in actors:
+		poses.append(actor.global_transform)
+	var moved_bodies: Dictionary = {}
+	for index in actors.size():
+		var actor: Node3D = actors[index]
+		actor.global_transform = pose_map * poses[index]
+		portal_space.apply_actor(actor, inside_room)
+		for body in WorldState._bodies(actor):
+			if not moved_bodies.has(body.get_instance_id()):
+				body.linear_velocity = pose_map.basis * body.linear_velocity
+				body.angular_velocity = pose_map.basis * body.angular_velocity
+				moved_bodies[body.get_instance_id()] = true
+	# Every container remaps its own suspended collider snapshots exactly once.
+	# Nested baskets and attached fan bags are independent saved actors.
+	for actor in actors:
+		if actor.has_method("portal_transform_contents"):
+			actor.portal_transform_contents(pose_map, inside_room)
+		var id: String = str(actor.get_meta("persistent_item_id", ""))
+		var bodies: Array[RigidBody3D] = WorldState._bodies(actor)
+		if not id.is_empty() and not bodies.is_empty():
+			# Prevent a child from crossing again later in this same actor loop.
+			previous_bodies[id] = bodies[0].global_position
 
 func _exit_tree() -> void:
 	if is_instance_valid(camera):

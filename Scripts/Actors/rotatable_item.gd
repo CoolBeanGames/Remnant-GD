@@ -39,7 +39,19 @@ func on_released() -> void:
 
 
 func get_carry_prompts() -> prompt_set:
-	return carry_prompts
+	if not air_placeable or carry_prompts == null:
+		return carry_prompts
+	var result := prompt_set.new()
+	result.entries.assign(carry_prompts.entries)
+	for entry in result.entries:
+		if entry.action == &"place_in_air":
+			return result
+	var air := prompt_entry.new()
+	air.text = "Lock In Air"
+	air.action = &"place_in_air"
+	air.key_first = true
+	result.entries.append(air)
+	return result
 
 
 func get_hold_offset() -> Vector3:

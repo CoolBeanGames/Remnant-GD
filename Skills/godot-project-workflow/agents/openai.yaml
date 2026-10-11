@@ -1,0 +1,4 @@
+interface:
+  display_name: "Godot Project Workflow"
+  short_description: "Godot gameplay, issues, tests, builds and handoff"
+  default_prompt: "Use $godot-project-workflow to complete this Godot task, review local issue reports, verify it, and follow the project delivery preferences."

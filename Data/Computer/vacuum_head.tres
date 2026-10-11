@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="Unlock"]
+script = ExtResource("effect")
+target = "fan"
+property = NodePath("vacuum_enabled")
+operation = 2
+amount = 1.0
+[resource]
+script = ExtResource("entry")
+id = &"vacuum_head"
+title = "Fan Vacuum Head"
+description = "New fans include a suction head and catch bag. H switches blow/suction; G empties the bag downward."
+base_cost = 200
+max_level = 1
+effects = Array[ExtResource("effect")]([SubResource("Unlock")])

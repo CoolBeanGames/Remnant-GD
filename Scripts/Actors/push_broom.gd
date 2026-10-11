@@ -5,9 +5,20 @@ extends RigidBody3D
 @export var stroke_distance: float = 0.8
 @export var push_acceleration: float = 52.5
 @export var maximum_speed: float = 7.5
+@export_category("Side Skirt Upgrade")
+@export var side_skirt_enabled: bool = false
+@export var gathering_acceleration: float = 18.0
 var held: bool = false
 var stroke_time: float = 0.0
 var direction: Vector3 = Vector3.FORWARD
+
+func _ready() -> void:
+	_apply_side_skirt()
+
+func _apply_side_skirt() -> void:
+	$SideSkirts.visible = side_skirt_enabled
+	$LeftGuard.disabled = not side_skirt_enabled
+	$RightGuard.disabled = not side_skirt_enabled
 
 func can_throw() -> bool:
 	return false
@@ -63,6 +74,7 @@ func update_equipped_pose(player: PhysicsBody3D, marker: Node3D, delta: float) -
 	$Sweep.collision_mask = player.collision_mask
 
 func _physics_process(delta: float) -> void:
+	_apply_side_skirt()
 	if not held or stroke_time < .27:
 		return
 	for collider in $Sweep.get_overlapping_bodies():
@@ -72,3 +84,11 @@ func _physics_process(delta: float) -> void:
 		var increase: float = minf(maxf(0, maximum_speed - body.linear_velocity.dot(direction)), push_acceleration * delta)
 		body.sleeping = false
 		body.apply_central_impulse(direction * increase * body.mass)
+		if side_skirt_enabled:
+			# Side guards gather outward-moving bodies toward the centre of the head.
+			var side: Vector3 = global_basis.x.normalized()
+			var offset: float = (body.global_position - global_position).dot(side)
+			var lateral_speed: float = body.linear_velocity.dot(side)
+			var desired: float = -signf(offset) * minf(absf(offset), .5)
+			var correction: float = clampf(desired - lateral_speed, -gathering_acceleration * delta, gathering_acceleration * delta)
+			body.apply_central_impulse(side * correction * body.mass)

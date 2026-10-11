@@ -152,6 +152,11 @@ func try_pickup() -> bool:
 func pickup_object(target: RigidBody3D) -> bool:
 	if is_holding_object() or not is_instance_valid(target) or hold_position == null:
 		return false
+	var cargo_owner: Variant = target.get_meta("rail_cargo_owner") if target.has_meta("rail_cargo_owner") else null
+	if cargo_owner is WeakRef:
+		var carriage: Object = cargo_owner.get_ref()
+		if is_instance_valid(carriage) and carriage.has_method("release_cargo_body"):
+			carriage.release_cargo_body(target)
 	held_object = target
 	if target.has_method("on_picked_up"):
 		target.on_picked_up()
@@ -245,15 +250,19 @@ func teleport_held(pose_map: Transform3D, inside: bool) -> void:
 			var actor: Node3D = physics_items.item_root(body)
 			if not actors.has(actor):
 				actors.append(actor)
-	if held_object.has_method("get_carried_bodies"):
-		for body in held_object.get_carried_bodies():
-			var actor: Node3D = physics_items.item_root(body)
-			if not actors.has(actor):
-				actors.append(actor)
 	for reference in held_attachments:
 		var actor: Node3D = reference.get_ref() as Node3D
 		if is_instance_valid(actor) and not actors.has(actor):
 			actors.append(actor)
+	var container_index: int = 0
+	while container_index < actors.size():
+		var container: Node3D = actors[container_index]
+		if container.has_method("get_carried_bodies"):
+			for body in container.get_carried_bodies():
+				var actor: Node3D = physics_items.item_root(body)
+				if is_instance_valid(actor) and not actors.has(actor):
+					actors.append(actor)
+		container_index += 1
 	var poses: Array[Transform3D] = []
 	for actor in actors:
 		poses.append(actor.global_transform)
@@ -263,8 +272,9 @@ func teleport_held(pose_map: Transform3D, inside: bool) -> void:
 	for state in held_collision_state:
 		state.layer = portal_space.remap_mask(state.layer, inside)
 		state.mask = portal_space.remap_mask(state.mask, inside)
-	if held_object.has_method("portal_transform_contents"):
-		held_object.portal_transform_contents(pose_map, inside)
+	for actor in actors:
+		if actor.has_method("portal_transform_contents"):
+			actor.portal_transform_contents(pose_map, inside)
 	if held_object.has_method("on_held_transform_updated"):
 		held_object.on_held_transform_updated()
 	_sync_attachments()
@@ -359,6 +369,9 @@ func _set_carry_visuals(node: Node, owner: Node = null) -> void:
 	if owner == null:
 		owner = node
 	if node is GeometryInstance3D:
+		for state in held_visual_state:
+			if state.node.get_ref() == node:
+				return
 		held_visual_state.append({"node": weakref(node), "owner": weakref(owner), "transparency": node.transparency})
 		node.transparency = 1.0 - (1.0 - node.transparency) * (1.0 - held_transparency)
 	for child in node.get_children():
@@ -374,6 +387,7 @@ func _refresh_carry_visuals() -> void:
 	if held_object.has_method("get_carried_bodies"):
 		for body in held_object.get_carried_bodies():
 			owners[body] = true
+			_set_carry_visuals(body)
 	for index in range(held_visual_state.size() - 1, -1, -1):
 		var state: Dictionary = held_visual_state[index]
 		if not owners.has(state.owner.get_ref()):

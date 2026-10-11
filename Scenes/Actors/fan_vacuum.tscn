@@ -1,0 +1,61 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/Actors/fan_vacuum.gd" id="script"]
+[sub_resource type="StandardMaterial3D" id="Metal"]
+albedo_color = Color(0.3, 0.33, 0.32, 1)
+metallic = 0.65
+roughness = 0.8
+[sub_resource type="StandardMaterial3D" id="Bag"]
+albedo_color = Color(0.42, 0.39, 0.31, 1)
+roughness = 1.0
+[sub_resource type="TorusMesh" id="Nozzle"]
+inner_radius = 0.36
+outer_radius = 0.5
+rings = 24
+ring_segments = 12
+material = SubResource("Metal")
+[sub_resource type="CylinderMesh" id="NozzleTube"]
+top_radius = 0.42
+bottom_radius = 0.42
+height = 0.24
+cap_top = false
+cap_bottom = false
+material = SubResource("Metal")
+[sub_resource type="BoxMesh" id="BagBack"]
+size = Vector3(0.8, 0.7, 0.06)
+material = SubResource("Bag")
+[sub_resource type="BoxMesh" id="BagSide"]
+size = Vector3(0.06, 0.7, 0.6)
+material = SubResource("Bag")
+[sub_resource type="BoxMesh" id="BagTop"]
+size = Vector3(0.8, 0.05, 0.6)
+material = SubResource("Bag")
+[sub_resource type="BoxShape3D" id="IntakeShape"]
+size = Vector3(2.8, 2.8, 3.2)
+[node name="Vacuum" type="Node3D"]
+script = ExtResource("script")
+[node name="Nozzle" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1, -0.6)
+rotation_degrees = Vector3(90, 0, 0)
+mesh = SubResource("Nozzle")
+[node name="NozzleTube" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1, -0.48)
+rotation_degrees = Vector3(90, 0, 0)
+mesh = SubResource("NozzleTube")
+[node name="BagBack" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.65, 1.15)
+mesh = SubResource("BagBack")
+[node name="BagLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.4, 0.65, 0.85)
+mesh = SubResource("BagSide")
+[node name="BagRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.4, 0.65, 0.85)
+mesh = SubResource("BagSide")
+[node name="BagTop" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1, 0.85)
+mesh = SubResource("BagTop")
+[node name="Intake" type="Area3D" parent="."]
+position = Vector3(0, 1, -1.8)
+collision_layer = 0
+collision_mask = 0
+[node name="Collision" type="CollisionShape3D" parent="Intake"]
+shape = SubResource("IntakeShape")

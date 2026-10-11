@@ -39,6 +39,9 @@ func begin(root: Node3D, avatar: CharacterBody3D, kill_y: float = -10.0) -> void
 	if look != null:
 		look.target_rotation = Vector2(camera.rotation_degrees.x, player.rotation_degrees.y)
 		look.look_rotation = look.target_rotation
+	var movement: Node = player.get_node_or_null("Controllers/Player_Move_Controller")
+	if movement != null and movement.has_method("reset_platform_motion"):
+		movement.reset_platform_motion()
 	var saved: Variant = Blackboard.read_data("spawned_items")
 	_restore.call_deferred(saved.duplicate(true) if saved is Array else [], session)
 
@@ -160,6 +163,19 @@ func _restore(records: Array, request_session: int = -1) -> void:
 			actor.place_on(host)
 		else:
 			actor.freeze = false
+	# Container links need every actor and support restored before resolving IDs.
+	for record in records:
+		if not record is Dictionary:
+			continue
+		var actor: Node3D = _actor(str(record.get("id", "")))
+		if is_instance_valid(actor) and actor.has_method("restore_rail_state"):
+			actor.restore_rail_state(record.get("rail_state", {}), _actor)
+	for record in records:
+		if not record is Dictionary:
+			continue
+		var actor: Node3D = _actor(str(record.get("id", "")))
+		if is_instance_valid(actor) and actor.has_method("restore_tool_state"):
+			actor.restore_tool_state(record.get("tool_state", {}), _actor)
 	tracking = true
 	capture()
 	DevTools.log_info("World restored / %d items" % items.size(), "world")
@@ -246,7 +262,7 @@ func capture() -> void:
 	var carried_body_ids: Dictionary = {}
 	for id in items:
 		var container: Node3D = _actor(id)
-		if is_instance_valid(container) and container.get_meta("carried_by_player", false) and container.has_method("get_carried_bodies"):
+		if is_instance_valid(container) and container.has_method("get_carried_bodies"):
 			for body in container.get_carried_bodies():
 				carried_body_ids[body.get_instance_id()] = true
 	for id in items:
@@ -259,6 +275,20 @@ func capture() -> void:
 			record.note = actor.note.resource_path
 		if actor is switchable_prop:
 			record.properties["powered"] = actor.powered
+		if actor.has_method("cycle_lens"):
+			record.properties["lens_index"] = actor.get("lens_index")
+		if actor.has_method("get_tool_state"):
+			record.tool_state = actor.get_tool_state()
+			record.properties["vacuum_mode"] = actor.get("vacuum_mode")
+			record.properties["swivel_active"] = actor.get("swivel_active")
+		if actor.has_method("get_rail_state"):
+			record.rail_state = actor.get_rail_state()
+		if actor is train_rail:
+			for property in ["rail_length", "carriage_height", "end_margin", "connection_tolerance"]:
+				record.properties[property] = actor.get(property)
+		if actor is rail_slider:
+			for property in ["travel_damping", "deck_half_size", "deck_surface", "cargo_tolerance"]:
+				record.properties[property] = actor.get(property)
 		for property in record.bases:
 			record.properties[property] = actor.get_indexed(NodePath(property))
 		for property in ["spawn_interval", "remaining"]:

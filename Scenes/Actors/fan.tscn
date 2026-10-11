@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/UI/build_direction.tscn" id="direction"]
 
 [ext_resource type="PackedScene" path="res://Scenes/Art/fan.tscn" id="model"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/fan_vacuum.tscn" id="vacuum"]
 
 [sub_resource type="PhysicsMaterial" id="Physics"]
 friction = 0.65
@@ -95,3 +96,6 @@ position = Vector3(0, 1, 0)
 bus = &"SFX"
 volume_db = -12.0
 max_distance = 18.0
+
+[node name="Vacuum" parent="." instance=ExtResource("vacuum")]
+visible = false

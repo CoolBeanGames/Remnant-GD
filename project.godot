@@ -131,6 +131,28 @@ jump={
 ]
 }
 
+empty_tool={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":71)
+]
+}
+toggle_fan_mode={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":72)
+]
+}
+
+toggle_fan_swivel={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":74)
+]
+}
+cycle_light_colour={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":76)
+]
+}
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

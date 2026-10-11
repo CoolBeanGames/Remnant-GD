@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/rail_slider.tscn" id="scene"]
+[resource]
+script = ExtResource("entry")
+id = &"buy_rail_slider"
+title = "Rail Slider"
+description = "Mount on a rail with B. Carries resting objects and attached props; a mounted fan propels it."
+tab = 2
+base_cost = 65
+cost_multiplier = 1.8
+escalating_store_price = true
+max_level = 0
+delivery_scene = ExtResource("scene")

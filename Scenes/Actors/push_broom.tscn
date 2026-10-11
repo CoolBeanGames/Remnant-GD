@@ -22,6 +22,11 @@ size = Vector3(1.45, 0.08, 0.3)
 material = SubResource("Bristles")
 [sub_resource type="BoxShape3D" id="SweepShape"]
 size = Vector3(1.8, 0.6, 1.0)
+[sub_resource type="BoxMesh" id="SideGuardMesh"]
+size = Vector3(0.06, 0.25, 0.85)
+material = SubResource("Wood")
+[sub_resource type="BoxShape3D" id="SideGuardShape"]
+size = Vector3(0.06, 0.25, 0.85)
 [node name="PushBroom" type="RigidBody3D" groups=["pick-up", "machine-immune"]]
 script = ExtResource("script")
 mass = 2.0
@@ -48,3 +53,19 @@ collision_layer = 0
 collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Sweep"]
 shape = SubResource("SweepShape")
+[node name="SideSkirts" type="Node3D" parent="."]
+visible = false
+[node name="Left" type="MeshInstance3D" parent="SideSkirts"]
+position = Vector3(-0.77, 0.14, -0.25)
+mesh = SubResource("SideGuardMesh")
+[node name="Right" type="MeshInstance3D" parent="SideSkirts"]
+position = Vector3(0.77, 0.14, -0.25)
+mesh = SubResource("SideGuardMesh")
+[node name="LeftGuard" type="CollisionShape3D" parent="."]
+position = Vector3(-0.77, 0.14, -0.25)
+shape = SubResource("SideGuardShape")
+disabled = true
+[node name="RightGuard" type="CollisionShape3D" parent="."]
+position = Vector3(0.77, 0.14, -0.25)
+shape = SubResource("SideGuardShape")
+disabled = true

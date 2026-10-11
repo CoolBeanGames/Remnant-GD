@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="Unlock"]
+script = ExtResource("effect")
+target = "broom"
+property = NodePath("side_skirt_enabled")
+operation = 2
+amount = 1.0
+[resource]
+script = ExtResource("entry")
+id = &"broom_side_skirt"
+title = "Broom Side Skirt"
+description = "New brooms include side guards to gather loose objects and reduce sideways scattering."
+base_cost = 75
+max_level = 1
+effects = Array[ExtResource("effect")]([SubResource("Unlock")])

@@ -55,6 +55,7 @@ func start(is_respawn: bool = false) -> void:
 	Blackboard.store_data("player_input_blocked", true)
 	Blackboard.store_data("player_waking", true)
 	player.velocity = Vector3.ZERO
+	player.get_node("Controllers/Player_Move_Controller").reset_platform_motion()
 	controller_states.clear()
 	for name in ["Player_Look_Controller", "Player_Move_Controller", "Camera_Breathing"]:
 		var controller: Node = player.get_node_or_null("Controllers/" + name)
@@ -147,6 +148,7 @@ func fade_for_death() -> void:
 	Dialogue.cancel()
 	var movement: Node = player.get_node("Controllers/Player_Move_Controller")
 	movement.reset_audio()
+	movement.reset_platform_motion()
 	var was_blocked: bool = Blackboard.read_data("player_input_blocked") == true
 	Blackboard.store_data("player_input_blocked", true)
 	var states: Dictionary = {}

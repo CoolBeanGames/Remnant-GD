@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="Unlock"]
+script = ExtResource("effect")
+target = "light"
+property = NodePath("coloured_lens_enabled")
+operation = 2
+amount = 1.0
+[resource]
+script = ExtResource("entry")
+id = &"light_coloured_lens"
+title = "Light Coloured Lens"
+description = "New lights include changeable lenses. L cycles their light colour while held or looked at."
+base_cost = 80
+max_level = 1
+effects = Array[ExtResource("effect")]([SubResource("Unlock")])

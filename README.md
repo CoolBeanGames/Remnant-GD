@@ -741,7 +741,7 @@ For another player ability, implement an exported numeric/bool property in the a
 
 ## Delivery and artwork
 
-Move **DeliveryPoint** in the testing level to choose where purchases drop from the sky. Computer > Delivery Point and Delivery Parent can be changed independently. Store entries can reference any Node3D scene; current stock is Fan, Steel Plate, Light, Basket, Push Broom, Air Fan and Air Plate. Mark future fan/plate entries with their matching Delivery Kind to receive purchased Mechanics upgrades.
+Move **DeliveryPoint** in the testing level to choose where purchases drop from the sky. Computer > Delivery Point and Delivery Parent can be changed independently. Store entries can reference any Node3D scene; current stock includes ordinary fans, plates, lights, baskets, brooms and the rail/carriage. Air placement is a Mechanics unlock for future normal tools. Mark future fan/plate entries with their matching Delivery Kind to receive purchased Mechanics upgrades.
 
 `Scenes/Computer/computer_terminal.tscn` is the placeholder physical computer. Keep its root script and collider when replacing the artwork. `Scenes/UI/computer_ui.tscn` controls the overlay layout/theme and `computer_row.tscn` is the reusable offer row. Keep named control paths referenced by `computer_ui.gd` when rearranging those scenes.
 
@@ -968,3 +968,17 @@ The October review reduces repeated world/body scans, burst snapshots, ghost-que
 **F5** opens the reusable debug log with severity/channel filters. **EXPORT LOGS** bundles current/previous session breadcrumbs, engine logs and system details into a ZIP. Restart after a crash and export the preserved interrupted-session logs. Console: `log open`, `log export`, `log folder`. [Configuration and API](Data/DEBUG_LOG.md).
 
 [Open the phone-friendly development summary](https://remnant-development-summary.callmehaptic.chatgpt.site). Published through Sites with owner-private access; sign in with the same account on your phone. The self-contained source is [Reports/development_summary.html](Reports/development_summary.html).
+
+## Approved manual tools and graphics
+
+The Notion-approved vacuum head, optional fan swivel and broom side skirt are now Mechanics upgrades on normal future deliveries. Fan/plate air placement is a one-time upgrade (600 / 450 score), with both B ghost placement and V air locking; separate Air Fan/Plate store items are removed. Older tools keep their purchase-time capabilities and legacy air props still load. Light hood/lens upgrades now provide directed illumination and selectable colours, without sensors.
+
+Buy a Train Rail and Rail Slider, ghost-place the slider onto the rail, then build a fan onto the carriage. Its powered airflow drives the carriage in the opposite direction. Aim a new rail at either free end of a placed rail to snap another section onto the track; the carriage crosses joined sections in both directions, keeping its cargo and attachments. Only exposed ends retain stops. Stand on the carriage to ride it, walk around its deck or jump off normally. Objects resting on top, attached tools and basket contents move with it. Cargo, vacuum bags, lens/mode/sweep state and rail dimensions persist; assemblies transfer correctly through the story door. H changes fan mode, G empties its bag downward, J toggles sweep and L cycles a light's colour. [Prices, controls and APIs](Data/Items/MANUAL_AUTOMATION.md), [tool authoring](Data/Items/TOOL_UPGRADES.md), [rail authoring](Data/Items/RAILS.md).
+
+Shared title/pause Options now has Audio, Controls and Graphics tabs: fullscreen/windowed, V-sync, FPS cap, 3D resolution scale, antialiasing, shadow quality and ambient occlusion. These apply live, persist in the profile and keep portal rendering consistent. [Settings and rendering API](Data/OPTIONS.md).
+
+## Reusable Godot workflow and Windows builds
+
+The installed `godot-project-workflow` skill is also versioned in [Skills/godot-project-workflow](Skills/godot-project-workflow/SKILL.md). It covers repository familiarity, mandatory F1 report/image review, existing system reuse, physics/material/save checks, diagnostics, meaningful tests, documentation, HTML/Notion summaries, Git delivery and Windows exports; Remnant details are separate from the portable workflow.
+
+Meaningful coding prompts now finish with a Windows development build and a GitHub commit/push after verification. Run `Tools/build_windows.py --godot PATH_TO_GODOT` with Python to make an export using verified matching official templates. Outputs, manifests and smoke logs stay in ignored `Builds/`; the latest path is in `Builds/latest.txt`. [Build configuration and verification](Data/WINDOWS_BUILDS.md).

@@ -8,3 +8,6 @@
 
 # Local lossless gameplay recordings
 .recordings/
+
+# Local Windows development exports
+Builds/

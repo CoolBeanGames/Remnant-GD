@@ -136,6 +136,7 @@ func respawn_player(is_death: bool = true) -> void:
 	movement.wind_velocity = Vector3.ZERO
 	movement.applied_wind = Vector3.ZERO
 	movement.velocity_target = Vector3.ZERO
+	movement.reset_platform_motion()
 	player.get_node("Camera3D/RayCast3D")._set_looked_at(null)
 	WorldState._physics_process(0.0)
 	WorldState.capture()

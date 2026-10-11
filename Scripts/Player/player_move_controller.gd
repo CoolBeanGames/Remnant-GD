@@ -32,6 +32,10 @@ var wind_velocity: Vector3 = Vector3.ZERO
 var applied_wind: Vector3 = Vector3.ZERO
 var step_ceiling := KinematicCollision3D.new()
 @export var wind_drag: float = 3.0
+var platform_reset_pending: bool = false
+var previous_rail_platform: bool = false
+var last_movement_position: Vector3
+var movement_position_valid: bool = false
 
 
 func apply_wind(direction: Vector3, force: float, maximum_speed: float, delta: float) -> void:
@@ -43,14 +47,36 @@ func apply_wind(direction: Vector3, force: float, maximum_speed: float, delta: f
 func _ready() -> void:
 	if character_body != null:
 		character_body.floor_snap_length = step_height + 0.05
+		last_movement_position = character_body.global_position
+		movement_position_valid = true
 
 
 func _physics_process(delta: float) -> void:
 	if character_body == null or body == null:
 		return
 	if debug_fly or debug_noclip:
+		reset_platform_motion()
 		_debug_move(delta)
 		return
+	# A teleport can happen while this controller is disabled during wake-up.
+	# Clear Godot's cached platform motion for the first move in the new space.
+	if movement_position_valid and character_body.global_position.distance_to(last_movement_position) > .05:
+		reset_platform_motion()
+	var floor_platform: Dictionary = _rail_floor_platform()
+	var rail_floor: bool = not floor_platform.is_empty()
+	var floor_layers: int = character_body.platform_floor_layers
+	var leave_mode: CharacterBody3D.PlatformOnLeave = character_body.platform_on_leave
+	var relay_velocity := Vector3.ZERO
+	if platform_reset_pending:
+		character_body.platform_floor_layers = 0
+	elif rail_floor and floor_platform.relay:
+		# Frozen cargo and built props have no physics velocity of their own.
+		# Relay their carriage's velocity through move_and_slide so walls and
+		# ceilings still stop the rider, and avoid applying it a second time.
+		character_body.platform_floor_layers = 0
+		relay_velocity = floor_platform.slider.linear_velocity
+	if rail_floor or previous_rail_platform or platform_reset_pending:
+		character_body.platform_on_leave = CharacterBody3D.PLATFORM_ON_LEAVE_DO_NOTHING
 	character_body.velocity -= applied_wind
 	wind_velocity = wind_velocity.move_toward(Vector3.ZERO, wind_drag * delta)
 	step_grace = maxf(0.0, step_grace - delta)
@@ -77,7 +103,9 @@ func _physics_process(delta: float) -> void:
 	character_body.velocity += applied_wind
 	if applied_wind.y > 0.1:
 		character_body.floor_snap_length = 0.0
-	var stepped: bool = character_body.velocity.y <= 0.1 and _try_step(horizontal * delta)
+	var own_velocity: Vector3 = character_body.velocity
+	character_body.velocity += relay_velocity
+	var stepped: bool = character_body.velocity.y <= 0.1 and _try_step((horizontal + relay_velocity) * delta)
 	if stepped:
 		character_body.velocity.x = 0.0
 		character_body.velocity.z = 0.0
@@ -86,11 +114,62 @@ func _physics_process(delta: float) -> void:
 	if stepped:
 		character_body.velocity.x = horizontal.x
 		character_body.velocity.z = horizontal.z
+	elif not relay_velocity.is_zero_approx():
+		# Do not subtract a velocity component that move_and_slide removed at
+		# a wall: that would leave an unwanted backwards player velocity.
+		character_body.velocity = own_velocity
+		for index in character_body.get_slide_collision_count():
+			var normal: Vector3 = character_body.get_slide_collision(index).get_normal()
+			if character_body.velocity.dot(normal) < 0.0:
+				character_body.velocity = character_body.velocity.slide(normal)
+	character_body.platform_floor_layers = floor_layers
+	character_body.platform_on_leave = leave_mode
+	previous_rail_platform = rail_floor
+	platform_reset_pending = false
+	last_movement_position = character_body.global_position
+	movement_position_valid = true
 	if footstep_player != null:
 		if character_body.is_on_floor() and horizontal.length() > 0.1:
 			footstep_player.start(sprinting)
 		else:
 			footstep_player.stop()
+
+
+## Call after respawn/teleport. No floor references or offsets survive the move.
+func reset_platform_motion() -> void:
+	platform_reset_pending = true
+	previous_rail_platform = false
+	if character_body != null:
+		last_movement_position = character_body.global_position
+		movement_position_valid = true
+
+
+func _rail_floor_platform() -> Dictionary:
+	if not character_body.is_on_floor() or character_body.velocity.y > .1:
+		return {}
+	var origin: Vector3 = character_body.global_position
+	var query := PhysicsRayQueryParameters3D.create(origin + Vector3.UP * .05,
+		origin - Vector3.UP * maxf(.1, character_body.floor_snap_length), character_body.collision_mask)
+	query.exclude = [character_body.get_rid()]
+	var hit: Dictionary = character_body.get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty() or hit.normal.dot(character_body.up_direction) < cos(character_body.floor_max_angle):
+		return {}
+	var current: Node = hit.collider as Node
+	var visited: Array[Node] = []
+	while is_instance_valid(current) and not visited.has(current):
+		visited.append(current)
+		if current.get_meta("carried_by_player", false):
+			return {}
+		if current is rail_slider:
+			return {"slider": current, "relay": hit.collider != current} if current.mounted_rail() != null and not current.held else {}
+		var owner: WeakRef = current.get_meta("rail_cargo_owner") as WeakRef if current.has_meta("rail_cargo_owner") else null
+		if owner != null:
+			current = owner.get_ref() as Node
+		elif current is rotatable_item and current.support != null:
+			current = current.support.get_ref() as Node
+		else:
+			current = current.get_parent()
+	return {}
 
 
 func _try_step(motion: Vector3) -> bool:
@@ -167,6 +246,7 @@ func set_debug_noclip(enabled: bool) -> void:
 		character_body.collision_layer = debug_collision_layer
 		character_body.collision_mask = debug_collision_mask
 	debug_noclip = enabled
+	reset_platform_motion()
 	wind_velocity = Vector3.ZERO
 	applied_wind = Vector3.ZERO
 
@@ -193,4 +273,10 @@ func _debug_move(delta: float) -> void:
 	if debug_noclip:
 		character_body.global_position += character_body.velocity * delta
 	else:
+		var floor_layers: int = character_body.platform_floor_layers
+		var leave_mode: CharacterBody3D.PlatformOnLeave = character_body.platform_on_leave
+		character_body.platform_floor_layers = 0
+		character_body.platform_on_leave = CharacterBody3D.PLATFORM_ON_LEAVE_DO_NOTHING
 		character_body.move_and_slide()
+		character_body.platform_floor_layers = floor_layers
+		character_body.platform_on_leave = leave_mode

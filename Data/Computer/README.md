@@ -28,7 +28,7 @@ For another player ability, implement an exported numeric/bool property in the a
 
 ## Delivery and artwork
 
-Move **DeliveryPoint** in the testing level to choose where purchases drop from the sky. Computer > Delivery Point and Delivery Parent can be changed independently. Store entries can reference any Node3D scene; current stock is Fan, Steel Plate, Light, Basket, Push Broom, Air Fan and Air Plate. Mark future fan/plate entries with their matching Delivery Kind to receive purchased Mechanics upgrades.
+Move **DeliveryPoint** in the testing level to choose where purchases drop from the sky. Computer > Delivery Point and Delivery Parent can be changed independently. Store entries can reference any Node3D scene; current stock is Fan, Steel Plate, Light, Basket, Push Broom, Train Rail, Rail Slider, Automatic Spawner, Mulcher and Mulch Bin. Air placement is a Mechanics unlock on normal future fans/plates. Mark future fan/plate entries with their matching Delivery Kind to receive purchased Mechanics upgrades.
 
 `Scenes/Computer/computer_terminal.tscn` is the placeholder physical computer. Keep its root script and collider when replacing the artwork. `Scenes/UI/computer_ui.tscn` controls the overlay layout/theme and `computer_row.tscn` is the reusable offer row. Keep named control paths referenced by `computer_ui.gd` when rearranging those scenes.
 
@@ -65,7 +65,7 @@ The testing level contains no loose test props. The manual chute remains availab
 
 `Scenes/Actors/automatic_spawner.tscn` is a pickup/ghost-placeable prop sold for 400 score initially. Place it using B/B/F like other props. Its Output marker determines where items appear; Item Pool determines which random scene is selected. It produces one item every 8 seconds while placed, unheld and the level is enabled. Inspector exports configure the item pool, interval, minimum interval and required flag. Empty Required Flag removes the level requirement.
 
-`Data/Computer/spawner_speed.tres` starts at 250 score, scales by 3.0, has five tiers and multiplies the interval by 0.8 each tier. This upgrade applies to existing and future spawners. The default catalog has 15 entries: four Mechanics, three Self and eight Store. Edit these resources to change prices and effects. The effect target and store delivery kind accept spawner.
+`Data/Computer/spawner_speed.tres` starts at 250 score, scales by 3.0, has five tiers and multiplies the interval by 0.8 each tier. This upgrade applies to existing and future spawners. The default catalog has 34 entries: thirteen Mechanics, three Self, ten Store and eight Mulch. Edit these resources to change prices and effects. The effect target and store delivery kind accept spawner.
 
 ### Blackboard state
 
@@ -75,7 +75,7 @@ Player state updates every physics tick: `player_transform` (Transform3D), `play
 
 `spawned_items` is an Array of Dictionaries refreshed every 0.1 seconds and on registry changes. Each entry holds a stable id, scene resource path, actor transform, nested rigid-body transforms/velocities/freeze state, score value, saved mechanics properties/baselines, placement/support links, and spawner interval/cooldown. Restoration preserves purchased item properties rather than reapplying current upgrades. Held props and basket contents restore as released physics objects. `lever_pulls` and `upgrade_levels` are also restored.
 
-Items with all their rigid bodies below Kill Height are destroyed without score or grinding audio and removed from the array. Wrapper root positions do not prevent culling fallen child bodies. This is in-memory state prepared for future saving; no disk save/load is implemented.
+Items with all their rigid bodies below Kill Height are destroyed without score or grinding audio and removed from the array. Wrapper root positions do not prevent culling fallen child bodies. These snapshots are persisted by the existing single-file SaveGame system; see Data/SAVING.md.
 
 `Tests/level_progression_test.tscn` checks stages, delay, automatic output, existing-spawner speed upgrades, score-one defaults, falling cleanup, exact player/body restoration and preserved item values.
 
@@ -89,11 +89,17 @@ Mechanics/self tier costs are `ceil(base_cost * multiplier^purchased_level)`. Fa
 | Basket | 30 | 1.8 |
 | Fan | 35 | 1.8 |
 | Automatic spawner | 400 | 1.8 |
-| Upgraded steel plate | 75 | 1.8 |
-| Upgraded fan | 100 | 1.8 |
+| Train Rail | 90 | 1.8 |
+| Rail Slider | 65 | 1.8 |
 | Light | 10 | Fixed |
 | Push broom | 10 | Fixed |
 
 Successful deliveries increment their entry count in Progression.levels and Blackboard upgrade_levels. These counts persist separately from current world ownership: dropping, losing or retrieving an item does not reduce its next purchase price. The store shows DELIVERED / RISING PRICE for escalating offers. Snapshots are duplicated so resetting the live progression dictionary cannot erase saved counts. computer_entry exports escalating_store_price; cost(level) applies its exponent to upgrades and opted-in store entries, with bounded nonnegative integer costs.
 
-The catalog now has six Mechanics, three Self, ten Store and eight Mulch entries. Mulch is hidden until current-run Mulcher/Bin purchases; those upgrades use permanent coins and stack after normal tiers. Full prices/effects/authoring: Data/Mulch/README.md.
+The catalog now has thirteen Mechanics, three Self, ten Store and eight Mulch entries. Mulch is hidden until current-run Mulcher/Bin purchases; those upgrades use permanent coins and stack after normal tiers. Full prices/effects/authoring: Data/Mulch/README.md.
+
+## Approved attachments and air placement
+
+Air Fan and Air Plate are no longer separate store stock. Fan Air Placement (600 score) and Plate Air Placement (450) are one-time Mechanics upgrades for future normal deliveries; B still starts ghost placement and V optionally locks the held pose in air. Existing legacy air props remain compatible with saves. Vacuum Head (200), Fan Swivel Mount (150), Broom Side Skirt (75), Light Beam Hood (100) and Coloured Lens (80) are also single-tier upgrades for future tools. H switches upgraded fans between blow/suction, G empties their bag, J toggles sweep and L changes upgraded light colour.
+
+Rail (90) and Slider (65) store deliveries each escalate by 1.8. Place the slider on the rail; resting cargo and built props follow it. A mounted powered fan drives it opposite the airflow. [Controls, prices and integration](../Items/MANUAL_AUTOMATION.md), [tool authoring](../Items/TOOL_UPGRADES.md), [rail authoring](../Items/RAILS.md).

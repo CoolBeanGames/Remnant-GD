@@ -161,6 +161,20 @@ func _update_preview() -> void:
 	placement_valid = not shapes.is_empty()
 	var clearance_excluded: Array[RID] = excluded.duplicate()
 	clearance_excluded.append(hit.collider.get_rid())
+	if item.has_method("get_placement_pose"):
+		var custom: Dictionary = item.get_placement_pose(host, hit.position, normal, item.held_rotation)
+		# An empty custom pose keeps ordinary surface anchoring. Snap providers
+		# can exclude touching rails while retaining clearance against scenery.
+		if not custom.is_empty():
+			placement_valid = placement_valid and custom.get("valid", false)
+			if not placement_valid:
+				material.albedo_color = Color(1, .3, .3, .4)
+				return
+			preview.global_transform = custom.get("transform", preview.global_transform)
+			host = custom.get("host", host)
+			for rid in custom.get("clearance_exclude", []):
+				if rid is RID and not clearance_excluded.has(rid):
+					clearance_excluded.append(rid)
 	for state in shapes:
 		var shape_query: PhysicsShapeQueryParameters3D = state.query
 		shape_query.transform = preview.global_transform * state.pose

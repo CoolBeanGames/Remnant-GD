@@ -35,6 +35,13 @@ func contained_bodies() -> Array[RigidBody3D]:
 		var body: RigidBody3D = physics_items.rigid_body(node)
 		if body == self or not physics_items.is_processable(body) or result.has(body):
 			continue
+		var exiting_bottom: bool = false
+		for reference in falling_contents:
+			if reference.get_ref() == body:
+				exiting_bottom = true
+				break
+		if exiting_bottom:
+			continue
 		var point: Vector3 = to_local(body.global_position)
 		var inside: bool = true
 		for i in 3:
@@ -51,7 +58,19 @@ func contained_bodies() -> Array[RigidBody3D]:
 func on_picked_up() -> void:
 	carried = true
 	last_carry_pose = global_transform
+	capture_current_contents()
+
+
+## Also used by a mounted rail carriage as new objects enter its basket.
+func capture_current_contents() -> void:
 	for body in contained_bodies():
+		var already_carried: bool = false
+		for state in contents:
+			if state.body.get_ref() == body:
+				already_carried = true
+				break
+		if already_carried:
+			continue
 		var states: Array[Dictionary] = physics_items.collider_states(body)
 		contents.append({"body": weakref(body), "pose": global_transform.affine_inverse() * body.global_transform,
 			"freeze": body.freeze, "mode": body.freeze_mode, "states": states})

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="Unlock"]
+script = ExtResource("effect")
+target = "fan"
+property = NodePath("swivel_enabled")
+operation = 2
+amount = 1.0
+[resource]
+script = ExtResource("entry")
+id = &"fan_swivel"
+title = "Fan Swivel Mount"
+description = "New fans can sweep between adjustable stops while placed. The mount can be held still when precision matters."
+base_cost = 150
+max_level = 1
+effects = Array[ExtResource("effect")]([SubResource("Unlock")])

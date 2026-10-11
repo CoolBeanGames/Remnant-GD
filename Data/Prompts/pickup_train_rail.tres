@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="prompt_set" format=3]
+[ext_resource type="Script" path="res://Scripts/UI/prompt_set.gd" id="1"]
+[ext_resource type="Script" path="res://Scripts/UI/prompt_entry.gd" id="2"]
+[sub_resource type="Resource" id="Pickup"]
+script = ExtResource("2")
+text = "Pickup Rail"
+action = &"pickup"
+[resource]
+script = ExtResource("1")
+entries = Array[ExtResource("2")]([SubResource("Pickup")])

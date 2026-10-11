@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="Unlock"]
+script = ExtResource("effect")
+target = "fan"
+property = NodePath("air_placeable")
+operation = 2
+amount = 1.0
+[resource]
+script = ExtResource("entry")
+id = &"fan_air_placement"
+title = "Fan Air Placement"
+description = "Unlocks V to lock newly bought fans in the air. B still places them on surfaces."
+base_cost = 600
+max_level = 1
+effects = Array[ExtResource("effect")]([SubResource("Unlock")])

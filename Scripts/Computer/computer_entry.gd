@@ -14,7 +14,7 @@ enum Tab { MECHANICS, SELF, STORE, MULCH }
 @export_enum("none", "mulcher", "mulch_bin") var installation: String = "none"
 @export var effects: Array[upgrade_effect] = []
 @export var delivery_scene: PackedScene
-@export_enum("none", "fan", "plate", "spawner") var delivery_kind: String = "none"
+@export_enum("none", "fan", "plate", "broom", "light", "spawner") var delivery_kind: String = "none"
 
 func cost(level: int) -> int:
 	var exponent: int = level if tab != Tab.STORE or escalating_store_price else 0
