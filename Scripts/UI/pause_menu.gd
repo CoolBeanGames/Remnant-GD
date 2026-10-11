@@ -28,6 +28,8 @@ func _ready() -> void:
 	hide()
 
 func _input(event: InputEvent) -> void:
+	if IssueReporter.is_open or DebugInspector.is_open or DevConsole.is_open:
+		return
 	if is_instance_valid(options) and options.is_open:
 		return
 	if not event is InputEventKey or not event.pressed or event.echo or event.physical_keycode != KEY_ESCAPE and event.keycode != KEY_ESCAPE:

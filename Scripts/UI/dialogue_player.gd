@@ -115,6 +115,8 @@ func advance() -> void:
 		_next_line()
 
 func _input(event: InputEvent) -> void:
+	if IssueReporter.is_open or DebugInspector.is_open or DevConsole.is_open:
+		return
 	if current != null and event.is_action_pressed("confirm") and not event.is_echo():
 		confirm_consumed = true
 		advance()

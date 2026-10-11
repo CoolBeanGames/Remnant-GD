@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DevCommandCatalog" load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://addons/dev_toolkit/command_catalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://addons/dev_toolkit/command.gd" id="2_base"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/help.tres" id="3_help"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/set_flag.tres" id="4_set_flag"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/set_bb.tres" id="5_set_bb"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/set_score.tres" id="6_set_score"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/teleport.tres" id="7_teleport"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/noclip.tres" id="8_noclip"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/fly.tres" id="9_fly"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/record.tres" id="10_record"]
+[ext_resource type="Resource" path="res://addons/dev_toolkit/commands/echo.tres" id="11_echo"]
+
+[resource]
+script = ExtResource("1_catalog")
+commands = Array[ExtResource("2_base")]([ExtResource("3_help"), ExtResource("4_set_flag"), ExtResource("5_set_bb"), ExtResource("6_set_score"), ExtResource("7_teleport"), ExtResource("8_noclip"), ExtResource("9_fly"), ExtResource("10_record"), ExtResource("11_echo")])
+

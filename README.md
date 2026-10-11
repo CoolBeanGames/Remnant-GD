@@ -940,3 +940,23 @@ Wake-up now has a slower 12.8-second look-around, timed slide/effort sounds and 
 Startup now opens the title screen: New Game / Continue (saved runs only) / Options / Exit. New Game clears the run but keeps banked mulch coins, permanent mulch tiers and settings. One save file holds both run and profile. Shared Options controls Master/SFX/Vocals/Music, mouse inversion and sensitivity; verified DELETE SAVE AND EXIT moved there from pause. See [Options](Data/OPTIONS.md) and [saving](Data/SAVING.md).
 
 The Store sells an automatically mounted Mulcher and a physical Mulch Bin. Items contribute editable 1–5 mulch values; 100 points eject a pellet, and depositing it banks one permanent coin. Wear fills the machine’s damage grid; E repairs over time for escalating score. Mechanics buys durability/efficiency; the unlocked Mulch tab adds permanent bonuses on top of regular upgrades. Scenes and prices are modular; [mulcher authoring](Data/Mulch/README.md).
+
+## Local F1 issue reporter
+
+Press F1 to capture the game screen and describe an issue or requested change. Reports are saved in `.issues/inbox/` for the next coding session. Agents must read AGENTS.md and [ISSUE_REPORTER_WORKFLOW.md](ISSUE_REPORTER_WORKFLOW.md), become familiar with the repository, and read/view pending descriptions and screenshots before starting work. Reports stay local, survive save resets, and are ignored by Git. Exported game reports use user://issue_reports/inbox and can be copied into the project.
+
+## Runtime inspectors
+
+**F2**: Blackboard. **F3**: Flags. **F4**: actual save-file data. Scroll, select/copy text, refresh, and close with Escape or the same key. Node references show names. See [Data/DEBUG_INSPECTORS.md](Data/DEBUG_INSPECTORS.md).
+
+## Developer console
+
+Press **~** to enter `Set flag "flag"`, `Set BB "key" "value"`, `TP x y z`, `Noclip`, `Fly`, or `Set score value`. Use `help` for details; Up/Down recalls commands. See [Data/DEV_CONSOLE.md](Data/DEV_CONSOLE.md).
+
+## Gameplay recording
+
+**F6** starts/stops native-resolution, lossless RGB gameplay recording with stereo game audio, while playback remains audible. If FFmpeg is missing on Windows x86_64, the first recording request downloads and verifies a private copy, then starts recording; F6 again cancels setup. Saves `.recordings/<timestamp>/recording.mkv` plus timing metadata. Console `record start/stop/status/folder` is also available. Encoding has performance/disk costs; see [Data/RECORDING.md](Data/RECORDING.md) for quality, automatic/manual setup, settings and recovery.
+
+## Reusable developer toolkit and scripted commands
+
+All F-key menus, console and recorder now live in `addons/dev_toolkit/`, with an optional editor plugin and standalone scene. Copy that folder to another project and enable Dev Toolkit; a host adapter connects its data/player APIs. Commands are editable scripted Resources in `Data/Debug/commands.tres`; adding one no longer requires changing console code. [Setup and API](Data/DEV_TOOLS.md), [command authoring](Data/Debug/README.md), [portable installation](addons/dev_toolkit/README.md).

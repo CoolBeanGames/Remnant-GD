@@ -22,6 +22,10 @@ var breath_voice: WeakRef
 @export var body: Node3D
 @export var character_body: CharacterBody3D
 @export var footstep_player: footstep_audio
+var debug_fly: bool = false
+var debug_noclip: bool = false
+var debug_collision_layer: int
+var debug_collision_mask: int
 var step_grace: float = 0.0
 var wind_velocity: Vector3 = Vector3.ZERO
 var applied_wind: Vector3 = Vector3.ZERO
@@ -41,6 +45,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if character_body == null or body == null:
+		return
+	if debug_fly or debug_noclip:
+		_debug_move(delta)
 		return
 	character_body.velocity -= applied_wind
 	wind_velocity = wind_velocity.move_toward(Vector3.ZERO, wind_drag * delta)
@@ -147,3 +154,43 @@ func reset_audio() -> void:
 
 func _exit_tree() -> void:
 	reset_audio()
+
+func set_debug_noclip(enabled: bool) -> void:
+	if enabled == debug_noclip or character_body == null:
+		return
+	if enabled:
+		debug_collision_layer = character_body.collision_layer
+		debug_collision_mask = character_body.collision_mask
+		character_body.collision_layer = 0
+		character_body.collision_mask = 0
+	else:
+		character_body.collision_layer = debug_collision_layer
+		character_body.collision_mask = debug_collision_mask
+	debug_noclip = enabled
+	wind_velocity = Vector3.ZERO
+	applied_wind = Vector3.ZERO
+
+func _debug_move(delta: float) -> void:
+	if footstep_player != null:
+		footstep_player.stop()
+	reset_audio()
+	wind_velocity = Vector3.ZERO
+	applied_wind = Vector3.ZERO
+	if Blackboard.read_data("player_input_blocked"):
+		character_body.velocity = Vector3.ZERO
+		return
+	var axis := make_axis()
+	var camera := character_body.get_node_or_null("Camera3D") as Camera3D
+	var basis := camera.global_basis if camera != null else body.global_basis
+	var direction := basis.x * axis.x - basis.z * axis.y
+	if Input.is_action_pressed("jump"):
+		direction += Vector3.UP
+	if Input.is_physical_key_pressed(KEY_CTRL):
+		direction += Vector3.DOWN
+	var speed := move_speed * (sprint_speed_mult if Input.is_action_pressed("sprint") else 1.0)
+	character_body.velocity = direction.normalized() * speed
+	character_body.floor_snap_length = 0.0
+	if debug_noclip:
+		character_body.global_position += character_body.velocity * delta
+	else:
+		character_body.move_and_slide()

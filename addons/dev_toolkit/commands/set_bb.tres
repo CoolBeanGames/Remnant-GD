@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/dev_toolkit/commands/set_bb.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+command = "set bb"
+aliases = PackedStringArray()
+usage = "set bb \"key\" \"value\""
+description = "Store a typed JSON value or plain text through the configured Blackboard adapter."
+

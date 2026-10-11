@@ -29,6 +29,11 @@ Dialogue="*res://Global/dialogue.gd"
 SaveGame="*res://Global/save_game.gd"
 Settings="*res://Global/settings.gd"
 Mulch="*res://Global/mulch.gd"
+DevTools="*res://Global/dev_tools.gd"
+IssueReporter="*res://Global/issue_reporter.gd"
+DebugInspector="*res://Global/debug_inspector.gd"
+DevConsole="*res://Global/dev_console.gd"
+GameplayRecorder="*res://Global/gameplay_recorder.gd"
 
 [display]
 

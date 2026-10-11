@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/dev_toolkit/commands/teleport.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+command = "tp"
+aliases = PackedStringArray("teleport")
+usage = "tp x y z"
+description = "Move the active player to finite world coordinates; the project adapter handles velocity and persistence."
+

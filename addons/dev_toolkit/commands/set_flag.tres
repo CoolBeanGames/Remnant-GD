@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/dev_toolkit/commands/set_flag.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+command = "set flag"
+aliases = PackedStringArray()
+usage = "set flag \"name\" [true|false]"
+description = "Set a project flag through the configured adapter; omitted state means true."
+

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/dev_toolkit/commands/record.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+command = "record"
+aliases = PackedStringArray()
+usage = "record start|stop|status|folder"
+description = "Control gameplay recording; missing FFmpeg downloads automatically on supported platforms."

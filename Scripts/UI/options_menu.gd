@@ -112,6 +112,8 @@ func close() -> void:
 	closed.emit()
 
 func _input(event: InputEvent) -> void:
+	if IssueReporter.is_open or DebugInspector.is_open or DevConsole.is_open:
+		return
 	if is_open and event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_ESCAPE or event.physical_keycode == KEY_ESCAPE):
 		close()
 		get_viewport().set_input_as_handled()

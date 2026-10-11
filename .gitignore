@@ -1,3 +1,10 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Private local bug screenshots and descriptions
+.issues/inbox/*
+!.issues/inbox/.gitkeep
+
+# Local lossless gameplay recordings
+.recordings/
