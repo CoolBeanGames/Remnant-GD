@@ -1,0 +1,35 @@
+{
+  "key": "waiting_bench",
+  "native": "Models/Interiors/HospitalProps/WaitingBench/Source/waiting_bench.blend",
+  "export": "Models/Interiors/HospitalProps/WaitingBench/waiting_bench.glb",
+  "collection": "ASSET | WaitingBench",
+  "mesh_objects": 17,
+  "triangles": 1428,
+  "dimensions_blender_m": [
+    2.07,
+    0.59,
+    0.9273
+  ],
+  "bounds_min": [
+    -1.035,
+    -0.292,
+    0.0
+  ],
+  "bounds_max": [
+    1.035,
+    0.298,
+    0.9273
+  ],
+  "packed_images": 24,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU"
+}

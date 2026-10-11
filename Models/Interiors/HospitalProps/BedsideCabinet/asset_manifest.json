@@ -1,0 +1,35 @@
+{
+  "key": "bedside_cabinet",
+  "native": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+  "export": "Models/Interiors/HospitalProps/BedsideCabinet/bedside_cabinet.glb",
+  "collection": "ASSET | BedsideCabinet",
+  "mesh_objects": 15,
+  "triangles": 1498,
+  "dimensions_blender_m": [
+    0.69,
+    0.891,
+    0.925
+  ],
+  "bounds_min": [
+    -0.345,
+    -0.576,
+    0.0
+  ],
+  "bounds_max": [
+    0.345,
+    0.315,
+    0.925
+  ],
+  "packed_images": 25,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU"
+}

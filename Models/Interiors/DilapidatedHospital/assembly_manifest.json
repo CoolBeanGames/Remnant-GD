@@ -1,0 +1,570 @@
+{
+  "native": "Models/Interiors/DilapidatedHospital/hospital_assembly.blend",
+  "architecture_export": "Models/Architecture/DilapidatedHospital/dilapidated_hospital.glb",
+  "instances": [
+    {
+      "name": "Hospital shell",
+      "source": "Models/Architecture/DilapidatedHospital/Source/dilapidated_hospital.blend",
+      "collection": "ARCHITECTURE | dilapidated hospital",
+      "position_m": [
+        0,
+        0,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "name": "Ward 01 bed 1",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        -6.7,
+        -10.85,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 01 cabinet 1",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        -8.2,
+        -10.05,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 01 bed 2",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        -6.7,
+        -7.95,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 01 cabinet 2",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        -8.2,
+        -7.15,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 01 IV stand",
+      "source": "Models/Interiors/HospitalProps/IVStand/Source/iv_stand.blend",
+      "collection": "ASSET | IVStand",
+      "position_m": [
+        -5.4,
+        -8.950000000000001,
+        0
+      ],
+      "rotation_z_degrees": 12
+    },
+    {
+      "name": "Treatment examination bed",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        -6.7,
+        -3.8,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Treatment trolley",
+      "source": "Models/Interiors/HospitalProps/MedicalTrolley/Source/medical_trolley.blend",
+      "collection": "ASSET | MedicalTrolley",
+      "position_m": [
+        -4.7,
+        -4.8,
+        0
+      ],
+      "rotation_z_degrees": -16
+    },
+    {
+      "name": "Treatment IV stand",
+      "source": "Models/Interiors/HospitalProps/IVStand/Source/iv_stand.blend",
+      "collection": "ASSET | IVStand",
+      "position_m": [
+        -5.65,
+        -2.85,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "name": "Ward 03 bed 1",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        -6.7,
+        3.05,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 03 cabinet 1",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        -8.2,
+        3.85,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 03 bed 2",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        -6.7,
+        5.95,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 03 cabinet 2",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        -8.2,
+        6.75,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 03 IV stand",
+      "source": "Models/Interiors/HospitalProps/IVStand/Source/iv_stand.blend",
+      "collection": "ASSET | IVStand",
+      "position_m": [
+        -5.4,
+        4.95,
+        0
+      ],
+      "rotation_z_degrees": 12
+    },
+    {
+      "name": "Ward 05 bed 1",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        -6.7,
+        8.700000000000001,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 05 cabinet 1",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        -8.2,
+        9.5,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 05 bed 2",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        -6.7,
+        11.6,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 05 cabinet 2",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        -8.2,
+        12.4,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward 05 IV stand",
+      "source": "Models/Interiors/HospitalProps/IVStand/Source/iv_stand.blend",
+      "collection": "ASSET | IVStand",
+      "position_m": [
+        -5.4,
+        10.6,
+        0
+      ],
+      "rotation_z_degrees": 12
+    },
+    {
+      "name": "Ward 02 bed 1",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        6.7,
+        -10.85,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 02 cabinet 1",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        8.2,
+        -10.05,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 02 bed 2",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        6.7,
+        -7.95,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 02 cabinet 2",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        8.2,
+        -7.15,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 02 IV stand",
+      "source": "Models/Interiors/HospitalProps/IVStand/Source/iv_stand.blend",
+      "collection": "ASSET | IVStand",
+      "position_m": [
+        5.4,
+        -8.950000000000001,
+        0
+      ],
+      "rotation_z_degrees": 12
+    },
+    {
+      "name": "Nursing station counter",
+      "source": "Models/Interiors/HospitalProps/NursingCounter/Source/nursing_counter.blend",
+      "collection": "ASSET | NursingCounter",
+      "position_m": [
+        3.5,
+        -3.75,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Nursing supplies trolley",
+      "source": "Models/Interiors/HospitalProps/MedicalTrolley/Source/medical_trolley.blend",
+      "collection": "ASSET | MedicalTrolley",
+      "position_m": [
+        7.5,
+        -2.5,
+        0
+      ],
+      "rotation_z_degrees": 20
+    },
+    {
+      "name": "Stored nursing wheelchair",
+      "source": "Models/Interiors/HospitalProps/Wheelchair/Source/wheelchair.blend",
+      "collection": "ASSET | Wheelchair",
+      "position_m": [
+        7.35,
+        -4.65,
+        0
+      ],
+      "rotation_z_degrees": -40
+    },
+    {
+      "name": "Ward 04 bed 1",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        6.7,
+        3.05,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 04 cabinet 1",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        8.2,
+        3.85,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 04 bed 2",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        6.7,
+        5.95,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 04 cabinet 2",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        8.2,
+        6.75,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 04 IV stand",
+      "source": "Models/Interiors/HospitalProps/IVStand/Source/iv_stand.blend",
+      "collection": "ASSET | IVStand",
+      "position_m": [
+        5.4,
+        4.95,
+        0
+      ],
+      "rotation_z_degrees": 12
+    },
+    {
+      "name": "Ward 06 bed 1",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        6.7,
+        8.700000000000001,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 06 cabinet 1",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        8.2,
+        9.5,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 06 bed 2",
+      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "collection": "ASSET | HospitalBed",
+      "position_m": [
+        6.7,
+        11.6,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 06 cabinet 2",
+      "source": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "collection": "ASSET | BedsideCabinet",
+      "position_m": [
+        8.2,
+        12.4,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward 06 IV stand",
+      "source": "Models/Interiors/HospitalProps/IVStand/Source/iv_stand.blend",
+      "collection": "ASSET | IVStand",
+      "position_m": [
+        5.4,
+        10.6,
+        0
+      ],
+      "rotation_z_degrees": 12
+    },
+    {
+      "name": "Ward door 1",
+      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+      "collection": "ASSET | HospitalDoor",
+      "position_m": [
+        -1.7,
+        -9.4,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward door 2",
+      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+      "collection": "ASSET | HospitalDoor",
+      "position_m": [
+        -1.7,
+        -3.75,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward door 3",
+      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+      "collection": "ASSET | HospitalDoor",
+      "position_m": [
+        -1.7,
+        4.5,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward door 4",
+      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+      "collection": "ASSET | HospitalDoor",
+      "position_m": [
+        -1.7,
+        10.15,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "name": "Ward door 5",
+      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+      "collection": "ASSET | HospitalDoor",
+      "position_m": [
+        1.7,
+        -9.4,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward door 6",
+      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+      "collection": "ASSET | HospitalDoor",
+      "position_m": [
+        1.7,
+        4.5,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Ward door 7",
+      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+      "collection": "ASSET | HospitalDoor",
+      "position_m": [
+        1.7,
+        10.15,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Abandoned hall wheelchair",
+      "source": "Models/Interiors/HospitalProps/Wheelchair/Source/wheelchair.blend",
+      "collection": "ASSET | Wheelchair",
+      "position_m": [
+        -0.84,
+        -6.8,
+        0
+      ],
+      "rotation_z_degrees": -15
+    },
+    {
+      "name": "Cross hall waiting bench",
+      "source": "Models/Interiors/HospitalProps/WaitingBench/Source/waiting_bench.blend",
+      "collection": "ASSET | WaitingBench",
+      "position_m": [
+        4.5,
+        -1.22,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "name": "West waiting bench",
+      "source": "Models/Interiors/HospitalProps/WaitingBench/Source/waiting_bench.blend",
+      "collection": "ASSET | WaitingBench",
+      "position_m": [
+        -5.4,
+        1.22,
+        0
+      ],
+      "rotation_z_degrees": 180
+    },
+    {
+      "name": "Nursing LandlinePhone",
+      "source": "Models/Interiors/StudioFurniture/LandlinePhone/Source/landline_phone.blend",
+      "collection": "ASSET | LandlinePhone",
+      "position_m": [
+        3.65,
+        -3.15,
+        1.01
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "name": "Nursing PileOfMail",
+      "source": "Models/Interiors/StudioFurniture/PileOfMail/Source/pile_of_mail.blend",
+      "collection": "ASSET | PileOfMail",
+      "position_m": [
+        3.6,
+        -4.27,
+        1.01
+      ],
+      "rotation_z_degrees": -80
+    },
+    {
+      "name": "Nursing TrashCan",
+      "source": "Models/Interiors/StudioFurniture/TrashCan/Source/trash_can.blend",
+      "collection": "ASSET | TrashCan",
+      "position_m": [
+        8.1,
+        -3.6,
+        0
+      ],
+      "rotation_z_degrees": 0
+    }
+  ],
+  "views": [
+    "hallway",
+    "nursing_station",
+    "cross_hall",
+    "patient_room",
+    "treatment",
+    "north_ward",
+    "windows",
+    "overview"
+  ],
+  "render_samples": 128,
+  "render_device": "GPU",
+  "complete_model_saved": true,
+  "limits": "Standalone linked art; no gameplay level insertion, collision or engine lighting."
+}

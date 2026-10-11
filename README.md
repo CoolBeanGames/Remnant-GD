@@ -14,6 +14,12 @@ The installed [blender-asset-workflow skill](Skills/blender-asset-workflow/SKILL
 
 Export/texture guidance and a Remnant-specific authoring reference live alongside the skill. Engine lighting, physics and gameplay integration follow the target project's own workflow. The repository copy is versioned; the matching user copy is installed under the user skills folder.
 
+## Dilapidated hospital art collection
+
+The [hospital wing](Models/Architecture/DilapidatedHospital/README.md) has six patient wards, a treatment room, an open nursing station and two connected 3.2 m hallways across an 18 × 26 m floor plan. Broken/missing window panes, dirty clinical surfaces, rusted medical equipment, damaged ceilings and dried blood stains finish the space. Eight medical props each have their own packed Blender source and separate GLB.
+
+[hospital_assembly.blend](Models/Interiors/DilapidatedHospital/hospital_assembly.blend) uses 50 relative collection instances. Eight actual environment renders and three angles per new prop are in the [offline gallery](Reports/Hospital/index.html) and [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/Hospital/index.html). Native and export checks verify textures, bounds, hinges, real glass openings, connected room access, staff access and furniture clearances; Godot imports all nine exports with 730 textured surfaces. The hospital remains a reusable art collection; gameplay collision, scene placement and lighting require engine setup. Windows release/startup, GitHub and Notion delivery accompany the assets.
+
 ## Dilapidated warehouse art collection
 
 The [warehouse](Models/Architecture/DilapidatedWarehouse/README.md) has a 24 × 36 m production hall, broken factory windows, rusted trusses, jointed stained concrete, a 4.2 m catwalk and an elevated production office reached by stairs. Six new independently packed Blender/GLB props provide broken presses, lathes, a failed compressor, an open electrical cabinet, office desk and loose debris. Existing office furniture remains separately linked.

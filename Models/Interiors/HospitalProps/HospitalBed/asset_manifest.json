@@ -1,0 +1,35 @@
+{
+  "key": "hospital_bed",
+  "native": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+  "export": "Models/Interiors/HospitalProps/HospitalBed/hospital_bed.glb",
+  "collection": "ASSET | HospitalBed",
+  "mesh_objects": 60,
+  "triangles": 10230,
+  "dimensions_blender_m": [
+    1.2809,
+    2.1468,
+    1.3692
+  ],
+  "bounds_min": [
+    -0.7489,
+    -1.0758,
+    -0.0
+  ],
+  "bounds_max": [
+    0.532,
+    1.071,
+    1.3692
+  ],
+  "packed_images": 25,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU"
+}

@@ -1,0 +1,278 @@
+{
+  "assets": 9,
+  "new_props": 8,
+  "assembly_instances": 50,
+  "triangles_separate_exports": 111410,
+  "actual_render_images": 32,
+  "checked_files": [
+    {
+      "file": "Models/Architecture/DilapidatedHospital/Source/dilapidated_hospital.blend",
+      "bytes": 23196896,
+      "sha256": "c42dc38536e0210c5df65bf31db84fde369329176737aa170b9d68182eef49d0"
+    },
+    {
+      "file": "Models/Architecture/DilapidatedHospital/dilapidated_hospital.glb",
+      "bytes": 21700344,
+      "sha256": "ce3562d434c24983340902939162b709296b93d9a559bbc3bac935ce7dc99512"
+    },
+    {
+      "file": "Reports/Hospital/hallway.png",
+      "bytes": 2703632,
+      "sha256": "d0331dff90752a4ad8fb4594f7a7a8b389aa13c6496ff79420e7ba9bcbcf5b26"
+    },
+    {
+      "file": "Reports/Hospital/nursing_station.png",
+      "bytes": 2756444,
+      "sha256": "6e3378ed82d026e9f52b123cf7a46a30d4f0311aa71c28d3341a49f4c05af292"
+    },
+    {
+      "file": "Reports/Hospital/cross_hall.png",
+      "bytes": 2866457,
+      "sha256": "209b4e758e5187fde7186f84fcc5f744bf85935b930adcdbcc6487c73f7a7a27"
+    },
+    {
+      "file": "Reports/Hospital/patient_room.png",
+      "bytes": 2565335,
+      "sha256": "338180992bbfa8a47d3f1659b82346618b0b17c99901ae4194dedb8a619cba84"
+    },
+    {
+      "file": "Reports/Hospital/treatment.png",
+      "bytes": 2662510,
+      "sha256": "08223bc9f271a6ab97e2c0a6bf3a1a6a82296d38cdde8e684813cfee56c154fa"
+    },
+    {
+      "file": "Reports/Hospital/north_ward.png",
+      "bytes": 2617335,
+      "sha256": "ef2659f915abf691c0bb2d9b1d5970cade0c1d78cbac51ea3fef2b8087db091f"
+    },
+    {
+      "file": "Reports/Hospital/windows.png",
+      "bytes": 2208499,
+      "sha256": "d24eef0c919197345ccf6f6a0f42f635778e2a46958a1422247f2cf0e3e05f0d"
+    },
+    {
+      "file": "Reports/Hospital/overview.png",
+      "bytes": 3216312,
+      "sha256": "9eaa42215393e74535a84c1a13f3969d902c50ac42814122ac7970ea943c3d21"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/BedsideCabinet/Source/bedside_cabinet.blend",
+      "bytes": 17580424,
+      "sha256": "fa1b8f2a9a1cec34b1893c3ed1b960c69200534b4096e0bebe72b72d67b4a66a"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/BedsideCabinet/bedside_cabinet.glb",
+      "bytes": 9745472,
+      "sha256": "e9ff3331600cc05cea0e0fe92b6b119958a015e93422a0381b7c9a3e7bf84f2e"
+    },
+    {
+      "file": "Reports/Hospital/BedsideCabinet/front.png",
+      "bytes": 1034371,
+      "sha256": "b36acca577eca2bb7bb3df8dd2bef9e903049883034e4009d5e50eb163c5baef"
+    },
+    {
+      "file": "Reports/Hospital/BedsideCabinet/rear.png",
+      "bytes": 1044531,
+      "sha256": "680b25d69ae0a9a0e7133ce6e95e638c9ab12b26cfdeed952a4864b1405c22ae"
+    },
+    {
+      "file": "Reports/Hospital/BedsideCabinet/detail.png",
+      "bytes": 1038832,
+      "sha256": "e6b2dff60c042b228bc80e30dd86d756e43da8d0156b7fdfa864bd06e0f1c4d9"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
+      "bytes": 18273764,
+      "sha256": "7bd50a555ab7305572c860dbe7ce65d2e093262ac7ed128cb93aac4d516bda3a"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/HospitalBed/hospital_bed.glb",
+      "bytes": 13126056,
+      "sha256": "8494d41a49051c736416588987fb32cdf1e82a531b0ef76a630eae9d42517134"
+    },
+    {
+      "file": "Reports/Hospital/HospitalBed/front.png",
+      "bytes": 976478,
+      "sha256": "6e6c845cf2babdceeb21a38446c410d804f1d88de801ef73a81380c9a7c1ce08"
+    },
+    {
+      "file": "Reports/Hospital/HospitalBed/rear.png",
+      "bytes": 979974,
+      "sha256": "9e6d80f9f4de9c5ad715d552063f825c020c17a4da98852e7102de5d4bfcf38c"
+    },
+    {
+      "file": "Reports/Hospital/HospitalBed/detail.png",
+      "bytes": 999308,
+      "sha256": "7b804cb555c554986a7d3dc6fdf2a318c22e7b8307198943cd341888978bc93c"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+      "bytes": 17299339,
+      "sha256": "6a5060a6d086ffa2d5a96c607c2eb2c24ad6484665a12515a79d4eaca914302f"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/HospitalDoor/hospital_door.glb",
+      "bytes": 9508200,
+      "sha256": "b0df71020a8105527fad0de459f56d4e61a510d3e9befa8f54973ddb1a3b0293"
+    },
+    {
+      "file": "Reports/Hospital/HospitalDoor/front.png",
+      "bytes": 1008899,
+      "sha256": "101a03afc6d707142a4291e7a8f7d037fe6cdfb35aec96f5481b8c1c632026e8"
+    },
+    {
+      "file": "Reports/Hospital/HospitalDoor/rear.png",
+      "bytes": 991932,
+      "sha256": "2014ec1174a295e047a5971a318a73c66fd012ebdf74b466bf07ef16620a34e4"
+    },
+    {
+      "file": "Reports/Hospital/HospitalDoor/detail.png",
+      "bytes": 918024,
+      "sha256": "d06044e759bd3c642decff3ec280564146a26a872448e85811ed72fe4b3e3b1e"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/IVStand/Source/iv_stand.blend",
+      "bytes": 17604437,
+      "sha256": "eb4af01422bcc6b63f624b896a983ac5d481318acc991eccfdc2bb3fe15ff4fa"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/IVStand/iv_stand.glb",
+      "bytes": 12600248,
+      "sha256": "14f9b1792d20f8647838920b4c14bfa42bcf2b1c109845101e48135357c7f957"
+    },
+    {
+      "file": "Reports/Hospital/IVStand/front.png",
+      "bytes": 837611,
+      "sha256": "a9604bd1c19541141c853046ceb853ebcc01814179fa6d5c063a72f5e8d85a8d"
+    },
+    {
+      "file": "Reports/Hospital/IVStand/rear.png",
+      "bytes": 832910,
+      "sha256": "f11ee98fd62dee80bf1435b0d850e126bd3d4be354637e66c5b18ef5addfccb5"
+    },
+    {
+      "file": "Reports/Hospital/IVStand/detail.png",
+      "bytes": 816562,
+      "sha256": "35f320deb411ebb624a982870af1e34d9e6c0c00eb739bce372d11cd2a9a5532"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/MedicalTrolley/Source/medical_trolley.blend",
+      "bytes": 17980347,
+      "sha256": "43bbc3273c2870d1ffb0a11078f7b8a62493de2309bd3d9779194ed2387dfc20"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/MedicalTrolley/medical_trolley.glb",
+      "bytes": 13029188,
+      "sha256": "8d3be6ce9a3c909e04e053f39fd7a265360b553c83ccfd0909479478cc371f0e"
+    },
+    {
+      "file": "Reports/Hospital/MedicalTrolley/front.png",
+      "bytes": 1032483,
+      "sha256": "5c893f1483466ddb06a68be8d71cb25abf4f42092f4a5e9cd4906b89c2fda74c"
+    },
+    {
+      "file": "Reports/Hospital/MedicalTrolley/rear.png",
+      "bytes": 1008152,
+      "sha256": "2a82da427c4b1e741ad2bd4f1f715a7ce1aade96e5bb7e65caa7625455f5bb83"
+    },
+    {
+      "file": "Reports/Hospital/MedicalTrolley/detail.png",
+      "bytes": 1011665,
+      "sha256": "fc18cb18ef15afdd20757e62670f348815c730570d60a6df23a0753158c2ea4e"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/NursingCounter/Source/nursing_counter.blend",
+      "bytes": 18198708,
+      "sha256": "ad9e6442aa76af91aac709af7ba7becd26a03cd7dddea98aa005564fa9983ac2"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/NursingCounter/nursing_counter.glb",
+      "bytes": 8119864,
+      "sha256": "8d5df532a57a343ed458bfe57748038fc3f5388af2d7fbff9397c87b4665c854"
+    },
+    {
+      "file": "Reports/Hospital/NursingCounter/front.png",
+      "bytes": 972602,
+      "sha256": "84231b6860fb59a42cc2ffca2ac0dd8e64d8bfa27c7fb0b87395b522ec12faf9"
+    },
+    {
+      "file": "Reports/Hospital/NursingCounter/rear.png",
+      "bytes": 987106,
+      "sha256": "6369c59acdc5a93836abf8a52a5c3c3b37f2b648a75ca259cdbc7c5976285cbd"
+    },
+    {
+      "file": "Reports/Hospital/NursingCounter/detail.png",
+      "bytes": 977019,
+      "sha256": "baf64aaeb0ac73665706ca5355c88922dc7b7e4f3be1a3d77d6bd3547de476d8"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/WaitingBench/Source/waiting_bench.blend",
+      "bytes": 17209248,
+      "sha256": "ceed4788a82c589be9a23087f5057c1d934ce148168557d557622ace1f6edc08"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/WaitingBench/waiting_bench.glb",
+      "bytes": 7677092,
+      "sha256": "18c5e7c7abfe305e4bc2729eaeb0d02e266c5393001c1f39779d4c4053bda698"
+    },
+    {
+      "file": "Reports/Hospital/WaitingBench/front.png",
+      "bytes": 958624,
+      "sha256": "f974ea3792471181f70cef8d7dc503af9d95d953358851f23526c9842ae5a19f"
+    },
+    {
+      "file": "Reports/Hospital/WaitingBench/rear.png",
+      "bytes": 913689,
+      "sha256": "b5c72a990f4aaa1d1d7a70cb7077c9510204add6db639865fea4388dba16f02e"
+    },
+    {
+      "file": "Reports/Hospital/WaitingBench/detail.png",
+      "bytes": 972238,
+      "sha256": "44414d3c6b844da55cc34d7f5ae15381482e1a72b878cab8b8950081b3b0ef11"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/Wheelchair/Source/wheelchair.blend",
+      "bytes": 17948779,
+      "sha256": "cd78d771668fd9d054f27f8727939c754dbd291a5bfe5f766b67c41133ea0448"
+    },
+    {
+      "file": "Models/Interiors/HospitalProps/Wheelchair/wheelchair.glb",
+      "bytes": 12820160,
+      "sha256": "35bdff205ae6ee5be60566233879281bb190080c56a3c752775afd9655d8902d"
+    },
+    {
+      "file": "Reports/Hospital/Wheelchair/front.png",
+      "bytes": 986417,
+      "sha256": "f0dd2288771d4eacf4179e60fcf69289bb4ad8800b595d49dca1a61010258fd3"
+    },
+    {
+      "file": "Reports/Hospital/Wheelchair/rear.png",
+      "bytes": 958143,
+      "sha256": "b5dfe3462e334ba2568bed0a931d09e2ef660c2daa97e1e1c294ffb345d43fd2"
+    },
+    {
+      "file": "Reports/Hospital/Wheelchair/detail.png",
+      "bytes": 963272,
+      "sha256": "9381cca4fc01d8fcc1dc24b04d0a665b5821ab48fb2fabf1087b586c101b71c4"
+    },
+    {
+      "file": "Models/Interiors/DilapidatedHospital/hospital_assembly.blend",
+      "bytes": 18828469,
+      "sha256": "4c70b1baa7c7a28558cc350a936398391dd89b28bf0d836c82098adf62383fc2"
+    }
+  ],
+  "visual_review": {
+    "environment_views": 8,
+    "prop_views": 24,
+    "method": "Every final PNG was actually opened with view_image and reviewed. Ward camera, blood readability, chipped glazing edges, wall decal location and room/staff clearances were refined; affected final views were opened again."
+  },
+  "verified_at": "2026-10-11T11:48:59.983622-05:00",
+  "checks": {
+    "native": "Nine native sources: packed used images, UVs/materials, bounds, ten-child door hinge, 50 relative links and complete saved visibility passed",
+    "structure": "Evaluated geometry: 48 broken/missing window centres, 12 surviving panes, seven doorways, continuous floors, both halls, all eight room entries, rear staff entry and furniture room bounds passed",
+    "portable": "Nine GLB 2 exports: embedded PBR images, buffer ranges, mesh counts, normals/UVs and 111410 evaluated triangles; 32 actual PNGs and 51 hashes passed",
+    "engine": "Godot 4.7.2 imported nine exports with matching mesh counts/bounds, PBR textures and retained hinge; isolated APPDATA; no warnings/errors",
+    "html": "32 embedded JPEGs decoded; real asset links and gallery filter; 103 unique wiki page/sidebar/search records; source Site files match local HTML; earlier galleries preserved",
+    "browser_limit": "Browser automation unavailable on this Windows host. Actual Blender image review and static HTML/filter checks completed; no browser screenshot/layout verification claim."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "key": "medical_trolley",
+  "native": "Models/Interiors/HospitalProps/MedicalTrolley/Source/medical_trolley.blend",
+  "export": "Models/Interiors/HospitalProps/MedicalTrolley/medical_trolley.glb",
+  "collection": "ASSET | MedicalTrolley",
+  "mesh_objects": 46,
+  "triangles": 7842,
+  "dimensions_blender_m": [
+    0.852,
+    0.629,
+    1.137
+  ],
+  "bounds_min": [
+    -0.427,
+    -0.305,
+    -0.0
+  ],
+  "bounds_max": [
+    0.425,
+    0.324,
+    1.137
+  ],
+  "packed_images": 25,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU"
+}

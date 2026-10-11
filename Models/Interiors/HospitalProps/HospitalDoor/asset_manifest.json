@@ -1,0 +1,40 @@
+{
+  "key": "hospital_door",
+  "native": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
+  "export": "Models/Interiors/HospitalProps/HospitalDoor/hospital_door.glb",
+  "collection": "ASSET | HospitalDoor",
+  "mesh_objects": 16,
+  "triangles": 3160,
+  "dimensions_blender_m": [
+    1.49,
+    1.318,
+    2.285
+  ],
+  "bounds_min": [
+    -0.745,
+    -0.07,
+    0.0
+  ],
+  "bounds_max": [
+    0.745,
+    1.248,
+    2.285
+  ],
+  "packed_images": 24,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU",
+  "moving_part": {
+    "pivot": "PIVOT | hospital door hinge",
+    "default_open_degrees": 78,
+    "clear_width_m": 1.3
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "key": "wheelchair",
+  "native": "Models/Interiors/HospitalProps/Wheelchair/Source/wheelchair.blend",
+  "export": "Models/Interiors/HospitalProps/Wheelchair/wheelchair.glb",
+  "collection": "ASSET | Wheelchair",
+  "mesh_objects": 64,
+  "triangles": 12084,
+  "dimensions_blender_m": [
+    0.822,
+    1.292,
+    0.9869
+  ],
+  "bounds_min": [
+    -0.411,
+    -0.73,
+    -0.0
+  ],
+  "bounds_max": [
+    0.411,
+    0.562,
+    0.9869
+  ],
+  "packed_images": 24,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU"
+}

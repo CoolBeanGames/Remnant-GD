@@ -1,4 +1,4 @@
-"""Blender helpers shared by the separate warehouse architecture and prop authors."""
+"""Blender geometry, packing and presentation helpers for separate industrial assets."""
 import json
 import math
 from pathlib import Path
@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TEX = ROOT / 'Models/Architecture/DilapidatedWarehouse/Textures'
 RENDERS = ROOT / 'Reports/Warehouse'
 asset = None
+ASSET_LABEL = 'Warehouse'
 
 
 def configure(samples=96, width=1600, height=1067):
@@ -49,7 +50,7 @@ def collection(name):
 
 
 def material(key):
-    name='Warehouse / '+key
+    name=ASSET_LABEL+' / '+key
     if name in bpy.data.materials: return bpy.data.materials[name]
     m=bpy.data.materials.new(name)
     m.use_nodes=True
@@ -164,7 +165,7 @@ def label(name,text,pos,size,mat,rotation=(math.pi/2,0,0),parent=None):
 
 
 def decal(name,pos,size,kind='damp',axis='floor'):
-    key='Warehouse decal / '+kind
+    key=ASSET_LABEL+' decal / '+kind
     m=bpy.data.materials.get(key)
     if not m:
         m=bpy.data.materials.new(key);m.use_nodes=True;m.surface_render_method='DITHERED'
@@ -210,6 +211,7 @@ def pack():
 
 
 def save_export(folder,stem,extra=None):
+    bpy.context.preferences.filepaths.save_version=0
     folder=Path(folder);source=folder/'Source';source.mkdir(parents=True,exist_ok=True);(source/'.gdignore').write_text('')
     pack();bpy.context.view_layer.update()
     points=[o.matrix_world@Vector(p) for o in asset.objects if o.type=='MESH' for p in o.bound_box]
@@ -233,7 +235,7 @@ def save_export(folder,stem,extra=None):
           'textures':'Original portable PBR image maps; packed native images and embedded GLB channels'}
     info.update(extra or {})
     (folder/'asset_manifest.json').write_text(json.dumps(info,indent=2)+'\n')
-    print('WAREHOUSE EXPORT',stem,info['mesh_objects'],triangles,flush=True)
+    print(ASSET_LABEL.upper()+' EXPORT',stem,info['mesh_objects'],triangles,flush=True)
     return info
 
 
