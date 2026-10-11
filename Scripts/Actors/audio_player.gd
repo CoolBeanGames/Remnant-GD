@@ -6,6 +6,9 @@ extends Node3D
 @export var audio_global: AudioStreamPlayer
 
 signal playback_finished
+## A pooled node can outlive many sounds; retain this ID when owning a clip.
+var playback_id: int = 0
+var playback_active: bool = false
 
 
 func _ready() -> void:
@@ -21,14 +24,15 @@ func play_3d(
 	bus: StringName = &"Master"
 ) -> void:
 
-	audio_global.stop()
-	audio_3d.stop()
+	_stop_streams()
+	playback_id += 1
+	playback_active = true
 
 	global_position = position
 
 	audio_3d.stream = stream
-	audio_3d.volume_db = linear_to_db(volume)
-	audio_3d.pitch_scale = pitch
+	audio_3d.volume_db = linear_to_db(maxf(0.0, volume)) if volume > 0 else -80.0
+	audio_3d.pitch_scale = maxf(0.01, pitch)
 	audio_3d.bus = bus
 
 	audio_3d.play()
@@ -41,24 +45,39 @@ func play_global(
 	bus: StringName = &"Master"
 ) -> void:
 
-	audio_3d.stop()
-	audio_global.stop()
+	_stop_streams()
+	playback_id += 1
+	playback_active = true
 
 	audio_global.stream = stream
-	audio_global.volume_db = linear_to_db(volume)
-	audio_global.pitch_scale = pitch
+	audio_global.volume_db = linear_to_db(maxf(0.0, volume)) if volume > 0 else -80.0
+	audio_global.pitch_scale = maxf(0.01, pitch)
 	audio_global.bus = bus
 
 	audio_global.play()
 
 
-func stop() -> void:
+func _stop_streams() -> void:
 	audio_3d.stop()
 	audio_global.stop()
 
 
+func is_playback_active(id: int) -> bool:
+	return playback_active and playback_id == id and (audio_3d.playing or audio_global.playing)
+
+
+## Explicit cancellation returns the player to its pool just like natural completion.
+## Passing an ID prevents a previous owner from stopping a later reused sound.
+func stop(id: int = -1) -> void:
+	if id >= 0 and playback_id != id:
+		return
+	_stop_streams()
+	_on_audio_finished()
+
+
 func reset() -> void:
-	stop()
+	_stop_streams()
+	playback_active = false
 
 	audio_3d.stream = null
 	audio_global.stream = null
@@ -74,4 +93,7 @@ func reset() -> void:
 
 
 func _on_audio_finished() -> void:
+	if not playback_active:
+		return
+	playback_active = false
 	playback_finished.emit()

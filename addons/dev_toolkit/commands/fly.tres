@@ -9,4 +9,3 @@ aliases = PackedStringArray()
 usage = "fly [on|off]"
 description = "Toggle flight while retaining collisions using the project's movement adapter."
 mode = "fly"
-

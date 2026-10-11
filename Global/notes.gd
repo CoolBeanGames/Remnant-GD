@@ -14,9 +14,12 @@ func all_notes() -> Array[Dictionary]:
 	return result
 
 func has_note(id: StringName) -> bool:
-	for note in all_notes():
-		if str(note.id) == str(id):
-			return true
+	# Existence checks do not need the journal's defensive deep-copy API.
+	var saved: Variant = Blackboard.read_data("found_notes")
+	if saved is Array:
+		for note in saved:
+			if note is Dictionary and str(note.get("id", "")) == str(id):
+				return true
 	return false
 
 func has_spawned(id: StringName) -> bool:
@@ -46,6 +49,7 @@ func collect(note: note_definition) -> void:
 		Blackboard.store_data("found_notes", saved)
 		collection_changed.emit()
 	note_read.emit(note.snapshot())
+	DevTools.log_info("Read note / %s" % note.id, "notes")
 
 ## Culling a lost world drop frees its slot; the journal always takes priority.
 func release_spawned(id: StringName) -> void:

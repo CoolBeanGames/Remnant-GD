@@ -166,6 +166,7 @@ func load_now() -> bool:
 	if has_node("/root/Mulch"):
 		Mulch.restore()
 	loaded.emit()
+	DevTools.log_info("Loaded run / version %d / %d blackboard keys / %d flags" % [int(payload.version), Blackboard._data.size(), Flags._flags.size()], "save")
 	return true
 
 func start_session() -> void:
@@ -213,6 +214,7 @@ func _notification(what: int) -> void:
 
 func _fail(message: String) -> bool:
 	push_warning(message)
+	DevTools.log_error(message, "save")
 	save_failed.emit(message)
 	return false
 
@@ -261,6 +263,7 @@ func new_game() -> bool:
 	Flags._flags.clear()
 	WorldState.tracking = false
 	WorldState.items.clear()
+	WorldState.body_cache.clear()
 	WorldState.level = null
 	WorldState.player = null
 	restore_runtime()

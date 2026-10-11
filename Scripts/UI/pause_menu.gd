@@ -28,7 +28,7 @@ func _ready() -> void:
 	hide()
 
 func _input(event: InputEvent) -> void:
-	if IssueReporter.is_open or DebugInspector.is_open or DevConsole.is_open:
+	if DevTools.any_modal_open():
 		return
 	if is_instance_valid(options) and options.is_open:
 		return

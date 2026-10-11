@@ -45,7 +45,7 @@ func _exit_tree() -> void:
 	close()
 
 func _input(event: InputEvent) -> void:
-	if IssueReporter.is_open or DebugInspector.is_open or DevConsole.is_open:
+	if DevTools.any_modal_open():
 		return
 	if is_open and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		close()

@@ -8,4 +8,3 @@ command = "set flag"
 aliases = PackedStringArray()
 usage = "set flag \"name\" [true|false]"
 description = "Set a project flag through the configured adapter; omitted state means true."
-

@@ -103,6 +103,7 @@ func _respawn_room_erased() -> void:
 		portal.set_suspended(false)
 
 func respawn_player(is_death: bool = true) -> void:
+	DevTools.log_info("Respawning player in the concrete room." if is_death else "Starting the player's wake-up sequence.", "level")
 	var tally: Variant = Blackboard.read_data("respawn_tallies")
 	Blackboard.store_data("respawn_tallies", (int(tally) if tally is int or tally is float else 0) + 1)
 	var placement: prop_placement = player.get_node("Controllers/Prop_Placement")
@@ -165,10 +166,12 @@ func _check_thresholds() -> void:
 		Flags.set_flag("computer enabled", true)
 
 func _enable_level() -> void:
+	DevTools.log_info("Level lighting, lever and chute enabled.", "level")
 	manual_lever.set_enabled(true)
 	chute.enabled = true
 
 func _enable_grinder() -> void:
+	DevTools.log_info("Grinder enabled after %d lever pulls." % lever_pulls, "level")
 	grinder.set_enabled(true)
 	_set_grinder_motion(true)
 
@@ -177,13 +180,10 @@ func _set_grinder_motion(enabled: bool) -> void:
 		if str(node.name).begins_with("Grinder_"):
 			node.set_process(enabled)
 			node.set_physics_process(enabled)
-	if is_instance_valid(machine_audio):
-		if enabled:
-			machine_audio.play()
-		else:
-			machine_audio.stop()
+	Audio.set_spatial_active(machine_audio, enabled)
 
 func _enable_computer() -> void:
+	DevTools.log_info("Computer enabled at %d score." % Progression.score(), "level")
 	computer.set_enabled(true)
 
 func _exit_tree() -> void:

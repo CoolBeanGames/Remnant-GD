@@ -43,6 +43,18 @@ func run() -> void:
 	portal.previous_camera_position = portal.camera.global_position
 	portal._update_view()
 	check(portal.source_surface.visible and not portal.return_surface.visible, "Only the entry view is drawn outside")
+	check(portal.viewport.render_target_update_mode == SubViewport.UPDATE_ALWAYS, "Visible portal renders its destination")
+	var looking_at_portal: Transform3D = portal.camera.global_transform
+	portal.camera.rotate_y(PI)
+	portal._update_view()
+	check(portal.viewport.render_target_update_mode == SubViewport.UPDATE_DISABLED, "Looking away disables the extra full-screen portal render")
+	portal.camera.global_transform = looking_at_portal
+	portal._update_view()
+	check(portal.viewport.render_target_update_mode == SubViewport.UPDATE_ALWAYS, "Looking back resumes portal rendering immediately")
+	var original_aperture: Vector2 = portal.aperture
+	portal.aperture = Vector2(100, 100)
+	check(portal._aperture_in_frustum(portal.source_frame), "A doorway spanning the viewport stays visible even when its corners lie outside the frustum")
+	portal.aperture = original_aperture
 	var expected_view: Transform3D = portal.mapping(portal.source_frame, portal.destination_frame) * portal.camera.global_transform
 	check(portal.portal_camera.global_transform.is_equal_approx(expected_view), "Portal camera matches player perspective through doorway")
 	check(not portal.crosses_aperture(portal.source_frame, door.global_position + Vector3(3, 1, -1), door.global_position + Vector3(3, 1, 1)), "Walking around door does not cross portal")
@@ -85,9 +97,13 @@ func run() -> void:
 	var hit: Dictionary = player.get_world_3d().direct_space_state.intersect_ray(floor_query)
 	check(not hit.is_empty() and is_equal_approx(hit.position.y, 0), "Sky room has actual floor collision")
 	var return_door: portal_return_door = portal.room.get_children().back() as portal_return_door
+	door.close_sound = load("res://Audio/SFX/Lever/Lever_Reset.wav")
+	var before_closing: int = pool.active.size()
 	return_door.interact()
 	check(not door.is_open, "Return door controls the same original door")
+	check(pool.active.size() == before_closing, "Return door also waits until closing finishes before playing its sound")
 	door.animation.advance(door.animation.current_animation_length)
+	check(pool.active.size() == before_closing + 2, "Completed close plays one pooled sound at each doorway position")
 	portal._update_view()
 	check(not portal.return_surface.visible, "Closed door hides portal view")
 	return_door.interact()

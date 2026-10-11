@@ -1,6 +1,6 @@
 # Dev Toolkit for Godot
 
-Copy the entire `addons/dev_toolkit/` folder into another Godot project. The addon contains the F1 issue reporter, F2/F3/F4 state inspectors, tilde console, and F6 gameplay recorder. The core does not require Remnant scenes or its Blackboard, Flags, SaveGame, WorldState, or audio singletons.
+Copy the entire `addons/dev_toolkit/` folder into another Godot project. The addon contains the F1 issue reporter, F2/F3/F4 state inspectors, tilde console, F5 log/export, and F6 gameplay recorder. The core does not require Remnant scenes or its Blackboard, Flags, SaveGame, WorldState, or audio singletons.
 
 The tested engine version is Godot 4.7.2. Other versions must support the APIs used here, including `OS.execute_with_pipe` for recording; compatibility with earlier releases has not been verified. The recorder needs FFmpeg with `libx264rgb`. On Windows x86_64 it can download a private copy when recording is first requested and FFmpeg is missing. Reporting, inspecting, and console commands do not require FFmpeg.
 
@@ -21,6 +21,7 @@ Use one toolkit instance per running application. The optional plugin never over
 | F2 | Scrollable Blackboard snapshot |
 | F3 | Scrollable flag snapshot |
 | F4 | Read the actual file configured by the adapter |
+| F5 | Debug log, severity/channel filters and diagnostic ZIP export |
 | Tilde / backtick | Command console; Enter submits, Up/Down recalls history |
 | F6 | Start or stop native-size lossless recording with game audio |
 | Escape | Close the open modal |
@@ -102,3 +103,9 @@ The default catalog provides `help`, `set flag`, `set bb`, `set score`, `tp`, `f
 Automatic FFmpeg setup was also verified against the live default provider with an empty PATH/private cache: checked download, native recording auto-start, a completed MKV and a fresh cached-executable lookup. The toolkit regression passed after integrating setup.
 
 `Tests/ffmpeg_installer_test.tscn` passed headless/rendered runs and a copied-addon clean project. Offline fixtures exercise HTTP/integrity/archive/size/probe failures, extraction safety, cache preservation/corruption, retry and cancellation while response headers or bodies stall. Native checks cover automatic recording, progress, cancel/late completion, duplicate-start protection, cache reuse and manual setup. The tests do not contact public download servers; real executable/capture checks use a local FFmpeg when available.
+
+## Logging and review integration
+
+The portable scene now includes `DevDebugLog` (F5) and its native `DevLogSink`. Use `context.log_info/log_warning/log_error(message, channel)` from portable code; `tool(&"logger")` exposes open/export/folder actions. Every bundled catalog includes the scripted `log` resource. Per-PID sessions preserve interrupted runs, exclude active instances and bound memory/file storage. The native sink uses `Logger`/`OS.add_logger` tested in Godot 4.7.2. Remnant configuration/API and crash-export limits: `Data/DEBUG_LOG.md`.
+
+Modal state protects refusing/freed owners and deduplicates fallback contexts for separately instanced tools. Host input guards should use `any_modal_open()` so every tool is included. Console exports bound history (100), output (65,536 characters) and input (4,096 characters). Native logger, rendered viewer and addon-only regression runs passed.

@@ -1,13 +1,16 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 [ext_resource type="Script" path="res://addons/dev_toolkit/context.gd" id="1"]
 [ext_resource type="Script" path="res://addons/dev_toolkit/issue_reporter.gd" id="2"]
 [ext_resource type="Script" path="res://addons/dev_toolkit/debug_inspector.gd" id="3"]
 [ext_resource type="Script" path="res://addons/dev_toolkit/dev_console.gd" id="4"]
 [ext_resource type="Script" path="res://addons/dev_toolkit/gameplay_recorder.gd" id="5"]
 [ext_resource type="Resource" path="res://addons/dev_toolkit/default_commands.tres" id="6"]
+[ext_resource type="Script" path="res://addons/dev_toolkit/debug_log.gd" id="7"]
 [node name="DevTools" type="Node"]
 script = ExtResource("1")
 command_catalog = ExtResource("6")
+[node name="DebugLog" type="CanvasLayer" parent="."]
+script = ExtResource("7")
 [node name="IssueReporter" type="CanvasLayer" parent="."]
 script = ExtResource("2")
 [node name="DebugInspector" type="CanvasLayer" parent="."]

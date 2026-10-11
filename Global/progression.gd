@@ -76,6 +76,7 @@ func purchase(entry: computer_entry, world: Node, spawn_point: Node3D, player: N
 	Blackboard.store_data("upgrade_levels", levels.duplicate(true))
 	purchased.emit(entry, actor)
 	changed.emit()
+	DevTools.log_info("Purchased %s / tier %d / %d score" % [entry.id, level(entry), price], "upgrades")
 	return ""
 
 ## Baselines prevent repeated application when opening a second terminal or buying another tier.

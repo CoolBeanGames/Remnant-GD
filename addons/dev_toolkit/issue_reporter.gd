@@ -172,4 +172,5 @@ func save_report(text: String, image: Image) -> String:
 	if error != OK or DirAccess.rename_absolute(temp, folder.path_join("report.json")) != OK:
 		status.text = "Report write failed. Your text is still here; retry."
 		return ""
+	context.log_info("Issue report saved: " + id, "reporter")
 	return folder.path_join("report.json")

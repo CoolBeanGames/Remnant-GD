@@ -7,12 +7,19 @@ var kill_height: float = -10.0
 var tracking: bool = false
 var snapshot_elapsed: float = 0.0
 var serial: int = 0
+var session: int = 0
+var capture_scheduled: bool = false
+var body_cache: Dictionary = {}
 
 func begin(root: Node3D, avatar: CharacterBody3D, kill_y: float = -10.0) -> void:
 	tracking = false
+	session += 1
+	capture_scheduled = false
+	snapshot_elapsed = 0.0
 	level = root
 	player = avatar
 	items.clear()
+	body_cache.clear()
 	kill_height = kill_y
 	var pose: Variant = Blackboard.read_data("player_transform")
 	if pose is Transform3D:
@@ -33,7 +40,7 @@ func begin(root: Node3D, avatar: CharacterBody3D, kill_y: float = -10.0) -> void
 		look.target_rotation = Vector2(camera.rotation_degrees.x, player.rotation_degrees.y)
 		look.look_rotation = look.target_rotation
 	var saved: Variant = Blackboard.read_data("spawned_items")
-	_restore.call_deferred(saved.duplicate(true) if saved is Array else [])
+	_restore.call_deferred(saved.duplicate(true) if saved is Array else [], session)
 
 func spawn_item(scene: PackedScene, parent: Node, pose: Transform3D, apply_value: bool = false, inside_portal: bool = false) -> Node3D:
 	if scene == null or not is_instance_valid(parent):
@@ -67,15 +74,30 @@ func track(actor: Node3D, id: String = "") -> void:
 	actor.set_meta("persistent_item_id", id)
 	items[id] = weakref(actor)
 	if tracking:
-		capture()
+		_request_capture()
 
 func untrack(actor: Node3D) -> void:
 	items.erase(str(actor.get_meta("persistent_item_id", "")))
+	body_cache.erase(actor.get_instance_id())
 	if tracking:
-		capture()
+		_request_capture()
 
-func _restore(records: Array) -> void:
-	if not is_instance_valid(level) or level.is_queued_for_deletion():
+## Batch births/removals into one snapshot; explicit saves still capture immediately.
+func _request_capture() -> void:
+	if not capture_scheduled:
+		capture_scheduled = true
+		_flush_capture.call_deferred(session)
+
+func _flush_capture(request_session: int) -> void:
+	if request_session != session or not capture_scheduled:
+		return
+	capture_scheduled = false
+	capture()
+
+func _restore(records: Array, request_session: int = -1) -> void:
+	if request_session != -1 and request_session != session:
+		return
+	if not is_instance_valid(level) or not level.is_inside_tree() or level.is_queued_for_deletion():
 		return
 	for record in records:
 		if not record is Dictionary or not record.get("scene", "") is String or not ResourceLoader.exists(record.get("scene", "")):
@@ -140,6 +162,7 @@ func _restore(records: Array) -> void:
 			actor.freeze = false
 	tracking = true
 	capture()
+	DevTools.log_info("World restored / %d items" % items.size(), "world")
 
 func _actor(id: String) -> Node3D:
 	return items[id].get_ref() as Node3D if items.has(id) else null
@@ -149,6 +172,7 @@ func cull(actor: Node3D) -> void:
 		return
 	if actor.has_method("on_culled"):
 		actor.on_culled()
+	DevTools.log_info("Culled %s at %s" % [actor.scene_file_path.get_file(), actor.global_position], "world")
 	untrack(actor)
 	actor.queue_free()
 
@@ -160,11 +184,18 @@ func _physics_process(delta: float) -> void:
 		if not is_instance_valid(actor) or actor.is_queued_for_deletion():
 			items.erase(id)
 			continue
-		var bodies: Array[RigidBody3D] = _bodies(actor)
-		var below: bool = actor.global_position.y < kill_height if bodies.is_empty() else true
-		for body in bodies:
+		var below: bool = true
+		var live_bodies: int = 0
+		for reference: WeakRef in _body_references(actor):
+			var body: RigidBody3D = reference.get_ref() as RigidBody3D
+			if not is_instance_valid(body) or (body != actor and not actor.is_ancestor_of(body)):
+				continue
+			live_bodies += 1
 			if body.global_position.y >= kill_height:
 				below = false
+				break
+		if live_bodies == 0:
+			below = actor.global_position.y < kill_height
 		if below:
 			cull(actor)
 			items.erase(id)
@@ -174,30 +205,50 @@ func _physics_process(delta: float) -> void:
 		Blackboard.store_data("player_transform", player.global_transform)
 		Blackboard.store_data("player_position", player.global_position)
 		Blackboard.store_data("player_rotation", player.global_rotation)
-		Blackboard.store_data("player_camera_rotation", player.get_node("Camera3D").rotation)
+		var camera: Camera3D = player.get_node_or_null("Camera3D")
+		if camera != null:
+			Blackboard.store_data("player_camera_rotation", camera.rotation)
 	snapshot_elapsed += delta
 	if snapshot_elapsed >= .1:
 		snapshot_elapsed = 0.0
 		capture()
 
-func _bodies(actor: Node3D) -> Array[RigidBody3D]:
+## Refresh topology at snapshot cadence, rather than searching every physics tick.
+## Weak handles never keep discarded actors alive; detached bodies are ignored.
+func _bodies(actor: Node3D, refresh: bool = false) -> Array[RigidBody3D]:
 	var bodies: Array[RigidBody3D] = []
-	if actor is RigidBody3D:
-		bodies.append(actor)
-	for child in actor.find_children("*", "RigidBody3D", true, false):
-		bodies.append(child)
+	for reference: WeakRef in _body_references(actor, refresh):
+		var body: RigidBody3D = reference.get_ref() as RigidBody3D
+		if is_instance_valid(body) and (body == actor or actor.is_ancestor_of(body)):
+			bodies.append(body)
 	return bodies
+
+func _body_references(actor: Node3D, refresh: bool = false) -> Array[WeakRef]:
+	var actor_id: int = actor.get_instance_id()
+	if refresh or not body_cache.has(actor_id):
+		var references: Array[WeakRef] = []
+		if actor is RigidBody3D:
+			references.append(weakref(actor))
+		for child in actor.find_children("*", "RigidBody3D", true, false):
+			references.append(weakref(child))
+		body_cache[actor_id] = {"actor": weakref(actor), "bodies": references}
+	return body_cache[actor_id].bodies
 
 func capture() -> void:
 	if not tracking or not is_instance_valid(level) or not level.is_inside_tree():
 		return
+	capture_scheduled = false
 	var records: Array[Dictionary] = []
-	var carried_body_ids: Array[int] = []
+	# Prune handles from actors that disappeared without an explicit untrack.
+	for actor_id in body_cache.keys():
+		if body_cache[actor_id].actor.get_ref() == null:
+			body_cache.erase(actor_id)
+	var carried_body_ids: Dictionary = {}
 	for id in items:
 		var container: Node3D = _actor(id)
 		if is_instance_valid(container) and container.get_meta("carried_by_player", false) and container.has_method("get_carried_bodies"):
 			for body in container.get_carried_bodies():
-				carried_body_ids.append(body.get_instance_id())
+				carried_body_ids[body.get_instance_id()] = true
 	for id in items:
 		var actor: Node3D = _actor(id)
 		if not is_instance_valid(actor) or actor.is_queued_for_deletion():
@@ -217,7 +268,7 @@ func capture() -> void:
 		if component != null:
 			record.score = component.score
 			record.mulch_value = component.mulch_value
-		for body in _bodies(actor):
+		for body in _bodies(actor, true):
 			var extra: Dictionary = {"chute_settled": body.get_meta("chute_settled", false), "friction": body.physics_material_override.friction if body.physics_material_override != null else 1.0, "linear_damp": body.linear_damp, "angular_damp": body.angular_damp}
 			record.bodies.append({"path": str(actor.get_path_to(body)), "transform": body.global_transform, "freeze": body.freeze and not body.get_meta("carried_by_player", false) and not carried_body_ids.has(body.get_instance_id()), "mode": body.freeze_mode, "velocity": body.linear_velocity, "angular_velocity": body.angular_velocity})
 			record.bodies.back().merge(extra)

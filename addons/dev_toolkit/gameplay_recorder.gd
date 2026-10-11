@@ -103,6 +103,7 @@ func _ffmpeg_installed(_path: String, error: String) -> void:
 	if not error.is_empty():
 		_fail("FFmpeg setup failed: " + error)
 		return
+	context.log_info("Verified FFmpeg setup completed", "recorder")
 	start_recording()
 
 func _download_ffmpeg() -> String:
@@ -110,6 +111,7 @@ func _download_ffmpeg() -> String:
 		return _fail("FFmpeg not found. Set a valid ffmpeg_path or enable automatic download with that override empty.")
 	pending_recording = true
 	last_error = ""
+	context.log_info("Starting automatic FFmpeg setup", "recorder")
 	var installer := _get_ffmpeg_installer()
 	var error: String = installer.start_install()
 	if not error.is_empty():
@@ -165,6 +167,7 @@ func start_recording() -> String:
 	last_rgb = PackedByteArray()
 	last_error = ""
 	recording = true
+	context.log_info("Recording started: " + str(dimensions) + ", " + str(session_fps) + " FPS", "recorder")
 	_notice("REC / " + OS.get_keycode_string(toggle_key) + " TO STOP", 0)
 	recording_started.emit(folder)
 	return "Recording at native resolution " + str(dimensions) + ", " + str(session_fps) + " FPS. " + OS.get_keycode_string(toggle_key) + " to finish."
@@ -223,6 +226,7 @@ func stop_recording(reason: String = "") -> String:
 	if pending_recording:
 		pending_recording = false
 		ffmpeg_installer.cancel()
+		context.log_info("FFmpeg setup cancelled", "recorder")
 		_notice("FFMPEG DOWNLOAD CANCELLED", 8)
 		return "FFmpeg download cancelled."
 	if not recording:
@@ -232,6 +236,7 @@ func stop_recording(reason: String = "") -> String:
 		reason = "Final audio buffer could not be queued."
 	recording = false
 	finalizing = true
+	context.log_info("Recording stopped; finalizing" + (" / " + reason if not reason.is_empty() else ""), "recorder")
 	last_error = reason
 	_remove_audio_tap()
 	encoder.finish()
@@ -262,6 +267,7 @@ func _finish_result() -> void:
 	encoder = null
 	if result.ok:
 		last_path = result.path
+		context.log_info("Recording saved: " + last_path + " / " + str(result.frames) + " frames", "recorder")
 		var manifest := FileAccess.open(folder.path_join("recording.json"), FileAccess.WRITE)
 		if manifest != null:
 			manifest.store_string(JSON.stringify({"file": "recording.mkv", "width": dimensions.x, "height": dimensions.y, "fps": session_fps, "frames": result.frames, "duration": float(result.frames) / session_fps, "repeated_frames": repeated_frames, "audio_mix_rate": session_mix_rate, "audio_samples": result.audio_samples, "video_codec": "h264_rgb_lossless", "audio_codec": "pcm_f32le", "warning": last_error}, "\t"))
@@ -283,6 +289,8 @@ func _notice(message: String, seconds: float) -> void:
 
 func _fail(message: String) -> String:
 	last_error = message
+	if context != null:
+		context.log_error(message, "recorder")
 	_notice(message, 12)
 	recording_failed.emit(message)
 	return message

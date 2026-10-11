@@ -2,6 +2,7 @@ class_name start_room_door
 extends Node3D
 
 signal opened
+signal closed
 @export var open_animation: StringName = &"4_open_left"
 @export var close_animation: StringName = &"4_close_left"
 @export_category("Audio")
@@ -52,6 +53,7 @@ func interact() -> void:
 	_update_prompt()
 	if is_open:
 		opened.emit()
+		DevTools.log_info("Strange door opened." if is_strange else "Start-room door opened.", "door")
 		# Opening listeners restore SFX before the first door sound is dispatched.
 		if open_sound != null:
 			audio_global.play_3d(open_sound, global_position, open_sound_volume, open_sound_pitch, open_sound_bus)
@@ -61,6 +63,8 @@ func _on_animation_finished(name: StringName) -> void:
 		var sound: AudioStream = close_sound if close_sound != null else open_sound
 		if sound != null:
 			audio_global.play_3d(sound, global_position, close_sound_volume, close_sound_pitch, close_sound_bus)
+		closed.emit()
+		DevTools.log_info("Door finished closing.", "door")
 
 func mark_strange() -> void:
 	is_strange = true

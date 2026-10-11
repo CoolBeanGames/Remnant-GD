@@ -8,6 +8,7 @@ signal player_entered(player: CharacterBody3D)
 @export var grind_volume: float = 1.0
 @export var enabled: bool = true
 var grind_audio: WeakRef
+var grind_playback_id: int = -1
 var player_contact_pending: bool = false
 
 
@@ -37,7 +38,7 @@ func grind(body: Node3D) -> bool:
 		return false
 	var amount: int = 0
 	if _is_scoring_item(body, item):
-		var component: score_object = _find_score_object(item)
+		var component: score_object = physics_items.score_component(item)
 		amount = component.score if component != null else 1
 	Mulch.consume(item)
 	GrindCombo.record_item(amount)
@@ -49,10 +50,11 @@ func grind(body: Node3D) -> bool:
 
 func _play_grind_sound() -> void:
 	var existing: audio_player = grind_audio.get_ref() as audio_player if grind_audio != null else null
-	if is_instance_valid(existing) and is_instance_valid(existing.audio_global) and existing.audio_global.playing and existing.audio_global.stream == grind_sound:
+	if is_instance_valid(existing) and existing.is_playback_active(grind_playback_id):
 		return
 	var audio: audio_player = Audio.play_global(grind_sound, grind_volume, 1.0, &"SFX")
 	grind_audio = weakref(audio) if audio != null else null
+	grind_playback_id = audio.playback_id if audio != null else -1
 
 func set_enabled(value: bool) -> void:
 	enabled = value
@@ -60,30 +62,13 @@ func set_enabled(value: bool) -> void:
 
 
 func _find_rigid_body(body: Node) -> RigidBody3D:
-	var current: Node = body
-	while is_instance_valid(current):
-		if current is RigidBody3D:
-			return current as RigidBody3D
-		if current is CharacterBody3D:
-			return null
-		current = current.get_parent()
-	return null
+	return physics_items.rigid_body(body)
 
 
 ## A wrapper marked grindable/score is destroyed with all its physics children.
 ## Unmarked loose bodies are destroyed individually; never infer the level as owner.
 func _find_item_root(rigid: RigidBody3D) -> Node3D:
-	var item: Node3D = rigid
-	var current: Node = rigid.get_parent()
-	var world_root: Node = Blackboard.read_data("game_root") as Node
-	while current is Node3D and current != world_root and current != get_tree().current_scene:
-		if current is PhysicsBody3D:
-			break
-		if current.is_in_group("grindable") or current.is_in_group("score"):
-			item = current as Node3D
-			break
-		current = current.get_parent()
-	return item
+	return physics_items.item_root(rigid)
 
 
 func _is_scoring_item(body: Node, item: Node) -> bool:
@@ -98,12 +83,5 @@ func _is_scoring_item(body: Node, item: Node) -> bool:
 
 
 func _find_score_object(node: Node) -> score_object:
-	# Prefer a direct child; also support components inside a collider/model wrapper.
-	for child in node.get_children():
-		if child is score_object:
-			return child as score_object
-	for child in node.get_children():
-		var component: score_object = _find_score_object(child)
-		if component != null:
-			return component
-	return null
+	# Compatibility helper; use the common imported-item resolver.
+	return physics_items.score_component(node)

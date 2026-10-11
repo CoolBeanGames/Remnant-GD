@@ -1,0 +1,246 @@
+{
+  "engine": "4.7.2",
+  "headless": [
+    {
+      "test": "audio_lifecycle_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 3.2
+    },
+    {
+      "test": "camera_breathing_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.47
+    },
+    {
+      "test": "carry_attachment_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 4.31
+    },
+    {
+      "test": "chute_pickup_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 5.06
+    },
+    {
+      "test": "computer_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 4.69
+    },
+    {
+      "test": "debug_inspector_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.56
+    },
+    {
+      "test": "debug_log_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.66
+    },
+    {
+      "test": "dev_console_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.55
+    },
+    {
+      "test": "dev_toolkit_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.56
+    },
+    {
+      "test": "dialogue_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.75
+    },
+    {
+      "test": "door_portal_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 6.64
+    },
+    {
+      "test": "ffmpeg_installer_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 4.59
+    },
+    {
+      "test": "floor_collision_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 4.89
+    },
+    {
+      "test": "gameplay_recorder_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.47
+    },
+    {
+      "test": "gameplay_review_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 3.2
+    },
+    {
+      "test": "grind_combo_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.56
+    },
+    {
+      "test": "grinding_system_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 3.41
+    },
+    {
+      "test": "imported_items_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 14.86
+    },
+    {
+      "test": "issue_reporter_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.64
+    },
+    {
+      "test": "level_progression_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 5.14
+    },
+    {
+      "test": "manual_expansion_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 6.36
+    },
+    {
+      "test": "manual_props_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 7.92
+    },
+    {
+      "test": "movie_encoder_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 3.67
+    },
+    {
+      "test": "mulch_system_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 6.77
+    },
+    {
+      "test": "note_flow_economy_audio_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 14.42
+    },
+    {
+      "test": "notes_and_switches_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 12.31
+    },
+    {
+      "test": "player_voice_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 6.36
+    },
+    {
+      "test": "prompt_system_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 4.86
+    },
+    {
+      "test": "prop_placement_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 4.5
+    },
+    {
+      "test": "save_game_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 6.0
+    },
+    {
+      "test": "save_loader_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 8.09
+    },
+    {
+      "test": "score_sign_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 2.95
+    },
+    {
+      "test": "spawn_pool_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 3.97
+    },
+    {
+      "test": "start_room_audio_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 5.91
+    },
+    {
+      "test": "start_room_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 5.89
+    },
+    {
+      "test": "title_options_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 5.64
+    },
+    {
+      "test": "wake_up_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 5.44
+    },
+    {
+      "test": "world_guidance_test",
+      "exit": 0,
+      "passed": true,
+      "seconds": 6.48
+    }
+  ],
+  "rendered": [
+    "debug_log_test",
+    "gameplay_recorder_test"
+  ],
+  "portable": [
+    "debug_log_test"
+  ],
+  "body_lookup_sample": {
+    "legacy_us": 68394,
+    "cached_us": 3881,
+    "speedup": 17.62,
+    "scope": "body lookup microbenchmark, not total FPS"
+  }
+}

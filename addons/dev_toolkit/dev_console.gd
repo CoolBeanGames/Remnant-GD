@@ -3,6 +3,9 @@ extends CanvasLayer
 @export var tools_context: NodePath
 @export var toggle_key: Key = KEY_QUOTELEFT
 @export var enabled: bool = true
+@export_range(1, 1000) var maximum_history: int = 100
+@export_range(1024, 1048576) var maximum_output_characters: int = 65536
+@export_range(64, 65536) var maximum_command_characters: int = 4096
 var context: DevToolsContext
 var is_open: bool = false
 var previous_pause: bool
@@ -40,6 +43,7 @@ func _ready() -> void:
 	output.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
 	rows.add_child(output)
 	entry = LineEdit.new()
+	entry.max_length = maximum_command_characters
 	entry.placeholder_text = "Enter command (help for commands)"
 	entry.text_submitted.connect(_submit)
 	entry.gui_input.connect(_entry_input)
@@ -87,8 +91,12 @@ func _submit(command: String) -> void:
 	if command.strip_edges().is_empty():
 		return
 	history.append(command)
+	if history.size() > maxi(1, maximum_history):
+		history.pop_front()
 	history_index = history.size()
 	output.text += "\n\n> " + command + "\n" + execute(command)
+	if output.text.length() > maxi(1, maximum_output_characters):
+		output.text = output.text.right(maxi(1, maximum_output_characters))
 	entry.clear()
 	output.set_caret_line(output.get_line_count() - 1)
 

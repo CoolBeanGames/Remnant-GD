@@ -91,6 +91,12 @@ func run() -> void:
 	check(DevConsole.is_open, "Tilde key opens console")
 	DevConsole._input(event)
 	check(not DevConsole.is_open, "Tilde key closes console")
+	DevConsole.maximum_history = 3
+	DevConsole.maximum_output_characters = 128
+	for index in 10:
+		DevConsole._submit("echo bounded-console-output-%s" % index)
+	check(DevConsole.history.size() == 3, "Console command history stays bounded")
+	check(DevConsole.output.text.length() <= 128 and DevConsole.output.text.contains("bounded-console-output-9"), "Console output is bounded and retains recent results")
 	player.queue_free()
 	print("Console parsing, state commands, teleport, fly/noclip and modal ownership: ", "PASS" if failures.is_empty() else failures)
 	get_tree().quit(0 if failures.is_empty() else 1)

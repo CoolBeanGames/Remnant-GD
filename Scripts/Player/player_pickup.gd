@@ -319,24 +319,30 @@ func _update_held_object(delta: float) -> void:
 
 
 func _sync_attachments() -> void:
-	for reference in held_attachments.duplicate():
+	# Keep parents before children so an attached fan follows its lamp immediately.
+	var index: int = 0
+	while index < held_attachments.size():
+		var reference: WeakRef = held_attachments[index]
 		var prop: rotatable_item = reference.get_ref() as rotatable_item
 		if not is_instance_valid(prop):
-			held_attachments.erase(reference)
+			held_attachments.remove_at(index)
 			continue
 		if not prop.placed or not _belongs_to_carry(prop):
 			prop.remove_meta("carried_by_player")
-			for state in held_collision_state.duplicate():
+			for state_index in range(held_collision_state.size() - 1, -1, -1):
+				var state: Dictionary = held_collision_state[state_index]
 				var collider: CollisionObject3D = state.collider as CollisionObject3D
 				if is_instance_valid(collider) and (collider == prop or prop.is_ancestor_of(collider)):
 					collider.collision_layer = state.layer
 					collider.collision_mask = state.mask
-					held_collision_state.erase(state)
-			held_attachments.erase(reference)
+					held_collision_state.remove_at(state_index)
+			held_attachments.remove_at(index)
+			continue
 		else:
 			prop.sync_support_pose()
 			if prop.has_method("on_held_transform_updated"):
 				prop.on_held_transform_updated()
+		index += 1
 
 
 func _belongs_to_carry(prop: rotatable_item) -> bool:
@@ -360,20 +366,21 @@ func _set_carry_visuals(node: Node, owner: Node = null) -> void:
 
 
 func _refresh_carry_visuals() -> void:
-	var owners: Array[Node] = [held_object]
+	var owners: Dictionary = {held_object: true}
 	for reference in held_attachments:
 		var prop: Node = reference.get_ref()
 		if is_instance_valid(prop):
-			owners.append(prop)
+			owners[prop] = true
 	if held_object.has_method("get_carried_bodies"):
 		for body in held_object.get_carried_bodies():
-			owners.append(body)
-	for state in held_visual_state.duplicate():
+			owners[body] = true
+	for index in range(held_visual_state.size() - 1, -1, -1):
+		var state: Dictionary = held_visual_state[index]
 		if not owners.has(state.owner.get_ref()):
 			var visual: GeometryInstance3D = state.node.get_ref() as GeometryInstance3D
 			if is_instance_valid(visual):
 				visual.transparency = state.transparency
-			held_visual_state.erase(state)
+			held_visual_state.remove_at(index)
 
 
 func _handle_throw_input(delta: float) -> void:
@@ -469,7 +476,7 @@ func _restore_object_physics(object: RigidBody3D) -> void:
 	object.freeze = original_freeze
 	object.freeze_mode = original_freeze_mode
 	object.sleeping = false
-	if player_body != null:
+	if is_instance_valid(player_body):
 		object.remove_collision_exception_with(player_body)
 		player_body.remove_collision_exception_with(object)
 	_debug("Object physics restored.")
@@ -525,3 +532,10 @@ func is_holding_object() -> bool:
 func _debug(message: String) -> void:
 	if debug_enabled:
 		print("[PlayerPickup] ", message)
+
+func _exit_tree() -> void:
+	# Replacing/removing a player must not leave its surviving carried props frozen.
+	if is_holding_object():
+		drop_object()
+	else:
+		_restore_carry_state()

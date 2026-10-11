@@ -32,10 +32,13 @@ func _ready() -> void:
 func get_object() -> Node:
 	var object: Node
 
-	if available.is_empty():
+	while not available.is_empty():
+		var candidate: Variant = available.pop_back()
+		if is_instance_valid(candidate) and not candidate.is_queued_for_deletion():
+			object = candidate
+			break
+	if not is_instance_valid(object):
 		object = _create_object()
-	else:
-		object = available.pop_back()
 
 	if object == null:
 		return null
@@ -46,7 +49,8 @@ func get_object() -> Node:
 
 
 func release_object(object: Node) -> void:
-	if object == null:
+	if not is_instance_valid(object) or object.is_queued_for_deletion():
+		active.erase(object)
 		return
 
 	if not active.has(object):

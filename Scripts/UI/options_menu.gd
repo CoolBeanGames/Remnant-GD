@@ -112,7 +112,7 @@ func close() -> void:
 	closed.emit()
 
 func _input(event: InputEvent) -> void:
-	if IssueReporter.is_open or DebugInspector.is_open or DevConsole.is_open:
+	if DevTools.any_modal_open():
 		return
 	if is_open and event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_ESCAPE or event.physical_keycode == KEY_ESCAPE):
 		close()
@@ -122,3 +122,4 @@ func _exit_tree() -> void:
 	if is_open:
 		is_open = false
 		get_tree().paused = previous_pause
+		Input.mouse_mode = previous_mouse

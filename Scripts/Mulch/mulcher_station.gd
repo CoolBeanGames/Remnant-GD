@@ -1,38 +1,44 @@
 class_name mulcher_station
 extends StaticBody3D
 var notice: String = ""
+var displayed_cells: int = -1
+var look_prompts: prompt_set = prompt_set.new()
+var look_entry: prompt_entry = prompt_entry.new()
 func _ready() -> void:
+	look_prompts.entries.append(look_entry)
 	Mulch.changed.connect(refresh)
 	refresh()
 func refresh() -> void:
 	var cells: int = clampi(ceili(100 * Mulch.damage / maxf(1, Mulch.maximum_damage)), 0, 100)
-	var grid: String = ""
-	for i in 100:
-		grid += "#" if i < cells else "."
-		if i % 10 == 9:
-			grid += "\n"
-	$DamageGrid.text = grid
-	$Status.text = "MULCH / %.0f / %.0f\n" % [Mulch.points, Mulch.points_per_pellet]
+	if displayed_cells != cells:
+		displayed_cells = cells
+		var grid: String = ""
+		for i in 100:
+			grid += "#" if i < cells else "."
+			if i % 10 == 9:
+				grid += "\n"
+		$DamageGrid.text = grid
+	var status: String = "MULCH / %.0f / %.0f\n" % [Mulch.points, Mulch.points_per_pellet]
 	if Mulch.repair_remaining > 0:
-		$Status.text += "REPAIR / %.1f s" % Mulch.repair_remaining
+		status += "REPAIR / %.1f s" % Mulch.repair_remaining
 	elif Mulch.broken():
-		$Status.text += "BROKEN / REPAIR %d SCORE" % Mulch.repair_cost()
+		status += "BROKEN / REPAIR %d SCORE" % Mulch.repair_cost()
 	else:
-		$Status.text += "DAMAGE / %.0f / %.0f" % [Mulch.damage, Mulch.maximum_damage]
+		status += "DAMAGE / %.0f / %.0f" % [Mulch.damage, Mulch.maximum_damage]
 	if not notice.is_empty():
-		$Status.text += "\n" + notice
+		status += "\n" + notice
+	if $Status.text != status:
+		$Status.text = status
 func interact() -> void:
 	notice = Mulch.repair()
 	refresh()
 func get_look_prompts() -> prompt_set:
-	var result := prompt_set.new()
-	var entry := prompt_entry.new()
+	look_entry.action = &""
 	if Mulch.repair_remaining > 0:
-		entry.text = "Repairing Mulcher / %.1f s" % Mulch.repair_remaining
+		look_entry.text = "Repairing Mulcher / %.1f s" % Mulch.repair_remaining
 	elif Mulch.broken():
-		entry.text = "Repair Mulcher / %d Score" % Mulch.repair_cost()
-		entry.action = &"confirm"
+		look_entry.text = "Repair Mulcher / %d Score" % Mulch.repair_cost()
+		look_entry.action = &"confirm"
 	else:
-		entry.text = "Mulcher / Damage %.0f%%" % (100 * Mulch.damage / maxf(1, Mulch.maximum_damage))
-	result.entries.append(entry)
-	return result
+		look_entry.text = "Mulcher / Damage %.0f%%" % (100 * Mulch.damage / maxf(1, Mulch.maximum_damage))
+	return look_prompts

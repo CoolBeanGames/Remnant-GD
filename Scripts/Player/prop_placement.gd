@@ -12,6 +12,9 @@ var item: rotatable_item
 var material: StandardMaterial3D
 var carry_rotation: Basis
 var carry_axis: int
+var ray_query: PhysicsRayQueryParameters3D
+var excluded: Array[RID] = []
+var support_vertices: PackedVector3Array = []
 
 
 func is_building() -> bool:
@@ -70,9 +73,25 @@ func start_building() -> bool:
 	item.rotation_axis = 1
 	preview = item.duplicate() as Node3D
 	shapes.clear()
+	support_vertices.clear()
+	excluded = [item.get_rid(), pickup.player_body.get_rid()]
+	for state in physics_items.collider_states(item):
+		var collider: CollisionObject3D = state.node.get_ref() as CollisionObject3D
+		if is_instance_valid(collider) and not excluded.has(collider.get_rid()):
+			excluded.append(collider.get_rid())
+	ray_query = PhysicsRayQueryParameters3D.new()
+	ray_query.exclude = excluded
+	ray_query.collision_mask = pickup.player_body.collision_mask
 	for collider in item.find_children("*", "CollisionShape3D", true, false):
 		if collider.get_parent() is PhysicsBody3D and collider.shape != null:
-			shapes.append({"shape": collider.shape, "pose": item.global_transform.affine_inverse() * collider.global_transform})
+			var pose: Transform3D = item.global_transform.affine_inverse() * collider.global_transform
+			var query := PhysicsShapeQueryParameters3D.new()
+			query.shape = collider.shape
+			query.collision_mask = pickup.player_body.collision_mask
+			shapes.append({"shape": collider.shape, "pose": pose, "query": query})
+			var bounds: AABB = collider.shape.get_debug_mesh().get_aabb()
+			for corner in 8:
+				support_vertices.append(pose * bounds.get_endpoint(corner))
 	material = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -120,16 +139,12 @@ func _physics_process(_delta: float) -> void:
 func _update_preview() -> void:
 	placement_valid = false
 	host = null
-	var excluded: Array[RID] = [item.get_rid(), pickup.player_body.get_rid()]
-	for state in physics_items.collider_states(item):
-		var collider: CollisionObject3D = state.node.get_ref() as CollisionObject3D
-		if is_instance_valid(collider):
-			excluded.append(collider.get_rid())
 	var start: Vector3 = camera.global_position
-	var query := PhysicsRayQueryParameters3D.create(start, start - camera.global_basis.z * reach, pickup.player_body.collision_mask)
-	query.exclude = excluded
+	ray_query.from = start
+	ray_query.to = start - camera.global_basis.z * reach
+	ray_query.collision_mask = pickup.player_body.collision_mask
 	var space: PhysicsDirectSpaceState3D = camera.get_world_3d().direct_space_state
-	var hit: Dictionary = space.intersect_ray(query)
+	var hit: Dictionary = space.intersect_ray(ray_query)
 	preview.visible = not hit.is_empty()
 	if hit.is_empty():
 		return
@@ -137,18 +152,19 @@ func _update_preview() -> void:
 	var normal: Vector3 = hit.normal
 	var basis := Basis(Quaternion(Vector3.UP, normal)) * item.held_rotation
 	var lowest: float = INF
-	for state in shapes:
-		var bounds: AABB = state.shape.get_debug_mesh().get_aabb()
-		for corner in 8:
-			lowest = minf(lowest, normal.dot(basis * (state.pose * bounds.get_endpoint(corner))))
+	for vertex in support_vertices:
+		lowest = minf(lowest, normal.dot(basis * vertex))
+	if support_vertices.is_empty():
+		preview.visible = false
+		return
 	preview.global_transform = Transform3D(basis, hit.position + normal * (.015 - lowest))
 	placement_valid = not shapes.is_empty()
-	excluded.append(hit.collider.get_rid())
+	var clearance_excluded: Array[RID] = excluded.duplicate()
+	clearance_excluded.append(hit.collider.get_rid())
 	for state in shapes:
-		var shape_query := PhysicsShapeQueryParameters3D.new()
-		shape_query.shape = state.shape
+		var shape_query: PhysicsShapeQueryParameters3D = state.query
 		shape_query.transform = preview.global_transform * state.pose
-		shape_query.exclude = excluded
+		shape_query.exclude = clearance_excluded
 		shape_query.collision_mask = pickup.player_body.collision_mask
 		if not space.intersect_shape(shape_query, 1).is_empty():
 			placement_valid = false
@@ -185,6 +201,9 @@ func cancel_building() -> void:
 			item.on_held_transform_updated()
 	item = null
 	shapes.clear()
+	support_vertices.clear()
+	excluded.clear()
+	ray_query = null
 	placement_valid = false
 
 

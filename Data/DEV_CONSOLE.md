@@ -1,7 +1,7 @@
 # Tilde developer console
 
 The current implementation is portable under addons/dev_toolkit; the original Global/script paths are compatibility wrappers. See Data/DEV_TOOLS.md for adapter, resource commands, canonical scripts and API identities.
-Press the tilde/backtick key (~ / `, usually below Escape) to open/close. Escape also closes. Type a command and press Enter. Scroll/select/copy output; Up/Down recalls history. Available from title, gameplay or pause; player commands require an active game. Opening pauses simulation and exposes the mouse; closing restores prior pause/input ownership. F1 replaces the console with a report; F2–F4 replace it with inspectors.
+Press the tilde/backtick key (~ / `, usually below Escape) to open/close. Escape also closes. Type a command and press Enter. Scroll/select/copy output; Up/Down recalls history. Available from title, gameplay or pause; player commands require an active game. Opening pauses simulation and exposes the mouse; closing restores prior pause/input ownership. F1 replaces the console with a report; F2â€“F4 replace it with inspectors.
 
 Commands ignore case. Straight or curly double quotes can surround names/strings:
 
@@ -34,3 +34,5 @@ Implementation: Global/dev_console.gd is a compatibility wrapper, UID uid://byup
 Recording commands call GameplayRecorder. record folder opens its output directory. The console can remain paused while recording; close it to resume play. See Data/RECORDING.md.
 
 Commands are scripted DevConsoleCommand resources selected by Data/Debug/commands.tres. Built-in handlers moved into addons/dev_toolkit/commands; the Remnant adapter contains player/state integration. See Data/Debug/README.md for custom execute handlers, aliases and editable settings.
+
+The console exports `maximum_history=100`, `maximum_output_characters=65536` and `maximum_command_characters=4096` to bound memory and entry length. `log [open|export|folder]` controls F5 diagnostics; command execution breadcrumbs exclude raw argument values.

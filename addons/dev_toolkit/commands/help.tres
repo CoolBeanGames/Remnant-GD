@@ -8,4 +8,3 @@ command = "help"
 aliases = PackedStringArray()
 usage = "help"
 description = "List the enabled commands in the current catalog."
-

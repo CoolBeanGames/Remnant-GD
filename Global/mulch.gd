@@ -18,6 +18,7 @@ var repairs: int = 0
 var repair_remaining: float = 0.0
 var level: Node3D
 var station: Node3D
+var emission_pending: bool = false
 
 func _ready() -> void:
 	restore()
@@ -49,7 +50,7 @@ func bind_level(root: Node3D) -> void:
 	Progression.apply_effects(self, "mulcher")
 	if Flags.check_flag("mulcher purchased"):
 		install()
-		_emit_pellets.call_deferred()
+		_schedule_pellets()
 
 func install() -> bool:
 	if not is_instance_valid(level) or not level.is_inside_tree():
@@ -79,10 +80,16 @@ func consume(item: Node3D) -> void:
 		value = int(item.get_meta("mulch_value", 1))
 	points += clampi(value, 1, 5) * maxf(0, efficiency)
 	damage = minf(maximum_damage, damage + maxf(0, damage_per_item))
-	_emit_pellets.call_deferred()
+	_schedule_pellets()
 	_store()
 
+func _schedule_pellets() -> void:
+	if not emission_pending and points >= maxf(1, points_per_pellet):
+		emission_pending = true
+		_emit_pellets.call_deferred()
+
 func _emit_pellets() -> void:
+	emission_pending = false
 	var index: int = 0
 	while points >= maxf(1, points_per_pellet) and is_instance_valid(level) and level.is_inside_tree() and not level.is_queued_for_deletion() and is_instance_valid(station):
 		var output: Node3D = station.get_node("Output")
@@ -96,7 +103,9 @@ func _emit_pellets() -> void:
 		if pellet is RigidBody3D:
 			pellet.linear_velocity = station.global_basis * Vector3(0, 1.5, 2.5)
 		pellet_produced.emit(pellet)
-	_store()
+	if index > 0:
+		_store()
+		DevTools.log_info("Produced %d mulch pellets" % index, "mulch")
 
 func repair_cost() -> int:
 	return int(minf(2147483647, ceil(repair_base_cost * pow(repair_cost_multiplier, repairs))))
@@ -111,6 +120,7 @@ func repair() -> String:
 	Blackboard.store_data("score", Progression.score() - repair_cost())
 	repair_remaining = maxf(.01, repair_seconds)
 	_store()
+	DevTools.log_info("Mulcher repair started / %d score / %.1f seconds" % [repair_cost(), repair_remaining], "mulch")
 	return ""
 
 func _process(delta: float) -> void:
@@ -119,6 +129,7 @@ func _process(delta: float) -> void:
 		if repair_remaining <= 0:
 			damage = 0
 			repairs += 1
+			DevTools.log_info("Mulcher repair finished / repairs %d" % repairs, "mulch")
 		_store()
 
 func _store() -> void:

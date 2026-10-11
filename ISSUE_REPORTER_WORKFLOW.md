@@ -22,8 +22,10 @@ Reports live in `.issues/inbox/<timestamp-id>/report.json` with sibling `screens
 
 To change presentation edit _build_ui. Storage errors are shown in the popup. Tests/issue_reporter_test.tscn checks screenshot and text persistence, validation, F1 handling, cancellation, failure/retry and restoration over existing pause/input ownership.
 
-Underlying pause/options/computer/dialogue `_input` handlers return while IssueReporter.is_open so typing (including E) or Escape does not advance dialogue or close the caller menu.
+Underlying pause/options/computer/dialogue `_input` handlers return while DevTools.any_modal_open() so typing (including E) or Escape does not advance dialogue or close the caller menu.
 
-Related inspectors: F2 Blackboard, F3 Flags, F4 disk save (Data/DEBUG_INSPECTORS.md). F1 replaces an open inspector. F2–F4 are ignored while the report draft is open.
+Related inspectors: F2 Blackboard, F3 Flags, F4 disk save (Data/DEBUG_INSPECTORS.md). F1 replaces an open inspector. F2â€“F4 are ignored while the report draft is open.
 
 The reusable implementation now lives in addons/dev_toolkit/issue_reporter.gd; Global/issue_reporter.gd remains a compatible autoload wrapper. DevToolsContext coordinates menus and its host adapter supplies report metadata under the context field. The report description, screenshot, statuses and required review/resolution workflow are unchanged. See Data/DEV_TOOLS.md and addons/dev_toolkit/README.md for reuse.
+
+F5 also exposes diagnostic log export (Data/DEBUG_LOG.md). Local issue reports remain separate from logs and are still required input at the start of coding sessions.

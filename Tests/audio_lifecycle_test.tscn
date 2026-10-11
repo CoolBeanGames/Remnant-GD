@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Tests/audio_lifecycle_test.gd" id="1"]
+
+[node name="AudioLifecycleTest" type="Node"]
+script = ExtResource("1")

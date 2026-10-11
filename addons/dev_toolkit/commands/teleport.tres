@@ -8,4 +8,3 @@ command = "tp"
 aliases = PackedStringArray("teleport")
 usage = "tp x y z"
 description = "Move the active player to finite world coordinates; the project adapter handles velocity and persistence."
-

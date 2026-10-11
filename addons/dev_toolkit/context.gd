@@ -6,6 +6,12 @@ signal modal_changed(active_tool: StringName)
 var tools: Dictionary = {}
 var active_modal: StringName = &""
 var modal_snapshot: Dictionary = {}
+const PENDING_CONTEXT_META: StringName = &"dev_toolkit_pending_context"
+
+func _ready() -> void:
+	var root := get_tree().root
+	if root.has_meta(PENDING_CONTEXT_META) and root.get_meta(PENDING_CONTEXT_META) == self:
+		root.remove_meta(PENDING_CONTEXT_META)
 
 static func resolve(owner: Node, path: NodePath = NodePath()) -> DevToolsContext:
 	if not path.is_empty():
@@ -17,12 +23,17 @@ static func resolve(owner: Node, path: NodePath = NodePath()) -> DevToolsContext
 		if parent is DevToolsContext:
 			return parent
 		parent = parent.get_parent()
-	var existing := owner.get_tree().root.get_node_or_null("DevTools") as DevToolsContext
+	var root := owner.get_tree().root
+	var existing := root.get_node_or_null("DevTools") as DevToolsContext
 	if existing != null:
 		return existing
+	var pending: Variant = root.get_meta(PENDING_CONTEXT_META) if root.has_meta(PENDING_CONTEXT_META) else null
+	if is_instance_valid(pending) and pending is DevToolsContext:
+		return pending
 	var fallback := DevToolsContext.new()
 	fallback.name = "DevTools"
-	owner.get_tree().root.add_child.call_deferred(fallback)
+	root.set_meta(PENDING_CONTEXT_META, fallback)
+	root.add_child.call_deferred(fallback)
 	return fallback
 
 func _ensure_defaults() -> void:
@@ -42,7 +53,21 @@ func tool_open(name: StringName) -> bool:
 	return node != null and bool(node.get("is_open"))
 func any_modal_open() -> bool:
 	return not active_modal.is_empty()
+func log_info(message: String, channel: String = "game") -> void:
+	var logger := tool(&"logger")
+	if logger != null:
+		logger.call("info", message, channel)
+func log_warning(message: String, channel: String = "game") -> void:
+	var logger := tool(&"logger")
+	if logger != null:
+		logger.call("warning", message, channel)
+func log_error(message: String, channel: String = "game") -> void:
+	var logger := tool(&"logger")
+	if logger != null:
+		logger.call("error", message, channel)
 func enter_modal(name: StringName) -> bool:
+	if not active_modal.is_empty() and tool(active_modal) == null:
+		leave_modal(active_modal)
 	if active_modal == name:
 		return true
 	if active_modal == &"reporter":
@@ -52,6 +77,8 @@ func enter_modal(name: StringName) -> bool:
 		var close_method: String = {"console": "close_console", "inspector": "close_inspector", "reporter": "close_report"}.get(str(active_modal), "close")
 		if old != null and old.has_method(close_method):
 			old.call(close_method)
+		if not active_modal.is_empty():
+			return false
 	_ensure_defaults()
 	modal_snapshot = {"pause": get_tree().paused, "mouse": Input.mouse_mode, "input": adapter.capture_input_lock()}
 	active_modal = name
@@ -144,6 +171,7 @@ func execute(command: String) -> String:
 				prefix_size = prefix.size()
 	if matched == null:
 		return "Unknown command or wrong arguments. Type help."
+	log_info("Executing command " + matched.command + " (" + str(tokens.size() - prefix_size) + " arguments)", "console")
 	return matched.execute(tokens.slice(prefix_size), self)
 func format_value(value: Variant, depth: int = 0) -> String:
 	if depth > 32:

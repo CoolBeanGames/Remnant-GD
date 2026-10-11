@@ -13,6 +13,7 @@ var phase: String = ""
 var characters: float = 0.0
 var remaining: float = 0.0
 var voice: WeakRef
+var voice_playback_id: int = -1
 var confirm_consumed: bool = false
 
 func _ready() -> void:
@@ -63,18 +64,19 @@ func _next_line() -> void:
 	show()
 	var audio: audio_player = Audio.play_global(line.voiceover, line.voice_volume, 1.0, voice_bus)
 	voice = weakref(audio) if audio != null else null
+	voice_playback_id = audio.playback_id if audio != null else -1
 	line_started.emit(line)
 
 func _voice_playing() -> bool:
 	var audio: audio_player = voice.get_ref() as audio_player if voice != null else null
-	return is_instance_valid(audio) and is_instance_valid(audio.audio_global) and audio.audio_global.playing and current != null and audio.audio_global.stream == current.lines[line_index].voiceover
+	return is_instance_valid(audio) and audio.is_playback_active(voice_playback_id)
 
 func _stop_voice() -> void:
 	if _voice_playing():
 		var audio: audio_player = voice.get_ref()
-		audio.stop()
-		audio.playback_finished.emit()
+		audio.stop(voice_playback_id)
 	voice = null
+	voice_playback_id = -1
 
 func _process(delta: float) -> void:
 	if current == null:
@@ -115,7 +117,7 @@ func advance() -> void:
 		_next_line()
 
 func _input(event: InputEvent) -> void:
-	if IssueReporter.is_open or DebugInspector.is_open or DevConsole.is_open:
+	if DevTools.any_modal_open():
 		return
 	if current != null and event.is_action_pressed("confirm") and not event.is_echo():
 		confirm_consumed = true

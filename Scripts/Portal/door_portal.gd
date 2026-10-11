@@ -84,6 +84,7 @@ func activate() -> void:
 		room.add_child(return_door)
 		return_door.global_transform = destination_frame.global_transform * Transform3D(Basis.IDENTITY, -source_offset)
 	active = true
+	DevTools.log_info("Story portal activated at %s." % sky_position, "portal")
 	inside = Blackboard.read_data("portal_inside") == true
 	_set_player_space()
 	previous_camera_position = camera.global_position
@@ -117,8 +118,11 @@ func _update_view() -> void:
 		return
 	source_frame.global_transform = door.global_transform * Transform3D(Basis(Vector3.UP, PI), source_offset)
 	var size: Vector2 = camera.get_viewport().get_visible_rect().size * resolution_scale
-	viewport.size = Vector2i(maxi(2, int(size.x)), maxi(2, int(size.y)))
-	viewport.msaa_3d = camera.get_viewport().msaa_3d
+	var target_size := Vector2i(maxi(2, int(size.x)), maxi(2, int(size.y)))
+	if viewport.size != target_size:
+		viewport.size = target_size
+	if viewport.msaa_3d != camera.get_viewport().msaa_3d:
+		viewport.msaa_3d = camera.get_viewport().msaa_3d
 	portal_camera.fov = camera.fov
 	portal_camera.keep_aspect = camera.keep_aspect
 	portal_camera.near = camera.near
@@ -134,7 +138,24 @@ func _update_view() -> void:
 	return_surface.visible = open_front and inside
 	source_surface.layers = 1
 	return_surface.layers = portal_space.ROOM_LAYER
-	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS if open_front else SubViewport.UPDATE_DISABLED
+	# A second full-resolution render is only needed while its doorway can
+	# appear on screen. Plane rejection preserves partially visible doorways.
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS if open_front and _aperture_in_frustum(from) else SubViewport.UPDATE_DISABLED
+
+func _aperture_in_frustum(frame: Node3D) -> bool:
+	var corners := PackedVector3Array()
+	for x in [-1.0, 1.0]:
+		for y in [-1.0, 1.0]:
+			corners.append(frame.to_global(Vector3(x * aperture.x * .5, y * aperture.y * .5, 0)))
+	for plane: Plane in camera.get_frustum():
+		var outside: bool = true
+		for corner: Vector3 in corners:
+			if plane.distance_to(corner) <= .01:
+				outside = false
+				break
+		if outside:
+			return false
+	return true
 
 func crosses_aperture(frame: Node3D, previous: Vector3, current: Vector3) -> bool:
 	var a: Vector3 = frame.to_local(previous)
@@ -160,6 +181,7 @@ func teleport_player(pose_map: Transform3D) -> void:
 	if placement.is_building():
 		placement.cancel_building()
 	inside = not inside
+	DevTools.log_info("Player entered the story room." if inside else "Player returned through the story portal.", "portal")
 	player.global_transform = pose_map * player.global_transform
 	player.velocity = pose_map.basis * player.velocity
 	var movement: Node = player.get_node("Controllers/Player_Move_Controller")

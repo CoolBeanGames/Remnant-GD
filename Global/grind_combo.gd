@@ -51,6 +51,7 @@ func finish_combo() -> void:
 	if points > 0:
 		ScoreRewards.enqueue(points)
 	combo_paid.emit(points, final_multiplier, count)
+	DevTools.log_info("Combo paid / %d items / %.1fx / %d points" % [count, final_multiplier, points], "score")
 
 
 func reset() -> void:

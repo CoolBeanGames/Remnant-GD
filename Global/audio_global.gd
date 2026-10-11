@@ -3,13 +3,24 @@ extends Node
 
 @export_range(1, 64, 1) var maximum_collision_sounds: int = 10
 
+## Persistent spatial sources retain their local player and authored attenuation.
+## They share null-safe start/stop policy without borrowing a transient pool slot.
+static func set_spatial_active(player: AudioStreamPlayer3D, enabled: bool) -> void:
+	if not is_instance_valid(player):
+		return
+	if enabled and player.stream != null:
+		if not player.playing:
+			player.play()
+	elif player.playing:
+		player.stop()
+
 static func play_collision(stream: AudioStream, position: Vector3, volume: float = 1.0, pitch: float = 1.0) -> void:
 	var pool: object_pool = Blackboard.read_data("audio_pool")
 	if stream == null or not is_instance_valid(pool):
 		return
 	var active: int = 0
 	for player in pool.active:
-		if player is audio_player and player.get_meta("audio_category", &"") == &"collision":
+		if is_instance_valid(player) and player is audio_player and player.get_meta("audio_category", &"") == &"collision":
 			if is_instance_valid(player.audio_3d) and player.audio_3d.playing:
 				active += 1
 	if active >= Audio.maximum_collision_sounds:
@@ -33,6 +44,7 @@ static func play_3d(
 
 	if not is_instance_valid(pool):
 		push_warning("Audio pool not found on Blackboard under 'audio_pool'.")
+		DevTools.log_warning("Cannot play spatial audio: audio_pool is unavailable.", "audio")
 		return null
 
 	var player: Node = pool.get_object()
@@ -76,6 +88,7 @@ static func play_global(
 
 	if not is_instance_valid(pool):
 		push_warning("Audio pool not found on Blackboard under 'audio_pool'.")
+		DevTools.log_warning("Cannot play global audio: audio_pool is unavailable.", "audio")
 		return null
 
 	var player: Node = pool.get_object()
@@ -110,4 +123,5 @@ static func _on_audio_finished(
 	audio: audio_player
 ) -> void:
 
-	pool.release_object(audio)
+	if is_instance_valid(pool):
+		pool.release_object(audio)

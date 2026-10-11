@@ -29,6 +29,7 @@ func interact() -> void:
 	red_light.light_energy = 1
 	state = 1
 	anim.play("pull")
+	Audio.play_3d(pull_sound, global_position, 1.0, 1.0, &"SFX")
 
 
 func _on_animation_finished(animation_name: StringName) -> void:
@@ -40,8 +41,7 @@ func _on_animation_finished(animation_name: StringName) -> void:
 			state = 2
 			chute.spawn()
 			pulled.emit()
-			Audio.play_3d(pull_sound,global_position,1,1,"SFX")
-			Audio.play_3d(reset_sound,global_position,1,1,"SFX")
+			Audio.play_3d(reset_sound, global_position, 1.0, 1.0, &"SFX")
 			anim.play("reset")
 
 		&"reset":

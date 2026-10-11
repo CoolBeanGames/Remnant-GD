@@ -9,4 +9,3 @@ aliases = PackedStringArray()
 usage = "noclip [on|off]"
 description = "Toggle collision-free flight using the project's movement adapter."
 mode = "noclip"
-

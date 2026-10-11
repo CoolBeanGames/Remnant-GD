@@ -47,11 +47,9 @@ func _update_looked_at() -> void:
 		_set_looked_at(null)
 		return
 
-	_debug("Ray hit collider: %s" % str(collider))
-
-	if collider is Node:
+	if debug_enabled and collider is Node:
 		var collider_node: Node = collider as Node
-
+		_debug("Ray hit collider: %s" % str(collider))
 		_debug("Collider path: %s" % collider_node.get_path())
 		_debug("Collider groups: %s" % str(collider_node.get_groups()))
 
@@ -86,13 +84,8 @@ func _find_grouped_parent(object: Object) -> Node3D:
 		if current is Node3D:
 			var current_3d: Node3D = current as Node3D
 
-			_debug(
-				"Checking: %s | Groups: %s" %
-				[
-					current_3d.get_path(),
-					str(current_3d.get_groups())
-				]
-			)
+			if debug_enabled:
+				_debug("Checking: %s | Groups: %s" % [current_3d.get_path(), str(current_3d.get_groups())])
 
 			if _is_valid_target(current_3d):
 				_debug(
@@ -160,3 +153,4 @@ static func interaction_allowed(target: Node) -> bool:
 func _debug(message: String) -> void:
 	if debug_enabled:
 		print("[Raycaster] ", message)
+		DevTools.log_info(message, "raycaster")

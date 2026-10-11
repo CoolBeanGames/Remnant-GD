@@ -34,11 +34,12 @@ func _process(delta: float) -> void:
 	var target := Vector3(sin(phase * .5), sin(phase), sin(phase + .7)) * amplitude
 	var sample_time: float = elapsed * noise_speed
 	target += Vector3(noise.get_noise_2d(sample_time, 0), noise.get_noise_2d(sample_time, 17), noise.get_noise_2d(sample_time, 31)) * noise_amount
-	var next_offset: Vector3 = offset.lerp(target, 1.0 - exp(-maxf(.01, smoothing) * delta))
+	var weight: float = 1.0 - exp(-maxf(.01, smoothing) * delta)
+	var next_offset: Vector3 = offset.lerp(target, weight)
 	# Only replace our contribution; authored position and mouse look stay intact.
 	camera.position += next_offset - offset
 	offset = next_offset
-	var next_roll: float = lerpf(roll_offset, deg_to_rad(roll_degrees) * sin(phase * .5), 1.0 - exp(-maxf(.01, smoothing) * delta))
+	var next_roll: float = lerpf(roll_offset, deg_to_rad(roll_degrees) * sin(phase * .5), weight)
 	camera.rotation.z += next_roll - roll_offset
 	roll_offset = next_roll
 

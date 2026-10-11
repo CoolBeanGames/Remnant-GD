@@ -54,8 +54,7 @@ func on_picked_up() -> void:
 	for body in contained_bodies():
 		var states: Array[Dictionary] = physics_items.collider_states(body)
 		contents.append({"body": weakref(body), "pose": global_transform.affine_inverse() * body.global_transform,
-			"freeze": body.freeze, "mode": body.freeze_mode, "states": states,
-			"extent": _spacing_extent(body)})
+			"freeze": body.freeze, "mode": body.freeze_mode, "states": states})
 		physics_items.set_collisions(states, false)
 		body.freeze = true
 		body.linear_velocity = Vector3.ZERO
@@ -64,28 +63,34 @@ func on_picked_up() -> void:
 
 func _physics_process(_delta: float) -> void:
 	on_held_transform_updated()
-	for reference in falling_contents.duplicate():
+	for index in range(falling_contents.size() - 1, -1, -1):
+		var reference: WeakRef = falling_contents[index]
 		var body: RigidBody3D = reference.get_ref() as RigidBody3D
 		if not is_instance_valid(body):
-			falling_contents.erase(reference)
+			falling_contents.remove_at(index)
 			continue
 		var point: Vector3 = to_local(body.global_position)
 		if point.y + physics_items.support_extent(body, -global_basis.y) < 0.0 or absf(point.x) > 1.0 or absf(point.z) > .9:
 			body.remove_collision_exception_with(self)
-			falling_contents.erase(reference)
+			falling_contents.remove_at(index)
 
 
 ## Follow immediately after pickup moves the basket, regardless of scene order.
 func on_held_transform_updated() -> void:
 	if not carried:
 		return
-	for state in contents.duplicate():
+	var previous_inverse: Transform3D = last_carry_pose.affine_inverse()
+	for index in range(contents.size() - 1, -1, -1):
+		var state: Dictionary = contents[index]
 		var body: RigidBody3D = state.body.get_ref() as RigidBody3D
+		if not is_instance_valid(body):
+			contents.remove_at(index)
+			continue
 		if is_instance_valid(body) and body.is_inside_tree():
-			var point: Vector3 = last_carry_pose.affine_inverse() * body.global_position
+			var point: Vector3 = previous_inverse * body.global_position
 			if absf(point.x) > 0.7 or absf(point.z) > 0.6 or point.y < 0.15 or point.y > 1.1:
 				_restore(state, linear_velocity)
-				contents.erase(state)
+				contents.remove_at(index)
 				continue
 			body.global_transform = global_transform * state.pose
 	last_carry_pose = global_transform
@@ -127,7 +132,7 @@ func empty_contents() -> void:
 	if not carried:
 		for body in contained_bodies():
 			contents.append({"body": weakref(body), "freeze": body.freeze, "mode": body.freeze_mode,
-				"states": physics_items.collider_states(body), "extent": _spacing_extent(body)})
+				"states": physics_items.collider_states(body)})
 	for i in contents.size():
 		var state: Dictionary = contents[i]
 		var body: RigidBody3D = state.body.get_ref() as RigidBody3D
@@ -146,10 +151,3 @@ func _exit_tree() -> void:
 		var body: RigidBody3D = reference.get_ref() as RigidBody3D
 		if is_instance_valid(body):
 			body.remove_collision_exception_with(self)
-
-
-func _spacing_extent(body: RigidBody3D) -> float:
-	var extent: float = 0.125
-	for axis in [global_basis.x, global_basis.y, global_basis.z]:
-		extent = maxf(extent, maxf(physics_items.support_extent(body, axis), physics_items.support_extent(body, -axis)))
-	return extent

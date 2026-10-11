@@ -27,12 +27,15 @@ var previous_sfx_volume: float = 0.0
 var previous_sfx_mute: bool = false
 var settings_revision: int = 0
 var has_left: bool = false
+var door_meshes: Array[Node] = []
+var mesh_faces: Dictionary[Mesh, PackedVector3Array] = {}
 
 func _ready() -> void:
 	if respect_exit_flag and Flags.check_flag("exited room"):
 		_remove_room()
 		return
 	door.opened.connect(_on_door_opened)
+	door_meshes = door.find_children("*", "MeshInstance3D", true, false)
 	if mute_sfx_until_open:
 		var index: int = AudioServer.get_bus_index("SFX")
 		if index >= 0:
@@ -108,6 +111,9 @@ func _physics_process(delta: float) -> void:
 func is_room_visible() -> bool:
 	if not is_instance_valid(camera):
 		return true
+	# Reuse this snapshot for every visibility sample. Light energy/transforms
+	# are still read live, and newly built lights are included on the next check.
+	var lights: Array[Node] = get_tree().root.find_children("*", "Light3D", true, false)
 	# Sample the viewport and actual mesh surfaces: partial doorway visibility counts.
 	var viewport_size := camera.get_viewport().get_visible_rect().size
 	for y in 9:
@@ -115,28 +121,32 @@ func is_room_visible() -> bool:
 			var screen := viewport_size * Vector2((x + 0.5) / 13.0, (y + 0.5) / 9.0)
 			var origin := camera.project_ray_origin(screen)
 			var hit := _ray(origin, origin + camera.project_ray_normal(screen) * camera.far)
-			if not hit.is_empty() and _is_room(hit.collider) and _lit(hit.position):
+			if not hit.is_empty() and _is_room(hit.collider) and _lit(hit.position, lights):
 				return true
-	var meshes: Array[MeshInstance3D] = []
-	for mesh in door.find_children("*", "MeshInstance3D", true, false):
-		meshes.append(mesh)
 	var generated := get_meshes()
 	if generated.size() >= 2:
-		if _mesh_visible(generated[1], global_transform * generated[0]):
+		if _mesh_visible(generated[1], global_transform * generated[0], lights):
 			return true
-	for mesh in meshes:
-		if mesh.is_visible_in_tree() and _mesh_visible(mesh.mesh, mesh.global_transform):
+	for mesh in door_meshes:
+		if is_instance_valid(mesh) and mesh.is_visible_in_tree() and _mesh_visible(mesh.mesh, mesh.global_transform, lights):
 			return true
 	return false
 
-func _mesh_visible(mesh: Mesh, pose: Transform3D) -> bool:
-	var faces := mesh.get_faces()
+func _mesh_visible(mesh: Mesh, pose: Transform3D, lights: Array[Node]) -> bool:
+	if mesh == null:
+		return false
+	if not mesh_faces.has(mesh):
+		# Bound the cache in case CSG changes create replacement mesh resources.
+		if mesh_faces.size() >= 8:
+			mesh_faces.clear()
+		mesh_faces[mesh] = mesh.get_faces()
+	var faces: PackedVector3Array = mesh_faces[mesh]
 	for index in range(0, faces.size(), 3):
 		var point: Vector3 = pose * ((faces[index] + faces[index + 1] + faces[index + 2]) / 3.0)
 		if not camera.is_position_in_frustum(point):
 			continue
 		var hit := _ray(camera.global_position, point + (point - camera.global_position).normalized() * 0.02)
-		if not hit.is_empty() and _is_room(hit.collider) and _lit(hit.position):
+		if not hit.is_empty() and _is_room(hit.collider) and _lit(hit.position, lights):
 			return true
 	return false
 
@@ -148,14 +158,16 @@ func _ray(from: Vector3, to: Vector3) -> Dictionary:
 	query.exclude = [player.get_rid()]
 	return get_world_3d().direct_space_state.intersect_ray(query)
 
-func _lit(point: Vector3) -> bool:
+func _lit(point: Vector3, lights: Array[Node]) -> bool:
 	var brightness: float = 0.0
 	var environment := camera.environment
 	if environment == null:
 		environment = camera.get_world_3d().environment
 	if environment != null:
 		brightness += environment.ambient_light_color.get_luminance() * environment.ambient_light_energy
-	for light in get_tree().root.find_children("*", "Light3D", true, false):
+	for light in lights:
+		if not is_instance_valid(light):
+			continue
 		if not light.is_visible_in_tree() or light.light_energy <= 0:
 			continue
 		var contribution: float = light.light_color.get_luminance() * light.light_energy
@@ -200,6 +212,7 @@ func _remove_room() -> void:
 	if erased:
 		return
 	erased = true
+	DevTools.log_info("Start room removed after leaving the player's view.", "level")
 	Flags.set_flag("exited room", true)
 	room_erased.emit()
 	queue_free()

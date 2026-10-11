@@ -960,3 +960,11 @@ Press **~** to enter `Set flag "flag"`, `Set BB "key" "value"`, `TP x y z`, `Noc
 ## Reusable developer toolkit and scripted commands
 
 All F-key menus, console and recorder now live in `addons/dev_toolkit/`, with an optional editor plugin and standalone scene. Copy that folder to another project and enable Dev Toolkit; a host adapter connects its data/player APIs. Commands are editable scripted Resources in `Data/Debug/commands.tres`; adding one no longer requires changing console code. [Setup and API](Data/DEV_TOOLS.md), [command authoring](Data/Debug/README.md), [portable installation](addons/dev_toolkit/README.md).
+
+## Review and crash diagnostics
+
+The October review reduces repeated world/body scans, burst snapshots, ghost-query setup, prompt allocation and hidden portal rendering. Audio cancellation now releases pooled slots and uses playback ownership; persistent fan/machinery sources share Audio. All 38 regression scenes pass. The measured body-discovery microbenchmark improved 17.62×; this is not a whole-game FPS claim. [Review and evidence](Data/CODE_REVIEW_2026-10-10.md).
+
+**F5** opens the reusable debug log with severity/channel filters. **EXPORT LOGS** bundles current/previous session breadcrumbs, engine logs and system details into a ZIP. Restart after a crash and export the preserved interrupted-session logs. Console: `log open`, `log export`, `log folder`. [Configuration and API](Data/DEBUG_LOG.md).
+
+A responsive development summary is available at [Reports/development_summary.html](Reports/development_summary.html); the hosted phone link is recorded here after publication.

@@ -18,6 +18,7 @@ extends Node
 @export var voice_bus: StringName = &"Vocals"
 var sprint_elapsed: float = 0.0
 var breath_voice: WeakRef
+var breath_playback_id: int = -1
 @export_category("References")
 @export var body: Node3D
 @export var character_body: CharacterBody3D
@@ -29,6 +30,7 @@ var debug_collision_mask: int
 var step_grace: float = 0.0
 var wind_velocity: Vector3 = Vector3.ZERO
 var applied_wind: Vector3 = Vector3.ZERO
+var step_ceiling := KinematicCollision3D.new()
 @export var wind_drag: float = 3.0
 
 
@@ -95,19 +97,16 @@ func _try_step(motion: Vector3) -> bool:
 	if (not character_body.is_on_floor() and step_grace <= 0.0) or motion.is_zero_approx() or step_height <= 0.0:
 		return false
 	var pose: Transform3D = character_body.global_transform
-	var obstruction := KinematicCollision3D.new()
-	if not character_body.test_move(pose, motion, obstruction):
+	if not character_body.test_move(pose, motion):
 		return false
 	var up: Vector3 = Vector3.UP * step_height
-	var ceiling := KinematicCollision3D.new()
-	if character_body.test_move(pose, up, ceiling) and ceiling.get_normal().dot(Vector3.DOWN) > 0.5:
+	if character_body.test_move(pose, up, step_ceiling) and step_ceiling.get_normal().dot(Vector3.DOWN) > 0.5:
 		return false
 	pose.origin += up
 	if character_body.test_move(pose, motion):
 		return false
 	pose.origin += motion
-	var landing := KinematicCollision3D.new()
-	if not character_body.test_move(pose, -up * 1.1, landing):
+	if not character_body.test_move(pose, -up * 1.1):
 		return false
 	# The capsule can meet a stair's edge with a diagonal normal. Verify the
 	# actual top surface ahead so a rounded contact does not reject a step.
@@ -139,18 +138,19 @@ func _update_sprint_audio(delta: float, sprinting: bool) -> void:
 	if sprint_elapsed < sprint_breath_seconds or heavy_breathing == null:
 		return
 	var audio: audio_player = breath_voice.get_ref() as audio_player if breath_voice != null else null
-	if is_instance_valid(audio) and audio.audio_global.playing and audio.audio_global.stream == heavy_breathing:
+	if is_instance_valid(audio) and audio.is_playback_active(breath_playback_id):
 		return
 	audio = Audio.play_global(heavy_breathing, 1.0, 1.0, voice_bus)
 	breath_voice = weakref(audio) if audio != null else null
+	breath_playback_id = audio.playback_id if audio != null else -1
 
 func reset_audio() -> void:
 	sprint_elapsed = 0.0
 	var audio: audio_player = breath_voice.get_ref() as audio_player if breath_voice != null else null
-	if is_instance_valid(audio) and audio.audio_global.playing and audio.audio_global.stream == heavy_breathing:
-		audio.stop()
-		audio.playback_finished.emit()
+	if is_instance_valid(audio):
+		audio.stop(breath_playback_id)
 	breath_voice = null
+	breath_playback_id = -1
 
 func _exit_tree() -> void:
 	reset_audio()

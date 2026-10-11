@@ -8,4 +8,3 @@ command = "echo"
 aliases = PackedStringArray()
 usage = "echo \"your message\""
 description = "Example scripted command: print the supplied text."
-

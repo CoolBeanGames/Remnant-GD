@@ -13,10 +13,19 @@ extends HBoxContainer
 
 var labels: Array[prompt_label] = []
 var displayed_texts: Array[String] = []
+var air_prompt := prompt_entry.new()
+var axis_prompt := prompt_entry.new()
+var toggle_prompt := prompt_entry.new()
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	air_prompt.text = "Lock In Air"
+	air_prompt.action = &"place_in_air"
+	air_prompt.key_first = true
+	axis_prompt.action = &"rotate_axis"
+	axis_prompt.key_first = true
+	toggle_prompt.action = &"confirm"
 	refresh()
 
 
@@ -48,22 +57,13 @@ func refresh() -> void:
 				texts.append(entry.get_display_text())
 	if pickup != null and pickup.is_holding_object() and pickup.held_object is rotatable_item:
 		if placement != null and placement.is_building() and pickup.held_object.air_placeable:
-			var air_prompt := prompt_entry.new()
-			air_prompt.text = "Lock In Air"
-			air_prompt.action = &"place_in_air"
-			air_prompt.key_first = true
 			entries.append(air_prompt)
 			texts.append(air_prompt.get_display_text())
-		var axis_prompt := prompt_entry.new()
 		axis_prompt.text = "Axis: " + pickup.held_object.get_rotation_axis_name()
-		axis_prompt.action = &"rotate_axis"
-		axis_prompt.key_first = true
 		entries.append(axis_prompt)
 		texts.append(axis_prompt.get_display_text())
 	if pickup != null and pickup.is_holding_object() and pickup.held_object is switchable_prop and (placement == null or not placement.is_building()):
-		var toggle_prompt := prompt_entry.new()
 		toggle_prompt.text = "Turn Off" if pickup.held_object.powered else "Turn On"
-		toggle_prompt.action = &"confirm"
 		entries.append(toggle_prompt)
 		texts.append(toggle_prompt.get_display_text())
 	if Blackboard.read_data("player_input_blocked"):
@@ -72,7 +72,6 @@ func refresh() -> void:
 	if texts == displayed_texts:
 		visible = not texts.is_empty()
 		return
-	displayed_texts = texts
 	while labels.size() > entries.size():
 		var label: prompt_label = labels.pop_back()
 		remove_child(label)
@@ -91,4 +90,5 @@ func refresh() -> void:
 		labels.append(label)
 	for i in entries.size():
 		labels[i].set_prompt(entries[i])
+	displayed_texts = texts
 	visible = not entries.is_empty()

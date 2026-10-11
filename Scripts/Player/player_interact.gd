@@ -58,3 +58,4 @@ func _process(_delta: float) -> void:
 func _debug(message: String) -> void:
 	if debug_enabled:
 		print("[PlayerInteract] ", message)
+		DevTools.log_info(message, "interaction")
