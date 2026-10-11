@@ -43,7 +43,7 @@ Rebuild with Tools/make_studio_furniture_textures.py (Python/Pillow/NumPy), then
 Tools/model_studio_furniture.py in Blender. --assets all, --samples 64 and --width
 1000 reproduce the delivered assets and three view PNGs per item. --no-render is
 available for export-only rebuilds. Tools/assemble_worn_studio.py ages the room
-shell and links the furniture into its native preview, then renders four room views
+shell and links the furniture into its native preview, then renders five room views
 at 1800 pixels wide. Rebuild the room shell first with model_studio_apartment.py
 when structural changes are desired. The assembly ageing pass is idempotent.
 
@@ -57,6 +57,6 @@ Godot editor import and Windows release/startup checks
 are also part of delivery. Successful import does not make these props physics-ready.
 
 Reports/StudioFurniture/index.html is a self-contained responsive gallery of every
-item and all four room angles. Full PNGs are under Reports/StudioFurniture/<Asset>/
+item and all five room angles. Full PNGs are under Reports/StudioFurniture/<Asset>/
 and Reports/FurnishedStudio/. Earlier Reports/StudioApartment renders retain the
 unfurnished newspaper-window study as development history.

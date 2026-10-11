@@ -1,18 +1,19 @@
 {
-  "verified_at": "2026-10-11T07:16:50.613817-05:00",
+  "verified_at": "2026-10-11T07:43:55.754520-05:00",
   "assets": 18,
   "linked_collections": 19,
   "render_review": {
     "prop_views": 54,
-    "room_views": 4,
-    "method": "Every final PNG opened and visually inspected; observed geometry, UV, framing and lighting issues refined and rerendered"
+    "room_views": 5,
+    "method": "Five revised room PNGs visually opened this session; 54 unchanged prop PNGs reviewed on their previous delivery"
   },
   "checks": {
     "portable": "Tools/verify_studio_furniture.py passed; 156692 furniture triangles, embedded images and UVs",
-    "native": "Tools/verify_studio_native.py passed; 18 independent packed assets, 124 room meshes and 26 referenced packed room maps; relative assembly links and complete default visibility",
-    "engine": "Tests/studio_asset_import_test.gd passed in Godot 4.7.2; 18 imports, 423 textured surfaces, Y-up bounds, 124 room meshes; isolated APPDATA",
-    "html": "Gallery filter/input reset, 58 decoded embedded JPEGs, native/export links and 101 wiki navigation pages passed static checks",
-    "browser_preview": "Unavailable on this host; no browser layout screenshot review claimed"
+    "native": "Tools/verify_studio_native.py passed; 48 clippings, 158 room meshes, 24 referenced packed room maps; 19 relative collection links and complete default visibility",
+    "engine": "Tests/studio_asset_import_test.gd passed in Godot 4.7.2; 18 unchanged furniture imports/423 textured surfaces and 158 room meshes; isolated APPDATA",
+    "html": "Gallery filter/input reset, 59 decoded embedded JPEGs, native/export links and 101 wiki navigation pages checked",
+    "browser_preview": "Unavailable on this host; no browser layout screenshot review claimed",
+    "newspaper": "Tools/verify_studio_newspaper.py passed: 48 packed/UV-mapped clippings and ten unobstructed rays through geometric daylight holes"
   },
   "files": {
     "Models/Interiors/StudioFurniture/Bookshelf/Source/bookshelf.blend": "a0b243e0f17890b49306598e2920d8281fd7108c13180da488e8bf566115d0ae",
@@ -105,12 +106,13 @@
     "Reports/StudioFurniture/VCR/detail.png": "130506f976eec0d72aa3c53e7db2c903acc76f80b5d4449abf29f76a3721526c",
     "Reports/StudioFurniture/VCR/front.png": "8cb27934eec0897b349708915f8202ac33d104760e0bea1e60b1ed904654a176",
     "Reports/StudioFurniture/VCR/rear.png": "75e72d1bbb384718f32eb7832712c4d13ff63eace1312530e42fab19aac7f9a6",
-    "Models/Architecture/StudioApartment/Source/studio_apartment.blend": "41d6fbb9ee2d4c3267a16cc644e5f614b9d1682a1db4624d2b6a9e6f3492a51a",
-    "Models/Architecture/StudioApartment/studio_apartment.glb": "c8ca5bffe665beeb24a62e612aa1a6ea018d8db507b8db35077d1bd993268afd",
-    "Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend": "82e71159a187b8c32d55b9e2c46455d5aaaa52c758f1c285dd37c4fb2961f38f",
-    "Reports/FurnishedStudio/cutaway.png": "c31f127539da27b259c4a312f04964958d69330080b6386515ae59c32644f4b2",
-    "Reports/FurnishedStudio/entry.png": "8326945d57d9f329bd709fbaae7ccb9aaff19133af72efe1153b24921ab0babd",
-    "Reports/FurnishedStudio/kitchen.png": "3de8c685f946594c396d06ee68e7af9f61e401c5497ce4077c15613fa866eeeb",
-    "Reports/FurnishedStudio/living.png": "07eac2d206dbef1397b8fde59f681712c547344d4ec959bf3c35884eb731839c"
+    "Models/Architecture/StudioApartment/Source/studio_apartment.blend": "9f80fdce87eaebbf9f2e654693c54abb61beb7e7927783ea73fb7c6bbc12e4fe",
+    "Models/Architecture/StudioApartment/studio_apartment.glb": "2dcf79c8e225a1a90faf0df9fd7f4d98cfe88bb90e161b4b9252ef3573f03a08",
+    "Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend": "8db6c05bafc5765db2f2e97e848890110d161bdf6a56e55910a4822b5dbcacd0",
+    "Reports/FurnishedStudio/cutaway.png": "48cccdc597d4b7794e24858d4b3c73232ca51e54e69513dade383de7163f0419",
+    "Reports/FurnishedStudio/entry.png": "c9810248bd9318e68087b30e8a1c58820c430cb4339e25aa08eb5404a4c521f1",
+    "Reports/FurnishedStudio/kitchen.png": "53168426927e587833df8951540f185f21edbe1583369f8dd4a7ec5b1b395166",
+    "Reports/FurnishedStudio/living.png": "b1d28713f5768c26a0b94357e50ec80c15d6a0c8195dc612c37aeebbea4a6b2b",
+    "Reports/FurnishedStudio/paper.png": "ce803bf1de7e280d1aa41c8b280d1fc972a4428bf307c96dfed3fbc7742ebda1"
   }
 }

@@ -51,4 +51,4 @@ assert len({i['asset'] for i in assembly['linked_assets']})==18
 for view in assembly['views']:
     image=Image.open(ROOT/'Reports/FurnishedStudio'/(view+'.png'))
     assert image.width==1800 and image.height>=1200
-print('STUDIO DELIVERY PASS:',len(manifest_paths),'independent assets;',total_triangles,'furniture triangles; 54 prop and 4 assembled-room views')
+print('STUDIO DELIVERY PASS:',len(manifest_paths),'independent assets;',total_triangles,'furniture triangles; 54 prop and',len(assembly['views']),'assembled-room views')

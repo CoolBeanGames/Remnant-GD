@@ -1,7 +1,7 @@
 """Build and render an unfurnished apartment. Run with Blender --background --python.
 
 Standalone authoring tool: no game state, gameplay changes or external asset downloads.
-Textures are original deterministic maps and newspaper typography, packed in .blend/GLB.
+Textures are procedural PBR maps and a generated fictional newspaper scan atlas, packed in .blend/GLB.
 """
 from pathlib import Path
 import argparse
@@ -203,14 +203,6 @@ concrete_color = image_map('concrete_albedo', np.array([.38, .39, .37]) + wave_n
 concrete_normal = normal_map('concrete_normal', wave_noise(u, v, 9), 2.5)
 concrete = textured('Slab / concrete', concrete_color, concrete_normal, .9, .35)
 paper_normal = normal_map('newspaper_normal', soft_noise(u, v, 572, 7), 2.0)
-newspapers = []
-for index in range(3):
-    path = TEXTURES / ('newspaper_%02d_albedo.png' % index)
-    if not path.is_file():
-        raise FileNotFoundError('Generate original print maps with Tools/make_apartment_newspaper.py first: ' + str(path))
-    image = bpy.data.images.load(str(path), check_existing=True)
-    newspapers.append(textured('Newspaper / edition %02d' % index, image, paper_normal, .96, .18))
-tape = plain('Window tape / aged masking paper', (.40, .35, .23), .83)
 ivory = plain('Trim / bone-white enamel', (.69, .69, .63), .43)
 black = plain('Windows / charcoal powdercoat', (.035, .042, .039), .34, .25)
 metal = plain('Door hardware / brushed nickel', (.32, .35, .34), .25, .8)
@@ -351,72 +343,15 @@ window('Living room picture window', (1.40, Y + .05, 1.62), 3.65, 1.76, bays=3)
 window('Side window', (X + .05, .55, 1.71), 2.46, 1.58, 'east', 2)
 
 
-def newspaper_window(name, start, end, bottom, top, fixed, side, columns, seams):
-    """Opaque, UV-mapped sheets with actual open seams in metres, not painted light.
-
-    Adjacent sheets overlap except at the specified column seams. Wrinkles move
-    in depth only, so they never accidentally seal the narrow light apertures.
-    """
-    step = (end - start) / columns
-    middle = (bottom + top) / 2
-    tape_group = side + '_newspaper_tape'
-    for column in range(columns):
-        left = start + column * step
-        right = start + (column + 1) * step
-        left += seams.get(column, -.012) / 2 if column else -.017
-        right -= seams.get(column + 1, -.012) / 2 if column + 1 < columns else -.017
-        for row in range(2):
-            low, high = (bottom - .017, middle + .019) if row == 0 else (middle - .011, top + .017)
-            # A shallow ruled grid adds folds and curled paper instead of rigid boxes.
-            vertices, faces = [], []
-            nu, nv = 8, 8
-            for j in range(nv + 1):
-                for i in range(nu + 1):
-                    a, b = i / nu, j / nv
-                    along, z = left + a * (right - left), low + b * (high - low)
-                    ripple = .0025 * math.sin(a * 19 + column) * math.sin(b * 14 + row)
-                    curl = .008 * (max(0, 1 - b * 8) ** 2) * math.sin(a * math.pi) ** 2
-                    depth = fixed - row * .003 - ripple - curl
-                    vertices.append((along, depth, z) if side == 'north' else (depth, along, z))
-            for j in range(nv):
-                for i in range(nu):
-                    p = j * (nu + 1) + i
-                    # North normal points inward (-Y); east inward (-X).
-                    quad = (p, p + 1, p + nu + 2, p + nu + 1)
-                    faces.append(quad if side == 'north' else tuple(reversed(quad)))
-            mesh = bpy.data.meshes.new(name + ' / sheet mesh')
-            mesh.from_pydata(vertices, [], faces)
-            mesh.update()
-            obj = bpy.data.objects.new(name + ' / newspaper %d-%d' % (column + 1, row + 1), mesh)
-            architecture.objects.link(obj)
-            put(obj, group=side)
-            mesh.materials.append(newspapers[(column + row * 2 + (side == 'east')) % 3])
-            uv = mesh.uv_layers.new(name='Print layout')
-            for polygon in mesh.polygons:
-                polygon.use_smooth = True
-                for loop_index in polygon.loop_indices:
-                    vi = mesh.loops[loop_index].vertex_index
-                    a, b = vi % (nu + 1) / nu, vi // (nu + 1) / nv
-                    # A person looking east sees increasing Y from right to left.
-                    uv.data[loop_index].uv = (a if side == 'north' else 1 - a, b)
-            solid = obj.modifiers.new('Paper thickness / opaque sunlight barrier', 'SOLIDIFY')
-            solid.thickness = .0006
-            obj['window_covering'] = 'Newspaper; actual gaps between sheets admit sunlight'
-            obj['print_faces_room'] = True
-            for a, z in ((left + .10, high - .045), (right - .10, high - .045)):
-                pos = (a, fixed - .006 - row * .003, z) if side == 'north' else (fixed - .006 - row * .003, a, z)
-                dims = (.115, .0015, .032) if side == 'north' else (.0015, .115, .032)
-                tab = box(name + ' / masking tape tab', pos, dims, tape, 0, tape_group)
-                tab.rotation_euler[1 if side == 'north' else 0] = math.radians((-1 if column % 2 else 1) * 9)
-    tape_mesh = consolidate(tape_group, name + ' / all tape tabs')
-    # Include tape with the window when temporarily removing the east cutaway wall.
-    groups[side].append(tape_mesh)
-
-
-# Two narrow vertical seams in the picture window, one in the side window.
-# All other joins overlap; sheets cover the glazing edge-to-edge.
-newspaper_window('Living room picture window', -.425, 3.225, .74, 2.50, 3.064, 'north', 4, {1: .023, 3: .018})
-newspaper_window('Side window', -.68, 1.78, .92, 2.50, 3.864, 'east', 3, {2: .025})
+# Keep initial shell builds consistent with the revised newspaper construction.
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from studio_newspaper_layout import cover_window
+for name,start,end,bottom,top,fixed,side in [
+    ('Living room picture window',-.425,3.225,.74,2.50,3.064,'north'),
+    ('Side window',-.68,1.78,.92,2.50,3.864,'east'),
+]:
+    for obj in cover_window(architecture,name,start,end,bottom,top,fixed,side):
+        put(obj,group=side)
 
 # Ceramic wainscot belongs to the bathroom only; top remains plaster.
 def ceramic_wall(group, name, start, end, fixed, side):
@@ -588,7 +523,7 @@ for obj in architecture.objects:
         mesh.calc_loop_triangles()
         triangles += len(mesh.loop_triangles)
         evaluated.to_mesh_clear()
-manifest = {'blender': bpy.app.version_string, 'dimensions_m': [7.8, 6.2, 2.8], 'bathroom_m': [2.5, 2.3], 'architecture_meshes': mesh_count, 'triangles': triangles, 'render_samples': args.samples, 'furniture': False, 'render_device': scene.cycles.device, 'textures': 'Original albedo, tangent normal maps and newspaper typography; packed into native file and GLB', 'window_coverings': {'sheets': 14, 'material': 'Opaque wrinkled newspaper with original print and masking tape', 'north_seams_m': [.023, .018], 'east_seams_m': [.025], 'beams': 'Sunlight through real open gaps; dust volume belongs to presentation only'}, 'export': 'Y up, metre scale, only permanent architecture including newspaper/tape; no cameras/presentation lights/backdrop/dust', 'views': list(views)}
+manifest = {'blender': bpy.app.version_string, 'dimensions_m': [7.8, 6.2, 2.8], 'bathroom_m': [2.5, 2.3], 'architecture_meshes': mesh_count, 'triangles': triangles, 'render_samples': args.samples, 'furniture': False, 'render_device': scene.cycles.device, 'textures': 'Packed PBR maps and generated fictional newsprint scan atlas', 'window_coverings': {'sheets': 48, 'material': 'Overlapping torn newspaper clippings with generated fictional scan atlas and small adhesive tabs', 'openings': 'Six north/four east irregular masks and torn edge notches', 'beams': 'Real geometric openings; dust and light stay presentation-only'}, 'export': 'Y up, metre scale, only permanent architecture including newspaper/tape; no cameras/presentation lights/backdrop/dust', 'views': list(views)}
 (ASSET / 'asset_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
 print('APARTMENT geometry:', mesh_count, 'meshes,', triangles, 'triangles', flush=True)
 

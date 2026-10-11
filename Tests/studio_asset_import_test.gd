@@ -77,9 +77,10 @@ func _verify() -> void:
 	var apartment: Node3D = room_scene.instantiate() as Node3D
 	root.add_child(apartment)
 	var room_meshes: Array[Node] = apartment.find_children("*", "MeshInstance3D", true, false)
-	if room_meshes.size() != 124:
-		_fail("Worn room must preserve 114 structural meshes and add 10 grime patches")
+	var room_info: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://Models/Architecture/StudioApartment/asset_manifest.json"))
+	if room_meshes.size() != int(room_info.get("architecture_meshes", 0)):
+		_fail("Room mesh count must match its current architecture manifest")
 		return
 	apartment.free()
-	print("STUDIO ENGINE PASS: ", assets, " independent furniture assets, ", surfaces, " textured surfaces; worn room 124 meshes")
+	print("STUDIO ENGINE PASS: ", assets, " independent furniture assets, ", surfaces, " textured surfaces; worn room ", room_meshes.size(), " meshes")
 	quit()

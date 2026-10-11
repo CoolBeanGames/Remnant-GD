@@ -186,7 +186,8 @@
     "cutaway",
     "living",
     "entry",
-    "kitchen"
+    "kitchen",
+    "paper"
   ],
   "render_samples": 128,
   "render_device": "GPU",

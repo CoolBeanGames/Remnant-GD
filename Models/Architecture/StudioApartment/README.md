@@ -8,26 +8,43 @@ An original architectural shell, authored in Blender 4.5.1 LTS. Its current fini
 - `studio_apartment.glb`: Godot-ready metre-scale, Y-up architecture with embedded PBR textures. Includes opaque newspaper and tape; excludes presentation cameras, lights, backdrop and dust volume. The ceiling and all exterior walls remain in the export; the overview render temporarily hides selected walls/ceiling as a cutaway.
 - `studio_apartment.glb.import`: keeps textures embedded as Basis Universal instead of extracting duplicate PNGs into the project. Import UID: `uid://bdkr5w4gcna3i`. Imported meshes keep their names, tangents, generated LODs and shadow meshes.
 - `Textures/`: original deterministic albedo and tangent normal PNGs for oak, plaster, ceramic, porcelain, concrete and newspaper, plus three original typeset newspaper print maps. Native file and GLB already embed these; `.gdignore` prevents redundant raw texture imports. `Source/` is also ignored by Godot so automatic Blender source imports are unnecessary.
-- `asset_manifest.json`: dimensions, Blender version, evaluated geometry totals and render settings. Current model has 124 architectural meshes and 101,148 triangles.
+- `asset_manifest.json`: dimensions, Blender version, evaluated geometry totals and render settings. Current model has 158 architectural meshes and 133,024 triangles.
 - `Reports/StudioApartment/`: retained earlier unfurnished newspaper-window renders and gallery. Current worn/furnished views are in Reports/FurnishedStudio; the complete gallery is Reports/StudioFurniture/index.html.
 
 The model is an authoring experiment, not an instance in the current game or portal room. It has no Godot physics collisions, gameplay script, autoload, UID, signals or persistent state. Its glass uses glTF transmission; renderer-specific glass appearance may differ from Blender.
 
-## Newspaper windows
+## Newspaper windows / reference revision
 
-Both windows are covered with 14 individual opaque newspaper sheets, shallow folds, curled lower edges and masking tape. The print is original typography and a halftone roofline illustration. Ordinary sheet joins overlap; two seams in the north window (23 and 18 mm) and one in the east window (25 mm) are actual gaps that admit sunlight.
+The current coverings use 48 independently modelled clippings, with overlapping,
+slightly rotated edges, curled corners, torn notches and small grey adhesive tabs.
+Partial-page crops from four fictional newspaper scans give dense varied columns,
+halftone photographs and adverts instead of the former repeated front-page grid.
+The reference informed this patchwork appearance; its graffiti was not added.
 
-`newspaper_window()` in the Blender authoring tool controls sheet bounds, rows/columns, overlap and seam width in metres. Sheets retain individual named meshes and UV layouts. Each window's tape tabs are consolidated. To edit the print, run `python Tools/make_apartment_newspaper.py` with Pillow and NumPy; the resulting PNGs are versioned, so Blender rebuilds only need their existing files. The generator uses local Times or DejaVu Serif fonts and falls back to Pillow's default.
+Tools/studio_newspaper_layout.py is shared by the structural builder and the
+in-place Tools/rework_studio_newspaper.py. The latter updates only coverings in
+the saved room, preserving its worn architecture and the separate furniture.
+Run the rework, then Tools/assemble_worn_studio.py to refresh the room GLB and
+linked preview. Default output is five views, including the newsprint close-up.
 
-The render rig uses directional sunlight and a subtle interior dust volume to show shafts in air and stripes on the floor. Glass panes disable Cycles shadow visibility to admit direct sunlight without refractive caustics; this is a Blender presentation setting, not a glTF runtime lighting feature. The GLB exports the paper and physical gaps but excludes the volume and lighting. Godot needs its own lighting/volumetric setup to reproduce the beams. The overview hides dust with the cutaway walls for a clear floorplan.
+Six north-window and four east-window masks remove geometry through every overlap;
+additional torn edge notches leave irregular gaps. Tools/verify_studio_newspaper.py
+checks packed atlas, clipping UVs/count and ten unobstructed rays through these
+openings. Sunlight, glass shadow visibility and dust remain Blender presentation
+settings; engine lighting/volumetrics need their own setup.
+
+Textures/newsprint_scan_atlas.png was generated with built-in ImageGen. Its exact
+prompt/provenance is in Textures/newsprint_scan_atlas.md. The PNG is versioned and
+packed into the native room and GLB; rebuilding needs no external generation.
+The former original typeset maps and unfurnished renders remain historical assets.
 
 ## Rebuild / edit
 
-`Tools/model_studio_apartment.py` is a standalone Blender Python tool using bpy, NumPy and mathutils. Run Blender with `--background --factory-startup --python Tools/model_studio_apartment.py -- --samples 96 --width 1800`. Optional `--views cutaway,living,entry,bathroom` chooses outputs. Run from the repository, with a local BLENDER_USER_CONFIG override if desired. No downloaded texture assets or user preferences are required.
+`Tools/model_studio_apartment.py` is a standalone Blender Python tool using bpy, NumPy and mathutils. Run Blender with `--background --factory-startup --python Tools/model_studio_apartment.py -- --samples 96 --width 1800`. Optional `--views cutaway,living,entry,bathroom` chooses outputs. Run from the repository, with a local BLENDER_USER_CONFIG override if desired. The versioned generated scan atlas and original PBR maps are required; no texture download or user preferences are needed.
 
-It creates geometry, real window/door apertures, original UV-mapped PBR maps, newspaper coverings with open light seams, a separate presentation rig, native/GLB files and renders. Oak and ceramic parts are consolidated into named meshes after their edge modifiers are applied. Image maps are packed before export. `Source/.gdignore` and `Textures/.gdignore` keep authoring data out of Godot's import/export scan; native and raw texture files remain versioned for editing.
+It creates geometry, real window/door apertures, original UV-mapped PBR maps, photographic newspaper clippings with geometric openings, a separate presentation rig, native/GLB files and renders. Oak and ceramic parts are consolidated into named meshes after their edge modifiers are applied. Image maps are packed before export. `Source/.gdignore` and `Textures/.gdignore` keep authoring data out of Godot's import/export scan; native and raw texture files remain versioned for editing.
 
-Default render setup: Cycles with available OptiX GPU (CPU fallback), AgX, adaptive sampling and denoising. Saved camera names begin 01–04. Functions include box(), segment_x()/segment_y(), consolidate(), window(), door(), camera(), textured(), image_map()/normal_map(), light() and newspaper_window(). Its output locations are derived from the script's repository root. It does not alter testing_level, player state or saved games.
+Default render setup: Cycles with available OptiX GPU (CPU fallback), AgX, adaptive sampling and denoising. Saved camera names begin 01–04. Functions include box(), segment_x()/segment_y(), consolidate(), window(), door(), camera(), textured(), image_map()/normal_map(), light() and the shared studio_newspaper_layout.cover_window(). Its output locations are derived from the script's repository root. It does not alter testing_level, player state or saved games.
 
 ## Verification
 
@@ -37,4 +54,4 @@ Verified on 2026-10-11 after the newspaper update: all four final Cycles PNGs vi
 
 ## Worn finish and linked furniture update
 
-Tools/assemble_worn_studio.py follows the structural builder with an idempotent ageing pass. It preserves openings and newspaper geometry, updates the existing material identities, adds worn floor maps and ten transparent local grime patches, packs textures and re-exports the independent shell. It then links the room and 18 separate furniture collections into studio_apartment_furnished.blend and renders four views. Run it after rebuilding the furniture to reproduce the current furnished study. Refer to the furniture README for the complete asset catalogue. Blender lighting and dust remain presentation-only. The historical verification above records the earlier newspaper-only revision; current asset checks are recorded in the assembly manifest and development summary.
+Tools/assemble_worn_studio.py follows the structural builder with an idempotent ageing pass. It preserves openings and newspaper geometry, updates the existing material identities, adds worn floor maps and ten transparent local grime patches, packs textures and re-exports the independent shell. It then links the room and 18 separate furniture collections into studio_apartment_furnished.blend and renders four views. Run it after rebuilding the furniture to reproduce the current furnished study. Refer to the furniture README for the complete asset catalogue. Blender lighting and dust remain presentation-only. The historical verification above records the earlier newspaper-only revision; current checks and hashes are recorded in the furnished preview verification.json and development summary.

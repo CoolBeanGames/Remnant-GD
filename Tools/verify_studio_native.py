@@ -19,10 +19,11 @@ for path in sorted(BASE.glob('*/asset_manifest.json')):
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'Models/Architecture/StudioApartment/Source/studio_apartment.blend'))
 room=bpy.data.collections['APARTMENT | permanent architecture']
 room_meshes=[o for o in room.objects if o.type=='MESH']
-assert room.library is None and len(room_meshes)==124
+room_info=json.loads((ROOT/'Models/Architecture/StudioApartment/asset_manifest.json').read_text())
+assert room.library is None and len(room_meshes)==room_info['architecture_meshes']
 room_images={node.image for o in room_meshes for mat in o.data.materials if mat and mat.use_nodes for node in mat.node_tree.nodes if node.type=='TEX_IMAGE' and node.image}
 assert room_images and all(i.packed_file for i in room_images)
-print('NATIVE ROOM PASS: 124 independent architectural meshes;',len(room_images),'packed referenced maps',flush=True)
+print('NATIVE ROOM PASS:',len(room_meshes),'independent architectural meshes;',len(room_images),'packed referenced maps',flush=True)
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend'))
 instances=[o for o in bpy.context.scene.objects if o.instance_type=='COLLECTION']
 assert len(instances)==19,len(instances)

@@ -20,7 +20,7 @@ TEX=FURN/'Textures'
 p=argparse.ArgumentParser()
 p.add_argument('--samples',type=int,default=128)
 p.add_argument('--width',type=int,default=1800)
-p.add_argument('--views',default='cutaway,living,entry,kitchen')
+p.add_argument('--views',default='cutaway,living,entry,kitchen,paper')
 args=p.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
 for folder in (OUT,RENDERS):
     folder.mkdir(parents=True,exist_ok=True)
@@ -269,7 +269,8 @@ def cam(name,pos,target,lens=23,ortho=None):
 views={'cutaway':cam('Furnished / complete cutaway',(11,-13,12),(0,0,.9),ortho=11.8),
        'living':cam('Furnished / living towards windows',(-2.3,-2.60,1.55),(1.5,1.95,1.16),23),
        'entry':cam('Furnished / daylight towards entry',(2.79,2.7,1.57),(-.8,-1.62,1.04),22),
-       'kitchen':cam('Furnished / kitchenette detail',(-1.58,-2.65,1.58),(-3.38,-.36,1.18),22)}
+       'kitchen':cam('Furnished / kitchenette detail',(-1.58,-2.65,1.58),(-3.38,-.36,1.18),22),
+       'paper':cam('Furnished / torn newsprint detail',(.55,1.36,1.72),(1.27,3.065,1.64),32)}
 scene.camera=views['living']
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'studio_apartment_furnished.blend'))
 (OUT/'assembly_manifest.json').write_text(json.dumps({'room_source':'Models/Architecture/StudioApartment/Source/studio_apartment.blend','linked_assets':linked,'views':list(views),'render_samples':args.samples,'render_device':scene.cycles.device,'physics':'Standalone linked art preview; no gameplay integration'},indent=2)+'\n')

@@ -9,23 +9,18 @@
     2.5,
     2.3
   ],
-  "architecture_meshes": 124,
-  "triangles": 101148,
+  "architecture_meshes": 158,
+  "triangles": 133024,
   "render_samples": 128,
   "furniture": false,
   "render_device": "GPU",
-  "textures": "Original albedo, tangent normal maps and newspaper typography; packed into native file and GLB",
+  "textures": "Packed PBR maps; generated fictional newspaper scan atlas and original procedural surface maps",
   "window_coverings": {
-    "sheets": 14,
-    "material": "Opaque wrinkled newspaper with original print and masking tape",
-    "north_seams_m": [
-      0.023,
-      0.018
-    ],
-    "east_seams_m": [
-      0.025
-    ],
-    "beams": "Sunlight through real open gaps; dust volume belongs to presentation only"
+    "sheets": 48,
+    "material": "Overlapping torn, wrinkled newsprint clippings with varied atlas crops and small grey adhesive tabs",
+    "print_source": "Generated fictional newsprint_scan_atlas.png; prompt recorded in Textures/newsprint_scan_atlas.md",
+    "openings": "Six irregular masks in the north window, four in the east; plus torn edge notches. Physical holes through every overlap.",
+    "beams": "Real geometric openings; sunlight and dust belong to the presentation rig"
   },
   "export": "Y up, metre scale, only permanent architecture including newspaper/tape; no cameras/presentation lights/backdrop/dust",
   "views": [
