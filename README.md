@@ -967,4 +967,4 @@ The October review reduces repeated world/body scans, burst snapshots, ghost-que
 
 **F5** opens the reusable debug log with severity/channel filters. **EXPORT LOGS** bundles current/previous session breadcrumbs, engine logs and system details into a ZIP. Restart after a crash and export the preserved interrupted-session logs. Console: `log open`, `log export`, `log folder`. [Configuration and API](Data/DEBUG_LOG.md).
 
-A responsive development summary is available at [Reports/development_summary.html](Reports/development_summary.html); the hosted phone link is recorded here after publication.
+[Open the phone-friendly development summary](https://remnant-development-summary.callmehaptic.chatgpt.site). Published through Sites with owner-private access; sign in with the same account on your phone. The self-contained source is [Reports/development_summary.html](Reports/development_summary.html).

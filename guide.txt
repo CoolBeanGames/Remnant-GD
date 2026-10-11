@@ -1,5 +1,5 @@
 REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
-Last Updated: 2026-10-10 23:15:02
+Last Updated: 2026-10-10 23:22:30
 
 Maintain README.md, the offline .wiki/index.html (sidebar, content and search), and this guide for every script/system/scene change. Globals must remain the first script category; other categories follow Scripts subfolders. Wiki must remain self-contained. Document script path, class/inheritance, UID/autoload, signals, exported/runtime state, public API and scene dependencies. Add a timestamped running-log entry using [YYYY-MM-DD][HH:MM:SS] - updated the guide to include 'feature'.
 
@@ -130,3 +130,5 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-10][21:17:31] - updated the guide to include 'Automatic FFmpeg setup: portable DevFFmpegInstaller downloads Windows x86_64 Gyan release essentials on a recording start request, verifies archive SHA-256/executable encoder support, publishes a private cache with provenance and license/readme, preserves prior valid builds on failure/cancel, and reuses checked cached executables. GameplayRecorder exposes auto_download_ffmpeg and cache directory, progress/status, F6/record-stop cancellation and auto-start after setup. PATH/system installs unchanged; explicit override/manual mode and unsupported-platform errors retained. Updated README, addon/API/recording guides and offline wiki/sidebar/search.'
 
 [2026-10-10][23:15:02] - updated the guide to include 'Complete production code review, targeted performance/lifecycle fixes, 38-scene isolated regression verification, native/portable F5 debug logging and crash ZIP export, scripted log commands, bounded console, Audio integration/ownership, synchronized README and offline wiki/sidebar/search, and responsive development summary.'
+
+[2026-10-10][23:22:30] - updated the guide to include 'Published self-contained phone-friendly Reports/development_summary.html through owner-private Sites; synchronized README link and wiki summary/sidebar/search. Final 38/38 regression evidence plus native F5, lossless A/V recording, copied-addon logger and clean Forward+ gameplay startup.'

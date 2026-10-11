@@ -1,0 +1,13 @@
+{
+  "url": "https://remnant-development-summary.callmehaptic.chatgpt.site",
+  "project_id": "appgprj_6acaf55f06dc8191a97e67d0e2cd57e1",
+  "site_source_commit": "6b2eb6cb7c2caa5292672f113f599158acb1273c",
+  "audit_commit": "7b56dfc",
+  "audience": "owner-private",
+  "html_sha256": "661c01bb00cf33e622b80c0fabf5c15dc2e58a9ca5752988137c609ebc4edf66",
+  "layout_verified": [
+    "1264px desktop",
+    "390px phone, no horizontal overflow"
+  ],
+  "published_at": "2026-10-10T23:22:30"
+}

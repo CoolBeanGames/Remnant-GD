@@ -232,7 +232,8 @@
   ],
   "rendered": [
     "debug_log_test",
-    "gameplay_recorder_test"
+    "gameplay_recorder_test",
+    "Game startup / Forward+ D3D12"
   ],
   "portable": [
     "debug_log_test"
