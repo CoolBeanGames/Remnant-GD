@@ -1,0 +1,25 @@
+{
+  "key": "FamilyPhoto",
+  "native": "Models/Interiors/StudioFurniture/FamilyPhoto/Source/family_photo.blend",
+  "export": "Models/Interiors/StudioFurniture/FamilyPhoto/family_photo.glb",
+  "collection": "ASSET | FamilyPhoto",
+  "dimensions_blender_m": [
+    0.266,
+    0.1301,
+    0.26
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 9,
+  "triangles": 1320,
+  "packed_images": 7,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

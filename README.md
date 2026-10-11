@@ -14,9 +14,13 @@ The installed [blender-asset-workflow skill](Skills/blender-asset-workflow/SKILL
 
 Export/texture guidance and a Remnant-specific authoring reference live alongside the skill. Engine lighting, physics and gameplay integration follow the target project's own workflow. The repository copy is versioned; the matching user copy is installed under the user skills folder.
 
-## Blender apartment test
+## Worn Blender apartment and furniture
 
-An unfurnished, textured studio apartment is available in [Models/Architecture/StudioApartment](Models/Architecture/StudioApartment/README.md): editable packed Blender source, Godot-ready GLB and four actual Cycles renders. Both windows now have layered newspaper coverings with three real seams that admit sunlight; the render rig shows thin shafts and floor stripes. [Phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/StudioApartment/index.html) · [Local gallery](Reports/StudioApartment/index.html). This is a standalone art test, not a change to the gameplay level.
+The [studio apartment](Models/Architecture/StudioApartment/README.md) now has stained plaster, worn oak, aged trim and local damp/grease patches. Its newspaper-covered windows still have three physical sunlight seams. A separate kitchenette and all 17 requested furniture types have individual packed Blender sources and metre-scale GLBs under [Models/Interiors/StudioFurniture](Models/Interiors/StudioFurniture/README.md).
+
+[studio_apartment_furnished.blend](Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend) links the independent room plus 18 furniture assets. Room geometry and props remain separate. The full delivery has 54 actual Cycles prop renders (three views each) plus four furnished-room angles. [Phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/StudioFurniture/index.html) · [Local gallery](Reports/StudioFurniture/index.html). This is a reusable art collection, not a new gameplay level; engine colliders/interaction/lighting need scene setup. The earlier [unfurnished gallery](Reports/StudioApartment/index.html) remains development history.
+
+Authoring tools: make_studio_furniture_textures.py, model_studio_furniture.py, assemble_worn_studio.py and make_studio_gallery.py under Tools/. Portable/native verification tools are documented in the furniture README. All final renders are visually reviewed; native packed images/library links and Godot import are checked alongside the Windows release/startup delivery.
 
 ## Architecture Overview
 

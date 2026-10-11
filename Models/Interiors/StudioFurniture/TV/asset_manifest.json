@@ -1,0 +1,25 @@
+{
+  "key": "TV",
+  "native": "Models/Interiors/StudioFurniture/TV/Source/t_v.blend",
+  "export": "Models/Interiors/StudioFurniture/TV/t_v.glb",
+  "collection": "ASSET | TV",
+  "dimensions_blender_m": [
+    0.66,
+    0.5905,
+    0.9812
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 30,
+  "triangles": 7338,
+  "packed_images": 10,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

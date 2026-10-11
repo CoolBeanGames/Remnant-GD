@@ -1,0 +1,25 @@
+{
+  "key": "Bookshelf",
+  "native": "Models/Interiors/StudioFurniture/Bookshelf/Source/bookshelf.blend",
+  "export": "Models/Interiors/StudioFurniture/Bookshelf/bookshelf.glb",
+  "collection": "ASSET | Bookshelf",
+  "dimensions_blender_m": [
+    0.915,
+    0.35,
+    1.84
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 159,
+  "triangles": 29892,
+  "packed_images": 6,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

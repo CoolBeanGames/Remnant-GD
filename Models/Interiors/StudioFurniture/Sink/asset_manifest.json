@@ -1,0 +1,25 @@
+{
+  "key": "Sink",
+  "native": "Models/Interiors/StudioFurniture/Sink/Source/sink.blend",
+  "export": "Models/Interiors/StudioFurniture/Sink/sink.glb",
+  "collection": "ASSET | Sink",
+  "dimensions_blender_m": [
+    0.5,
+    0.47,
+    0.6991
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 18,
+  "triangles": 3268,
+  "packed_images": 3,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

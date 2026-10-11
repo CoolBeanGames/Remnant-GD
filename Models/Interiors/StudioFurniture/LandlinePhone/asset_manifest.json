@@ -1,0 +1,25 @@
+{
+  "key": "LandlinePhone",
+  "native": "Models/Interiors/StudioFurniture/LandlinePhone/Source/landline_phone.blend",
+  "export": "Models/Interiors/StudioFurniture/LandlinePhone/landline_phone.glb",
+  "collection": "ASSET | LandlinePhone",
+  "dimensions_blender_m": [
+    0.2721,
+    0.3208,
+    0.1627
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 36,
+  "triangles": 18972,
+  "packed_images": 6,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

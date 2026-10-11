@@ -1,0 +1,25 @@
+{
+  "key": "PileOfMail",
+  "native": "Models/Interiors/StudioFurniture/PileOfMail/Source/pile_of_mail.blend",
+  "export": "Models/Interiors/StudioFurniture/PileOfMail/pile_of_mail.glb",
+  "collection": "ASSET | PileOfMail",
+  "dimensions_blender_m": [
+    0.2754,
+    0.1752,
+    0.0206
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 21,
+  "triangles": 1610,
+  "packed_images": 6,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

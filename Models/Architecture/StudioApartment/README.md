@@ -1,6 +1,6 @@
-# Studio apartment / Blender modelling test
+# Worn studio apartment / independent architectural shell
 
-An original unfurnished architectural shell, authored in Blender 4.5.1 LTS. The clear interior is approximately 7.8 x 6.2 metres with a 2.8 m ceiling; a separate 2.5 x 2.3 m bathroom occupies the northwest corner. No furniture, appliances or sanitary fixtures are included. Doors, windows, trim, electrical plates, a ventilation grille and recessed ceiling luminaires are permanent architectural details.
+An original architectural shell, authored in Blender 4.5.1 LTS. Its current finish has mottled yellowed plaster, worn oak, aged enamel/tile and ten local damp, grease and traffic-stain patches. The clear interior is approximately 7.8 x 6.2 metres with a 2.8 m ceiling; a separate 2.5 x 2.3 m bathroom occupies the northwest corner. Furniture, appliances and the kitchenette are separate native/export assets under Models/Interiors/StudioFurniture. The linked preview in Models/Interiors/FurnishedStudio assembles them; none are baked into this shell. Doors, windows, trim, electrical plates, a ventilation grille and recessed ceiling luminaires are permanent architectural details.
 
 ## Files
 
@@ -8,8 +8,8 @@ An original unfurnished architectural shell, authored in Blender 4.5.1 LTS. The 
 - `studio_apartment.glb`: Godot-ready metre-scale, Y-up architecture with embedded PBR textures. Includes opaque newspaper and tape; excludes presentation cameras, lights, backdrop and dust volume. The ceiling and all exterior walls remain in the export; the overview render temporarily hides selected walls/ceiling as a cutaway.
 - `studio_apartment.glb.import`: keeps textures embedded as Basis Universal instead of extracting duplicate PNGs into the project. Import UID: `uid://bdkr5w4gcna3i`. Imported meshes keep their names, tangents, generated LODs and shadow meshes.
 - `Textures/`: original deterministic albedo and tangent normal PNGs for oak, plaster, ceramic, porcelain, concrete and newspaper, plus three original typeset newspaper print maps. Native file and GLB already embed these; `.gdignore` prevents redundant raw texture imports. `Source/` is also ignored by Godot so automatic Blender source imports are unnecessary.
-- `asset_manifest.json`: dimensions, Blender version, evaluated geometry totals and render settings. Current model has 114 architectural meshes and 101,128 triangles.
-- `Reports/StudioApartment/`: actual Cycles renders from four views and a responsive HTML gallery.
+- `asset_manifest.json`: dimensions, Blender version, evaluated geometry totals and render settings. Current model has 124 architectural meshes and 101,148 triangles.
+- `Reports/StudioApartment/`: retained earlier unfurnished newspaper-window renders and gallery. Current worn/furnished views are in Reports/FurnishedStudio; the complete gallery is Reports/StudioFurniture/index.html.
 
 The model is an authoring experiment, not an instance in the current game or portal room. It has no Godot physics collisions, gameplay script, autoload, UID, signals or persistent state. Its glass uses glTF transmission; renderer-specific glass appearance may differ from Blender.
 
@@ -34,3 +34,7 @@ Default render setup: Cycles with available OptiX GPU (CPU fallback), AgX, adapt
 Review all four actual renders, inspect packed texture/UV presence and GLB content, and run Godot's editor import. The game's Windows delivery process runs a release export and isolated startup smoke. A successful Godot import does not prove identical lighting or transmission rendering, or make this shell collision-ready.
 
 Verified on 2026-10-11 after the newspaper update: all four final Cycles PNGs visually opened; 20 packed native textures and 20 embedded GLB images; 14 opaque UV-mapped sheets and their three open seam widths verified in both rows; GLB selection, UVs/normals and 101,128 triangles match. Godot imports 114 meshes with 44 textured/normal-mapped surfaces and unchanged bounds (8.165, 3.23, 6.58) metres. Import logs are clean. Presentation glass, lighting and dust are not a matched Godot render.
+
+## Worn finish and linked furniture update
+
+Tools/assemble_worn_studio.py follows the structural builder with an idempotent ageing pass. It preserves openings and newspaper geometry, updates the existing material identities, adds worn floor maps and ten transparent local grime patches, packs textures and re-exports the independent shell. It then links the room and 18 separate furniture collections into studio_apartment_furnished.blend and renders four views. Run it after rebuilding the furniture to reproduce the current furnished study. Refer to the furniture README for the complete asset catalogue. Blender lighting and dust remain presentation-only. The historical verification above records the earlier newspaper-only revision; current asset checks are recorded in the assembly manifest and development summary.

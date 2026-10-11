@@ -11,3 +11,6 @@
 
 # Local Windows development exports
 Builds/
+
+# Local Python authoring bytecode
+__pycache__/

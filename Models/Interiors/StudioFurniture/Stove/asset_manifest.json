@@ -1,0 +1,25 @@
+{
+  "key": "Stove",
+  "native": "Models/Interiors/StudioFurniture/Stove/Source/stove.blend",
+  "export": "Models/Interiors/StudioFurniture/Stove/stove.glb",
+  "collection": "ASSET | Stove",
+  "dimensions_blender_m": [
+    0.608,
+    0.7256,
+    1.106
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 20,
+  "triangles": 18440,
+  "packed_images": 9,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

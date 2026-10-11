@@ -1,0 +1,25 @@
+{
+  "key": "Couch",
+  "native": "Models/Interiors/StudioFurniture/Couch/Source/couch.blend",
+  "export": "Models/Interiors/StudioFurniture/Couch/couch.glb",
+  "collection": "ASSET | Couch",
+  "dimensions_blender_m": [
+    2.1356,
+    0.9756,
+    1.0051
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 31,
+  "triangles": 14756,
+  "packed_images": 9,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

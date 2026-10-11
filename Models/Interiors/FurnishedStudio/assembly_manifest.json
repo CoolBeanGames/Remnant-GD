@@ -1,0 +1,194 @@
+{
+  "room_source": "Models/Architecture/StudioApartment/Source/studio_apartment.blend",
+  "linked_assets": [
+    {
+      "asset": "Kitchenette",
+      "source": "Models/Interiors/StudioFurniture/Kitchenette/Source/kitchenette.blend",
+      "position_m": [
+        -3.54,
+        -0.3,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "asset": "Fridge",
+      "source": "Models/Interiors/StudioFurniture/Fridge/Source/fridge.blend",
+      "position_m": [
+        -3.49,
+        -2.48,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "asset": "Stove",
+      "source": "Models/Interiors/StudioFurniture/Stove/Source/stove.blend",
+      "position_m": [
+        -3.53,
+        -1.49,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "asset": "Sink",
+      "source": "Models/Interiors/StudioFurniture/Sink/Source/sink.blend",
+      "position_m": [
+        -3.54,
+        -0.87,
+        0.91
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "asset": "Microwave",
+      "source": "Models/Interiors/StudioFurniture/Microwave/Source/microwave.blend",
+      "position_m": [
+        -3.45,
+        0.29,
+        0.915
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "asset": "CoffeePot",
+      "source": "Models/Interiors/StudioFurniture/CoffeePot/Source/coffee_pot.blend",
+      "position_m": [
+        -3.48,
+        -0.25,
+        0.915
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "asset": "TrashCan",
+      "source": "Models/Interiors/StudioFurniture/TrashCan/Source/trash_can.blend",
+      "position_m": [
+        -2.53,
+        -1.39,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "asset": "Couch",
+      "source": "Models/Interiors/StudioFurniture/Couch/Source/couch.blend",
+      "position_m": [
+        1.05,
+        0.32,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "asset": "Chair",
+      "source": "Models/Interiors/StudioFurniture/Chair/Source/chair.blend",
+      "position_m": [
+        -0.78,
+        1.85,
+        0
+      ],
+      "rotation_z_degrees": -25
+    },
+    {
+      "asset": "TableAndChairs",
+      "source": "Models/Interiors/StudioFurniture/TableAndChairs/Source/table_and_chairs.blend",
+      "position_m": [
+        2.77,
+        1.71,
+        0
+      ],
+      "rotation_z_degrees": 90
+    },
+    {
+      "asset": "EntertainmentCenter",
+      "source": "Models/Interiors/StudioFurniture/EntertainmentCenter/Source/entertainment_center.blend",
+      "position_m": [
+        -0.58,
+        -2.8,
+        0
+      ],
+      "rotation_z_degrees": 180
+    },
+    {
+      "asset": "TV",
+      "source": "Models/Interiors/StudioFurniture/TV/Source/t_v.blend",
+      "position_m": [
+        -0.83,
+        -2.8,
+        0.658
+      ],
+      "rotation_z_degrees": 180
+    },
+    {
+      "asset": "VCR",
+      "source": "Models/Interiors/StudioFurniture/VCR/Source/v_c_r.blend",
+      "position_m": [
+        -0.3,
+        -2.8,
+        0.382
+      ],
+      "rotation_z_degrees": 180
+    },
+    {
+      "asset": "LandlinePhone",
+      "source": "Models/Interiors/StudioFurniture/LandlinePhone/Source/landline_phone.blend",
+      "position_m": [
+        0.0,
+        -2.81,
+        0.658
+      ],
+      "rotation_z_degrees": 180
+    },
+    {
+      "asset": "Bookshelf",
+      "source": "Models/Interiors/StudioFurniture/Bookshelf/Source/bookshelf.blend",
+      "position_m": [
+        3.59,
+        -1.41,
+        0
+      ],
+      "rotation_z_degrees": -90
+    },
+    {
+      "asset": "PottedPlant",
+      "source": "Models/Interiors/StudioFurniture/PottedPlant/Source/potted_plant.blend",
+      "position_m": [
+        2.91,
+        2.7,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "asset": "PileOfMail",
+      "source": "Models/Interiors/StudioFurniture/PileOfMail/Source/pile_of_mail.blend",
+      "position_m": [
+        2.77,
+        1.71,
+        0.781
+      ],
+      "rotation_z_degrees": -12
+    },
+    {
+      "asset": "FamilyPhoto",
+      "source": "Models/Interiors/StudioFurniture/FamilyPhoto/Source/family_photo.blend",
+      "position_m": [
+        3.54,
+        -1.57,
+        1.851
+      ],
+      "rotation_z_degrees": -90
+    }
+  ],
+  "views": [
+    "cutaway",
+    "living",
+    "entry",
+    "kitchen"
+  ],
+  "render_samples": 128,
+  "render_device": "GPU",
+  "physics": "Standalone linked art preview; no gameplay integration"
+}

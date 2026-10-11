@@ -1,0 +1,25 @@
+{
+  "key": "CoffeePot",
+  "native": "Models/Interiors/StudioFurniture/CoffeePot/Source/coffee_pot.blend",
+  "export": "Models/Interiors/StudioFurniture/CoffeePot/coffee_pot.glb",
+  "collection": "ASSET | CoffeePot",
+  "dimensions_blender_m": [
+    0.2319,
+    0.255,
+    0.36
+  ],
+  "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
+  "mesh_objects": 13,
+  "triangles": 2960,
+  "packed_images": 9,
+  "render_samples": 64,
+  "render_device": "GPU",
+  "blender": "4.5.1 LTS",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "physics": "No engine colliders; standalone art asset",
+  "artwork": "Original generated PBR maps and typography; family_photo.png is a generated fictional photograph"
+}

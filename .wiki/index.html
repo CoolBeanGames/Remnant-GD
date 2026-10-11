@@ -805,7 +805,7 @@
         <div class="nav-subcategory-title">
           <span>📁 Actors</span>
         </div>
-        <ul class="nav-items"><li><a class="nav-item-link" data-page="page-studio-apartment"><span>Blender studio apartment</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-blender-workflow"><span>Blender asset workflow</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-godot-workflow"><span>Godot workflow and Windows delivery</span><span class="nav-tag">Workflow</span></a></li><li><a class="nav-item-link" data-page="page-manual-automation"><span>Approved tools and rail carriage</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-imported-gameplay-art"><span>Imported items and prop art</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-item-spawn-pool"><span>Random item spawn pool</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-switchable-props"><span>Fan and light switches</span><span class="nav-tag">Actors</span></a></li>
+        <ul class="nav-items"><li><a class="nav-item-link" data-page="page-studio-apartment"><span>Blender studio apartment</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-studio-furniture"><span>Worn studio / furniture</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-blender-workflow"><span>Blender asset workflow</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-godot-workflow"><span>Godot workflow and Windows delivery</span><span class="nav-tag">Workflow</span></a></li><li><a class="nav-item-link" data-page="page-manual-automation"><span>Approved tools and rail carriage</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-imported-gameplay-art"><span>Imported items and prop art</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-item-spawn-pool"><span>Random item spawn pool</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-switchable-props"><span>Fan and light switches</span><span class="nav-tag">Actors</span></a></li>
           <li>
             <a class="nav-item-link" data-page="page-scripts-actors-audio-player">
               <span>audio_player.gd</span>
@@ -4677,6 +4677,78 @@ Script identities: train_rail.gd uid://bchfhr21xqpuu; rail_slider.gd uid://0tqyb
 Rails form straight tracks. Joins require matching endpoint positions, track direction, up direction, carriage height and physics/portal space; held or loose rails do not connect. Turns and junction routing are outside this system. Each section keeps its own anchor, so retrieving one rail does not pick up the entire track.
 
 </pre></div></div>
+<div id="page-studio-furniture" class="doc-page"><h1>Worn studio and separate furniture</h1><p>Authoring-only Blender collection: 17 requested props plus kitchenette cabinetry. Independent packed native files and GLB exports, linked assembly and 58 reviewed render images. No runtime class, autoload, UID or signals; not installed in testing_level.</p><div class="code-block"><pre style="white-space:pre-wrap"># Worn studio furniture
+
+Seventeen requested furniture assets plus a separate kitchenette cabinet/counter
+unit. Every asset has its own editable native file, packed maps and metre-scale
+Y-up GLB. Front is Blender -Y; up is Z. Origins are bottom-centred, except the sink
+which inserts at countertop height and extends below that plane.
+
+| Asset | Editable Blender source | Engine export | Blender bounds (X Ã— Y Ã— Z) |
+| --- | --- | --- | --- |
+| Bookshelf | [bookshelf.blend](Bookshelf/Source/bookshelf.blend) | [bookshelf.glb](Bookshelf/bookshelf.glb) | 0.915 Ã— 0.35 Ã— 1.84 m |
+| Armchair | [chair.blend](Chair/Source/chair.blend) | [chair.glb](Chair/chair.glb) | 0.9356 Ã— 0.9756 Ã— 1.0051 m |
+| Coffee pot / drip maker | [coffee_pot.blend](CoffeePot/Source/coffee_pot.blend) | [coffee_pot.glb](CoffeePot/coffee_pot.glb) | 0.2319 Ã— 0.255 Ã— 0.36 m |
+| Couch | [couch.blend](Couch/Source/couch.blend) | [couch.glb](Couch/couch.glb) | 2.1356 Ã— 0.9756 Ã— 1.0051 m |
+| Entertainment center | [entertainment_center.blend](EntertainmentCenter/Source/entertainment_center.blend) | [entertainment_center.glb](EntertainmentCenter/entertainment_center.glb) | 1.417 Ã— 0.47 Ã— 0.656 m |
+| Family photo | [family_photo.blend](FamilyPhoto/Source/family_photo.blend) | [family_photo.glb](FamilyPhoto/family_photo.glb) | 0.266 Ã— 0.1301 Ã— 0.26 m |
+| Fridge | [fridge.blend](Fridge/Source/fridge.blend) | [fridge.glb](Fridge/fridge.glb) | 0.66 Ã— 0.7775 Ã— 1.64 m |
+| Kitchenette cabinetry and counter | [kitchenette.blend](Kitchenette/Source/kitchenette.blend) | [kitchenette.glb](Kitchenette/kitchenette.glb) | 1.82 Ã— 0.651 Ã— 2.3 m |
+| Landline phone | [landline_phone.blend](LandlinePhone/Source/landline_phone.blend) | [landline_phone.glb](LandlinePhone/landline_phone.glb) | 0.2721 Ã— 0.3208 Ã— 0.1627 m |
+| Microwave | [microwave.blend](Microwave/Source/microwave.blend) | [microwave.glb](Microwave/microwave.glb) | 0.483 Ã— 0.4255 Ã— 0.315 m |
+| Pile of mail | [pile_of_mail.blend](PileOfMail/Source/pile_of_mail.blend) | [pile_of_mail.glb](PileOfMail/pile_of_mail.glb) | 0.2754 Ã— 0.1752 Ã— 0.0206 m |
+| Potted plant | [potted_plant.blend](PottedPlant/Source/potted_plant.blend) | [potted_plant.glb](PottedPlant/potted_plant.glb) | 0.7488 Ã— 0.7515 Ã— 0.8024 m |
+| Sink | [sink.blend](Sink/Source/sink.blend) | [sink.glb](Sink/sink.glb) | 0.5 Ã— 0.47 Ã— 0.6991 m |
+| Stove | [stove.blend](Stove/Source/stove.blend) | [stove.glb](Stove/stove.glb) | 0.608 Ã— 0.7256 Ã— 1.106 m |
+| Table and two dining chairs | [table_and_chairs.blend](TableAndChairs/Source/table_and_chairs.blend) | [table_and_chairs.glb](TableAndChairs/table_and_chairs.glb) | 1.15 Ã— 1.9835 Ã— 0.9932 m |
+| Trash can | [trash_can.blend](TrashCan/Source/trash_can.blend) | [trash_can.glb](TrashCan/trash_can.glb) | 0.4873 Ã— 0.4 Ã— 0.525 m |
+| TV | [t_v.blend](TV/Source/t_v.blend) | [t_v.glb](TV/t_v.glb) | 0.66 Ã— 0.5905 Ã— 0.9812 m |
+| VCR | [v_c_r.blend](VCR/Source/v_c_r.blend) | [v_c_r.glb](VCR/v_c_r.glb) | 0.43 Ã— 0.293 Ã— 0.0965 m |
+
+The [linked furnished preview](../FurnishedStudio/studio_apartment_furnished.blend)
+instances all 18 items and the independent architectural shell. Preserve the
+repository directory layout so relative Blender library links resolve. Furniture
+is never joined into the room. Presentation lights/cameras/floor/dust are excluded
+from the individual GLBs. Doors, the telephone receiver and frame stand retain
+local pivots for later animation; no runtime animations or collisions are added.
+
+Materials use original albedo, tangent-normal and roughness PNGs in Textures/,
+packed into each native source and embedded into GLB. Metal and glass have deliberate
+Principled PBR settings. Mail print and product labels are original typography.
+family_photo.png is an AI-generated fictional photograph, used only as the framed
+picture texture. No external licensed models or downloaded texture libraries.
+
+Rebuild with Tools/make_studio_furniture_textures.py (Python/Pillow/NumPy), then
+Tools/model_studio_furniture.py in Blender. --assets all, --samples 64 and --width
+1000 reproduce the delivered assets and three view PNGs per item. --no-render is
+available for export-only rebuilds. Tools/assemble_worn_studio.py ages the room
+shell and links the furniture into its native preview, then renders four room views
+at 1800 pixels wide. Rebuild the room shell first with model_studio_apartment.py
+when structural changes are desired. The assembly ageing pass is idempotent.
+
+Before first engine import, run Tools/configure_studio_imports.py to keep embedded
+maps inside the imported resources and preserve existing sidecars and UIDs.
+Run Tools/verify_studio_furniture.py for file/GLB/UV/material/render checks and
+Tools/verify_studio_native.py through Blender for packed-source, pivot/library and
+complete-visibility checks. Tests/studio_asset_import_test.gd checks imported mesh
+counts, textured surfaces and metre-scale bounds after the Y-up conversion.
+Godot editor import and Windows release/startup checks
+are also part of delivery. Successful import does not make these props physics-ready.
+
+Reports/StudioFurniture/index.html is a self-contained responsive gallery of every
+item and all four room angles. Full PNGs are under Reports/StudioFurniture/&lt;Asset&gt;/
+and Reports/FurnishedStudio/. Earlier Reports/StudioApartment renders retain the
+unfurnished newspaper-window study as development history.
+
+
+# Linked furnished studio preview
+
+studio_apartment_furnished.blend instances the architectural shell and 18 independent furniture collections. Keep this repositoryâ€™s directory layout when opening it: native library paths are relative. Open each source file to edit its asset; reload libraries to refresh a running Blender session.
+
+assembly_manifest.json records every source, transform, render camera and sampling/device configuration. The preview contains presentation lights, cameras, a backdrop and dust; these are not part of the individual GLBs. The source opens with complete walls/ceiling and the living view at 1800 Ã— 1200. Cutaway visibility is temporary during rendering and never saved into the final file.
+
+Rebuild with Tools/assemble_worn_studio.py after the furniture builder. Reports/FurnishedStudio has four actual Cycles PNGs; Reports/StudioFurniture/index.html is the complete responsive room/prop gallery. See ../StudioFurniture/README.md for sources, pivots, maps and exports. This preview has no Godot physics, gameplay scripts, autoloads, UIDs, signals or save state.
+</pre></div></div>
 <div id="page-blender-workflow" class="doc-page"><h1>Blender asset workflow</h1><p>Installed, reusable authoring skill: $blender-asset-workflow. Realistic textured models, separate room and prop assets, reviewed renders from multiple angles. Source and metadata live under Skills/blender-asset-workflow; this is authoring guidance with no Godot runtime class, UID, autoload or signals.</p><div class="code-block"><pre style="white-space:pre-wrap">---
 name: blender-asset-workflow
 description: Create or edit realistic textured environments and props in Blender, keep room and item assets separate, and finish with reviewed renders from multiple angles. Use for actual 3D modelling and Blender asset work, rather than raster concept images.
@@ -4876,7 +4948,7 @@ Finish briefly with behavior/controls, verification, build/summary links, pushed
 
   <script>
     // Search Index Data covering all systems and components
-    const searchIndex = [
+    const searchIndex = [{"id": "page-studio-furniture", "title": "Worn studio / furniture", "category": "Art", "text": "# Worn studio furniture\n\nSeventeen requested furniture assets plus a separate kitchenette cabinet/counter\nunit. Every asset has its own editable native file, packed maps and metre-scale\nY-up GLB. Front is Blender -Y; up is Z. Origins are bottom-centred, except the sink\nwhich inserts at countertop height and extends below that plane.\n\n| Asset | Editable Blender source | Engine export | Blender bounds (X \u00c3\u2014 Y \u00c3\u2014 Z) |\n| --- | --- | --- | --- |\n| Bookshelf | [bookshelf.blend](Bookshelf/Source/bookshelf.blend) | [bookshelf.glb](Bookshelf/bookshelf.glb) | 0.915 \u00c3\u2014 0.35 \u00c3\u2014 1.84 m |\n| Armchair | [chair.blend](Chair/Source/chair.blend) | [chair.glb](Chair/chair.glb) | 0.9356 \u00c3\u2014 0.9756 \u00c3\u2014 1.0051 m |\n| Coffee pot / drip maker | [coffee_pot.blend](CoffeePot/Source/coffee_pot.blend) | [coffee_pot.glb](CoffeePot/coffee_pot.glb) | 0.2319 \u00c3\u2014 0.255 \u00c3\u2014 0.36 m |\n| Couch | [couch.blend](Couch/Source/couch.blend) | [couch.glb](Couch/couch.glb) | 2.1356 \u00c3\u2014 0.9756 \u00c3\u2014 1.0051 m |\n| Entertainment center | [entertainment_center.blend](EntertainmentCenter/Source/entertainment_center.blend) | [entertainment_center.glb](EntertainmentCenter/entertainment_center.glb) | 1.417 \u00c3\u2014 0.47 \u00c3\u2014 0.656 m |\n| Family photo | [family_photo.blend](FamilyPhoto/Source/family_photo.blend) | [family_photo.glb](FamilyPhoto/family_photo.glb) | 0.266 \u00c3\u2014 0.1301 \u00c3\u2014 0.26 m |\n| Fridge | [fridge.blend](Fridge/Source/fridge.blend) | [fridge.glb](Fridge/fridge.glb) | 0.66 \u00c3\u2014 0.7775 \u00c3\u2014 1.64 m |\n| Kitchenette cabinetry and counter | [kitchenette.blend](Kitchenette/Source/kitchenette.blend) | [kitchenette.glb](Kitchenette/kitchenette.glb) | 1.82 \u00c3\u2014 0.651 \u00c3\u2014 2.3 m |\n| Landline phone | [landline_phone.blend](LandlinePhone/Source/landline_phone.blend) | [landline_phone.glb](LandlinePhone/landline_phone.glb) | 0.2721 \u00c3\u2014 0.3208 \u00c3\u2014 0.1627 m |\n| Microwave | [microwave.blend](Microwave/Source/microwave.blend) | [microwave.glb](Microwave/microwave.glb) | 0.483 \u00c3\u2014 0.4255 \u00c3\u2014 0.315 m |\n| Pile of mail | [pile_of_mail.blend](PileOfMail/Source/pile_of_mail.blend) | [pile_of_mail.glb](PileOfMail/pile_of_mail.glb) | 0.2754 \u00c3\u2014 0.1752 \u00c3\u2014 0.0206 m |\n| Potted plant | [potted_plant.blend](PottedPlant/Source/potted_plant.blend) | [potted_plant.glb](PottedPlant/potted_plant.glb) | 0.7488 \u00c3\u2014 0.7515 \u00c3\u2014 0.8024 m |\n| Sink | [sink.blend](Sink/Source/sink.blend) | [sink.glb](Sink/sink.glb) | 0.5 \u00c3\u2014 0.47 \u00c3\u2014 0.6991 m |\n| Stove | [stove.blend](Stove/Source/stove.blend) | [stove.glb](Stove/stove.glb) | 0.608 \u00c3\u2014 0.7256 \u00c3\u2014 1.106 m |\n| Table and two dining chairs | [table_and_chairs.blend](TableAndChairs/Source/table_and_chairs.blend) | [table_and_chairs.glb](TableAndChairs/table_and_chairs.glb) | 1.15 \u00c3\u2014 1.9835 \u00c3\u2014 0.9932 m |\n| Trash can | [trash_can.blend](TrashCan/Source/trash_can.blend) | [trash_can.glb](TrashCan/trash_can.glb) | 0.4873 \u00c3\u2014 0.4 \u00c3\u2014 0.525 m |\n| TV | [t_v.blend](TV/Source/t_v.blend) | [t_v.glb](TV/t_v.glb) | 0.66 \u00c3\u2014 0.5905 \u00c3\u2014 0.9812 m |\n| VCR | [v_c_r.blend](VCR/Source/v_c_r.blend) | [v_c_r.glb](VCR/v_c_r.glb) | 0.43 \u00c3\u2014 0.293 \u00c3\u2014 0.0965 m |\n\nThe [linked furnished preview](../FurnishedStudio/studio_apartment_furnished.blend)\ninstances all 18 items and the independent architectural shell. Preserve the\nrepository directory layout so relative Blender library links resolve. Furniture\nis never joined into the room. Presentation lights/cameras/floor/dust are excluded\nfrom the individual GLBs. Doors, the telephone receiver and frame stand retain\nlocal pivots for later animation; no runtime animations or collisions are added.\n\nMaterials use original albedo, tangent-normal and roughness PNGs in Textures/,\npacked into each native source and embedded into GLB. Metal and glass have deliberate\nPrincipled PBR settings. Mail print and product labels are original typography.\nfamily_photo.png is an AI-generated fictional photograph, used only as the framed\npicture texture. No external licensed models or downloaded texture libraries.\n\nRebuild with Tools/make_studio_furniture_textures.py (Python/Pillow/NumPy), then\nTools/model_studio_furniture.py in Blender. --assets all, --samples 64 and --width\n1000 reproduce the delivered assets and three view PNGs per item. --no-render is\navailable for export-only rebuilds. Tools/assemble_worn_studio.py ages the room\nshell and links the furniture into its native preview, then renders four room views\nat 1800 pixels wide. Rebuild the room shell first with model_studio_apartment.py\nwhen structural changes are desired. The assembly ageing pass is idempotent.\n\nBefore first engine import, run Tools/configure_studio_imports.py to keep embedded\nmaps inside the imported resources and preserve existing sidecars and UIDs.\nRun Tools/verify_studio_furniture.py for file/GLB/UV/material/render checks and\nTools/verify_studio_native.py through Blender for packed-source, pivot/library and\ncomplete-visibility checks. Tests/studio_asset_import_test.gd checks imported mesh\ncounts, textured surfaces and metre-scale bounds after the Y-up conversion.\nGodot editor import and Windows release/startup checks\nare also part of delivery. Successful import does not make these props physics-ready.\n\nReports/StudioFurniture/index.html is a self-contained responsive gallery of every\nitem and all four room angles. Full PNGs are under Reports/StudioFurniture/<Asset>/\nand Reports/FurnishedStudio/. Earlier Reports/StudioApartment renders retain the\nunfurnished newspaper-window study as development history.\n\n\n# Linked furnished studio preview\n\nstudio_apartment_furnished.blend instances the architectural shell and 18 independent furniture collections. Keep this repository\u00e2\u20ac\u2122s directory layout when opening it: native library paths are relative. Open each source file to edit its asset; reload libraries to refresh a running Blender session.\n\nassembly_manifest.json records every source, transform, render camera and sampling/device configuration. The preview contains presentation lights, cameras, a backdrop and dust; these are not part of the individual GLBs. The source opens with complete walls/ceiling and the living view at 1800 \u00c3\u2014 1200. Cutaway visibility is temporary during rendering and never saved into the final file.\n\nRebuild with Tools/assemble_worn_studio.py after the furniture builder. Reports/FurnishedStudio has four actual Cycles PNGs; Reports/StudioFurniture/index.html is the complete responsive room/prop gallery. See ../StudioFurniture/README.md for sources, pivots, maps and exports. This preview has no Godot physics, gameplay scripts, autoloads, UIDs, signals or save state.\n"},
 {"id": "page-blender-workflow", "title": "Blender asset workflow", "category": "Art", "keywords": "blender skill realistic environments textured models PBR UV separate room items props linked instances multi-angle renders review assets export"},
 {"id": "page-studio-apartment", "title": "Blender studio apartment", "category": "Art", "keywords": "blender apartment studio architecture glb textured oak plaster bathroom render newspaper window seams sunlight beams tape model_studio_apartment.py make_apartment_newspaper.py"},
   {
