@@ -805,7 +805,7 @@
         <div class="nav-subcategory-title">
           <span>📁 Actors</span>
         </div>
-        <ul class="nav-items"><li><a class="nav-item-link" data-page="page-studio-apartment"><span>Blender studio apartment</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-godot-workflow"><span>Godot workflow and Windows delivery</span><span class="nav-tag">Workflow</span></a></li><li><a class="nav-item-link" data-page="page-manual-automation"><span>Approved tools and rail carriage</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-imported-gameplay-art"><span>Imported items and prop art</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-item-spawn-pool"><span>Random item spawn pool</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-switchable-props"><span>Fan and light switches</span><span class="nav-tag">Actors</span></a></li>
+        <ul class="nav-items"><li><a class="nav-item-link" data-page="page-studio-apartment"><span>Blender studio apartment</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-blender-workflow"><span>Blender asset workflow</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-godot-workflow"><span>Godot workflow and Windows delivery</span><span class="nav-tag">Workflow</span></a></li><li><a class="nav-item-link" data-page="page-manual-automation"><span>Approved tools and rail carriage</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-imported-gameplay-art"><span>Imported items and prop art</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-item-spawn-pool"><span>Random item spawn pool</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-switchable-props"><span>Fan and light switches</span><span class="nav-tag">Actors</span></a></li>
           <li>
             <a class="nav-item-link" data-page="page-scripts-actors-audio-player">
               <span>audio_player.gd</span>
@@ -4677,6 +4677,98 @@ Script identities: train_rail.gd uid://bchfhr21xqpuu; rail_slider.gd uid://0tqyb
 Rails form straight tracks. Joins require matching endpoint positions, track direction, up direction, carriage height and physics/portal space; held or loose rails do not connect. Turns and junction routing are outside this system. Each section keeps its own anchor, so retrieving one rail does not pick up the entire track.
 
 </pre></div></div>
+<div id="page-blender-workflow" class="doc-page"><h1>Blender asset workflow</h1><p>Installed, reusable authoring skill: $blender-asset-workflow. Realistic textured models, separate room and prop assets, reviewed renders from multiple angles. Source and metadata live under Skills/blender-asset-workflow; this is authoring guidance with no Godot runtime class, UID, autoload or signals.</p><div class="code-block"><pre style="white-space:pre-wrap">---
+name: blender-asset-workflow
+description: Create or edit realistic textured environments and props in Blender, keep room and item assets separate, and finish with reviewed renders from multiple angles. Use for actual 3D modelling and Blender asset work, rather than raster concept images.
+---
+
+# Blender asset workflow
+
+Create editable, textured 3D assets and show the finished result through actual Blender renders. The user&#x27;s defaults are realistic environments, textures on every new model, separate room and item assets, and multiple rendered angles at completion. Current explicit art direction takes precedence.
+
+## Start from the project and source
+
+Read the project&#x27;s instructions, asset guides and relevant source before modelling. Follow any local issue-report workflow, including viewing submitted screenshots. Discover the installed Blender version and available renderer/device; use that installation through scripting or an available Blender connector. Preserve existing source, materials, dimensions and designer transforms when extending a model.
+
+Determine the intended scale, use and art direction from the request and surrounding project. Make routine design choices without stopping for approval. Keep the task&#x27;s output in its own asset directory and preserve unrelated scene content.
+
+For Remnant-GD, read [references/remnant.md](references/remnant.md). Other projects use their own folders and delivery instructions.
+
+## Model rooms and items separately
+
+- When creating a room, author its shell in its own .blend asset: floor, walls, ceiling, structural openings and architectural trim. Use real window/door openings, plausible thicknesses, human scale and usable clearances.
+- Author each distinct item or prop as an independent asset in its own .blend file, with a named collection, local origin/pivot, materials and export. Furniture, machines, movable doors and objects placed inside a room remain reusable independently of the room.
+- Assemble the presentation scene with linked assets or collection instances. Keep the room, each prop and the presentation rig in separate named collections. Store item placement on instances; retain each item&#x27;s local coordinates for reuse.
+- Export the room and props separately when exports are part of the task. A combined preview scene is useful alongside those assets. Joining room geometry must not bake loose props into the shell.
+- Keep movable subparts separate with useful pivots, such as a door hinge or fan blade centre. A functional or animated part needs more than a visually correct silhouette.
+
+## Finish surfaces and materials
+
+Texture every new model. Finish UVs and a coherent material setup before delivery; avoid untextured grey placeholders. Use scale-correct base colour maps and the normal, roughness or metallic detail needed for the intended surface. Glass, polished metal and other simple surfaces can use deliberate physically based material settings within the finished textured asset.
+
+Use believable proportions, small edge bevels, material variation and restrained wear. Wood grain, tiles, paper print and other directional details must have sensible scale and orientation. Keep imperfections consistent with the environment instead of covering every surface with the same noise.
+
+Preserve supplied textures and material assignments; inspect embedded or nearby image maps before replacing them. Use original maps or appropriately licensed assets and record external sources. Pack textures into native deliverables or provide a complete portable texture directory. A procedural shader must be baked to supported maps when the target export cannot reproduce it.
+
+Read [references/textures-and-export.md](references/textures-and-export.md) for procedural image generation, portable PBR export or game-engine delivery.
+
+## Render and review multiple angles at completion
+
+Use actual renders of the final model. Finish with at least three distinct useful views, typically four for a room: a complete overview or temporary cutaway, two complementary views at human eye height, and a detail/interior view that exposes important materials or geometry. For a prop, show front/three-quarter, opposite/rear, and another angle that reveals its construction. Cover every newly created asset; assembling props into a room does not replace an independent prop view when its shape is obscured.
+
+Set up plausible light sources, appropriate exposure and colour management. Use Cycles for realistic presentation when available, with a supported GPU or CPU fallback. Iterate with quick previews, then render final images at a useful resolution and sufficient samples/denoising. Keep cameras, presentation lights, backdrop and atmospheric effects separate from exported assets.
+
+Open and visually inspect **every final image**. Check framing, hidden or intersecting geometry, mirrored print/UVs, texture scale, missing/black materials, light leaks, noise and excessive haze. Refine observed problems and re-render affected views. Successful command exit or finding an image file does not count as visual review.
+
+Use temporary visibility changes for cutaways and restore the full model. Save the editable source with the intended complete scene, a useful default camera, and matching render aspect. Preserve named cameras so the views can be reproduced. Screenshots or AI concept images cannot stand in for final Blender renders.
+
+## Deliver portable, reviewable assets
+
+Provide the editable native model and its textures, separate files for the room and any props created, requested exports, and the reviewed multi-angle images. Preserve reproducible authoring scripts when used. Summarise scale, asset separation, material setup, verification and relevant limits; distinguish Blender presentation lighting from engine-rendered appearance.
+
+When targeting an engine, verify import, bounds, origins, UVs, materials and movable pivots. Keep presentation-only objects out of exports. Collision, gameplay placement and engine volumetric lighting require their own setup and checks.
+
+Follow the current project&#x27;s documentation, HTML/Notion summary, build and Git preferences where configured. Preserve publication access and report actual outcomes. Standalone Blender work does not authorize importing the room into a game, pushing another project&#x27;s repository or publishing to Remnant&#x27;s destinations.
+
+
+# Texture and export checks
+
+Read for procedural image maps, portable exports or game-engine assets.
+
+## Image maps and UVs
+
+- Set a generated Blender image&#x27;s colour space, file format and path before assigning its pixel buffer. Changing colour space after writing generated pixels can invalidate that buffer. Save, reload or inspect representative values, and actually view the textured render.
+- Base colour uses an appropriate colour space; tangent normal, roughness, metallic and mask maps are non-colour data. Check normal handedness and the target engine&#x27;s conventions. Keep wood grain, labels and paper text readable from the intended side.
+- UV scale should correspond to physical dimensions. Inspect small items independently; a room overview can conceal backwards text, seams or missing surfaces.
+- Pack all required image maps into the .blend and verify packed image data. Exported textures must be embedded or supplied with valid portable paths. Keep authoring-only originals outside redundant engine import scans where the project supports it.
+
+## Portable PBR assets
+
+Prefer export-supported Principled materials for base colour, normals, roughness, metallic and transparency. Bake unsupported procedural effects when exporting them. Inspect the exported material assignments and maps rather than assuming the native shader graph survives.
+
+Apply intended scale and evaluate modifiers deliberately. After joining rotated pieces, bake the surviving object&#x27;s rotation when appropriate: an otherwise correct model can inherit an inflated engine bounding box. Check the actual imported bounds and transforms.
+
+Give each separate prop a useful local pivot and consistent front/up convention. The presentation assembly&#x27;s world placement belongs on instances. Keep movable parts and their pivots intact; avoid flattening animations or articulated geometry into a room export.
+
+Select only the intended room or prop for each export. Exclude render cameras, light rigs, studio ground and dust volumes. Retain full walls and ceiling even if a preview hides them for a cutaway.
+
+Transparent glass may look different across renderers. A native ray-visibility setting or volumetric rig does not automatically become an engine feature. Verify transparency in the target where needed and state which light-beam/shader effects remain native presentation only. Engine import alone does not establish physics collisions or identical lighting.
+
+
+# Remnant Blender authoring
+
+Use only when working in Remnant-GD. Read the current AGENTS.md, guide.txt, README and relevant asset guide; those remain authoritative. Inspect .issues/inbox at the start and actually view screenshots of pending F1 reports.
+
+The existing studio apartment is a standalone unfurnished art test under Models/Architecture/StudioApartment, with Source/studio_apartment.blend, a metre-scale Y-up GLB, packed original textures, manifest and four actual renders in Reports/StudioApartment. It is not installed in testing_level and has no Godot physics colliders. Read its README before editing.
+
+Tools/model_studio_apartment.py is a reproducible Blender authoring example with named architecture/presentation collections, real apertures, portable PBR maps, selectable render views and architecture-only export. Tools/make_apartment_newspaper.py authors original print textures using Pillow and NumPy. Source/, Textures/ and render folders use .gdignore to avoid duplicate authoring imports; preserve the existing GLB import UID and compression settings.
+
+For new rooms with props, use separate room and item sources/exports, then link or instance them into an assembly for rendering. The old unfurnished shell is an example to extend within scope; this skill alone is not a request to rebuild existing assets or add furniture.
+
+Actual Blender renders use a separate light/backdrop/dust rig. The newspaper gaps are geometry; reproducing the shafts in Godot needs engine lighting and volumetrics. Preserve that distinction in summaries.
+
+The project&#x27;s configured Godot workflow covers README, offline wiki content/sidebar/search, timestamped guide, HTML/Notion summaries, Windows builds and verified GitHub pushes after meaningful work. Follow Skills/godot-project-workflow/SKILL.md and its delivery reference when performing those steps. Keep the established owner-private summary audience and local issue/save data private. Other projects must not reuse these destinations.
+</pre></div></div>
 <div id="page-studio-apartment" class="doc-page"><h1>Blender studio apartment</h1><div class="code-block"><pre style="white-space:pre-wrap"># Studio apartment / Blender modelling test
 
 An original unfurnished architectural shell, authored in Blender 4.5.1 LTS. The clear interior is approximately 7.8 x 6.2 metres with a 2.8 m ceiling; a separate 2.5 x 2.3 m bathroom occupies the northwest corner. No furniture, appliances or sanitary fixtures are included. Doors, windows, trim, electrical plates, a ventilation grille and recessed ceiling luminaires are permanent architectural details.
@@ -4785,6 +4877,7 @@ Finish briefly with behavior/controls, verification, build/summary links, pushed
   <script>
     // Search Index Data covering all systems and components
     const searchIndex = [
+{"id": "page-blender-workflow", "title": "Blender asset workflow", "category": "Art", "keywords": "blender skill realistic environments textured models PBR UV separate room items props linked instances multi-angle renders review assets export"},
 {"id": "page-studio-apartment", "title": "Blender studio apartment", "category": "Art", "keywords": "blender apartment studio architecture glb textured oak plaster bathroom render newspaper window seams sunlight beams tape model_studio_apartment.py make_apartment_newspaper.py"},
   {
     "id": "page-development-summary",

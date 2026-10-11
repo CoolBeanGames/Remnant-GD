@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blender Asset Workflow"
+  short_description: "Textured rooms and props with reviewed multi-angle renders"
+  default_prompt: "Use $blender-asset-workflow to create a realistic textured model, keep room architecture and props as separate assets, and show reviewed renders from multiple angles."

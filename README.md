@@ -8,6 +8,12 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Reusable Blender workflow
+
+The installed [blender-asset-workflow skill](Skills/blender-asset-workflow/SKILL.md) guides realistic environment and prop modelling for this and future projects. It requires finished textures/materials on every model, separate editable room and item assets assembled through links/instances, and at least three useful final Blender views with every image visually reviewed. Native sources, packed textures and requested separate exports are delivered together. Invoke it as `$blender-asset-workflow`; automatic discovery remains enabled.
+
+Export/texture guidance and a Remnant-specific authoring reference live alongside the skill. Engine lighting, physics and gameplay integration follow the target project's own workflow. The repository copy is versioned; the matching user copy is installed under the user skills folder.
+
 ## Blender apartment test
 
 An unfurnished, textured studio apartment is available in [Models/Architecture/StudioApartment](Models/Architecture/StudioApartment/README.md): editable packed Blender source, Godot-ready GLB and four actual Cycles renders. Both windows now have layered newspaper coverings with three real seams that admit sunlight; the render rig shows thin shafts and floor stripes. [Phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/StudioApartment/index.html) · [Local gallery](Reports/StudioApartment/index.html). This is a standalone art test, not a change to the gameplay level.
