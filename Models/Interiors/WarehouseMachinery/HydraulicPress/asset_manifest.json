@@ -1,0 +1,35 @@
+{
+  "key": "hydraulic_press",
+  "native": "Models/Interiors/WarehouseMachinery/HydraulicPress/Source/hydraulic_press.blend",
+  "export": "Models/Interiors/WarehouseMachinery/HydraulicPress/hydraulic_press.glb",
+  "collection": "ASSET | HydraulicPress",
+  "mesh_objects": 44,
+  "triangles": 9178,
+  "dimensions_blender_m": [
+    3.0522,
+    1.975,
+    3.68
+  ],
+  "bounds_min": [
+    -1.6022,
+    -0.9,
+    0.0
+  ],
+  "bounds_max": [
+    1.45,
+    1.075,
+    3.68
+  ],
+  "packed_images": 30,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU"
+}

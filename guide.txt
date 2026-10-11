@@ -1,9 +1,10 @@
 REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
-Last Updated: 2026-10-11 07:43:55
+Last Updated: 2026-10-11 10:53:54
 
 Maintain README.md, the offline .wiki/index.html (sidebar, content and search), and this guide for every script/system/scene change. Globals must remain the first script category; other categories follow Scripts subfolders. Wiki must remain self-contained. Document script path, class/inheritance, UID/autoload, signals, exported/runtime state, public API and scene dependencies. Add a timestamped running-log entry using [YYYY-MM-DD][HH:MM:SS] - updated the guide to include 'feature'.
 
 CURRENT DESIGN
+- Dilapidated warehouse art: independent 24x36m hall shell with 288 window cells (174 real broken/missing centres), rusted trusses/roof, dirty concrete, 4.2m catwalk/office and 24-rise stair. Six new separate machine/desk/debris libraries plus existing office props; 17 relative assembly instances; six room and 18 prop Cycles PNGs. Original PBR maps, native/portable/Godot checks and phone gallery. No gameplay placement or physics. Models/Architecture/DilapidatedWarehouse/README.md.
 - Newspaper reference revision: room windows use 48 overlapping torn clippings with a generated fictional scan atlas, varied partial-page crops and ten geometric daylight masks. studio_newspaper_layout.py is shared by the structural builder and rework_studio_newspaper.py; five room views include a close-up. verify_studio_newspaper.py checks UVs/packing and actual clear rays. Earlier tidy typography is retired history.
 - Worn studio furniture art collection: Models/Interiors/StudioFurniture has 17 requested independent packed .blend/GLB assets plus kitchenette cabinets/counter; Models/Interiors/FurnishedStudio links them and the separately aged room. 54 prop/5 room Cycles angles, reviewed images and phone gallery. Authoring/verification tools under Tools/. No game-level placement or physics.
 - Reusable Blender asset workflow: Skills/blender-asset-workflow/SKILL.md is installed in the user skills folder and versioned here. Realistic environments, textures/materials on every model, separate room/prop native assets and exports with linked assemblies, at least three distinct reviewed final renders. Texture/export guidance plus Remnant reference; automatic discovery and explicit $blender-asset-workflow invocation. AGENTS.md routes Blender work to it.
@@ -154,3 +155,5 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-11][07:15:59] - updated the guide to include 'Worn studio, kitchenette and separate furniture: original PBR textures, 17 requested item sources/exports plus cabinetry, relative linked room assembly, 54 prop and four room views, reviewed render refinements, portable/native/import checks, gallery/wiki authoring docs and standard Windows/GitHub/Notion delivery.'
 
 [2026-10-11][07:43:55] - updated the guide to include 'Reference-based newspaper revision: packed fictional scan atlas, shared clipping geometry and in-place rework, 48 overlaps, torn edges and ten real light openings, five reviewed room renders, updated authoring/wiki/search/gallery, native/import checks and normal Windows/GitHub/Notion delivery.'
+
+[2026-10-11][10:53:54] - updated the guide to include 'Dilapidated warehouse: separate architecture and six props, broken glazing, grime/rust, upper catwalk/production office, original packed PBR maps, reviewed multi-angle Cycles renders, relative linked assembly, structural/native/export/engine verification, searchable offline/phone galleries, Windows release and GitHub/Notion delivery.'

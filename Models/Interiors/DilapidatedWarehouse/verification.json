@@ -1,0 +1,218 @@
+{
+  "assets": 7,
+  "new_props": 6,
+  "assembly_instances": 17,
+  "triangles_separate_exports": 157062,
+  "actual_render_images": 24,
+  "checked_files": [
+    {
+      "file": "Models/Architecture/DilapidatedWarehouse/Source/dilapidated_warehouse.blend",
+      "bytes": 24129048,
+      "sha256": "dc41aed60dfca894d677367c47cc99bcbc43c50b3ffe1bc03bbcdb4efe1aa2e4"
+    },
+    {
+      "file": "Models/Architecture/DilapidatedWarehouse/dilapidated_warehouse.glb",
+      "bytes": 22540832,
+      "sha256": "5db5dce8ca2d6a557d4ca27d9dbf38961e918efc178eaca227bfd9b7a534edb2"
+    },
+    {
+      "file": "Reports/Warehouse/production_floor.png",
+      "bytes": 2592097,
+      "sha256": "762a8702019e5efe968eece00ce57100b55804647b7e8fb348f2158cb9b5f9c3"
+    },
+    {
+      "file": "Reports/Warehouse/catwalk.png",
+      "bytes": 2406561,
+      "sha256": "2606bae7ff160f04399612ba9adc112a83f97c0101cf763beaae1ca359ad81d4"
+    },
+    {
+      "file": "Reports/Warehouse/office.png",
+      "bytes": 2236828,
+      "sha256": "fedcd2b42863a4991e7390bfa428d3a658ba5bf7c278718f883e3d4fcf4f10ef"
+    },
+    {
+      "file": "Reports/Warehouse/machines.png",
+      "bytes": 2580028,
+      "sha256": "bbf029e03ec2cc6702179903a81e4c3c8a317e8bf8eb249044e9aa44b7c32bbf"
+    },
+    {
+      "file": "Reports/Warehouse/exterior.png",
+      "bytes": 2724073,
+      "sha256": "e2749c64df5cc7782dd336176912f92ead9d6ca1d70fa11c729dba35a4b52db4"
+    },
+    {
+      "file": "Reports/Warehouse/overview.png",
+      "bytes": 3059544,
+      "sha256": "b385391d64c2444428cd340bbc8c0bca23fc6af7b028f2835c8a285058f0fb81"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/AirCompressor/Source/air_compressor.blend",
+      "bytes": 15105094,
+      "sha256": "93f5eca705f75eb3eac7624deb1d4c7119c9121ff04aa3b4dbb64e1dc09645f3"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/AirCompressor/air_compressor.glb",
+      "bytes": 10018608,
+      "sha256": "cffdd0ceabf195898bc498b43417377327c463ca2b4c71eb3b8f0323ecf1b46d"
+    },
+    {
+      "file": "Reports/Warehouse/AirCompressor/front.png",
+      "bytes": 1037862,
+      "sha256": "44fadd253a0c80731231593c8635f57b7b86899e3f863adb3ae7900c343fd961"
+    },
+    {
+      "file": "Reports/Warehouse/AirCompressor/rear.png",
+      "bytes": 1027881,
+      "sha256": "9facd527418f39e9a7ec0eb1640432ddb50517b5623512617ca8f98140c01a26"
+    },
+    {
+      "file": "Reports/Warehouse/AirCompressor/detail.png",
+      "bytes": 1051138,
+      "sha256": "d0bb03c6ffbafffe9c3909de1fa13b51e6542afcfa4a311a2077a08fb8ec5d88"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/ControlCabinet/Source/control_cabinet.blend",
+      "bytes": 15051020,
+      "sha256": "b38e5a59d9c48fce16fbb9e4f77d896a1b23fad8182078d28ca9896fb0574d80"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/ControlCabinet/control_cabinet.glb",
+      "bytes": 12068624,
+      "sha256": "320f087a5c6e341bc3d360304cdb1ab8845e402e2caee433b76dcb3144653879"
+    },
+    {
+      "file": "Reports/Warehouse/ControlCabinet/front.png",
+      "bytes": 1096389,
+      "sha256": "42d6786cdfd8f5bed37ef6cccdcb186a6e6b7b20231f11a3df24de6f9cf4fb70"
+    },
+    {
+      "file": "Reports/Warehouse/ControlCabinet/rear.png",
+      "bytes": 1089386,
+      "sha256": "cb8cfd8120ace608ddfde81faa5a791c37251b59a65487d5837090072646686e"
+    },
+    {
+      "file": "Reports/Warehouse/ControlCabinet/detail.png",
+      "bytes": 1054520,
+      "sha256": "1e897d5d9aea4323fe9909e449154e1ab6df73612190564ccd2bee1890879434"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/DebrisKit/Source/debris_kit.blend",
+      "bytes": 14573826,
+      "sha256": "c848d25ee1864eb925ec4622caa51fb8973fc599d34b467f49cc46c296beb991"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/DebrisKit/debris_kit.glb",
+      "bytes": 4948592,
+      "sha256": "d762c332c5df647a39780ffc90c776300c702c4d7d2530d7a30d41398441fe56"
+    },
+    {
+      "file": "Reports/Warehouse/DebrisKit/front.png",
+      "bytes": 908801,
+      "sha256": "53a0ea20e93c27cd21d80017bc69f8a20ec650116363b0995eb33f8f4b57330d"
+    },
+    {
+      "file": "Reports/Warehouse/DebrisKit/rear.png",
+      "bytes": 917418,
+      "sha256": "6b5e638ff3a0f0b9dcee3a665a95dd3a1b2eb6f144bfe1589896357e17532d6c"
+    },
+    {
+      "file": "Reports/Warehouse/DebrisKit/detail.png",
+      "bytes": 948314,
+      "sha256": "33d84964d1f16e256ee26804aabe4f00c1a14e2950ffe36a671b855a338849cd"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/HydraulicPress/Source/hydraulic_press.blend",
+      "bytes": 15206394,
+      "sha256": "e6e48a7094529b0d2cfa3e45af0802f23a6cf14f0f43a36835118c454689882b"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/HydraulicPress/hydraulic_press.glb",
+      "bytes": 12288428,
+      "sha256": "04dd80f89a46555eb8948919307d42844fc10fd740e3a03f496965bab5181dc0"
+    },
+    {
+      "file": "Reports/Warehouse/HydraulicPress/front.png",
+      "bytes": 1075921,
+      "sha256": "99be6f94919d5f7a539db8103934505bc34bb9715be983a937ba174f57c00c0e"
+    },
+    {
+      "file": "Reports/Warehouse/HydraulicPress/rear.png",
+      "bytes": 1075309,
+      "sha256": "3a9d8c7ac5aa8545f5543ce5c0bb2d49da91b28d9f1043fec75afbbf5e204fa9"
+    },
+    {
+      "file": "Reports/Warehouse/HydraulicPress/detail.png",
+      "bytes": 1069323,
+      "sha256": "1db057d2217b3a5e68ea93163d2bfe851547b3c78f0dcf256977c6785cacdc38"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/IndustrialLathe/Source/industrial_lathe.blend",
+      "bytes": 14946137,
+      "sha256": "70c14c251817e066d4f61e0928ffe720e5379db49955a3132e21d66f69e7f998"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/IndustrialLathe/industrial_lathe.glb",
+      "bytes": 9990024,
+      "sha256": "17c8b0ac4a17aa5da337e4fddb908d3899026081e8f613e22917f4f267895a39"
+    },
+    {
+      "file": "Reports/Warehouse/IndustrialLathe/front.png",
+      "bytes": 985834,
+      "sha256": "4f16797e0fe2200a77e02ea6266e33dac325c60bec649f65d4968339491ce3db"
+    },
+    {
+      "file": "Reports/Warehouse/IndustrialLathe/rear.png",
+      "bytes": 982602,
+      "sha256": "a7dd1003421118f71e41c82d5bd129de310b6741894acd03c8ff48ecb1384b5c"
+    },
+    {
+      "file": "Reports/Warehouse/IndustrialLathe/detail.png",
+      "bytes": 981492,
+      "sha256": "c1fdf69ac002e1cfeddce359b258a61701321ea4d06a41de1cc9706828aee645"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/OfficeDesk/Source/office_desk.blend",
+      "bytes": 14691129,
+      "sha256": "c111c23178fb2b4ef3327e5b8fcbfac1e5e7534936949f9c7ee194d744d01457"
+    },
+    {
+      "file": "Models/Interiors/WarehouseMachinery/OfficeDesk/office_desk.glb",
+      "bytes": 9758528,
+      "sha256": "4a5570c48c7c4f4a10f70807d399393997acc5445c6f62ea09cd2778fe2496dd"
+    },
+    {
+      "file": "Reports/Warehouse/OfficeDesk/front.png",
+      "bytes": 974096,
+      "sha256": "8291e5fe07e9885ab9ea15e52235eebfc7f15581e6985c966ab7868a388645bb"
+    },
+    {
+      "file": "Reports/Warehouse/OfficeDesk/rear.png",
+      "bytes": 978827,
+      "sha256": "cd5227bd4bcc1f0c5267d29a0e2ae206f935a1744ff1c79c3afa3e3b112a20bb"
+    },
+    {
+      "file": "Reports/Warehouse/OfficeDesk/detail.png",
+      "bytes": 976449,
+      "sha256": "9986437788ac28992ae9c5caecc2b807f3dc05934784d1958783224f11b6d479"
+    },
+    {
+      "file": "Models/Interiors/DilapidatedWarehouse/warehouse_assembly.blend",
+      "bytes": 17021773,
+      "sha256": "9a6fbd21ac0914e9bea2e22e41964c1d36f31aed64308af12073c79621d5720d"
+    }
+  ],
+  "visual_review": {
+    "environment_views": 6,
+    "prop_views": 18,
+    "method": "Every final PNG was actually opened using view_image and inspected; framing, office placement and emitter visibility were refined and affected views reviewed again."
+  },
+  "verified_at": "2026-10-11T10:54:07.757485-05:00",
+  "checks": {
+    "native": "Blender --python-exit-code 1: packed used images, UVs, bounds, cabinet hinge, 17 relative links, saved complete visibility and office stationery clearance passed",
+    "structure": "Evaluated-geometry ray tests: 174 broken/missing window centres, 114 surviving panes; stair/deck and catwalk/office sample positions passed",
+    "portable": "Seven GLB 2 exports: buffer ranges, embedded PBR textures, mesh counts, normals/UVs and 157062 evaluated triangles; 24 PNGs and 39 file hashes passed",
+    "engine": "Godot 4.7.2 imported all seven exports; 1079 mapped PBR surfaces, matching mesh counts/bounds and retained cabinet hinge; isolated APPDATA; no warnings/errors",
+    "html": "24 embedded JPEGs decoded, asset links and gallery search checked; 102 unique wiki pages/sidebar/search records; source Site files match local HTML",
+    "browser_limit": "No browser screenshot/layout claim: browser automation was unavailable on this Windows host; actual Blender images and static HTML/filter checks were completed"
+  }
+}

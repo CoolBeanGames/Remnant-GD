@@ -1,0 +1,35 @@
+{
+  "key": "control_cabinet",
+  "native": "Models/Interiors/WarehouseMachinery/ControlCabinet/Source/control_cabinet.blend",
+  "export": "Models/Interiors/WarehouseMachinery/ControlCabinet/control_cabinet.glb",
+  "collection": "ASSET | ControlCabinet",
+  "mesh_objects": 62,
+  "triangles": 8108,
+  "dimensions_blender_m": [
+    1.343,
+    1.8248,
+    2.2075
+  ],
+  "bounds_min": [
+    -0.673,
+    -1.5048,
+    0.0
+  ],
+  "bounds_max": [
+    0.67,
+    0.32,
+    2.2075
+  ],
+  "packed_images": 29,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU"
+}

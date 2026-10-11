@@ -1,0 +1,35 @@
+{
+  "key": "air_compressor",
+  "native": "Models/Interiors/WarehouseMachinery/AirCompressor/Source/air_compressor.blend",
+  "export": "Models/Interiors/WarehouseMachinery/AirCompressor/air_compressor.glb",
+  "collection": "ASSET | AirCompressor",
+  "mesh_objects": 46,
+  "triangles": 12196,
+  "dimensions_blender_m": [
+    2.2564,
+    1.5553,
+    1.95
+  ],
+  "bounds_min": [
+    -1.07,
+    -0.8253,
+    0.0
+  ],
+  "bounds_max": [
+    1.1864,
+    0.73,
+    1.95
+  ],
+  "packed_images": 29,
+  "blender": "4.5.1 LTS",
+  "origin": "Floor contact at Z=0, local centre; Z up, front faces -Y",
+  "physics": "Standalone art; no gameplay placement or collision shapes",
+  "textures": "Original portable PBR image maps; packed native images and embedded GLB channels",
+  "views": [
+    "front",
+    "rear",
+    "detail"
+  ],
+  "render_samples": 80,
+  "render_device": "GPU"
+}

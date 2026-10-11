@@ -14,6 +14,12 @@ The installed [blender-asset-workflow skill](Skills/blender-asset-workflow/SKILL
 
 Export/texture guidance and a Remnant-specific authoring reference live alongside the skill. Engine lighting, physics and gameplay integration follow the target project's own workflow. The repository copy is versioned; the matching user copy is installed under the user skills folder.
 
+## Dilapidated warehouse art collection
+
+The [warehouse](Models/Architecture/DilapidatedWarehouse/README.md) has a 24 × 36 m production hall, broken factory windows, rusted trusses, jointed stained concrete, a 4.2 m catwalk and an elevated production office reached by stairs. Six new independently packed Blender/GLB props provide broken presses, lathes, a failed compressor, an open electrical cabinet, office desk and loose debris. Existing office furniture remains separately linked.
+
+[warehouse_assembly.blend](Models/Interiors/DilapidatedWarehouse/warehouse_assembly.blend) uses 17 relative collection instances. Six actual Cycles environment views plus three angles per new prop are in the [offline gallery](Reports/Warehouse/index.html) and [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/Warehouse/index.html). Native/GLB checks verify packing, UVs, pivots, relative links, physical glazing holes and stairs; the Godot import test checks all seven exports. This is a standalone art collection; gameplay placement, collision and engine lighting require scene setup. Normal Windows release/startup and GitHub/Notion delivery accompany this work.
+
 ## Worn Blender apartment and furniture
 
 The [studio apartment](Models/Architecture/StudioApartment/README.md) now has stained plaster, worn oak, aged trim and local damp/grease patches. Its windows use 48 overlapping, torn newspaper clippings with varied scan print and irregular physical daylight openings. A separate kitchenette and all 17 requested furniture types have individual packed Blender sources and metre-scale GLBs under [Models/Interiors/StudioFurniture](Models/Interiors/StudioFurniture/README.md).
