@@ -1,7 +1,7 @@
 """Build and render an unfurnished apartment. Run with Blender --background --python.
 
 Standalone authoring tool: no game state, gameplay changes or external asset downloads.
-All textures are original deterministic NumPy-generated maps, packed in the .blend/GLB.
+Textures are original deterministic maps and newspaper typography, packed in .blend/GLB.
 """
 from pathlib import Path
 import argparse
@@ -44,6 +44,7 @@ scene.cycles.use_denoising = True
 scene.cycles.adaptive_threshold = .025
 scene.cycles.max_bounces = 10
 scene.cycles.transparent_max_bounces = 8
+scene.cycles.volume_step_rate = .1
 scene.render.image_settings.file_format = 'PNG'
 scene.render.image_settings.color_mode = 'RGB'
 scene.render.image_settings.color_depth = '8'
@@ -201,6 +202,15 @@ stone = textured('Bathroom / limestone porcelain', stone_color, stone_normal, .6
 concrete_color = image_map('concrete_albedo', np.array([.38, .39, .37]) + wave_noise(u, v, 9)[:, :, None] * .027)
 concrete_normal = normal_map('concrete_normal', wave_noise(u, v, 9), 2.5)
 concrete = textured('Slab / concrete', concrete_color, concrete_normal, .9, .35)
+paper_normal = normal_map('newspaper_normal', soft_noise(u, v, 572, 7), 2.0)
+newspapers = []
+for index in range(3):
+    path = TEXTURES / ('newspaper_%02d_albedo.png' % index)
+    if not path.is_file():
+        raise FileNotFoundError('Generate original print maps with Tools/make_apartment_newspaper.py first: ' + str(path))
+    image = bpy.data.images.load(str(path), check_existing=True)
+    newspapers.append(textured('Newspaper / edition %02d' % index, image, paper_normal, .96, .18))
+tape = plain('Window tape / aged masking paper', (.40, .35, .23), .83)
 ivory = plain('Trim / bone-white enamel', (.69, .69, .63), .43)
 black = plain('Windows / charcoal powdercoat', (.035, .042, .039), .34, .25)
 metal = plain('Door hardware / brushed nickel', (.32, .35, .34), .25, .8)
@@ -259,6 +269,9 @@ def consolidate(group, name):
         obj.select_set(True)
     bpy.context.view_layer.objects.active = objects[0]
     bpy.ops.object.join()
+    # Bake the active piece's rotation after joining. Otherwise a joined tape
+    # strip grid keeps a rotated frame and its engine AABB inflates unnecessarily.
+    bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
     joined = bpy.context.object
     joined.name = name
     groups[group] = [joined]
@@ -326,12 +339,84 @@ def window(name, center, width, height, side='north', bays=3):
         element('outer rail', 0, b, (width, .11, .055), black)
     for i in range(bays):
         a = -width / 2 + width / bays * (i + .5)
-        element('glass pane %d' % (i + 1), a, 0, (width / bays - .048, .008, height - .06), glass)
+        pane = element('glass pane %d' % (i + 1), a, 0, (width / bays - .048, .008, height - .06), glass)
+        # Cycles does not transmit direct sun reliably through refractive panes
+        # without caustics. This rendering-only visibility flag admits sun rays;
+        # the exported glass retains its ordinary glTF transmission material.
+        pane.visible_shadow = False
         if i:
             element('mullion', -width / 2 + width / bays * i, 0, (.04, .09, height), black)
     element('stone interior sill', 0, -height / 2 - .025, (width + .17, .27, .045), stone)
 window('Living room picture window', (1.40, Y + .05, 1.62), 3.65, 1.76, bays=3)
 window('Side window', (X + .05, .55, 1.71), 2.46, 1.58, 'east', 2)
+
+
+def newspaper_window(name, start, end, bottom, top, fixed, side, columns, seams):
+    """Opaque, UV-mapped sheets with actual open seams in metres, not painted light.
+
+    Adjacent sheets overlap except at the specified column seams. Wrinkles move
+    in depth only, so they never accidentally seal the narrow light apertures.
+    """
+    step = (end - start) / columns
+    middle = (bottom + top) / 2
+    tape_group = side + '_newspaper_tape'
+    for column in range(columns):
+        left = start + column * step
+        right = start + (column + 1) * step
+        left += seams.get(column, -.012) / 2 if column else -.017
+        right -= seams.get(column + 1, -.012) / 2 if column + 1 < columns else -.017
+        for row in range(2):
+            low, high = (bottom - .017, middle + .019) if row == 0 else (middle - .011, top + .017)
+            # A shallow ruled grid adds folds and curled paper instead of rigid boxes.
+            vertices, faces = [], []
+            nu, nv = 8, 8
+            for j in range(nv + 1):
+                for i in range(nu + 1):
+                    a, b = i / nu, j / nv
+                    along, z = left + a * (right - left), low + b * (high - low)
+                    ripple = .0025 * math.sin(a * 19 + column) * math.sin(b * 14 + row)
+                    curl = .008 * (max(0, 1 - b * 8) ** 2) * math.sin(a * math.pi) ** 2
+                    depth = fixed - row * .003 - ripple - curl
+                    vertices.append((along, depth, z) if side == 'north' else (depth, along, z))
+            for j in range(nv):
+                for i in range(nu):
+                    p = j * (nu + 1) + i
+                    # North normal points inward (-Y); east inward (-X).
+                    quad = (p, p + 1, p + nu + 2, p + nu + 1)
+                    faces.append(quad if side == 'north' else tuple(reversed(quad)))
+            mesh = bpy.data.meshes.new(name + ' / sheet mesh')
+            mesh.from_pydata(vertices, [], faces)
+            mesh.update()
+            obj = bpy.data.objects.new(name + ' / newspaper %d-%d' % (column + 1, row + 1), mesh)
+            architecture.objects.link(obj)
+            put(obj, group=side)
+            mesh.materials.append(newspapers[(column + row * 2 + (side == 'east')) % 3])
+            uv = mesh.uv_layers.new(name='Print layout')
+            for polygon in mesh.polygons:
+                polygon.use_smooth = True
+                for loop_index in polygon.loop_indices:
+                    vi = mesh.loops[loop_index].vertex_index
+                    a, b = vi % (nu + 1) / nu, vi // (nu + 1) / nv
+                    # A person looking east sees increasing Y from right to left.
+                    uv.data[loop_index].uv = (a if side == 'north' else 1 - a, b)
+            solid = obj.modifiers.new('Paper thickness / opaque sunlight barrier', 'SOLIDIFY')
+            solid.thickness = .0006
+            obj['window_covering'] = 'Newspaper; actual gaps between sheets admit sunlight'
+            obj['print_faces_room'] = True
+            for a, z in ((left + .10, high - .045), (right - .10, high - .045)):
+                pos = (a, fixed - .006 - row * .003, z) if side == 'north' else (fixed - .006 - row * .003, a, z)
+                dims = (.115, .0015, .032) if side == 'north' else (.0015, .115, .032)
+                tab = box(name + ' / masking tape tab', pos, dims, tape, 0, tape_group)
+                tab.rotation_euler[1 if side == 'north' else 0] = math.radians((-1 if column % 2 else 1) * 9)
+    tape_mesh = consolidate(tape_group, name + ' / all tape tabs')
+    # Include tape with the window when temporarily removing the east cutaway wall.
+    groups[side].append(tape_mesh)
+
+
+# Two narrow vertical seams in the picture window, one in the side window.
+# All other joins overlap; sheets cover the glazing edge-to-edge.
+newspaper_window('Living room picture window', -.425, 3.225, .74, 2.50, 3.064, 'north', 4, {1: .023, 3: .018})
+newspaper_window('Side window', -.68, 1.78, .92, 2.50, 3.864, 'east', 3, {2: .025})
 
 # Ceramic wainscot belongs to the bathroom only; top remains plaster.
 def ceramic_wall(group, name, start, end, fixed, side):
@@ -418,7 +503,7 @@ world = bpy.data.worlds.new('Soft exterior daylight')
 world.use_nodes = True
 scene.world = world
 world.node_tree.nodes['Background'].inputs['Color'].default_value = (.66, .75, .87, 1)
-world.node_tree.nodes['Background'].inputs['Strength'].default_value = .35
+world.node_tree.nodes['Background'].inputs['Strength'].default_value = .09
 
 
 def light(name, location, target, energy, color, size=4, kind='AREA'):
@@ -429,7 +514,7 @@ def light(name, location, target, energy, color, size=4, kind='AREA'):
         data.shape = 'DISK'
         data.size = size
     if kind == 'SUN':
-        data.angle = .10
+        data.angle = .012
     obj = bpy.data.objects.new(name, data)
     presentation.objects.link(obj)
     obj.visible_camera = False
@@ -438,11 +523,22 @@ def light(name, location, target, energy, color, size=4, kind='AREA'):
     obj.location = location
     obj.rotation_euler = (Vector(target) - obj.location).to_track_quat('-Z', 'Y').to_euler()
     return obj
-light('Sun / afternoon through side window', (9, 8, 12), (-2, -3, 0), 2.4, (1, .89, .73), kind='SUN')
-light('North window daylight', (1.4, 3.45, 2.2), (0, 0, 1.0), 420, (.78, .87, 1), 3.8)
-light('East window daylight', (4.3, .55, 2.1), (0, 0, 1), 220, (.80, .88, 1), 2.4)
-light('Soft interior bounce', (0, -.3, 2.68), (0, 0, 0), 110, (1, .91, .77), 4.0)
+light('Sun / narrow newspaper seams', (9, 11, 9), (-2, -3, 0), 12.0, (1, .87, .66), kind='SUN')
+light('North window daylight', (1.4, 3.45, 2.2), (0, 0, 1.0), 150, (.78, .87, 1), 3.8)
+light('East window daylight', (4.3, .55, 2.1), (0, 0, 1), 90, (.80, .88, 1), 2.4)
+light('Soft interior bounce', (0, -.3, 2.68), (0, 0, 0), 20, (1, .91, .77), 4.0)
 light('Bathroom ceiling illumination', (-2.6, 1.9, 2.73), (-2.6, 1.9, 0), 65, (1, .90, .77), 1.3)
+# Render-only dust makes shafts visible in air. It is never exported as geometry.
+dust = bpy.data.materials.new('Presentation / subtle airborne dust')
+dust.use_nodes = True
+dust.node_tree.nodes.clear()
+volume_output = dust.node_tree.nodes.new('ShaderNodeOutputMaterial')
+scatter = dust.node_tree.nodes.new('ShaderNodeVolumeScatter')
+scatter.inputs['Density'].default_value = .12
+scatter.inputs['Anisotropy'].default_value = .25
+dust.node_tree.links.new(scatter.outputs['Volume'], volume_output.inputs['Volume'])
+atmosphere = box('Presentation dust volume (not exported)', (0, 0, H / 2), (7.79, 6.19, 2.79), dust, 0, collection=presentation)
+atmosphere.display_type = 'WIRE'
 backdrop = plain('Presentation ground / warm studio', (.32, .33, .30), .93)
 box('Presentation ground (not exported)', (0, 0, -.43), (200, 200, .08), backdrop, 0, collection=presentation)
 
@@ -464,11 +560,14 @@ def camera(name, position, target, lens=22, ortho=None):
 
 views = {
     'cutaway': camera('01 / complete floorplan cutaway', (11, -13, 12), (0, 0, .9), ortho=11.8),
-    'living': camera('02 / entry towards daylight', (2.6, -2.8, 1.58), (-.85, 1.1, 1.28), 20),
+    'living': camera('02 / entry towards daylight', (-2.85, -2.7, 1.55), (1.35, 2.65, 1.30), 22),
     'entry': camera('03 / windows towards entry', (2.95, 2.5, 1.58), (-1.4, -1.4, 1.26), 20),
     'bathroom': camera('04 / inside bathroom', (-1.62, 1.08, 1.58), (-3.25, 2.65, 1.00), 20),
 }
 scene.camera = views['living']
+scene.render.resolution_x = args.width
+scene.render.resolution_y = round(args.width * 2 / 3)
+scene.render.resolution_percentage = 100
 
 # Preserve editable walls and remove backup clutter; textures are packed and portable.
 for image in bpy.data.images:
@@ -489,7 +588,7 @@ for obj in architecture.objects:
         mesh.calc_loop_triangles()
         triangles += len(mesh.loop_triangles)
         evaluated.to_mesh_clear()
-manifest = {'blender': bpy.app.version_string, 'dimensions_m': [7.8, 6.2, 2.8], 'bathroom_m': [2.5, 2.3], 'architecture_meshes': mesh_count, 'triangles': triangles, 'render_samples': args.samples, 'furniture': False, 'render_device': scene.cycles.device, 'textures': 'Original deterministic albedo and tangent normal maps; packed into native file and GLB', 'export': 'Y up, metre scale, only permanent architecture; no cameras/presentation lights/backdrop', 'views': list(views)}
+manifest = {'blender': bpy.app.version_string, 'dimensions_m': [7.8, 6.2, 2.8], 'bathroom_m': [2.5, 2.3], 'architecture_meshes': mesh_count, 'triangles': triangles, 'render_samples': args.samples, 'furniture': False, 'render_device': scene.cycles.device, 'textures': 'Original albedo, tangent normal maps and newspaper typography; packed into native file and GLB', 'window_coverings': {'sheets': 14, 'material': 'Opaque wrinkled newspaper with original print and masking tape', 'north_seams_m': [.023, .018], 'east_seams_m': [.025], 'beams': 'Sunlight through real open gaps; dust volume belongs to presentation only'}, 'export': 'Y up, metre scale, only permanent architecture including newspaper/tape; no cameras/presentation lights/backdrop/dust', 'views': list(views)}
 (ASSET / 'asset_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
 print('APARTMENT geometry:', mesh_count, 'meshes,', triangles, 'triangles', flush=True)
 
@@ -497,6 +596,7 @@ for key in args.views.split(','):
     if key not in views:
         raise ValueError('Unknown view: ' + key)
     hidden = ('south', 'east', 'ceiling', 'entry_door') if key == 'cutaway' else ()
+    atmosphere.hide_render = key == 'cutaway'
     for group in hidden:
         for obj in groups[group]:
             obj.hide_render = True

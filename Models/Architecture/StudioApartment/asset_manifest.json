@@ -9,13 +9,25 @@
     2.5,
     2.3
   ],
-  "architecture_meshes": 98,
-  "triangles": 96312,
+  "architecture_meshes": 114,
+  "triangles": 101128,
   "render_samples": 128,
   "furniture": false,
   "render_device": "GPU",
-  "textures": "Original deterministic albedo and tangent normal maps; packed into native file and GLB",
-  "export": "Y up, metre scale, only permanent architecture; no cameras/presentation lights/backdrop",
+  "textures": "Original albedo, tangent normal maps and newspaper typography; packed into native file and GLB",
+  "window_coverings": {
+    "sheets": 14,
+    "material": "Opaque wrinkled newspaper with original print and masking tape",
+    "north_seams_m": [
+      0.023,
+      0.018
+    ],
+    "east_seams_m": [
+      0.025
+    ],
+    "beams": "Sunlight through real open gaps; dust volume belongs to presentation only"
+  },
+  "export": "Y up, metre scale, only permanent architecture including newspaper/tape; no cameras/presentation lights/backdrop/dust",
   "views": [
     "cutaway",
     "living",
@@ -23,10 +35,10 @@
     "bathroom"
   ],
   "verification": {
-    "native_packed_textures": 16,
-    "glb_embedded_images": 16,
-    "godot_imported_meshes": 98,
-    "godot_textured_and_normal_mapped_surfaces": 30,
+    "native_packed_textures": 20,
+    "glb_embedded_images": 20,
+    "godot_imported_meshes": 114,
+    "godot_textured_and_normal_mapped_surfaces": 44,
     "godot_bounds_m": [
       8.165,
       3.23,
@@ -38,6 +50,7 @@
       "entry",
       "bathroom"
     ],
+    "native_seam_widths_and_room_facing_uvs": true,
     "physics_colliders": false
   }
 }
