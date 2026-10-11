@@ -7,6 +7,11 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 
 ---
 
+
+## Blender apartment test
+
+An unfurnished, textured studio apartment is available in [Models/Architecture/StudioApartment](Models/Architecture/StudioApartment/README.md): editable packed Blender source, Godot-ready GLB and four actual Cycles renders. [Phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/StudioApartment/index.html) · [Local gallery](Reports/StudioApartment/index.html). This is a standalone art test, not a change to the gameplay level.
+
 ## Architecture Overview
 
 Remnant GD is built around decoupled global services, reactive state management, audio pooling, physical interaction raycasting, and modular character/environment controllers:

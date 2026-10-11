@@ -805,7 +805,7 @@
         <div class="nav-subcategory-title">
           <span>📁 Actors</span>
         </div>
-        <ul class="nav-items"><li><a class="nav-item-link" data-page="page-godot-workflow"><span>Godot workflow and Windows delivery</span><span class="nav-tag">Workflow</span></a></li><li><a class="nav-item-link" data-page="page-manual-automation"><span>Approved tools and rail carriage</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-imported-gameplay-art"><span>Imported items and prop art</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-item-spawn-pool"><span>Random item spawn pool</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-switchable-props"><span>Fan and light switches</span><span class="nav-tag">Actors</span></a></li>
+        <ul class="nav-items"><li><a class="nav-item-link" data-page="page-studio-apartment"><span>Blender studio apartment</span><span class="nav-tag">Art</span></a></li><li><a class="nav-item-link" data-page="page-godot-workflow"><span>Godot workflow and Windows delivery</span><span class="nav-tag">Workflow</span></a></li><li><a class="nav-item-link" data-page="page-manual-automation"><span>Approved tools and rail carriage</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-imported-gameplay-art"><span>Imported items and prop art</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-item-spawn-pool"><span>Random item spawn pool</span><span class="nav-tag">Actors</span></a></li><li><a class="nav-item-link" data-page="page-switchable-props"><span>Fan and light switches</span><span class="nav-tag">Actors</span></a></li>
           <li>
             <a class="nav-item-link" data-page="page-scripts-actors-audio-player">
               <span>audio_player.gd</span>
@@ -4677,6 +4677,35 @@ Script identities: train_rail.gd uid://bchfhr21xqpuu; rail_slider.gd uid://0tqyb
 Rails form straight tracks. Joins require matching endpoint positions, track direction, up direction, carriage height and physics/portal space; held or loose rails do not connect. Turns and junction routing are outside this system. Each section keeps its own anchor, so retrieving one rail does not pick up the entire track.
 
 </pre></div></div>
+<div id="page-studio-apartment" class="doc-page"><h1>Blender studio apartment</h1><div class="code-block"><pre style="white-space:pre-wrap"># Studio apartment / Blender modelling test
+
+An original unfurnished architectural shell, authored in Blender 4.5.1 LTS. The clear interior is approximately 7.8 x 6.2 metres with a 2.8 m ceiling; a separate 2.5 x 2.3 m bathroom occupies the northwest corner. No furniture, appliances or sanitary fixtures are included. Doors, windows, trim, electrical plates, a ventilation grille and recessed ceiling luminaires are permanent architectural details.
+
+## Files
+
+- `Source/studio_apartment.blend`: editable model with named architectural parts, hinged door leaves, packed textures, four cameras and a separate presentation lighting/backdrop collection. Opens with the complete shell and an interior camera selected.
+- `studio_apartment.glb`: Godot-ready metre-scale, Y-up architecture with embedded PBR textures. Excludes presentation cameras, lights and backdrop. The ceiling and all exterior walls remain in the export; the overview render temporarily hides selected walls/ceiling as a cutaway.
+- `studio_apartment.glb.import`: keeps textures embedded as Basis Universal instead of extracting duplicate PNGs into the project. Import UID: `uid://bdkr5w4gcna3i`. Imported meshes keep their names, tangents, generated LODs and shadow meshes.
+- `Textures/`: original deterministic albedo and tangent normal PNGs for oak, plaster, ceramic, porcelain and concrete. Native file and GLB already embed these; `.gdignore` prevents redundant raw texture imports. `Source/` is also ignored by Godot so automatic Blender source imports are unnecessary.
+- `asset_manifest.json`: dimensions, Blender version, evaluated geometry totals and render settings. Current model has 98 architectural meshes and 96,312 triangles.
+- `Reports/StudioApartment/`: actual Cycles renders from four views and a responsive HTML gallery.
+
+The model is an authoring experiment, not an instance in the current game or portal room. It has no Godot physics collisions, gameplay script, autoload, UID, signals or persistent state. Its glass uses glTF transmission; renderer-specific glass appearance may differ from Blender.
+
+## Rebuild / edit
+
+`Tools/model_studio_apartment.py` is a standalone Blender Python tool using bpy, NumPy and mathutils. Run Blender with `--background --factory-startup --python Tools/model_studio_apartment.py -- --samples 96 --width 1800`. Optional `--views cutaway,living,entry,bathroom` chooses outputs. Run from the repository, with a local BLENDER_USER_CONFIG override if desired. No downloaded texture assets or user preferences are required.
+
+It creates geometry, real window/door apertures, original UV-mapped PBR maps, a separate presentation rig, native/GLB files and renders. Oak and ceramic parts are consolidated into named meshes after their edge modifiers are applied. Image maps are packed before export. `Source/.gdignore` and `Textures/.gdignore` keep authoring data out of Godot&#x27;s import/export scan; native and raw texture files remain versioned for editing.
+
+Default render setup: Cycles with available OptiX GPU (CPU fallback), AgX, adaptive sampling and denoising. Saved camera names begin 01–04. Functions include box(), segment_x()/segment_y(), consolidate(), window(), door(), camera(), textured(), image_map()/normal_map() and light(). Its output locations are derived from the script&#x27;s repository root. It does not alter testing_level, player state or saved games.
+
+## Verification
+
+Review all four actual renders, inspect packed texture/UV presence and GLB content, and run Godot&#x27;s editor import. The game&#x27;s Windows delivery process runs a release export and isolated startup smoke. A successful Godot import does not prove identical lighting or transmission rendering, or make this shell collision-ready.
+
+Verified on 2026-10-11: all four final Cycles PNGs visually opened; 16 packed native textures and 16 embedded GLB images; GLB selection/UVs/normals and 96,312 evaluated/exported triangles match; Godot imports 98 meshes with 30 textured/normal-mapped surfaces and bounds (8.165, 3.23, 6.58) metres. Import logs are clean. Presentation glass/lighting is not a matched Godot render.
+</pre></div></div>
 <div id="page-godot-workflow" class="doc-page"><h1>Godot workflow and Windows delivery</h1><div class="code-block"><pre style="white-space:pre-wrap"># Windows development builds
 
 After meaningful coding prompts, make a Windows x86_64 release export and commit/push verified source changes. Information-only answers need no redundant build or empty commit. The reusable workflow is Skills/godot-project-workflow/SKILL.md; future projects use their own configuration/destinations.
@@ -4748,6 +4777,7 @@ Finish briefly with behavior/controls, verification, build/summary links, pushed
   <script>
     // Search Index Data covering all systems and components
     const searchIndex = [
+{"id": "page-studio-apartment", "title": "Blender studio apartment", "category": "Art", "keywords": "blender apartment studio architecture glb textured oak plaster bathroom render model_studio_apartment.py"},
   {
     "id": "page-development-summary",
     "category": "Debug",

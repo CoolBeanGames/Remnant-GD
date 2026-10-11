@@ -1,9 +1,10 @@
 REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
-Last Updated: 2026-10-11 04:30:58
+Last Updated: 2026-10-11 05:28:56
 
 Maintain README.md, the offline .wiki/index.html (sidebar, content and search), and this guide for every script/system/scene change. Globals must remain the first script category; other categories follow Scripts subfolders. Wiki must remain self-contained. Document script path, class/inheritance, UID/autoload, signals, exported/runtime state, public API and scene dependencies. Add a timestamped running-log entry using [YYYY-MM-DD][HH:MM:SS] - updated the guide to include 'feature'.
 
 CURRENT DESIGN
+- Standalone Blender studio apartment art test: Models/Architecture/StudioApartment contains original textured architectural shell, packed native source and GLB. Four actual Cycles views and phone gallery in Reports/StudioApartment; Tools/model_studio_apartment.py is authoring-only. It is not placed in testing_level.
 - Chained straight rails snap at free endpoints, transfer the carriage in either direction without changing cargo heading, and carry the player through native/relayed collision-aware platform motion. Joined stops open; removing sections restores stops. RAILS.md and rail_chain_test/rail_player_test.
 - Standing delivery workflow (user 2026-10-11): after meaningful coding prompts, verify, update README/wiki/guide and HTML/Notion summaries, make a Windows build, commit and push to configured GitHub. Reusable installed godot-project-workflow skill is versioned under Skills/. Windows export helper Tools/build_windows.py, export_presets.cfg, ignored Builds/ outputs. Data/WINDOWS_BUILDS.md.
 - Approved manual tools: Mechanics air fan/plate unlocks (600/450), vacuum head, optional swivel, broom skirts and illumination-only light hood/lenses; normal future deliveries receive upgrades. Rail/slider store scenes carry resting cargo/baskets and built props; mounted fan drives opposite airflow. Data/Items/MANUAL_AUTOMATION.md, TOOL_UPGRADES.md and RAILS.md.
@@ -140,3 +141,5 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-11][02:19:25] - updated the guide to include 'Notion-approved simplified tool upgrades, one-time fan/plate air placement and increased prices, directional/coloured lights, fan-driven rail carriage with basket cargo, recursive portal assembly transfers, container save restoration, meaningful live graphics settings, new physical/purchase/save/render regression scenes; synchronized README and offline wiki sidebar/content/search. Authoring APIs/identities: Data/Items/MANUAL_AUTOMATION.md, TOOL_UPGRADES.md, RAILS.md and Data/OPTIONS.md.'
 
 [2026-10-11][04:30:58] - updated the guide to include 'Chainable collinear rail endpoint ghosts, bidirectional/reversed/tilted physics transfers and reciprocal safe links, preserved cargo/heading/saves, collision-aware player deck and attachment riding with dismount/relocation resets; 17 relevant scenes pass. Added and installed reusable Godot workflow skill covering architecture/F1 image review/debugging/logging/tests/docs/HTML/Notion/GitHub/Windows delivery, verified official matching templates, Windows release export preset/helper and isolated exported startup. README/wiki/sidebar/search and development summary synchronized.'
+
+[2026-10-11][05:28:56] - updated the guide to include 'Original unfurnished studio apartment Blender modelling test, packed PBR source and Y-up GLB, four Cycles views, authoring tool/manifest/guide, responsive screenshot gallery, README and offline wiki/sidebar/search documentation.'

@@ -1,0 +1,43 @@
+{
+  "blender": "4.5.1 LTS",
+  "dimensions_m": [
+    7.8,
+    6.2,
+    2.8
+  ],
+  "bathroom_m": [
+    2.5,
+    2.3
+  ],
+  "architecture_meshes": 98,
+  "triangles": 96312,
+  "render_samples": 128,
+  "furniture": false,
+  "render_device": "GPU",
+  "textures": "Original deterministic albedo and tangent normal maps; packed into native file and GLB",
+  "export": "Y up, metre scale, only permanent architecture; no cameras/presentation lights/backdrop",
+  "views": [
+    "cutaway",
+    "living",
+    "entry",
+    "bathroom"
+  ],
+  "verification": {
+    "native_packed_textures": 16,
+    "glb_embedded_images": 16,
+    "godot_imported_meshes": 98,
+    "godot_textured_and_normal_mapped_surfaces": 30,
+    "godot_bounds_m": [
+      8.165,
+      3.23,
+      6.58
+    ],
+    "visually_reviewed_views": [
+      "cutaway",
+      "living",
+      "entry",
+      "bathroom"
+    ],
+    "physics_colliders": false
+  }
+}
