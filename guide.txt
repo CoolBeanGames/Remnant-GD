@@ -1,5 +1,5 @@
 REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
-Last Updated: 2026-10-12 02:54:00
+Last Updated: 2026-10-12 03:07:17
 
 Maintain README.md, the offline .wiki/index.html (sidebar, content and search), and this guide for every script/system/scene change. Globals must remain the first script category; other categories follow Scripts subfolders. Wiki must remain self-contained. Document script path, class/inheritance, UID/autoload, signals, exported/runtime state, public API and scene dependencies. Add a timestamped running-log entry using [YYYY-MM-DD][HH:MM:SS] - updated the guide to include 'feature'.
 
@@ -188,3 +188,5 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-12][02:19:06] - GitHub Pages live verification complete: workflow 38216736251 built and deployed source 0917585 successfully; twelve HTTPS routes and all artifact hashes match, 17 browser checks pass on the real site and phone/desktop views reviewed. Public summary/archive/wiki/galleries are at coolbeangames.github.io/Remnant-GD. Normal documentation pushes maintain hosting automatically; existing private site remains untouched.
 
 [2026-10-12][02:54:00] - updated the guide to include 'in-world look, carry and ghost prompts, reusable 3D labels, authored markers, spatial/modal/portal verification and retained essential feedback'.
+
+[2026-10-12][03:07:17] - updated the guide to include 'verified in-world prompt delivery: six clean suites, source/release-PCK renders, Windows_2026-10-12_02-56-38, pushed source 6d78812, and live GitHub Pages summary/gallery/wiki verification'.
