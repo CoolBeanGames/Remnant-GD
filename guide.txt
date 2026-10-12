@@ -180,3 +180,7 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-12][01:55:17] - Essential HUD verification: nine selected suites clean; eight source and eight release-PCK views reviewed. Windows_2026-10-12_01-44-36 passed isolated exported startup and matching-engine packaged interaction probe. HTML gallery/current chapter, wiki/sidebar/search and both skill copies updated; no pending F1 reports.
 
 [2026-10-12][01:56:47] - HTML browser validation: 17 checks pass, 107 matching wiki/search entries, 25 preserved archive entries; actual 390 px phone and desktop views reviewed. Both documentation builders are idempotent; corrected responsive screenshot aspect ratios.
+
+[2026-10-12][02:12:23] - Added GitHub Pages documentation packaging and automatic main-branch publication: full wiki, history/index and seven galleries; source commit/hash metadata, complete internal reference validation, project-subpath-safe private-link remapping and pinned official Actions. Existing private-site access preserved; live publication verification follows.
+
+[2026-10-12][02:14:56] - GitHub Pages package verified: ten HTML routes, 107 matching wiki/search pages, 26 archive entries, 206 internal references; deterministic builds, invalid-link rejection and source/output guards pass. Seventeen actual-browser checks plus twelve HTTP routes pass with project prefix and reviewed phone views. Windows_2026-10-12_02-10-57 release/import/export/startup passes. Pages enabled for Actions on the existing public repository.

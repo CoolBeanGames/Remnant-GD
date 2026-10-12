@@ -5,6 +5,8 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 > [!TIP]
 > **Interactive Documentation**: An offline-ready, searchable HTML wiki is available in [`.wiki/index.html`](.wiki/index.html). You can double-click it in your file explorer to open it immediately in any browser with full-text search, phone navigation and code copying. It shares the development summaries’ paper/ink/rust design.
 
+**Hosted documentation:** [Development summaries](https://coolbeangames.github.io/Remnant-GD/) · [Searchable archive](https://coolbeangames.github.io/Remnant-GD/Archive/index.html) · [Full system wiki](https://coolbeangames.github.io/Remnant-GD/Wiki/index.html). GitHub Pages automatically publishes documentation changes pushed to main. All render galleries and history remain available; the existing private phone site is retained. [Hosting and authoring workflow](Data/DOCUMENTATION.md).
+
 ---
 
 

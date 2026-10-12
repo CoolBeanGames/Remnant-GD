@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "A lasting home.",
+    "kind": "Development history",
+    "local": "development_summary.html#github-pages",
+    "online": "../index.html#github-pages",
+    "description": "The complete system wiki, development history and rendered galleries now have an automatically updated GitHub Pages home."
+  },
+  {
     "title": "Keep the prompts.",
     "kind": "Development history",
     "local": "development_summary.html#gameplay-feedback",
