@@ -16,6 +16,13 @@
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="14_mn1qp"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="15_n0uy0"]
 
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_object.gd" id="memory_object"]
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_completion.gd" id="memory_completion"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/hospital_bed.tres" id="story_bed"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/hospital_trolley.tres" id="story_trolley"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/hospital_phone.tres" id="story_phone"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/hospital_paperwork.tres" id="story_paperwork"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_yeim3"]
 size = Vector3(2.5, 0.16, 1.2)
 
@@ -26,6 +33,12 @@ roughness = 0.94
 [sub_resource type="BoxMesh" id="BoxMesh_12378"]
 material = SubResource("StandardMaterial3D_k8jjb")
 size = Vector3(2.5, 0.16, 1.2)
+
+[sub_resource type="BoxShape3D" id="StoryAimShape_phone"]
+size = Vector3(0.36, 0.17, 0.27)
+
+[sub_resource type="BoxShape3D" id="StoryAimShape_paperwork"]
+size = Vector3(0.36, 0.17, 0.27)
 
 [node name="DilapidatedHospital" type="Node3D" unique_id=263086027]
 script = ExtResource("1_5tg3w")
@@ -42,7 +55,8 @@ script = ExtResource("4_vj24o")
 
 [node name="Ward 01 bed 1" type="Node3D" parent="Art" unique_id=1342478159 instance=ExtResource("5_tfjl8")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.7, 0, 10.85)
-script = ExtResource("4_vj24o")
+script = ExtResource("memory_object")
+story = ExtResource("story_bed")
 
 [node name="Ward 01 cabinet 1" type="Node3D" parent="Art" unique_id=1724962682 instance=ExtResource("6_0onav")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.2, 0, 10.05)
@@ -66,7 +80,8 @@ script = ExtResource("4_vj24o")
 
 [node name="Treatment trolley" type="Node3D" parent="Art" unique_id=1025828207 instance=ExtResource("8_78ae2")]
 transform = Transform3D(0.9612617, 0, -0.27563736, 0, 1, 0, 0.27563736, 0, 0.9612617, -4.7, 0, 4.8)
-script = ExtResource("4_vj24o")
+script = ExtResource("memory_object")
+story = ExtResource("story_trolley")
 
 [node name="Treatment IV stand" type="Node3D" parent="Art" unique_id=711653600 instance=ExtResource("7_8u2os")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.65, 0, 2.85)
@@ -226,11 +241,13 @@ script = ExtResource("4_vj24o")
 
 [node name="Nursing LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("13_iwywc")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.65, 1.01, 3.15)
-script = ExtResource("4_vj24o")
+script = ExtResource("memory_object")
+story = ExtResource("story_phone")
 
 [node name="Nursing PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("14_mn1qp")]
 transform = Transform3D(0.17364822, 0, -0.9848077, 0, 1, 0, 0.9848077, 0, 0.17364822, 3.6, 1.01, 4.27)
-script = ExtResource("4_vj24o")
+script = ExtResource("memory_object")
+story = ExtResource("story_paperwork")
 
 [node name="Nursing TrashCan" type="Node3D" parent="Art" unique_id=46325136 instance=ExtResource("15_n0uy0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.1, 0, 3.6)
@@ -246,3 +263,28 @@ shape = SubResource("BoxShape3D_yeim3")
 
 [node name="@MeshInstance3D@88" type="MeshInstance3D" parent="EntranceLanding" unique_id=2058382769]
 mesh = SubResource("BoxMesh_12378")
+
+[node name="StoryAim" type="Area3D" parent="Art/Nursing LandlinePhone"]
+position = Vector3(0, 0.08, 0)
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Art/Nursing LandlinePhone/StoryAim"]
+shape = SubResource("StoryAimShape_phone")
+
+[node name="StoryAim" type="Area3D" parent="Art/Nursing PileOfMail"]
+position = Vector3(0, 0.08, 0)
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Art/Nursing PileOfMail/StoryAim"]
+shape = SubResource("StoryAimShape_paperwork")
+
+[node name="MemoryCompletion" type="Node" parent="."]
+script = ExtResource("memory_completion")
+completion_flag = "memory 3 complete"
+required_flags = Array[String](["memory 3 bed", "memory 3 trolley", "memory 3 phone", "memory 3 paperwork"])

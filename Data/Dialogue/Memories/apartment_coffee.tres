@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="memory_trigger_data" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_trigger_data.gd" id="1"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_coffee_look.tres" id="3"]
+
+[resource]
+script = ExtResource("1")
+look_id = &"apartment_coffee"
+look_dialogue = ExtResource("3")

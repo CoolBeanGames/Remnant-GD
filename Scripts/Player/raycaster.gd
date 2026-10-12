@@ -135,6 +135,8 @@ func _set_looked_at(target: Node3D) -> void:
 
 	previous_target = looked_at
 	looked_at = target
+	if is_instance_valid(looked_at) and looked_at.has_method("on_look_started"):
+		looked_at.on_look_started(self)
 
 	if is_instance_valid(looked_at):
 		_debug(

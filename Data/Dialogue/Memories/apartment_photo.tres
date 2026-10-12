@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="memory_trigger_data" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_trigger_data.gd" id="1"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_photo_interact.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+interaction_flag = "memory 1 photo"
+prompt_text = "Examine Family Photo"
+interaction_dialogue = ExtResource("2")

@@ -10,6 +10,10 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Memory interactions
+
+Apartment memories require E on the **family photo, phone and stack of bills**. The **coffee pot, phone and TV** also offer look-only flavor after a short steady aim. Warehouse has five required props and hospital four, using editable dialogue drafts. Individual flags survive Continue; all required interactions set the existing completion flag, so returning closes that memory portal. Prompts reuse the world labels and follow the visible target surface. [Objects, flags and authoring](Data/Dialogue/MEMORY_TRIGGERS.md) · [Actual engine views](Reports/MemoryTriggers/index.html).
+
 ## Memory upgrades
 
 Buy **Memory 1 / 2 / 3** in the computer’s **Self** tab for **1,500 / 25,000 / 50,000 score**. Each opens its apartment / warehouse / hospital portal through the Strange Door. Other memory purchases stay locked until its completion flag is true. Unfinished memories permit return/reentry while blocking another memory purchase; completed return closes the portal. Offers appear at half price and disappear after purchase. Continue retains purchases and resumes the owned portal after the existing wake-up; New Game resets them. [Authoring and exact flags](Data/Computer/MEMORY_UPGRADES.md).
@@ -40,7 +44,7 @@ Export/texture guidance and a Remnant-specific authoring reference live alongsid
 
 The furnished apartment, warehouse and hospital are now **game scenes with static collision, furniture and editable lighting**. Leave the concrete room and let it disappear, then buy a memory at the computer to open its portal. **F9** remains a debug preview when no paid memory is active or unfinished. Open the Strange Door with E and walk through; its counterpart permits returning freely, retaining unfinished memories and closing completed ones. Only one destination is live at a time. Cycling from inside brings you/held cargo back outside the door and preserves other collected items in the workshop. Selection uses saved Blackboard.portal_destination_id; F9 respects menu/wake-up/respawn locks.
 
-[Environment authoring](Data/Portal/ENVIRONMENTS.md) explains the 35 shared art/collision wrappers, engine scenes, destination resources and future select_destination trigger API. The player capsule fits the apartment entrance, warehouse stairs reach the office, and the hospital rooms/staff entrance are walkable. [Actual engine captures](Reports/PortalEnvironments/index.html) show all three destinations. Existing Blender sources stay separate; story triggers and furniture interactions are future work.
+[Environment authoring](Data/Portal/ENVIRONMENTS.md) explains the 35 shared art/collision wrappers, engine scenes, destination resources and future select_destination trigger API. The player capsule fits the apartment entrance, warehouse stairs reach the office, and the hospital rooms/staff entrance are walkable. [Actual engine captures](Reports/PortalEnvironments/index.html) show all three destinations. Existing Blender sources stay separate; selected furniture/machines now provide memory interactions and optional look flavor.
 
 ## Dilapidated hospital art collection
 

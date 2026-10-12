@@ -39,3 +39,6 @@ Scripts/UI/dialogue_player.gd: `uid://ck412fepw2bgo`.
 The four current lines now have their matching Audio/Vocals clips assigned. E advances immediately and stops the current voice; its release does not trigger a world/carry interaction. `dialogue_player` adds advance(), blocks_confirm() and confirm_consumed. See Data/Level/VOICE.md for clip mappings and get-up/death/movement audio. Dialogue once-flags now persist through SaveGame (Data/SAVING.md).
 
 Recorded speech and exertion now use the Vocals bus controlled by Options; slides remain RoomSFX. See Data/OPTIONS.md.
+
+
+Memory-specific required E interactions, independent look flavor and completion lists now use memory_trigger_data / memory_object / memory_completion. See Data/Dialogue/MEMORY_TRIGGERS.md and Data/Dialogue/Memories/. Existing generic area-entry dialogue_trigger remains available.

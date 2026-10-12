@@ -29,6 +29,14 @@
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="27_hqb0u"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/FamilyPhoto_family_photo.tscn" id="28_3lnt4"]
 
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_object.gd" id="memory_object"]
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_completion.gd" id="memory_completion"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_photo.tres" id="story_photo"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_phone.tres" id="story_phone"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_bills.tres" id="story_bills"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_coffee.tres" id="story_coffee"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_tv.tres" id="story_tv"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_w5hi0"]
 size = Vector3(2.4, 0.16, 1.7)
 
@@ -73,6 +81,15 @@ roughness = 0.94
 material = SubResource("StandardMaterial3D_l524v")
 size = Vector3(2.4, 0.14, 1.8)
 
+[sub_resource type="BoxShape3D" id="StoryAimShape_photo"]
+size = Vector3(0.4, 0.32, 0.12)
+
+[sub_resource type="BoxShape3D" id="StoryAimShape_phone"]
+size = Vector3(0.36, 0.17, 0.27)
+
+[sub_resource type="BoxShape3D" id="StoryAimShape_bills"]
+size = Vector3(0.36, 0.17, 0.27)
+
 [node name="FurnishedApartment" type="Node3D" unique_id=1885575150]
 script = ExtResource("1_ly0lv")
 environment = ExtResource("2_4ruj8")
@@ -113,7 +130,8 @@ script = ExtResource("10_yqikv")
 
 [node name="CoffeePot" type="Node3D" parent="Art" unique_id=1626233228 instance=ExtResource("16_ft7no")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.48, 0.915, 0.25)
-script = ExtResource("10_yqikv")
+script = ExtResource("memory_object")
+story = ExtResource("story_coffee")
 
 [node name="TrashCan" type="Node3D" parent="Art" unique_id=46325136 instance=ExtResource("17_h5cbs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.53, 0, 1.39)
@@ -137,7 +155,8 @@ script = ExtResource("10_yqikv")
 
 [node name="TV" type="Node3D" parent="Art" unique_id=349448306 instance=ExtResource("22_xw0cx")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.83, 0.658, 2.8)
-script = ExtResource("10_yqikv")
+script = ExtResource("memory_object")
+story = ExtResource("story_tv")
 
 [node name="VCR" type="Node3D" parent="Art" unique_id=148786220 instance=ExtResource("23_rob50")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.3, 0.382, 2.8)
@@ -145,7 +164,8 @@ script = ExtResource("10_yqikv")
 
 [node name="LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("24_lqgbl")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.658, 2.81)
-script = ExtResource("10_yqikv")
+script = ExtResource("memory_object")
+story = ExtResource("story_phone")
 
 [node name="Bookshelf" type="Node3D" parent="Art" unique_id=2033440946 instance=ExtResource("25_6to3u")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.59, 0, 1.41)
@@ -157,11 +177,13 @@ script = ExtResource("10_yqikv")
 
 [node name="PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("27_hqb0u")]
 transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 2.77, 0.781, -1.71)
-script = ExtResource("10_yqikv")
+script = ExtResource("memory_object")
+story = ExtResource("story_bills")
 
 [node name="FamilyPhoto" type="Node3D" parent="Art" unique_id=976005215 instance=ExtResource("28_3lnt4")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.54, 1.851, 1.57)
-script = ExtResource("10_yqikv")
+script = ExtResource("memory_object")
+story = ExtResource("story_photo")
 
 [node name="Lighting" type="Node3D" parent="." unique_id=801474780]
 
@@ -224,3 +246,38 @@ shape = SubResource("BoxShape3D_0tgr1")
 
 [node name="@MeshInstance3D@83" type="MeshInstance3D" parent="VestibuleCeiling" unique_id=1666937653]
 mesh = SubResource("BoxMesh_iqcfv")
+
+[node name="StoryAim" type="Area3D" parent="Art/FamilyPhoto"]
+position = Vector3(0, 0.08, 0)
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Art/FamilyPhoto/StoryAim"]
+shape = SubResource("StoryAimShape_photo")
+
+[node name="StoryAim" type="Area3D" parent="Art/LandlinePhone"]
+position = Vector3(0, 0.08, 0)
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Art/LandlinePhone/StoryAim"]
+shape = SubResource("StoryAimShape_phone")
+
+[node name="StoryAim" type="Area3D" parent="Art/PileOfMail"]
+position = Vector3(0, 0.08, 0)
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Art/PileOfMail/StoryAim"]
+shape = SubResource("StoryAimShape_bills")
+
+[node name="MemoryCompletion" type="Node" parent="."]
+script = ExtResource("memory_completion")
+completion_flag = "memory 1 complete"
+required_flags = Array[String](["memory 1 photo", "memory 1 phone", "memory 1 bills"])

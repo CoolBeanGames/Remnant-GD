@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="memory_trigger_data" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_trigger_data.gd" id="1"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_phone_interact.tres" id="2"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_phone_look.tres" id="3"]
+
+[resource]
+script = ExtResource("1")
+interaction_flag = "memory 1 phone"
+prompt_text = "Inspect Phone"
+interaction_dialogue = ExtResource("2")
+look_id = &"apartment_phone"
+look_dialogue = ExtResource("3")

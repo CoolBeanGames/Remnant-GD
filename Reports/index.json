@@ -203,6 +203,20 @@
     "description": "The exit now waits for the memory's saved completion flag. Walking back early cannot close or unload the area."
   },
   {
+    "title": "Objects that remember.",
+    "kind": "Development history",
+    "local": "development_summary.html#memory-triggers",
+    "online": "../index.html#memory-triggers",
+    "description": "Explore existing props, press E to acknowledge required memories, and complete the area before its portal closes on your return. Optional flavor comes from looking."
+  },
+  {
+    "title": "Memory objects: required E interactions and look flavor",
+    "kind": "Rendered gallery",
+    "local": "MemoryTriggers/index.html",
+    "online": "../MemoryTriggers/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
     "title": "Mulch followup: repair, flashlight and physical journal",
     "kind": "Rendered gallery",
     "local": "MulchFollowup/index.html",

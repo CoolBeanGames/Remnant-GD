@@ -15,6 +15,14 @@
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="13_lrx5n"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="14_w460q"]
 
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_object.gd" id="memory_object"]
+[ext_resource type="Script" path="res://Scripts/Dialogue/memory_completion.gd" id="memory_completion"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/warehouse_press.tres" id="story_press"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/warehouse_lathe.tres" id="story_lathe"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/warehouse_cabinet.tres" id="story_cabinet"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/warehouse_phone.tres" id="story_phone"]
+[ext_resource type="Resource" path="res://Data/Dialogue/Memories/warehouse_paperwork.tres" id="story_paperwork"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_vc7yg"]
 size = Vector3(4, 0.16, 1.2)
 
@@ -29,6 +37,12 @@ size = Vector3(4, 0.16, 1.2)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_o1hf2"]
 data = PackedVector3Array(8.96, 0, 10.11, 10.74, 0, 10.11, 10.74, 4.205, 2.98, 8.96, 0, 10.11, 10.74, 4.205, 2.98, 8.96, 4.205, 2.98)
 backface_collision = true
+
+[sub_resource type="BoxShape3D" id="StoryAimShape_phone"]
+size = Vector3(0.36, 0.17, 0.27)
+
+[sub_resource type="BoxShape3D" id="StoryAimShape_paperwork"]
+size = Vector3(0.36, 0.17, 0.27)
 
 [node name="DilapidatedWarehouse" type="Node3D" unique_id=1529323775]
 script = ExtResource("1_vandr")
@@ -45,7 +59,8 @@ script = ExtResource("4_4mnnn")
 
 [node name="HydraulicPress 1" type="Node3D" parent="Art" unique_id=565693535 instance=ExtResource("5_w7p5s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -4)
-script = ExtResource("4_4mnnn")
+script = ExtResource("memory_object")
+story = ExtResource("story_press")
 
 [node name="HydraulicPress 2" type="Node3D" parent="Art" unique_id=1397625804 instance=ExtResource("5_w7p5s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -10)
@@ -53,7 +68,8 @@ script = ExtResource("4_4mnnn")
 
 [node name="IndustrialLathe 1" type="Node3D" parent="Art" unique_id=2079284163 instance=ExtResource("6_piy71")]
 transform = Transform3D(0.99026805, 0, -0.1391731, 0, 1, 0, 0.1391731, 0, 0.99026805, -5, 0, 4)
-script = ExtResource("4_4mnnn")
+script = ExtResource("memory_object")
+story = ExtResource("story_lathe")
 
 [node name="IndustrialLathe 2" type="Node3D" parent="Art" unique_id=802230902 instance=ExtResource("6_piy71")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
@@ -65,7 +81,8 @@ script = ExtResource("4_4mnnn")
 
 [node name="ControlCabinet 1" type="Node3D" parent="Art" unique_id=1888298457 instance=ExtResource("8_wugvk")]
 transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 7, 0, -13)
-script = ExtResource("4_4mnnn")
+script = ExtResource("memory_object")
+story = ExtResource("story_cabinet")
 
 [node name="ControlCabinet 2" type="Node3D" parent="Art" unique_id=1246594499 instance=ExtResource("8_wugvk")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10, 0, -6)
@@ -97,11 +114,13 @@ script = ExtResource("4_4mnnn")
 
 [node name="LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("12_ece5m")]
 transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 5.95, 4.995, -13.72)
-script = ExtResource("4_4mnnn")
+script = ExtResource("memory_object")
+story = ExtResource("story_phone")
 
 [node name="PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("13_lrx5n")]
 transform = Transform3D(0.9612617, 0, 0.27563736, 0, 1, 0, -0.27563736, 0, 0.9612617, 6.4, 4.997, -13.21)
-script = ExtResource("4_4mnnn")
+script = ExtResource("memory_object")
+story = ExtResource("story_paperwork")
 
 [node name="TrashCan" type="Node3D" parent="Art" unique_id=46325136 instance=ExtResource("14_w460q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 4.2, -15.8)
@@ -122,3 +141,28 @@ mesh = SubResource("BoxMesh_4aq1w")
 
 [node name="@CollisionShape3D@86" type="CollisionShape3D" parent="StairWalkingSurface" unique_id=43453345]
 shape = SubResource("ConcavePolygonShape3D_o1hf2")
+
+[node name="StoryAim" type="Area3D" parent="Art/LandlinePhone"]
+position = Vector3(0, 0.08, 0)
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Art/LandlinePhone/StoryAim"]
+shape = SubResource("StoryAimShape_phone")
+
+[node name="StoryAim" type="Area3D" parent="Art/PileOfMail"]
+position = Vector3(0, 0.08, 0)
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Art/PileOfMail/StoryAim"]
+shape = SubResource("StoryAimShape_paperwork")
+
+[node name="MemoryCompletion" type="Node" parent="."]
+script = ExtResource("memory_completion")
+completion_flag = "memory 2 complete"
+required_flags = Array[String](["memory 2 press", "memory 2 lathe", "memory 2 cabinet", "memory 2 phone", "memory 2 paperwork"])
