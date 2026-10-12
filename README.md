@@ -12,7 +12,7 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 
 ## Interfaces in the world
 
-Look prompts float beside the target; carry controls follow the held item and build controls follow its ghost. Editable 3D label scenes and optional object markers keep presentation reusable. See [prompt authoring](Data/GAMEPLAY_FEEDBACK.md) and the [rendered gallery](Reports/WorldPrompts/index.html).
+Look prompts float beside the target; carry controls follow the held item and build controls follow its ghost. Editable 3D label scenes and optional object markers keep presentation reusable. A subtle 7-degree Y angle adds visible perspective; tune Yaw Degrees on WorldPrompts (0 restores flat text). See [prompt authoring](Data/GAMEPLAY_FEEDBACK.md) and the [rendered gallery](Reports/WorldPrompts/index.html).
 
 Normal gameplay keeps the crosshair, dynamic in-world interaction/carry/build prompts, combo text, portal status and story captions. Minimal UI means keeping useful feedback compact. E uses the actual PC display with clickable upgrade tabs; Esc disconnects. F holds collected notes as lit paper. N toggles the typed transcript, or reopens the latest note. Pause > Notes selects the original paper; putting it away returns to the journal. [Authoring/controls](Data/WORLD_INTERFACES.md) cover optional physical scenes/page textures and camera/cargo/save restoration.
 

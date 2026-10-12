@@ -36,7 +36,9 @@ func run() -> void:
 		return
 	var label: world_prompt_label = display.labels[0]
 	check(not label.no_depth_test and not label.shaded, "World lettering respects depth and needs no extra light")
-	check(display.global_basis.orthonormalized().is_equal_approx(camera.global_basis.orthonormalized()), "Letters face the gameplay camera")
+	var lettering_basis: Basis = display.global_basis.orthonormalized()
+	check(lettering_basis.z.dot(camera.global_basis.z) > .97, "Subtle prompt angle keeps the face readable from the gameplay camera")
+	check(lettering_basis.y.is_equal_approx(camera.global_basis.y), "Prompt tilt stays on its local Y axis without rolling the text")
 	var previous_position: Vector3 = display.global_position
 	var provider: object_prompts = object_prompts.find_for(lever)
 	var assembly: Node3D = provider.get_parent()

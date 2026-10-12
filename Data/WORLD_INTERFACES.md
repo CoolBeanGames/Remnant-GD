@@ -1,6 +1,6 @@
 # World interfaces and physical notes
 
-Normal gameplay keeps its crosshair, dynamic in-world look/carry/build prompts, text-only combo, brief portal status and story/dialogue captions. Minimal traditional UI does not mean removing useful gameplay feedback. WordMessage and DialoguePlayer have show_text=true in testing_level. The actual PC screen, physical note reader, pause/options and opt-in developer tools remain. Gameplay HUD hides during PC/note sessions and returns afterward. Look text floats beside the object, carry controls beside the held model, and build controls beside the ghost. See Data/GAMEPLAY_FEEDBACK.md for reusable scene authoring, optional object markers and the shared visibility group.
+Normal gameplay keeps its crosshair, dynamic in-world look/carry/build prompts, text-only combo, brief portal status and story/dialogue captions. Minimal traditional UI does not mean removing useful gameplay feedback. WordMessage and DialoguePlayer have show_text=true in testing_level. The actual PC screen, physical note reader, pause/options and opt-in developer tools remain. Gameplay HUD hides during PC/note sessions and returns afterward. Look text floats beside the object, carry controls beside the held model, and build controls beside the ghost. A subtle configurable 7-degree local-Y angle makes their perspective visible. See Data/GAMEPLAY_FEEDBACK.md for reusable scene authoring, optional object markers and the shared visibility group.
 
 ## PC display
 

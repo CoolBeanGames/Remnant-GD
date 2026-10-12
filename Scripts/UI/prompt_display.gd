@@ -11,6 +11,8 @@ extends Node3D
 @export_category("Presentation")
 @export var label_scene: PackedScene
 @export var carrying_prompts: prompt_set
+## Small camera-relative Y angle makes the world lettering's depth visible.
+@export_range(-12.0, 12.0, 0.5) var yaw_degrees: float = 7.0
 @export_range(0.5, 4.0, 0.1) var reference_distance: float = 1.6
 @export_range(0.0, 80.0, 1.0) var screen_gap: float = 18.0
 @export_range(0.0, 80.0, 1.0) var screen_margin: float = 20.0
@@ -194,7 +196,8 @@ func _update_world_pose() -> void:
 	elif position_on_screen.x + pixels.x > viewport_size.x - screen_margin:
 		position_on_screen.x = rectangle.position.x - screen_gap - pixels.x
 	position_on_screen = position_on_screen.clamp(Vector2.ONE * screen_margin, (viewport_size - pixels - Vector2.ONE * screen_margin).max(Vector2.ONE * screen_margin))
-	global_transform = Transform3D(camera.global_basis.orthonormalized().scaled(Vector3.ONE * factor), camera.project_position(position_on_screen, depth))
+	var facing: Basis = camera.global_basis.orthonormalized() * Basis(Vector3.UP, deg_to_rad(yaw_degrees))
+	global_transform = Transform3D(facing.scaled(Vector3.ONE * factor), camera.project_position(position_on_screen, depth))
 	var space: int = 1
 	if pickup != null and is_instance_valid(pickup.player_body):
 		space = int(pickup.player_body.get_meta("collision_space_mask", 1))

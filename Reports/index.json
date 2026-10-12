@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "A quiet angle.",
+    "kind": "Development history",
+    "local": "development_summary.html#prompt-angle",
+    "online": "../index.html#prompt-angle",
+    "description": "Look, carry and build lettering now has a subtle 7-degree Y angle, making its perspective clearer while keeping every control readable."
+  },
+  {
     "title": "Beside the thing.",
     "kind": "Development history",
     "local": "development_summary.html#world-prompts",
