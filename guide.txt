@@ -215,3 +215,6 @@ HISTORICAL RUNNING LOG (older designs are retired)
 
 
 [2026-10-12][06:37:35] - Memory delivery verification: 14 selected scene suites pass with inspected logs, including production purchase, real portal walking, saved inside pose/layers with cinematic disabled, explicit completion, return closure, preserved cargo and free reopening. Existing concrete-room wake-up remains on normal startup/respawn. Three actual source and three final release-PCK PC views reviewed. Windows_2026-10-12_06-29-08 release import/export/isolated startup and packaged rendered memory flow pass. HTML chapter/embedded views and 113-page wiki/sidebar/search updated; 35 archive entries retained, 244 local links validate, 17 browser checks plus memory routing/search pass. GitHub/Notion publication recorded after confirmation.
+
+
+[2026-10-12][06:45:43] - Memory implementation 38b097f pushed; Pages run 38244402163 succeeded. Live metadata identifies the exact source, all 13 hosted hashes match, 17 live browser checks and memory routing/search/visible phone images pass. Actual live phone/desktop captures reviewed. Notion memory-delivery entry appended/read back. This final documentation-only completion records the already verified Windows_2026-10-12_06-29-08 release without a redundant game export.
