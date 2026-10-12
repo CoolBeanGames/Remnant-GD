@@ -65,7 +65,7 @@ The testing level contains no loose test props. The manual chute remains availab
 
 `Scenes/Actors/automatic_spawner.tscn` is a pickup/ghost-placeable prop sold for 400 score initially. Place it using B/B/F like other props. Its Output marker determines where items appear; Item Pool determines which random scene is selected. It produces one item every 8 seconds while placed, unheld and the level is enabled. Inspector exports configure the item pool, interval, minimum interval and required flag. Empty Required Flag removes the level requirement.
 
-`Data/Computer/spawner_speed.tres` starts at 250 score, scales by 3.0, has five tiers and multiplies the interval by 0.8 each tier. This upgrade applies to existing and future spawners. The default catalog has 42 entries: fifteen Mechanics, six Self, twelve Store and nine Mulch. Edit these resources to change prices and effects. The effect target and store delivery kind accept spawner.
+`Data/Computer/spawner_speed.tres` starts at 250 score, scales by 3.0, has five tiers and multiplies the interval by 0.8 each tier. This upgrade applies to existing and future spawners. The default catalog has 48 entries: eighteen Mechanics, six Self, twelve Store and twelve Mulch. Edit these resources to change prices and effects. The effect target and store delivery kind accept spawner.
 
 ### Blackboard state
 
@@ -96,7 +96,7 @@ Mechanics/self tier costs are `ceil(base_cost * multiplier^purchased_level)`. Fa
 
 Successful deliveries increment their entry count in Progression.levels and Blackboard upgrade_levels. These counts persist separately from current world ownership: dropping, losing or retrieving an item does not reduce its next purchase price. The store shows DELIVERED / RISING PRICE for escalating offers. Snapshots are duplicated so resetting the live progression dictionary cannot erase saved counts. computer_entry exports escalating_store_price; cost(level) applies its exponent to upgrades and opted-in store entries, with bounded nonnegative integer costs.
 
-The catalog now has fifteen Mechanics, six Self, twelve Store and nine Mulch entries. Mulch is hidden until current-run Mulcher/Bin purchases; those upgrades use permanent coins and stack after normal tiers. Full prices/effects/authoring: Data/Mulch/README.md.
+The catalog now has eighteen Mechanics, six Self, twelve Store and twelve Mulch entries. Mulch is hidden until current-run Mulcher/Bin purchases; those upgrades use permanent coins and stack after normal tiers. Full prices/effects/authoring: Data/Mulch/README.md.
 
 ## Approved attachments and air placement
 
@@ -111,7 +111,7 @@ See Data/Computer/LEVER_UPGRADES.md for the five-tier cooldown/output upgrades, 
 
 ## Memory unlocks
 
-The Self tab offers Memory 1 (1,500 score), Memory 2 (25,000) and Memory 3 (50,000). Each is a fixed-price, one-time run purchase that sets a saved flag, shows UNLOCKED and restores on Continue. Purchases open the apartment/warehouse/hospital portals. Other memory purchases wait for the active memory’s explicit completion flag. Returning is blocked until the memory is marked complete; returning afterward closes the portal. F9 previews remain available outside active/unfinished memories. See Data/Computer/MEMORY_UPGRADES.md for exact flag names, resource fields and tests.
+The Self tab offers Memory 1 (1,500 score), Memory 2 (25,000) and Memory 3 (50,000). Each is a fixed-price, one-time run purchase that sets a saved flag, shows UNLOCKED and restores on Continue. Purchases open the apartment/warehouse/hospital portals. Other memory purchases wait for the active memory’s explicit completion flag. Unfinished return/reentry retains the portal; completed return closes it. F9 previews preserve paid-memory ownership even during an unfinished memory. See Data/Computer/MEMORY_UPGRADES.md for exact flag names, resource fields and tests.
 
 ## Catalog discovery and combo upgrades
 

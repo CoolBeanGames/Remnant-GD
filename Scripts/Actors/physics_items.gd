@@ -23,6 +23,11 @@ static func is_processable(body: RigidBody3D) -> bool:
 	return not prestige_locked(body) and not body.is_in_group("machine-immune") and not item_root(body).is_in_group("machine-immune")
 
 
+## Currency can join a multi-grab without making reusable tools feedstock.
+static func is_multi_grabbable(body: RigidBody3D) -> bool:
+	return is_processable(body) or (is_loose(body) and body is mulch_pellet and body.can_grind())
+
+
 ## A tag on either the rigid body or its item wrapper gates every pickup path.
 static func prestige_locked(node: Node) -> bool:
 	var world: Node = Blackboard.read_data("game_root") as Node

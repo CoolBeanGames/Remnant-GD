@@ -1,5 +1,6 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://Scripts/Mulch/mulch_bin.gd" id="script"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
 [sub_resource type="StandardMaterial3D" id="Material"]
 albedo_color = Color(0.16, 0.22, 0.16, 1)
 metallic = 0.45
@@ -11,10 +12,10 @@ size = Vector3(0.08, 0.7, 1.0)
 size = Vector3(0.84, 0.7, 0.08)
 [sub_resource type="BoxShape3D" id="Deposit"]
 size = Vector3(0.82, 0.8, 0.82)
-[node name="MulchBin" type="RigidBody3D" groups=["pick-up", "machine-immune"]]
+[node name="MulchBin" type="StaticBody3D" groups=["mulch-bin", "machine-immune"]]
 script = ExtResource("script")
-mass = 3.0
-continuous_cd = true
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("prompts")
 [node name="Deposit" type="Area3D" parent="."]
 position = Vector3(0, 0.45, 0)
 collision_layer = 0

@@ -6,6 +6,12 @@ signal pulled
 @export_range(.05, 1, .05) var cycle_time_multiplier: float = 1.0
 @export_range(.05, 1, .05) var minimum_cycle_multiplier: float = .25
 @export_range(1, 16, 1) var items_per_pull: int = 1
+@export var automatic: bool = false
+@export_range(.1, 30, .1) var automatic_delay: float = 2.0
+@export var output_multiplier: float = 1.0
+var automatic_remaining: float = 0.0
+var automation_paused: bool = false
+var look_prompts: prompt_set
 var pending_pull_items: int = 1
 
 # 0 = idle, 1 = pull, 2 = reset
@@ -26,16 +32,27 @@ func _ready() -> void:
 	set_enabled(enabled)
 	add_to_group("manual-lever")
 	refresh_upgrade()
+	automation_paused = Blackboard.read_data("lever_auto_paused") == true
 
 
 func interact() -> void:
+	if not enabled:
+		return
+	if automatic:
+		automation_paused = not automation_paused
+		Blackboard.store_data("lever_auto_paused", automation_paused)
+		DevTools.log_info("Automatic lever paused" if automation_paused else "Automatic lever resumed", "lever")
+		return
+	_pull()
+
+func _pull() -> void:
 	if not enabled or state != 0:
 		return
 	
 	green_light.light_energy = 0
 	red_light.light_energy = 1
 	state = 1
-	pending_pull_items = clampi(items_per_pull, 1, 16)
+	pending_pull_items = clampi(roundi(items_per_pull * maxf(1, output_multiplier)), 1, 256)
 	anim.play("pull")
 	Audio.play_3d(pull_sound, global_position, 1.0, 1.0, &"SFX")
 
@@ -61,6 +78,30 @@ func _on_animation_finished(animation_name: StringName) -> void:
 			green_light.light_energy = 1
 			red_light.light_energy = 0
 			state = 0
+			automatic_remaining = maxf(.1, automatic_delay)
+
+func _physics_process(delta: float) -> void:
+	if not enabled or not automatic or automation_paused or state != 0:
+		return
+	automatic_remaining = maxf(0, automatic_remaining - delta)
+	if automatic_remaining <= 0:
+		# Finish the last staggered batch before adding another automated pull.
+		if is_instance_valid(chute) and chute.queued_spawns > 0:
+			return
+		_pull()
+
+func get_look_prompts() -> prompt_set:
+	# Keep manual lever wording resource-authored; automation supplies its state.
+	var provider: object_prompts = get_node_or_null("Prompts")
+	if not automatic and provider != null and provider.prompts != null:
+		return provider.prompts
+	if look_prompts == null:
+		look_prompts = prompt_set.new()
+		var entry := prompt_entry.new()
+		entry.action = &"confirm"
+		look_prompts.entries.append(entry)
+	look_prompts.entries[0].text = ("Resume Automatic Lever" if automation_paused else "Pause Automatic Lever") if automatic else "Pull Lever"
+	return look_prompts
 
 func set_enabled(value: bool) -> void:
 	enabled = value

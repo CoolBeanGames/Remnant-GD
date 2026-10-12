@@ -1,7 +1,7 @@
 class_name grinding_area
 extends Area3D
 
-signal item_ground(points: int)
+signal item_ground(points: float)
 signal player_entered(player: CharacterBody3D)
 
 @export var grind_sound: AudioStream = preload("res://Audio/SFX/grind.wav")
@@ -30,17 +30,21 @@ func grind(body: Node3D) -> bool:
 			player_entered.emit(body)
 		return false
 	var rigid: RigidBody3D = _find_rigid_body(body)
-	if not physics_items.is_processable(rigid):
+	var pellet: mulch_pellet = rigid as mulch_pellet
+	if not physics_items.is_processable(rigid) and not (physics_items.is_loose(pellet) and pellet.can_grind()):
 		return false
 	var item: Node3D = _find_item_root(rigid)
 	# Several imported colliders may enter before deferred deletion is processed.
 	if item.is_queued_for_deletion() or rigid.is_queued_for_deletion():
 		return false
-	var amount: int = 0
-	if _is_scoring_item(body, item):
+	var amount: float = 0.0
+	if pellet != null:
+		amount = maxf(0, pellet.stored_score)
+	elif _is_scoring_item(body, item):
 		var component: score_object = physics_items.score_component(item)
 		amount = component.score if component != null else 1
-	Mulch.consume(item)
+	if pellet == null:
+		Mulch.consume(item, amount)
 	GrindCombo.record_item(amount)
 	_play_grind_sound()
 	WorldState.untrack(item)

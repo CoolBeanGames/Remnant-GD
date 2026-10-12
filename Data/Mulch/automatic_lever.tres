@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="automatic"]
+script = ExtResource("effect")
+target = "lever"
+property = NodePath("automatic")
+operation = 2
+amount = 1.0
+[resource]
+script = ExtResource("entry")
+id = &"mulch_automatic_lever"
+title = "Automatic Lever"
+description = "The existing lever pulls itself on a timer. E pauses or resumes automation. Persists across New Game."
+tab = 3
+base_cost = 50
+max_level = 1
+effects = Array[ExtResource("effect")]([SubResource("automatic")])

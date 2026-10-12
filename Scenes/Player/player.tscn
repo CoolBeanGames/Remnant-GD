@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Player/player_wake_up.gd" id="wake_up"]
 [ext_resource type="Script" path="res://Scripts/Player/camera_breathing.gd" id="camera_breathing"]
+[ext_resource type="Script" path="res://Scripts/Player/player_flashlight.gd" id="flashlight"]
 
 [ext_resource type="Script" uid="uid://dopt5ybemmifn" path="res://Scripts/Player/raycaster.gd" id="1_bmb2s"]
 [ext_resource type="Script" uid="uid://dnnbhrne61at7" path="res://Scripts/Player/Footstep_Audio_Player.gd" id="1_uvnfx"]
@@ -44,6 +45,11 @@ height = 1.8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera3D" unique_id=2122712823]
+script = ExtResource("flashlight")
+light_energy = 1.8
+shadow_enabled = true
+spot_range = 18.0
+spot_angle = 38.0
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1029817061]
 target_position = Vector3(0, 0, -3)

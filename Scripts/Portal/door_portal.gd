@@ -27,6 +27,10 @@ var source_surface: MeshInstance3D
 var return_surface: MeshInstance3D
 var viewport: SubViewport
 var portal_camera: Camera3D
+## Copy the player's beam into the destination's isolated lighting space.
+var portal_flashlight: SpotLight3D
+var flashlight: SpotLight3D
+var flashlight_properties: Array[StringName] = []
 var camera: Camera3D
 var original_cull_mask: int
 var original_environment: Environment
@@ -36,6 +40,8 @@ var graphics_revision: int = -1
 var active_destination_id: StringName = &""
 var switching: bool = false
 var memory_id: StringName = &""
+## F9 previews never complete or clear the purchased memory's ownership.
+var debug_override: bool = false
 var closing_memory: bool = false
 ## Cache resources in the background, while keeping just one instantiated area.
 var warmed_scenes: Dictionary[String, PackedScene] = {}
@@ -55,6 +61,12 @@ func _ready() -> void:
 	if door == null or player == null:
 		return
 	camera = player.get_node("Camera3D")
+	flashlight = camera.get_node_or_null("SpotLight3D") as SpotLight3D
+	if flashlight != null:
+		for property in flashlight.get_property_list():
+			var key := StringName(property.name)
+			if int(property.usage) & PROPERTY_USAGE_STORAGE and (str(key).begins_with("light_") or str(key).begins_with("spot_") or str(key).begins_with("shadow_")) and key != &"light_cull_mask":
+				flashlight_properties.append(key)
 	original_cull_mask = camera.cull_mask & ~portal_space.ROOM_LAYER
 	original_environment = camera.environment
 	camera.cull_mask = original_cull_mask
@@ -73,9 +85,12 @@ func activate(debug_preview: bool = false) -> void:
 	if active or not Flags.check_flag(activation_flag) or destination_scene == null:
 		return
 	var saved_memory: Variant = Blackboard.read_data("active_memory_id")
-	if purchase_required and not debug_preview and (not (saved_memory is String or saved_memory is StringName) or str(saved_memory).is_empty()):
+	var saved_preview: bool = Blackboard.read_data("portal_debug_preview") == true
+	if purchase_required and not debug_preview and not saved_preview and (not (saved_memory is String or saved_memory is StringName) or str(saved_memory).is_empty()):
 		return
 	memory_id = StringName(saved_memory) if not debug_preview and (saved_memory is String or saved_memory is StringName) else &""
+	debug_override = debug_preview or saved_preview
+	Blackboard.store_data("portal_debug_preview", debug_override)
 	var selected: portal_destination = _destination(StringName(str(Blackboard.read_data("portal_destination_id"))))
 	if selected == null and not destinations.is_empty():
 		selected = destinations[0]
@@ -101,6 +116,12 @@ func activate(debug_preview: bool = false) -> void:
 	portal_camera = Camera3D.new()
 	viewport.add_child(portal_camera)
 	portal_camera.current = true
+	if flashlight != null:
+		portal_flashlight = SpotLight3D.new()
+		portal_flashlight.name = "PortalFlashlight"
+		portal_flashlight.light_cull_mask = 1
+		portal_space.apply_actor(portal_flashlight, true)
+		add_child(portal_flashlight)
 	source_surface = _surface(source_frame)
 	if not _install_room(instance):
 		source_frame.free()
@@ -187,7 +208,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func cycle_destination() -> bool:
-	if not memory_id.is_empty() or (purchase_required and Progression.pending_memory() != null):
+	if suspended or switching or closing_memory:
 		return false
 	if purchase_required and not active and Flags.check_flag(activation_flag):
 		activate(true)
@@ -202,19 +223,19 @@ func cycle_destination() -> bool:
 	for offset in range(1, destinations.size() + 1):
 		var next: portal_destination = destinations[(index + offset) % destinations.size()]
 		if next != null:
-			return select_destination(next.id)
+			return select_destination(next.id, true)
 	return false
 
 ## Gameplay triggers can call this same API later, without synthesizing F9 input.
-func select_destination(id: StringName) -> bool:
+func select_destination(id: StringName, debug_preview: bool = false) -> bool:
 	var selected: portal_destination = _destination(id)
-	if not active or suspended or switching or not memory_id.is_empty() or selected == null or selected.id == active_destination_id:
+	if not active or suspended or switching or (not memory_id.is_empty() and not debug_preview) or selected == null or selected.id == active_destination_id:
 		return false
 	if not ResourceLoader.exists(selected.scene_path, "PackedScene"):
 		DevTools.log_error("Missing portal destination: %s" % selected.scene_path, "portal")
 		return false
 	switching = true
-	_switch_destination.call_deferred(selected)
+	_switch_destination.call_deferred(selected, debug_preview)
 	return true
 
 ## A purchase selects synchronously before score is charged, retaining failure safety.
@@ -223,7 +244,10 @@ func open_memory(id: StringName, destination_id: StringName) -> bool:
 	if inside or suspended or switching or closing_memory or selected == null or not Flags.check_flag(activation_flag) or not ResourceLoader.exists(selected.scene_path, "PackedScene"):
 		return false
 	var old_memory: StringName = memory_id
+	var old_debug: bool = debug_override
 	var old_destination: Variant = Blackboard.read_data("portal_destination_id")
+	debug_override = false
+	Blackboard.store_data("portal_debug_preview", false)
 	Blackboard.store_data("active_memory_id", str(id))
 	if not active:
 		Blackboard.store_data("portal_destination_id", str(destination_id))
@@ -237,6 +261,8 @@ func open_memory(id: StringName, destination_id: StringName) -> bool:
 			destination_changed.emit(selected.id, selected.title)
 	if not active or active_destination_id != destination_id:
 		memory_id = old_memory
+		debug_override = old_debug
+		Blackboard.store_data("portal_debug_preview", old_debug)
 		if old_destination == null:
 			Blackboard.remove_data("portal_destination_id")
 		else:
@@ -252,7 +278,7 @@ func open_memory(id: StringName, destination_id: StringName) -> bool:
 
 func memory_complete() -> bool:
 	var entry: computer_entry = Progression.entries.get(memory_id)
-	return entry != null and not entry.completion_flag.is_empty() and Flags.check_flag(entry.completion_flag)
+	return not debug_override and entry != null and not entry.completion_flag.is_empty() and Flags.check_flag(entry.completion_flag)
 
 func _close_memory() -> void:
 	if inside or not active or not memory_complete():
@@ -267,6 +293,9 @@ func _close_memory() -> void:
 	source_frame.free()
 	room.free()
 	viewport.free()
+	if is_instance_valid(portal_flashlight):
+		portal_flashlight.free()
+	portal_flashlight = null
 	source_frame = null
 	source_surface = null
 	room = null
@@ -275,6 +304,8 @@ func _close_memory() -> void:
 	viewport = null
 	portal_camera = null
 	memory_id = &""
+	debug_override = false
+	Blackboard.remove_data("portal_debug_preview")
 	active_destination_id = &""
 	previous_bodies.clear()
 	Blackboard.remove_data("active_memory_id")
@@ -285,7 +316,7 @@ func _close_memory() -> void:
 	Progression.changed.emit()
 	DevTools.log_info("Closed %s after returning. Saved cargo evacuated." % finished_id, "memories")
 
-func _switch_destination(selected: portal_destination) -> void:
+func _switch_destination(selected: portal_destination, debug_preview: bool = false) -> void:
 	if not active or suspended:
 		switching = false
 		return
@@ -299,6 +330,10 @@ func _switch_destination(selected: portal_destination) -> void:
 	if instance == null:
 		switching = false
 		return
+	# A rejected scene must leave paid ownership/completion behavior unchanged.
+	var owned: computer_entry = Progression.entries.get(memory_id)
+	debug_override = debug_preview and (owned == null or owned.memory_destination != selected.id)
+	Blackboard.store_data("portal_debug_preview", debug_override)
 	if inside:
 		var return_map: Transform3D = mapping(destination_frame, source_frame)
 		var safe_position: Vector3 = source_frame.to_global(Vector3(0, -source_offset.y + .04, 1.25))
@@ -383,6 +418,8 @@ func _update_view() -> void:
 		source_surface.hide()
 		return_surface.hide()
 		viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		if is_instance_valid(portal_flashlight):
+			portal_flashlight.hide()
 		return
 	source_frame.global_transform = door.global_transform * Transform3D(Basis(Vector3.UP, PI), source_offset)
 	var size: Vector2 = camera.get_viewport().get_visible_rect().size * resolution_scale
@@ -410,6 +447,20 @@ func _update_view() -> void:
 	# A second full-resolution render is only needed while its doorway can
 	# appear on screen. Plane rejection preserves partially visible doorways.
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS if open_front and _aperture_in_frustum(from) else SubViewport.UPDATE_DISABLED
+	_update_flashlight(mapping(from, to), open_front and viewport.render_target_update_mode != SubViewport.UPDATE_DISABLED)
+
+func _update_flashlight(pose_map: Transform3D, visible_aperture: bool) -> void:
+	if not is_instance_valid(portal_flashlight) or not is_instance_valid(flashlight):
+		return
+	portal_flashlight.visible = visible_aperture and flashlight.is_visible_in_tree()
+	if not portal_flashlight.visible:
+		return
+	for key in flashlight_properties:
+		var value: Variant = flashlight.get(key)
+		if portal_flashlight.get(key) != value:
+			portal_flashlight.set(key, value)
+	portal_space.apply_actor(portal_flashlight, not inside)
+	portal_flashlight.global_transform = pose_map * flashlight.global_transform
 
 func _aperture_in_frustum(frame: Node3D) -> bool:
 	var corners := PackedVector3Array()
@@ -481,7 +532,9 @@ func _set_player_space() -> void:
 		else:
 			footsteps.clear_sound_override(room)
 	var headlight: Light3D = player.get_node_or_null("Camera3D/SpotLight3D")
-	if headlight != null:
+	# A player-controlled flashlight keeps its on/off choice across crossings.
+	# Bare legacy cameras still honor the room's automatic-light preference.
+	if headlight != null and not headlight.has_method("set_powered"):
 		headlight.visible = not (inside and room is portal_room and room.suppress_player_light)
 	portal_space.apply_actor(player, inside)
 	player.get_node("Camera3D/RayCast3D").collision_mask = player.collision_mask

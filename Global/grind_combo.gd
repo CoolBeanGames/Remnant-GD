@@ -10,7 +10,7 @@ signal combo_paid(points: int, multiplier: float, items: int)
 @export var maximum_multiplier: float = 15.0
 
 var item_count: int = 0
-var base_points: int = 0
+var base_points: float = 0.0
 var remaining: float = 0.0
 var current_window: float = 0.0
 
@@ -34,9 +34,9 @@ func pending_points() -> int:
 
 
 ## Every destroyed item advances the chain; only scoring items add base value.
-func record_item(points: int) -> void:
+func record_item(points: float) -> void:
 	item_count += 1
-	base_points += maxi(0, points)
+	base_points += maxf(0, points)
 	current_window = maxf(maxf(minimum_window, 0.05), initial_window - (item_count - 1) * maxf(0.0, window_decrease))
 	remaining = current_window
 	combo_changed.emit()

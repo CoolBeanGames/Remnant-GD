@@ -27,3 +27,7 @@ Scripts/UI/world_view_session.gd (world_view_session : RefCounted, no scene/auto
 Tests/world_interfaces_test.tscn exercises actual ray/prompt/crosshair feedback, carry/build prompts, 3D purchase clicks, modal HUD hiding, viewport stop, save look, lit paper, N/Esc, pause handoff, save codec, custom art, legacy journals, basket identity and unload. Shared computer/notes/guidance/dialogue/menu/save/portal/wake/voice/F1 checks and rendered images supplement it. Isolate APPDATA. Gallery: Reports/WorldInterfaces/index.html. Archive: Reports/index.html.
 
 Tests/world_view_motion_test.tscn observes real intermediate transforms, exact focus/return, early reversal, repeated closes, diagnostic pause/resume, replacing a lowering note, zero-duration settings and scene unload. Existing interface/computer/notes/guidance suites wait for real completion before checking its consequences.
+
+## Clicking saved notes
+
+pause_menu uses ItemList.item_clicked for a single left click, including the first row already selected by show_notes. item_activated retains Enter/double-click support. _click_note routes to the guarded _select_note, which rejects a closed journal or invalid row and hands control to the physical note reader once. Esc returns to the same journal. The interface regression sends actual viewport mouse events to the preselected first row and real Enter input; it does not merely call the selection method. Reports/MulchFollowup/journal contains fresh rendered checks.

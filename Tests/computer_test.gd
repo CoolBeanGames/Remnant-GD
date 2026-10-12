@@ -40,7 +40,7 @@ func _run() -> void:
 	world.add_child(delivery)
 	terminal.delivery_point = delivery
 	world.add_child(terminal)
-	check(terminal.catalog.entries.size() == 45, "Editable catalog contains regular upgrades, approved tool upgrades, three memory unlocks, three combo upgrades, twelve store entries and nine permanent mulch upgrades.")
+	check(terminal.catalog.entries.size() == 48, "Editable catalog contains regular upgrades, approved tool upgrades, three memory unlocks, three combo upgrades, twelve store entries and twelve permanent mulch upgrades.")
 	var old_fan: Node3D = load("res://Scenes/Actors/fan.tscn").instantiate()
 	old_fan.position = Vector3(20, 2, 20)
 	world.add_child(old_fan)

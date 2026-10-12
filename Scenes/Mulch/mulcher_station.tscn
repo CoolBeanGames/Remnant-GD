@@ -1,5 +1,6 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://Scripts/Mulch/mulcher_station.gd" id="script"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
 [sub_resource type="SystemFont" id="Font"]
 font_names = PackedStringArray("Consolas", "Courier New")
 [sub_resource type="BoxShape3D" id="Shape"]
@@ -12,6 +13,11 @@ metallic = 0.6
 roughness = 0.8
 [node name="Mulcher" type="StaticBody3D" groups=["interact", "machine-immune"]]
 script = ExtResource("script")
+[node name="Prompts" type="Node" parent="." node_paths=PackedStringArray("world_anchor")]
+script = ExtResource("prompts")
+world_anchor = NodePath("../PromptAnchor")
+[node name="PromptAnchor" type="Marker3D" parent="."]
+position = Vector3(-0.5, 0.85, 0.6)
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("Mesh")
 material_override = SubResource("Material")

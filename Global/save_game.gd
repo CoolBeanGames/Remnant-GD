@@ -100,7 +100,7 @@ func restore_runtime(resume: bool = false) -> void:
 	var combo: Variant = Blackboard.read_data("saved_combo")
 	if combo is Dictionary:
 		GrindCombo.item_count = maxi(0, int(combo.get("items", 0)))
-		GrindCombo.base_points = maxi(0, int(combo.get("base", 0)))
+		GrindCombo.base_points = maxf(0, float(combo.get("base", 0)))
 		GrindCombo.remaining = maxf(0, float(combo.get("remaining", 0)))
 		GrindCombo.current_window = maxf(0, float(combo.get("window", 0)))
 		GrindCombo.combo_changed.emit()

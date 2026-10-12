@@ -114,6 +114,8 @@ func _restore(records: Array, request_session: int = -1) -> void:
 			continue
 		var actor: Node3D = instance as Node3D
 		actor.set_meta("restoring", true)
+		# Ready-time registrants must reuse this saved identity, not mint an alias.
+		actor.set_meta("persistent_item_id", str(record.get("id", "")))
 		if record.get("portal_inside", false):
 			portal_space.apply_actor(actor, true)
 		if actor is note_drop and record.get("note", "") is String and ResourceLoader.exists(record.get("note", "")):
@@ -124,6 +126,8 @@ func _restore(records: Array, request_session: int = -1) -> void:
 			actor.physics_material_override = actor.physics_material_override.duplicate()
 		for property in record.get("properties", {}):
 			actor.set_indexed(NodePath(property), record.properties[property])
+		if actor is mulch_pellet:
+			actor.stored_score = maxf(0, float(record.get("pellet_score", 0)))
 		var score: score_object = physics_items.score_component(actor)
 		if score != null and record.has("score"):
 			score.score = int(record.score)
@@ -146,6 +150,9 @@ func _restore(records: Array, request_session: int = -1) -> void:
 					body.angular_damp = body_state.get("angular_damp", 2.0)
 					body.set_meta("chute_settled", true)
 		track(actor, str(record.get("id", "")))
+	# Old portable bins migrate to the one fixed mount; retain the original actor.
+	if Flags.check_flag("mulch bin purchased"):
+		Mulch.install_bin()
 	# Resolve supports after every saved actor exists (basket attachments included).
 	for record in records:
 		if not record is Dictionary or not record.get("placed", false):
@@ -279,6 +286,8 @@ func capture() -> void:
 		record.portal_inside = actor.get_meta("portal_inside", false)
 		if actor is note_drop and actor.note != null:
 			record.note = actor.note.resource_path
+		if actor is mulch_pellet:
+			record.pellet_score = actor.stored_score
 		if actor is switchable_prop:
 			record.properties["powered"] = actor.powered
 		if actor.has_method("cycle_lens"):

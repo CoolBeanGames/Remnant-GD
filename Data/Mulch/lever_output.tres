@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="multiplier"]
+script = ExtResource("effect")
+target = "lever"
+property = NodePath("output_multiplier")
+operation = 1
+amount = 2.0
+[resource]
+script = ExtResource("entry")
+id = &"mulch_lever_output"
+title = "Permanent Lever Output"
+description = "Doubles drops after regular Lever Output upgrades. Individual drops remain spaced. Persists across New Game; capped at 256 per pull."
+tab = 3
+base_cost = 12
+cost_multiplier = 2.5
+max_level = 0
+effects = Array[ExtResource("effect")]([SubResource("multiplier")])

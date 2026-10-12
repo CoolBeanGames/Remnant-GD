@@ -150,7 +150,7 @@ func try_pickup() -> bool:
 
 ## Shared pickup entry point for loose props and scripted interactions.
 func pickup_object(target: RigidBody3D) -> bool:
-	if is_holding_object() or not is_instance_valid(target) or hold_position == null or physics_items.prestige_locked(target):
+	if is_holding_object() or not is_instance_valid(target) or hold_position == null or physics_items.prestige_locked(target) or (target is mulch_pellet and not target.can_grind()):
 		return false
 	var cargo_owner: Variant = target.get_meta("rail_cargo_owner") if target.has_meta("rail_cargo_owner") else null
 	if cargo_owner is WeakRef:
@@ -199,7 +199,7 @@ func pickup_object(target: RigidBody3D) -> bool:
 
 
 func _collect_extra_items() -> void:
-	if grab_capacity <= 1 or held_object.is_in_group("machine-immune"):
+	if grab_capacity <= 1 or (held_object.is_in_group("machine-immune") and not held_object is mulch_pellet):
 		return
 	var query := PhysicsShapeQueryParameters3D.new()
 	var sphere := SphereShape3D.new()
@@ -213,7 +213,7 @@ func _collect_extra_items() -> void:
 	var seen: Array[RID] = []
 	for hit in hits:
 		var body: RigidBody3D = physics_items.rigid_body(hit.collider)
-		if not physics_items.is_processable(body) or seen.has(body.get_rid()):
+		if not physics_items.is_multi_grabbable(body) or seen.has(body.get_rid()):
 			continue
 		seen.append(body.get_rid())
 		extra_items.append({"node": weakref(body), "freeze": body.freeze, "mode": body.freeze_mode, "pose": held_object.global_transform.affine_inverse() * body.global_transform})

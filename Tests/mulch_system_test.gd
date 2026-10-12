@@ -48,7 +48,7 @@ func run() -> void:
 	var ui: computer_ui = load("res://Scenes/UI/computer_ui.tscn").instantiate()
 	add_child(ui)
 	ui.open(pc)
-	check(not ui.tabs.is_tab_hidden(3) and ui.tabs.get_child(3).get_node("List").get_child_count() == 9, "Unlocked computer shows modular mulch upgrades")
+	check(not ui.tabs.is_tab_hidden(3) and ui.tabs.get_child(3).get_node("List").get_child_count() == 12, "Unlocked computer shows modular mulch upgrades")
 	ui.close()
 	var pellets: Array[Node3D] = []
 	Mulch.pellet_produced.connect(func(pellet: Node3D): pellets.append(pellet))
@@ -57,7 +57,7 @@ func run() -> void:
 		check(level.grinder.grind(actor.get_node("RigidBody3D")), "Normal item grinds")
 	await tick()
 	check(pellets.size() == 1 and is_zero_approx(Mulch.points) and Mulch.damage == 20 and Mulch.coins() == 0, "One hundred points creates a physical pellet without banking currency")
-	check(not level.grinder.grind(pellets[0]), "Pellets cannot be ground as ordinary score items")
+	check(is_equal_approx(pellets[0].stored_score, 10.0), "Pellet stores half the twenty items' score")
 	check(Mulch.deposit(pellets[0]) and not Mulch.deposit(pellets[0]) and Mulch.coins() == 1, "Each deposited pellet banks exactly one permanent coin")
 	await tick()
 	Mulch.damage = Mulch.maximum_damage
@@ -83,17 +83,12 @@ func run() -> void:
 	var coins_before: int = Mulch.coins()
 	check(pc.buy(Progression.entries[&"mulch_durability_meta"]).is_empty() and Mulch.maximum_damage == 300 and Mulch.coins() < coins_before, "Mulch upgrades use coins and stack durability")
 	# Exercise the real deposit area with a falling pellet.
-	var bin: mulch_bin = WorldState.spawn_item(load("res://Scenes/Mulch/mulch_bin.tscn"), level, Transform3D(Basis.IDENTITY, Vector3(10, .2, 10)))
-	bin.freeze = true
-	var physical: mulch_pellet = WorldState.spawn_item(load("res://Scenes/Mulch/mulch_pellet.tscn"), level, Transform3D(Basis.IDENTITY, Vector3(10, 1.0, 10)))
+	var bin: mulch_bin = Mulch.bin
+	var physical: mulch_pellet = WorldState.spawn_item(load("res://Scenes/Mulch/mulch_pellet.tscn"), level, Transform3D(Basis.IDENTITY, bin.global_position + Vector3(0, 1.0, 0)))
 	coins_before = Mulch.coins()
 	await get_tree().create_timer(.5).timeout
 	check(not is_instance_valid(physical) and Mulch.coins() == coins_before + 1, "Bin's physical sensor deposits pellets")
-	var pickup: player_pickup = level.player.get_node("Controllers/Player_Pickup")
-	pickup.pickup_object(bin)
-	await tick()
-	check(bin.collision_layer == 0 and bin.get_node("Deposit").collision_mask == 1, "Carried bin keeps deposit sensing while disabling solid physics")
-	pickup.drop_object()
+	check(bin is StaticBody3D and not bin.is_in_group("pick-up") and bin.get_node("Deposit").collision_mask == 1, "Installed bin stays solid and cannot be picked up")
 	check(SaveGame.save_now(), "Mulcher wear/repair/progress save")
 	var coins_saved: int = Mulch.coins()
 	ui.queue_free()

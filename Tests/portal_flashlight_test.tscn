@@ -1,0 +1,5 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Tests/portal_flashlight_test.gd" id="script"]
+[node name="PortalFlashlightTest" type="Node"]
+script = ExtResource("script")
+capture_directory = "res://Reports/MulchFollowup/portal"

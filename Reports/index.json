@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Make mulch. Keep moving.",
+    "kind": "Development history",
+    "local": "development_summary.html#mulch-followup",
+    "online": "../index.html#mulch-followup",
+    "description": "Ten new F1 reports become usable repair controls, richer pellet choices, permanent automation and working portal light and journal interactions."
+  },
+  {
     "title": "Thirty reports. One more pass.",
     "kind": "Development history",
     "local": "development_summary.html#october-issue-pass",
@@ -194,6 +201,13 @@
     "local": "development_summary.html#memory-return-lock",
     "online": "../index.html#memory-return-lock",
     "description": "The exit now waits for the memory's saved completion flag. Walking back early cannot close or unload the area."
+  },
+  {
+    "title": "Mulch followup: repair, flashlight and physical journal",
+    "kind": "Rendered gallery",
+    "local": "MulchFollowup/index.html",
+    "online": "../MulchFollowup/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "October issue pass: engine checks and revised art",

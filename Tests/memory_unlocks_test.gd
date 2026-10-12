@@ -100,7 +100,7 @@ func run() -> void:
 		check(Progression.score() == 0 and Progression.level(entry) == 1 and saved_tiers.get(entry.id) == 1 and Flags.check_flag(flag_name), "Button spends exact score and records Memory %d flag and tier" % (i + 1))
 		check(not button.get_parent().visible and portal.active and portal.active_destination_id == entry.memory_destination, "Purchase opens its actual area and disables duplicate charges")
 		check(terminal.buy(entry) == "Memory already open." and Progression.score() == 0, "Open memory cannot be charged twice")
-		check(not portal.cycle_destination(), "F9 cannot switch an active paid memory")
+		check(not portal.select_destination(&"hospital" if entry.memory_destination != &"hospital" else &"apartment"), "Ordinary story selection cannot switch an active paid memory")
 		Blackboard.store_data("score", 100000)
 		ui.refresh()
 		if i == 0:

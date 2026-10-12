@@ -96,6 +96,11 @@ func purchase(entry: computer_entry, world: Node, spawn_point: Node3D, player: N
 		if not Mulch.install():
 			return "Grinder installation unavailable."
 		levels[entry.id] = level(entry) + 1
+	elif entry.tab == computer_entry.Tab.STORE and entry.installation == "mulch_bin":
+		actor = Mulch.install_bin()
+		if actor == null:
+			return "Mulch Bin mount unavailable."
+		levels[entry.id] = level(entry) + 1
 	elif entry.tab == computer_entry.Tab.STORE:
 		if entry.delivery_scene == null or not is_instance_valid(world) or not world.is_inside_tree() or not is_instance_valid(spawn_point):
 			return "Delivery unavailable."

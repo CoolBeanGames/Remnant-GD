@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 	if idle_elapsed >= idle_seconds:
 		messages.say(idle_text, &"grinder instruction", false, true)
 
-func _on_item_ground(_points: int) -> void:
+func _on_item_ground(_points: float) -> void:
 	Flags.set_flag("grinder used", true)
 	grinder_waiting = false
 	messages.cancel(&"grinder instruction")

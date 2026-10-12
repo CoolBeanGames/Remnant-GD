@@ -5,7 +5,7 @@
 script = ExtResource("entry")
 id = &"buy_mulch_bin"
 title = "Mulch Bin"
-description = "Deposit pellets physically to bank permanent mulch coins."
+description = "Install the fixed Mulch Bin beside the grinder. Deposit pellets to bank permanent mulch coins."
 tab = 2
 base_cost = 500
 cost_multiplier = 1.8

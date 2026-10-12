@@ -30,7 +30,7 @@ func _ready() -> void:
 func spawn_batch(count: int) -> void:
 	if not enabled:
 		return
-	queued_spawns += clampi(count, 1, 16)
+	queued_spawns += clampi(count, 1, 256)
 	_save_queue()
 	if batch_remaining <= 0:
 		_drain_batch()

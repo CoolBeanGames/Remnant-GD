@@ -7,6 +7,8 @@ signal coins_changed(coins: int)
 @export var base_efficiency: float = 1.0
 var maximum_damage: float = 100.0
 var efficiency: float = 1.0
+## Permanent collector permission is applied through editable upgrade effects.
+var automatic_collection: bool = false
 @export var damage_per_item: float = 1.0
 @export var repair_seconds: float = 4.0
 @export var repair_base_cost: int = 100
@@ -18,6 +20,9 @@ var repairs: int = 0
 var repair_remaining: float = 0.0
 var level: Node3D
 var station: Node3D
+var bin: mulch_bin
+## FIFO contributions conserve each item's half-score across pellet boundaries.
+var contributions: Array[Dictionary] = []
 var emission_pending: bool = false
 
 func _ready() -> void:
@@ -30,6 +35,24 @@ func restore() -> void:
 	repair_remaining = maxf(0, float(Blackboard.read_data("mulcher_repair_remaining") if Blackboard.data_exists("mulcher_repair_remaining") else 0))
 	maximum_damage = maxf(1, base_maximum_damage)
 	efficiency = maxf(0, base_efficiency)
+	automatic_collection = false
+	contributions.clear()
+	var saved: Variant = Blackboard.read_data("mulch_contributions")
+	var accounted: float = 0.0
+	if saved is Array:
+		for entry in saved:
+			if not entry is Dictionary or not (entry.get("points") is float or entry.get("points") is int) or not (entry.get("score") is float or entry.get("score") is int):
+				continue
+			var contribution_points: float = float(entry.points)
+			var contribution_score: float = float(entry.score)
+			if not is_finite(contribution_points) or not is_finite(contribution_score) or contribution_points <= 0 or accounted >= points:
+				continue
+			var accepted: float = minf(contribution_points, points - accounted)
+			contributions.append({"points": accepted, "score": maxf(0, contribution_score) * accepted / contribution_points})
+			accounted += accepted
+	# Legacy pending points have no recorded score; do not invent historical value.
+	if accounted < points:
+		contributions.push_front({"points": points - accounted, "score": 0.0})
 	if has_meta("upgrade_base_values"):
 		remove_meta("upgrade_base_values")
 	changed.emit()
@@ -58,6 +81,8 @@ func bind_level(root: Node3D) -> void:
 	if installed_unlock():
 		install()
 		_schedule_pellets()
+	if Flags.check_flag("mulch bin purchased"):
+		install_bin.call_deferred()
 
 func install() -> bool:
 	if not is_instance_valid(level) or not level.is_inside_tree():
@@ -78,7 +103,33 @@ func install() -> bool:
 func broken() -> bool:
 	return damage >= maxf(1, maximum_damage)
 
-func consume(item: Node3D) -> void:
+## New and saved portable bins share one fixed, designer-editable mount.
+func install_bin() -> mulch_bin:
+	if not is_instance_valid(level) or not level.is_inside_tree():
+		return null
+	bin = null
+	for candidate in get_tree().get_nodes_in_group("mulch-bin"):
+		if not candidate is mulch_bin or not level.is_ancestor_of(candidate) or candidate.is_queued_for_deletion():
+			continue
+		if bin == null:
+			bin = candidate
+		else:
+			WorldState.untrack(candidate)
+			candidate.queue_free()
+	if bin == null:
+		bin = load("res://Scenes/Mulch/mulch_bin.tscn").instantiate()
+		level.add_child(bin)
+	var grinder: Node3D = level.get_node_or_null("grinding_area")
+	var mount: Node3D = grinder.get_node_or_null("MulchBinMount") if grinder != null else null
+	var origin: Vector3 = grinder.global_position if grinder != null else level.global_position
+	bin.global_transform = mount.global_transform if mount != null else Transform3D(Basis.IDENTITY, origin + Vector3(3.55, .08, 1.4))
+	portal_space.apply_actor(bin, false)
+	WorldState.track(bin)
+	Flags.set_flag("mulch bin purchased", true)
+	changed.emit()
+	return bin
+
+func consume(item: Node3D, score_value: float = -1.0) -> void:
 	if not Flags.check_flag("mulcher purchased") or broken() or repair_remaining > 0:
 		return
 	var value: int = 1
@@ -87,7 +138,12 @@ func consume(item: Node3D) -> void:
 		value = component.mulch_value
 	else:
 		value = int(item.get_meta("mulch_value", 1))
-	points += clampi(value, 1, 5) * maxf(0, efficiency)
+	if score_value < 0:
+		score_value = component.score if component != null else (1 if item.is_in_group("score") else 0)
+	var produced: float = clampi(value, 1, 5) * maxf(0, efficiency)
+	if produced > 0:
+		points += produced
+		contributions.append({"points": produced, "score": maxf(0, score_value) * .5})
 	damage = minf(maximum_damage, damage + maxf(0, damage_per_item))
 	_schedule_pellets()
 	_store()
@@ -108,13 +164,36 @@ func _emit_pellets() -> void:
 		var pellet: Node3D = WorldState.spawn_item(pellet_scene, level, pose)
 		if pellet == null:
 			return
-		points -= maxf(1, points_per_pellet)
+		var consumed_points: float = maxf(1, points_per_pellet)
+		if pellet is mulch_pellet:
+			pellet.stored_score = _take_score(consumed_points)
+		points = maxf(0, points - consumed_points)
 		if pellet is RigidBody3D:
 			pellet.linear_velocity = station.global_basis * Vector3(0, 1.5, 2.5)
 		pellet_produced.emit(pellet)
+		# Deferred output runs outside physics callbacks; never bank a held pellet.
+		if automatic_collection and Flags.check_flag("mulch bin purchased"):
+			deposit(pellet, false)
 	if index > 0:
 		_store()
+		if automatic_collection:
+			SaveGame.save_profile()
 		DevTools.log_info("Produced %d mulch pellets" % index, "mulch")
+
+func _take_score(amount: float) -> float:
+	var result: float = 0.0
+	while amount > 0 and not contributions.is_empty():
+		var entry: Dictionary = contributions[0]
+		var consumed: float = minf(amount, float(entry.points))
+		var share: float = float(entry.score) * consumed / float(entry.points)
+		result += share
+		amount -= consumed
+		if consumed >= float(entry.points):
+			contributions.pop_front()
+		else:
+			entry.points -= consumed
+			entry.score = maxf(0, float(entry.score) - share)
+	return result
 
 func repair_cost() -> int:
 	return int(minf(2147483647, ceil(repair_base_cost * pow(repair_cost_multiplier, repairs))))
@@ -143,13 +222,14 @@ func _process(delta: float) -> void:
 
 func _store() -> void:
 	Blackboard.store_data("mulch_points", points)
+	Blackboard.store_data("mulch_contributions", contributions.duplicate(true))
 	Blackboard.store_data("mulcher_damage", damage)
 	Blackboard.store_data("mulcher_repairs", repairs)
 	Blackboard.store_data("mulcher_repair_remaining", repair_remaining)
 	changed.emit()
 
-func deposit(pellet: Node3D) -> bool:
-	if not is_instance_valid(pellet) or not pellet.is_in_group("mulch-pellet") or pellet.is_queued_for_deletion() or pellet.get_meta("banked", false):
+func deposit(pellet: Node3D, persist: bool = true) -> bool:
+	if not is_instance_valid(pellet) or not pellet.is_in_group("mulch-pellet") or pellet.is_queued_for_deletion() or pellet.get_meta("banked", false) or pellet.get_meta("carried_by_player", false):
 		return false
 	pellet.set_meta("banked", true)
 	SaveGame.profile["mulch_coins"] = coins() + maxi(1, int(pellet.get("coin_value")))
@@ -157,7 +237,8 @@ func deposit(pellet: Node3D) -> bool:
 	pellet.queue_free()
 	coins_changed.emit(coins())
 	changed.emit()
-	SaveGame.save_profile()
+	if persist:
+		SaveGame.save_profile()
 	return true
 
 func buy_upgrade(entry: computer_entry, player: Node) -> String:
@@ -172,10 +253,25 @@ func buy_upgrade(entry: computer_entry, player: Node) -> String:
 	SaveGame.profile["mulch_coins"] = coins() - price
 	Progression.apply_player(player)
 	Progression.apply_effects(self, "mulcher")
+	for handle in get_tree().get_nodes_in_group("manual-lever"):
+		handle.refresh_upgrade()
 	for spawner in get_tree().get_nodes_in_group("automatic-spawner"):
 		spawner.refresh_upgrade()
+	if automatic_collection and is_instance_valid(level) and Flags.check_flag("mulch bin purchased"):
+		_collect_existing.call_deferred()
 	SaveGame.save_profile()
 	coins_changed.emit(coins())
 	changed.emit()
 	DevTools.log_info("Purchased permanent %s / tier %d / %d mulch coins" % [entry.id, upgrade_level(entry.id), price], "upgrades")
 	return ""
+
+func _collect_existing() -> void:
+	if not automatic_collection or not is_instance_valid(bin):
+		return
+	var count: int = 0
+	for actor in get_tree().get_nodes_in_group("mulch-pellet"):
+		if level.is_ancestor_of(actor) and not actor.get_meta("portal_inside", false) and deposit(actor, false):
+			count += 1
+	if count > 0:
+		SaveGame.save_profile()
+		DevTools.log_info("Collector banked %d loose pellets" % count, "mulch")

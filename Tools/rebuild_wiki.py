@@ -103,6 +103,8 @@ def build():
         next(row for row in index if row['id']==archive_id)['text']=archive_text
     # Current maintained gameplay/workflow guides keep sidebar, body and search in sync.
     maintained = [
+        ('page-mulch-followup', 'Mulch, flashlight and journal followup', 'Overview', 'Data/ISSUE_FOLLOWUP_2026-10-12.md', 'page-october-issue-pass', 'mulch automatic lever collector pellets half score flashlight T portal F9 journal click'),
+        ('page-player-flashlight', 'Player flashlight and portal beam', 'Scripts', 'Data/Portal/README.md', 'page-door-portal', 'SpotLight3D T player flashlight beam portal lighting on off'),
         ('page-october-issue-pass', 'October issue pass / recorder inputs', 'Overview', 'Data/ISSUE_BATCH_2026-10-12.md', 'page-development-archive', 'F1 F7 webcam microphone camera lifetime discovery combo Mulcher pellets memory return stairs'),
         ('page-global-gameplay-recorder', 'Gameplay recorder / optional inputs', 'Globals', 'Data/RECORDING.md', None, 'F6 F7 webcam microphone recorder lossless FFmpeg aspect'),
         ('page-rail-stations', 'Rail loader and unloader', 'Actors', 'Data/Items/RAIL_STATIONS.md', 'page-manual-automation', 'rail station loader unloader endpoint cargo basket docking queue save'),

@@ -22,7 +22,9 @@ func _ready() -> void:
 	main.get_node("Exit").pressed.connect(_quit)
 	main.get_node("Options").pressed.connect(_options)
 	journal.get_node("Back").pressed.connect(_back)
-	list.item_selected.connect(_select_note)
+	# The first entry is already selected; clicking it still needs to open it.
+	list.item_clicked.connect(_click_note)
+	list.item_activated.connect(_select_note)
 	var reader: note_reader = get_parent().get_node_or_null("NoteReader")
 	if reader != null:
 		reader.closed.connect(_on_reader_closed)
@@ -98,8 +100,12 @@ func show_notes() -> void:
 		body_label.text = "Read the original paper in the world. N toggles the typed transcript; Esc puts it away."
 	journal.get_node("Back").grab_focus()
 
+func _click_note(index: int, _position: Vector2, button: int) -> void:
+	if button == MOUSE_BUTTON_LEFT:
+		_select_note(index)
+
 func _select_note(index: int) -> void:
-	if index < 0 or index >= entries.size():
+	if not is_open or not journal.visible or index < 0 or index >= entries.size():
 		return
 	var reader: note_reader = Blackboard.read_data("note_reader") as note_reader
 	if reader == null:

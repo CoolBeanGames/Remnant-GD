@@ -235,3 +235,5 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-12][09:37:57] - updated the guide to include 'October F1 issue pass, current memory travel/progression, environment/art corrections and F7 webcam/microphone capture'.
 
 2026-10-12 delivery: all 30 October inbox reports resolved locally; 19 selected scene suites and Windows_2026-10-12_09-57-20 release verified, including a rendered release-PCK probe. Implementation 796923b pushed; Pages 38268636785 and all 14 published hashes plus 18 local/live browser checks verified. Notion log appended/read back. Godot editor closed gracefully on request. Reports/development_summary.html#october-issue-pass.
+
+2026-10-12 13:26:06 / Ten-report mulch/portal/journal followup: original descriptions/screenshots reviewed; fixed repair prompt/bin, square multi-grab pellets with saved half-score ledger/no recycling, permanent automatic lever/output/collector, T-controlled mapped portal flashlight, paid-memory F9 previews, real journal mouse/Enter handoff. Current authoring/wiki/HTML maintained; final tests/build/push/Pages evidence is in the new development-summary chapter.

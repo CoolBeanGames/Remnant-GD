@@ -188,7 +188,17 @@ func run() -> void:
 	menu.open()
 	menu.show_notes()
 	check(menu.list.item_count == 1, "Pause menu lists saved note titles")
-	menu._select_note(0)
+	await frames(5)
+	# The first row is already selected. Clicking it must still open the paper.
+	var journal_point: Vector2 = menu.list.global_position + menu.list.get_item_rect(0).get_center()
+	for pressed in [true, false]:
+		var mouse := InputEventMouseButton.new()
+		mouse.position = journal_point
+		mouse.global_position = journal_point
+		mouse.button_index = MOUSE_BUTTON_LEFT
+		mouse.pressed = pressed
+		get_viewport().push_input(mouse, true)
+		await frames(3)
 	await frames(15)
 	await settle()
 	check(reader.is_open and reader.from_journal and not menu.is_open, "Pause selection hands off to the in-world paper")
@@ -196,6 +206,12 @@ func run() -> void:
 	reader.close()
 	await settle()
 	check(menu.is_open and menu.journal.visible and get_tree().paused, "Reader close returns to the same paused journal")
+	menu.list.grab_focus()
+	await key(KEY_ENTER)
+	await settle()
+	check(reader.is_open and reader.from_journal, "Keyboard Enter also opens the selected saved note")
+	reader.close()
+	await settle()
 	menu.close()
 	var encoded: Variant = SaveGame._encode(Notes.all_notes())
 	var decoded: Array = SaveGame._decode(encoded)
