@@ -49,7 +49,7 @@ def build():
     for row in index:
         if row['id']=='page-world-interfaces':
             row['text']=(ROOT/'Data/WORLD_INTERFACES.md').read_text(encoding='utf-8-sig')
-            row['summary']='PC display, physical notes and essential gameplay HUD with modal visibility restoration.'
+            row['summary']='In-world object/carry/build prompts, PC display and physical notes with modal visibility restoration.'
     feedback_id='page-ui-gameplay-feedback'
     feedback_text=(ROOT/'Data/GAMEPLAY_FEEDBACK.md').read_text(encoding='utf-8-sig')
     feedback_page='<div id="'+feedback_id+'" class="doc-page">'+prose(feedback_text)+'</div>'
@@ -59,10 +59,32 @@ def build():
         item='<li><a class="nav-item-link" data-page="'+feedback_id+'" href="#'+feedback_id+'">Essential gameplay feedback</a></li>'
         nav,count=re.subn(r'<li>\s*<a\b[^>]*data-page="page-ui-computer".*?</li>',lambda m:m[0]+item,nav,count=1,flags=re.S)
         assert count==1,'UI category anchor missing'
-        index.append({'id':feedback_id,'title':'Essential gameplay feedback','category':'UI','keywords':'crosshair prompts carrying building combo captions portal hud minimal UI','summary':'Restored gameplay feedback and temporary hiding for PC/physical notes.','text':feedback_text})
+        index.append({'id':feedback_id,'title':'Essential gameplay feedback','category':'UI','keywords':'crosshair prompts carrying building combo captions portal hud minimal UI','summary':'Reusable world prompt scenes, authoring markers and essential feedback with modal restoration.','text':feedback_text})
     else:
         pages[position]=feedback_page
         next(row for row in index if row['id']==feedback_id)['text']=feedback_text
+    # Refresh the original prompt reference IDs, preserving incoming links.
+    blocks=feedback_text.split('\n\n')
+    def prompt_paragraph(prefix):
+        return next(block for block in blocks if block.startswith(prefix))
+    prompt_refs={
+        'page-ui-prompts-overview': '# In-world gameplay prompts\n\n'+prompt_paragraph('Scenes/testing_level.tscn')+'\n\n'+prompt_paragraph('World lettering'),
+        'page-ui-prompt-display': '# prompt_display.gd / Node3D\n\n'+prompt_paragraph('Scripts/UI/prompt_display.gd')+'\n\n'+prompt_paragraph('World lettering'),
+        'page-ui-object-prompts': '# object_prompts.gd / Node\n\n'+prompt_paragraph('Scripts/UI/object_prompts.gd'),
+        'page-ui-world-prompt-label': '# world_prompt_label.gd / Label3D\n\n'+prompt_paragraph('Scripts/UI/world_prompt_label.gd'),
+    }
+    for ref_id,markdown in prompt_refs.items():
+        ref_page='<div id="'+ref_id+'" class="doc-page">'+prose(markdown)+'</div>'
+        slot=next((i for i,page in enumerate(pages) if 'id="'+ref_id+'"' in page),None)
+        if slot is None:
+            pages.append(ref_page)
+            item='<li><a class="nav-item-link" data-page="'+ref_id+'" href="#'+ref_id+'">world_prompt_label.gd</a></li>'
+            nav,count=re.subn(r'(<li>\s*<a\b[^>]*data-page="page-ui-prompt-label".*?</li>)',lambda match:item+match[0],nav,count=1,flags=re.S)
+            assert count==1,'Prompt label sidebar anchor missing'
+            index.append({'id':ref_id,'title':'world_prompt_label.gd','category':'UI','keywords':'Label3D world prompts font outline reusable scene','summary':'Reusable world lettering and per-control typography.','text':markdown})
+        else:
+            pages[slot]=ref_page
+            next(row for row in index if row['id']==ref_id)['text']=markdown
     archive_id='page-development-archive'
     archive_text=(ROOT/'Data/DOCUMENTATION.md').read_text(encoding='utf-8-sig')
     archive_page='<div id="'+archive_id+'" class="doc-page">'+prose(archive_text)+'</div>'
@@ -77,6 +99,8 @@ def build():
     page_ids=[id for id,classes,part in parts if 'doc-page' in classes]
     if feedback_id not in page_ids: page_ids.append(feedback_id)
     if archive_id not in page_ids: page_ids.insert(0,archive_id)
+    for ref_id in prompt_refs:
+        if ref_id not in page_ids: page_ids.append(ref_id)
     assert len(page_ids)==len(set(page_ids)) and len(index)==len(page_ids)
     assert {row['id'] for row in index}==set(page_ids)
     theme=(ROOT/'Reports/report_theme.css').read_text(encoding='utf-8-sig')

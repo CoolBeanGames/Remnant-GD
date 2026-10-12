@@ -49,12 +49,9 @@
 [ext_resource type="Script" uid="uid://ishkfcqyoce0" path="res://Scripts/Level/world_guidance.gd" id="world_guidance"]
 
 [ext_resource type="Texture2D" uid="uid://b7yhmhlfgdnyq" path="res://Textures/UI/Aim.png" id="8_46ng8"]
-[ext_resource type="Script" uid="uid://dydvfnp1pg6a4" path="res://Scripts/UI/prompt_display.gd" id="10_prompts"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/prompt_label.tscn" id="11_label"]
-[ext_resource type="Resource" uid="uid://u6flu1c5065j" path="res://Data/Prompts/carrying.tres" id="12_carrying"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/world_prompts.tscn" id="10_prompts"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/combo_display.tscn" id="combo_ui"]
 [ext_resource type="PackedScene" path="res://Scenes/Portal/portal_status.tscn" id="portal_status"]
-[ext_resource type="Resource" uid="uid://ca7umgs31ux3a" path="res://Data/Prompts/placement.tres" id="place_prompts"]
 [ext_resource type="Script" path="res://Scripts/UI/gameplay_crosshair.gd" id="crosshair_script"]
 
 [sub_resource type="Environment" id="Environment_ig4qq"]
@@ -336,27 +333,11 @@ stretch_mode = 4
 
 mouse_filter = 2
 
-[node name="Prompt_Container" type="CenterContainer" parent="." unique_id=418286355]
-custom_minimum_size = Vector2(0, 60)
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="HBoxContainer" type="HBoxContainer" groups=["gameplay_hud"] parent="Prompt_Container" unique_id=754580691 node_paths=PackedStringArray("ray", "pickup", "placement")]
-layout_mode = 2
-theme_override_constants/separation = 20
-script = ExtResource("10_prompts")
-ray = NodePath("../../Player/Camera3D/RayCast3D")
-pickup = NodePath("../../Player/Controllers/Player_Pickup")
-placement = NodePath("../../Player/Controllers/Prop_Placement")
-placement_prompts = ExtResource("place_prompts")
-label_scene = ExtResource("11_label")
-carrying_prompts = ExtResource("12_carrying")
+[node name="WorldPrompts" parent="." node_paths=PackedStringArray("camera", "ray", "pickup", "placement") instance=ExtResource("10_prompts")]
+camera = NodePath("../Player/Camera3D")
+ray = NodePath("../Player/Camera3D/RayCast3D")
+pickup = NodePath("../Player/Controllers/Player_Pickup")
+placement = NodePath("../Player/Controllers/Prop_Placement")
 
 [node name="ComboDisplay" groups=["gameplay_hud"] parent="." unique_id=76884644 instance=ExtResource("combo_ui")]
 

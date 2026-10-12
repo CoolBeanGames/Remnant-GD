@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/prompt_display.gd" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/world_prompt_label.tscn" id="2"]
+[ext_resource type="Resource" path="res://Data/Prompts/carrying.tres" id="3"]
+[ext_resource type="Resource" path="res://Data/Prompts/placement.tres" id="4"]
+
+[node name="WorldPrompts" type="Node3D" groups=["gameplay_hud"]]
+process_mode = 3
+script = ExtResource("1")
+label_scene = ExtResource("2")
+carrying_prompts = ExtResource("3")
+placement_prompts = ExtResource("4")

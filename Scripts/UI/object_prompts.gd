@@ -3,6 +3,8 @@ extends Node
 
 ## Put this component below the collider or any of its ancestors.
 @export var prompts: prompt_set
+## Optional artist-authored position; otherwise the display follows the model bounds.
+@export var world_anchor: Node3D
 
 
 func _ready() -> void:

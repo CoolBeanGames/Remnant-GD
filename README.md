@@ -12,7 +12,9 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 
 ## Interfaces in the world
 
-Normal gameplay keeps the crosshair, dynamic interaction/carry/build prompts, combo text, portal status and story captions. Minimal UI means keeping useful feedback compact. E uses the actual PC display with clickable upgrade tabs; Esc disconnects. F holds collected notes as lit paper. N toggles the typed transcript, or reopens the latest note. Pause > Notes selects the original paper; putting it away returns to the journal. [Authoring/controls](Data/WORLD_INTERFACES.md) cover optional physical scenes/page textures and camera/cargo/save restoration.
+Look prompts float beside the target; carry controls follow the held item and build controls follow its ghost. Editable 3D label scenes and optional object markers keep presentation reusable. See [prompt authoring](Data/GAMEPLAY_FEEDBACK.md) and the [rendered gallery](Reports/WorldPrompts/index.html).
+
+Normal gameplay keeps the crosshair, dynamic in-world interaction/carry/build prompts, combo text, portal status and story captions. Minimal UI means keeping useful feedback compact. E uses the actual PC display with clickable upgrade tabs; Esc disconnects. F holds collected notes as lit paper. N toggles the typed transcript, or reopens the latest note. Pause > Notes selects the original paper; putting it away returns to the journal. [Authoring/controls](Data/WORLD_INTERFACES.md) cover optional physical scenes/page textures and camera/cargo/save restoration.
 
 [Gameplay feedback](Data/GAMEPLAY_FEEDBACK.md) documents HUD visibility and the corrected UI preference. [Documentation maintenance](Data/DOCUMENTATION.md) covers shared styling, offline search and local/phone navigation. [Development index](Reports/index.html) links historical summaries, galleries and the offline wiki. [In-game interface views](Reports/WorldInterfaces/index.html) show the physical terminal and reader.
 
@@ -583,11 +585,11 @@ Export payout_display_time: float=2. Runtime payout_time, pulse: float and last_
 
 ### Pickup, movement and dynamic prompts
 
-player_pickup.gd keeps F drop/pickup, charged RMB throw, collision snapshots and container hooks. _unhandled_input(event) handles wheel and R only for held rotatable_item objects. _update_held_object(delta) composes the hold marker basis with get_hold_rotation() before smoothing, then calls on_held_transform_updated() when provided. The building reference, placement cancellation and package/query helper APIs were removed.
+player_pickup.gd keeps F drop/pickup, charged RMB throw, collision snapshots and container hooks. _unhandled_input(event) handles wheel and R only for held rotatable_item objects. _update_held_object(delta) composes the hold marker basis with get_hold_rotation() before smoothing, then calls on_held_transform_updated() when provided. The prop_placement reference handles surface ghosts and cancellation; the historical packed-crate system remains retired.
 
 player_move_controller.gd exports wind_drag: float=3, with wind_velocity/applied_wind: Vector3. apply_wind(direction: Vector3, force: float, maximum_speed: float, delta: float) accumulates capped wind separately from walking. _physics_process subtracts the last applied wind from locomotion before adding current wind, retains gravity and disables floor snapping during upward wind. Gravity and ordinary stepping remain.
 
-object_prompts.get_prompts() returns only its configured prompt_set; recipe fallback is removed. prompt_display has ray/pickup references, label_scene and carrying_prompts. Held-object get_carry_prompts() overrides ordinary carrying; otherwise look-at providers apply. Rotatable props append a live [R] Axis hint. The player/level have no building controller. Raycast debugging is off. Reusable prompt labels, key rebinding and ancestor provider resolution remain supported.
+object_prompts.get_prompts() supports its configured prompt_set and the owner’s dynamic get_look_prompts(); optional world_anchor selects an authored Marker3D. prompt_display now extends Node3D with camera/ray/pickup/placement references, editable world_prompt_label scenes, carry/placement Resources and bounded readability/layout settings. Look, carry and build controls appear beside their target, held model or ghost. Axis/power/air hints and InputMap rebinding remain dynamic. Raycast debugging stays off. See Data/GAMEPLAY_FEEDBACK.md for metadata, reuse and spatial/modal/portal verification.
 
 ### basket.gd
 

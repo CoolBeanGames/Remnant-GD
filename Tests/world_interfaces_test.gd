@@ -1,6 +1,6 @@
 extends Node
 var failures: Array[String] = []
-var capture_directory: String = "res://Reports/HUDFeedback"
+var capture_directory: String = "res://Reports/WorldPrompts"
 var level: level_sequence
 func _ready() -> void:
 	run.call_deferred()
@@ -76,11 +76,11 @@ func run() -> void:
 	var terminal: computer_terminal = level.computer
 	var original_pose: Transform3D = camera.global_transform
 	var original_rotation: Vector3 = camera.rotation
-	for name in ["CenterContainer", "Prompt_Container", "ComboDisplay", "PortalStatus"]:
+	for name in ["CenterContainer", "WorldPrompts", "ComboDisplay", "PortalStatus"]:
 		check(level.get_node_or_null(name) != null, "Essential gameplay feedback restored: " + name)
 	check(level.get_node("DialoguePlayer").show_text and level.get_node("WordMessage").show_text, "Story text retained")
 	var crosshair: Control = level.get_node("CenterContainer")
-	var prompts: prompt_display = level.get_node("Prompt_Container/HBoxContainer")
+	var prompts: prompt_display = level.get_node("WorldPrompts")
 	var ray: raycaster = prompts.ray
 	var lever: Node3D = level.get_node("Lever_Assembly/lever_body")
 	camera.global_position = lever.global_position + Vector3(0, 1.2, 2.6)

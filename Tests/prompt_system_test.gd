@@ -35,7 +35,7 @@ func _run() -> void:
 	Blackboard.store_data("game_root", level)
 	level.set("spawn_animation_enabled", false)
 	get_tree().root.add_child(level)
-	display = level.get_node("Prompt_Container/HBoxContainer")
+	display = level.get_node("WorldPrompts")
 	pickup = level.get_node("Player/Controllers/Player_Pickup")
 	ray = level.get_node("Player/Camera3D/RayCast3D")
 	check(display.pickup == pickup and display.ray == ray, "Prompt display references must be wired to the level's player.")
@@ -43,18 +43,22 @@ func _run() -> void:
 	ray._set_looked_at(null)
 	expect_prompts([], "Looking at nothing must show no prompts.")
 	var lever_body: Node3D = level.get_node("Lever_Assembly/lever_body")
+	display.camera.global_position = lever_body.global_position + Vector3(0, 1.2, 2.6)
+	display.camera.look_at(lever_body.global_position + Vector3(0, .4, 0))
 	ray._set_looked_at(lever_body)
 	expect_prompts(["Pull Lever [E]"], "Lever prompts must resolve from its collider to its ancestor's component.")
-	var first_label: prompt_label = display.labels[0]
+	var first_label: world_prompt_label = display.labels[0]
 	display.refresh()
 	check(display.labels[0] == first_label, "Unchanged prompts must reuse their label scene instance.")
 	var fan: rotatable_item = load("res://Scenes/Actors/fan.tscn").instantiate()
 	level.add_child(fan)
+	fan.global_position = lever_body.global_position
 	ray._set_looked_at(fan)
 	expect_prompts(["Pickup Fan [F]", "Turn Off Fan [E]"], "Fan look-at prompt must include its power toggle.")
 	var prop: Node3D = load("res://Scenes/test_object.tscn").instantiate()
 	prop.get_node("RigidBody3D").disable_mode = CollisionObject3D.DISABLE_MODE_KEEP_ACTIVE
 	level.add_child(prop)
+	prop.global_position = lever_body.global_position
 	ray._set_looked_at(prop.get_node("RigidBody3D"))
 	expect_prompts(["Pickup Strange Object [F]"], "Strange-object prompt must be configured independently of the physics script.")
 	pickup.pickup_object(fan)
@@ -79,6 +83,7 @@ func _run() -> void:
 	custom_provider.prompts = custom
 	prompt_only.add_child(custom_provider)
 	level.add_child(prompt_only)
+	prompt_only.global_position = lever_body.global_position
 	check(ray._is_valid_target(prompt_only), "Prompt components must make their owner targetable through the look-prompt group.")
 	ray._set_looked_at(prompt_only)
 	expect_prompts(["Use Custom Machine [E]"], "Prompt-only objects must support configured look-at text.")

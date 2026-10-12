@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Beside the thing.",
+    "kind": "Development history",
+    "local": "development_summary.html#world-prompts",
+    "online": "../index.html#world-prompts",
+    "description": "Look text sits beside the object. Carry controls follow the held model. Place and Cancel follow the ghost. The small crosshair and brief gameplay/story text stay."
+  },
+  {
     "title": "A lasting home.",
     "kind": "Development history",
     "local": "development_summary.html#github-pages",
@@ -18,7 +25,7 @@
     "kind": "Development history",
     "local": "development_summary.html#gameplay-feedback",
     "online": "../index.html#gameplay-feedback",
-    "description": "Crosshair, dynamic look/carry/build prompts, text-only combo, brief portal status and story captions return. The real PC screen and physical notes remain."
+    "description": "Crosshair, dynamic look/carry/build prompts, text-only combo, brief portal status and story captions return. The real PC screen and physical notes remain. This dated restoration is followed by the in-world prompt refinement above."
   },
   {
     "title": "One record. One design.",
@@ -131,6 +138,13 @@
     "local": "development_summary.html#controls",
     "online": "../index.html#controls",
     "description": "Preserved development chapter and verification."
+  },
+  {
+    "title": "In-world look, carry and ghost controls",
+    "kind": "Rendered gallery",
+    "local": "WorldPrompts/index.html",
+    "online": "../WorldPrompts/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "Restored crosshair, carry and build prompts",
