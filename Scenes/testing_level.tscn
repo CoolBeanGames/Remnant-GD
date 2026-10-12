@@ -48,6 +48,15 @@
 [ext_resource type="Script" uid="uid://ce012vxidcxe0" path="res://Scripts/Level/world_boundary.gd" id="world_boundary"]
 [ext_resource type="Script" uid="uid://ishkfcqyoce0" path="res://Scripts/Level/world_guidance.gd" id="world_guidance"]
 
+[ext_resource type="Texture2D" uid="uid://b7yhmhlfgdnyq" path="res://Textures/UI/Aim.png" id="8_46ng8"]
+[ext_resource type="Script" uid="uid://dydvfnp1pg6a4" path="res://Scripts/UI/prompt_display.gd" id="10_prompts"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/prompt_label.tscn" id="11_label"]
+[ext_resource type="Resource" uid="uid://u6flu1c5065j" path="res://Data/Prompts/carrying.tres" id="12_carrying"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/combo_display.tscn" id="combo_ui"]
+[ext_resource type="PackedScene" path="res://Scenes/Portal/portal_status.tscn" id="portal_status"]
+[ext_resource type="Resource" uid="uid://ca7umgs31ux3a" path="res://Data/Prompts/placement.tres" id="place_prompts"]
+[ext_resource type="Script" path="res://Scripts/UI/gameplay_crosshair.gd" id="crosshair_script"]
+
 [sub_resource type="Environment" id="Environment_ig4qq"]
 background_mode = 1
 ssao_enabled = true
@@ -286,7 +295,7 @@ player = NodePath("../Player")
 destinations = Array[ExtResource("portal_destination_script")]([ExtResource("portal_apartment"), ExtResource("portal_warehouse"), ExtResource("portal_hospital")])
 
 [node name="WordMessage" parent="." unique_id=138878723 instance=ExtResource("word_message")]
-show_text = false
+show_text = true
 word_sound = ExtResource("9_5f81q")
 
 [node name="WorldGuidance" type="Node" parent="." unique_id=1315693518 node_paths=PackedStringArray("level", "messages")]
@@ -295,7 +304,7 @@ level = NodePath("..")
 messages = NodePath("../WordMessage")
 
 [node name="DialoguePlayer" parent="." unique_id=751087534 instance=ExtResource("dialogue_player")]
-show_text = false
+show_text = true
 
 [node name="WorldBoundary" type="StaticBody3D" parent="." unique_id=293164494 node_paths=PackedStringArray("centre_target")]
 script = ExtResource("world_boundary")
@@ -303,5 +312,55 @@ centre_target = NodePath("../Player")
 
 [node name="NoteReader" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("note_reader")]
 camera = NodePath("../Player/Camera3D")
+
+[node name="CenterContainer" type="CenterContainer" parent="." groups=["gameplay_hud"] unique_id=2093236951]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -400.0
+offset_right = 400.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+
+script = ExtResource("crosshair_script")
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer" unique_id=1806873442]
+layout_mode = 2
+texture = ExtResource("8_46ng8")
+stretch_mode = 4
+
+mouse_filter = 2
+
+[node name="Prompt_Container" type="CenterContainer" parent="." unique_id=418286355]
+custom_minimum_size = Vector2(0, 60)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" groups=["gameplay_hud"] parent="Prompt_Container" unique_id=754580691 node_paths=PackedStringArray("ray", "pickup", "placement")]
+layout_mode = 2
+theme_override_constants/separation = 20
+script = ExtResource("10_prompts")
+ray = NodePath("../../Player/Camera3D/RayCast3D")
+pickup = NodePath("../../Player/Controllers/Player_Pickup")
+placement = NodePath("../../Player/Controllers/Prop_Placement")
+placement_prompts = ExtResource("place_prompts")
+label_scene = ExtResource("11_label")
+carrying_prompts = ExtResource("12_carrying")
+
+[node name="ComboDisplay" groups=["gameplay_hud"] parent="." unique_id=76884644 instance=ExtResource("combo_ui")]
+
+[node name="PortalStatus" groups=["gameplay_hud"] parent="." node_paths=PackedStringArray("portal") instance=ExtResource("portal_status")]
+portal = NodePath("../DoorPortal")
 
 [editable path="ceiling_chute"]

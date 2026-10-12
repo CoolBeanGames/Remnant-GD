@@ -1,6 +1,6 @@
 extends Node
 var failures: Array[String] = []
-var capture_directory: String = "res://Reports/WorldInterfaces"
+var capture_directory: String = "res://Reports/HUDFeedback"
 var level: level_sequence
 func _ready() -> void:
 	run.call_deferred()
@@ -60,6 +60,7 @@ func run() -> void:
 	Flags.set_flag("exited room", true)
 	Flags.set_flag("level enabled", true)
 	Flags.set_flag("computer enabled", true)
+	Flags.set_flag("message computer enabled", true)
 	var pool := object_pool.new()
 	pool.pooled_scene = load("res://Scenes/audio_player.tscn")
 	pool.reset_method = &"reset"
@@ -76,10 +77,26 @@ func run() -> void:
 	var original_pose: Transform3D = camera.global_transform
 	var original_rotation: Vector3 = camera.rotation
 	for name in ["CenterContainer", "Prompt_Container", "ComboDisplay", "PortalStatus"]:
-		check(level.get_node_or_null(name) == null, "Normal HUD removed: " + name)
-	check(not level.get_node("DialoguePlayer").label.visible and not level.get_node("WordMessage").label.visible, "Story captions disabled in gameplay")
+		check(level.get_node_or_null(name) != null, "Essential gameplay feedback restored: " + name)
+	check(level.get_node("DialoguePlayer").show_text and level.get_node("WordMessage").show_text, "Story text retained")
+	var crosshair: Control = level.get_node("CenterContainer")
+	var prompts: prompt_display = level.get_node("Prompt_Container/HBoxContainer")
+	var ray: raycaster = prompts.ray
+	var lever: Node3D = level.get_node("Lever_Assembly/lever_body")
+	camera.global_position = lever.global_position + Vector3(0, 1.2, 2.6)
+	camera.look_at(lever.global_position + Vector3(0, .4, 0))
+	await frames(4)
+	ray._physics_process(0)
+	prompts.refresh()
+	check(crosshair.visible and prompts.displayed_texts.has("Pull Lever [E]"), "Actual ray contact renders lever prompt and crosshair")
+	await capture("gameplay_prompts")
+	var feedback_pose: Transform3D = camera.global_transform
+	camera.global_transform = original_pose
+	ray._set_looked_at(null)
 	terminal.interact()
 	await frames(15)
+	for hud in get_tree().get_nodes_in_group("gameplay_hud"):
+		check(not hud.get("visible"), "Gameplay HUD hidden during physical PC use: " + hud.name)
 	check(terminal.interface is Control and terminal.interface.get_parent() == terminal.display_viewport, "Catalog UI is a viewport control on the PC")
 	check(terminal.screen_material.albedo_texture == terminal.display_viewport.get_texture(), "PC uses the actual rendered UI texture")
 	check(Blackboard.read_data("player_input_blocked") == true and not get_tree().paused, "PC blocks movement without stopping workshop production")
@@ -97,11 +114,32 @@ func run() -> void:
 	await key(KEY_ESCAPE)
 	check(terminal.session == null and camera.global_transform.is_equal_approx(original_pose), "Escape restores exact original camera")
 	check(terminal.display_viewport.render_target_update_mode == SubViewport.UPDATE_DISABLED and not Blackboard.read_data("player_input_blocked"), "Closed PC stops rendering and releases input")
+	check(crosshair.visible, "Crosshair returns after PC disconnect")
+	var held_fan: rotatable_item = load("res://Scenes/Actors/fan.tscn").instantiate()
+	level.add_child(held_fan)
+	var held_pickup: player_pickup = level.player.get_node("Controllers/Player_Pickup")
+	camera.global_transform = feedback_pose
+	held_pickup.pickup_object(held_fan)
+	held_pickup._update_held_object(1.0)
+	prompts.refresh()
+	check(prompts.displayed_texts.has("[B] Build") and prompts.displayed_texts.has("[F] Drop"), "Carry prompts restored on held fan")
+	await capture("carry_prompts")
+	var placement: prop_placement = prompts.placement
+	check(placement.start_building(), "Fan starts ghost placement")
+	prompts.refresh()
+	check(prompts.displayed_texts.has("[B] Place") and prompts.displayed_texts.has("[F] Cancel"), "Ghost placement renders place/cancel prompts")
+	await capture("build_prompts")
+	placement.cancel_building()
+	held_pickup.drop_object()
+	held_fan.queue_free()
+	camera.global_transform = original_pose
 	var reader: note_reader = level.get_node("NoteReader")
 	var definition: note_definition = load("res://Data/Notes/door.tres")
 	# A found bottle becomes readable paper and remains a unique saved journal entry.
 	Notes.collect(definition)
 	await frames(15)
+	for hud in get_tree().get_nodes_in_group("gameplay_hud"):
+		check(not hud.get("visible"), "Gameplay HUD hidden while reading: " + hud.name)
 	check(reader.is_open and reader.holder.get_parent() == camera and get_tree().paused, "Pickup creates lit paper held in front of the real camera")
 	check(reader.holder.get_node("ReadingLight").light_cull_mask == note_reader.READING_LAYER, "Reading light affects the paper only")
 	check(not level.get_node("PauseMenu").is_open and not reader.transcript.visible, "Physical reading has no pause or transcript overlay")
@@ -112,7 +150,7 @@ func run() -> void:
 	await key(KEY_N)
 	check(not reader.typed and reader.holder.visible, "N closes transcript and restores the physical paper")
 	await key(KEY_ESCAPE)
-	check(not reader.is_open and not get_tree().paused and not Blackboard.read_data("player_input_blocked"), "Putting away restores gameplay ownership")
+	check(not reader.is_open and not get_tree().paused and not Blackboard.read_data("player_input_blocked") and crosshair.visible, "Putting away restores gameplay ownership and crosshair")
 	await key(KEY_N)
 	check(reader.is_open and reader.typed, "N outside a reading session reopens the latest collected transcript")
 	reader.close()
@@ -178,5 +216,7 @@ func run() -> void:
 	check(not get_tree().paused and not Blackboard.read_data("player_input_blocked") and Blackboard.read_data("world_view_session") == null, "Scene unload releases the viewing session without a stale lock")
 	for audio: audio_player in pool.active:
 		audio.reset()
+	# Allow the audio mixer to release cancelled WAV playback before quitting.
+	await get_tree().create_timer(.12).timeout
 	print("World interfaces / physical notes / 3D mouse / journal / save / cleanup: ", "PASS" if failures.is_empty() else failures)
 	get_tree().quit(0 if failures.is_empty() else 1)

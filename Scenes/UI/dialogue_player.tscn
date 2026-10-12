@@ -3,7 +3,7 @@
 [node name="DialoguePlayer" type="CanvasLayer"]
 layer = 32
 script = ExtResource("1")
-[node name="Text" type="Label" parent="."]
+[node name="Text" groups=["gameplay_hud"] type="Label" parent="."]
 anchors_preset = 12
 anchor_right = 1.0
 anchor_top = 1.0

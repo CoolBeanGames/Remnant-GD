@@ -82,6 +82,7 @@ func _fit_word() -> void:
 	label.add_theme_font_size_override("font_size", maxi(12, int(font_size * minf(1.0, max_width / maxf(1.0, width)))))
 
 func _process(delta: float) -> void:
+	label.visible = show_text and Blackboard.read_data("world_view_session") == null
 	if Blackboard.read_data("player_waking") == true:
 		hide()
 		return

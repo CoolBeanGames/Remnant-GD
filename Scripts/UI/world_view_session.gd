@@ -37,16 +37,18 @@ func begin(view: Camera3D, pause_world: bool) -> void:
 			_hide(ref.get_ref())
 		for state in pickup.extra_items:
 			_hide(state.node.get_ref())
+	for hud in tree.get_nodes_in_group("gameplay_hud"):
+		_hide(hud)
 	active = true
 
 func _hide(node: Node) -> void:
-	if not is_instance_valid(node) or not node is Node3D:
+	if not is_instance_valid(node) or not (node is Node3D or node is CanvasItem or node is CanvasLayer):
 		return
 	for state in hidden:
 		if state.node.get_ref() == node:
 			return
-	hidden.append({"node": weakref(node), "visible": node.visible})
-	node.hide()
+	hidden.append({"node": weakref(node), "visible": node.get("visible")})
+	node.call("hide")
 
 func restore() -> void:
 	if not active:
@@ -60,9 +62,9 @@ func restore() -> void:
 	if Blackboard.read_data("world_view_session") == self:
 		Blackboard.remove_data("world_view_session")
 	for state in hidden:
-		var node: Node3D = state.node.get_ref() as Node3D
+		var node: Node = state.node.get_ref() as Node
 		if is_instance_valid(node):
-			node.visible = state.visible
+			node.set("visible", state.visible)
 	hidden.clear()
 	if had_block:
 		Blackboard.store_data("player_input_blocked", previous_block)

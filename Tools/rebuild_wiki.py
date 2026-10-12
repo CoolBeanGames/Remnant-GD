@@ -46,6 +46,23 @@ def build():
     marker=re.search(r'const searchIndex\s*=\s*',source)
     if not marker: raise ValueError('Missing embedded search index')
     index,_=json.JSONDecoder().raw_decode(source[marker.end():])
+    for row in index:
+        if row['id']=='page-world-interfaces':
+            row['text']=(ROOT/'Data/WORLD_INTERFACES.md').read_text(encoding='utf-8-sig')
+            row['summary']='PC display, physical notes and essential gameplay HUD with modal visibility restoration.'
+    feedback_id='page-ui-gameplay-feedback'
+    feedback_text=(ROOT/'Data/GAMEPLAY_FEEDBACK.md').read_text(encoding='utf-8-sig')
+    feedback_page='<div id="'+feedback_id+'" class="doc-page">'+prose(feedback_text)+'</div>'
+    position=next((i for i,page in enumerate(pages) if 'id="'+feedback_id+'"' in page),None)
+    if position is None:
+        pages.append(feedback_page)
+        item='<li><a class="nav-item-link" data-page="'+feedback_id+'" href="#'+feedback_id+'">Essential gameplay feedback</a></li>'
+        nav,count=re.subn(r'<li>\s*<a\b[^>]*data-page="page-ui-computer".*?</li>',lambda m:m[0]+item,nav,count=1,flags=re.S)
+        assert count==1,'UI category anchor missing'
+        index.append({'id':feedback_id,'title':'Essential gameplay feedback','category':'UI','keywords':'crosshair prompts carrying building combo captions portal hud minimal UI','summary':'Restored gameplay feedback and temporary hiding for PC/physical notes.','text':feedback_text})
+    else:
+        pages[position]=feedback_page
+        next(row for row in index if row['id']==feedback_id)['text']=feedback_text
     archive_id='page-development-archive'
     archive_text=(ROOT/'Data/DOCUMENTATION.md').read_text(encoding='utf-8-sig')
     archive_page='<div id="'+archive_id+'" class="doc-page">'+prose(archive_text)+'</div>'
@@ -58,6 +75,7 @@ def build():
         pages[existing]=archive_page
         next(row for row in index if row['id']==archive_id)['text']=archive_text
     page_ids=[id for id,classes,part in parts if 'doc-page' in classes]
+    if feedback_id not in page_ids: page_ids.append(feedback_id)
     if archive_id not in page_ids: page_ids.insert(0,archive_id)
     assert len(page_ids)==len(set(page_ids)) and len(index)==len(page_ids)
     assert {row['id'] for row in index}==set(page_ids)

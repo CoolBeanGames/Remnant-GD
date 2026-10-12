@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Keep the prompts.",
+    "kind": "Development history",
+    "local": "development_summary.html#gameplay-feedback",
+    "online": "../index.html#gameplay-feedback",
+    "description": "Crosshair, dynamic look/carry/build prompts, text-only combo, brief portal status and story captions return. The real PC screen and physical notes remain."
+  },
+  {
     "title": "One record. One design.",
     "kind": "Development history",
     "local": "development_summary.html#documentation-archive",
@@ -18,7 +25,7 @@
     "kind": "Development history",
     "local": "development_summary.html#world-interfaces",
     "online": "../index.html#world-interfaces",
-    "description": "Upgrade purchases on the real PC. Notes held as lit paper. Normal gameplay has no HUD."
+    "description": "Historical draft: purchases moved onto the real PC and notes became lit paper. Essential gameplay HUD was subsequently restored; see the current gameplay feedback chapter."
   },
   {
     "title": "One door. Three destinations.",
@@ -117,6 +124,13 @@
     "local": "development_summary.html#controls",
     "online": "../index.html#controls",
     "description": "Preserved development chapter and verification."
+  },
+  {
+    "title": "Restored crosshair, carry and build prompts",
+    "kind": "Rendered gallery",
+    "local": "HUDFeedback/index.html",
+    "online": "../HUDFeedback/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "PC screen and physical notes",

@@ -7,12 +7,16 @@ var pulse: float = 0.0
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	GrindCombo.combo_changed.connect(refresh)
 	GrindCombo.combo_paid.connect(_show_payout)
 	refresh()
 
 
 func _process(delta: float) -> void:
+	visible = not get_tree().paused and not Blackboard.read_data("player_input_blocked") and not DevTools.any_modal_open()
+	if get_tree().paused:
+		return
 	payout_time = maxf(0.0, payout_time - delta)
 	pulse = maxf(0.0, pulse - delta * 3.0)
 	$Position/Panel.scale = Vector2.ONE

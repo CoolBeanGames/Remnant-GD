@@ -9,7 +9,7 @@ Complete the requested gameplay or tooling change through the project's current 
 
 ## UI presentation preference
 
-For this user's Godot projects, keep traditional on-screen UI as minimal as possible. Prefer information and interactions in the game world whenever practical, such as physical computer screens, signs and held notes. Old-school UI is acceptable for initial drafts and prototypes; when refining them, move suitable displays and interactions into the world. Respect explicit project requirements and another owner's UI direction when reusing the skill.
+For this user's Godot projects, keep traditional on-screen UI as minimal as possible. Keep essential gameplay feedback such as the crosshair, interaction/carry/build prompts, combo text and story messages unless the user explicitly asks to remove it. Keep controls and feedback usable while reducing unnecessary menu and panel clutter. Prefer information and interactions in the game world whenever practical, such as physical computer screens, signs and held notes. Old-school UI is acceptable for initial drafts and prototypes; when refining them, move suitable displays and interactions into the world. Respect explicit project requirements and another owner's UI direction when reusing the skill.
 
 ## Begin with the project and its issue inbox
 

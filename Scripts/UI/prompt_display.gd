@@ -19,6 +19,7 @@ var toggle_prompt := prompt_entry.new()
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	air_prompt.text = "Lock In Air"
 	air_prompt.action = &"place_in_air"
@@ -66,7 +67,7 @@ func refresh() -> void:
 		toggle_prompt.text = "Turn Off" if pickup.held_object.powered else "Turn On"
 		entries.append(toggle_prompt)
 		texts.append(toggle_prompt.get_display_text())
-	if Blackboard.read_data("player_input_blocked"):
+	if Blackboard.read_data("player_input_blocked") or get_tree().paused or DevTools.any_modal_open():
 		entries.clear()
 		texts.clear()
 	if texts == displayed_texts:

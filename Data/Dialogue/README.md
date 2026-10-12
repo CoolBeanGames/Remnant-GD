@@ -1,6 +1,6 @@
 # Authoring dialogue
 
-Normal gameplay sets show_text=false on DialoguePlayer. Voices/sequences/E advance/once flags remain. Captions are optional in other scenes. World viewing sessions own input before dialogue. See Data/WORLD_INTERFACES.md.
+Normal gameplay enables story/dialogue text. show_text remains configurable; PC/note viewing temporarily hides captions while preserving voice/sequence timing. World viewing sessions own input before dialogue. See Data/WORLD_INTERFACES.md.
 
 The normal testing level includes `Scenes/UI/dialogue_player.tscn`. Its bottom-screen Text label is reusable and has no panel. Edit that scene to change its font, colour, margins, wrapping and outline. Optional voiceover uses the existing pooled Audio system on Vocals by default, so it remains audible during the initial room's SFX gate. Set Voice Bus on DialoguePlayer to another existing bus if needed.
 

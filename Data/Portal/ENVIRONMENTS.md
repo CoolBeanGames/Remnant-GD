@@ -2,7 +2,7 @@
 
 ## In-game test
 
-After leaving the concrete room and letting it vanish unseen, E opens the retained Strange Door. F9 selects apartment, warehouse, hospital, then wraps. The destination is stored in the Blackboard; normal gameplay has no portal HUD. F9 is a host gameplay shortcut, not an addon modal. Menus/wake-up/respawn room/keyboard repeat cannot activate it. Later story triggers can call DoorPortal.select_destination(&"hospital") and await destination_changed.
+After leaving the concrete room and letting it vanish unseen, E opens the retained Strange Door. F9 selects apartment, warehouse, hospital, then wraps. The destination is stored in the Blackboard; a brief text-only portal status confirms the destination. F9 is a host gameplay shortcut, not an addon modal. Menus/wake-up/respawn room/keyboard repeat cannot activate it. Later story triggers can call DoorPortal.select_destination(&"hospital") and await destination_changed.
 
 ## Editable scene files
 

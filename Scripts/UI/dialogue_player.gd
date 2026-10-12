@@ -82,6 +82,7 @@ func _stop_voice() -> void:
 	voice_playback_id = -1
 
 func _process(delta: float) -> void:
+	label.visible = show_text and Blackboard.read_data("world_view_session") == null
 	if current == null:
 		return
 	var line: dialogue_line = current.lines[line_index]
