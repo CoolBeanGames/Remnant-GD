@@ -5,6 +5,7 @@ var level: level_sequence
 var portal: door_portal
 var player: CharacterBody3D
 var movement: Node
+var capture_directory: String = ""
 
 func check(ok: bool, message: String) -> void:
 	if not ok:
@@ -43,7 +44,17 @@ func walk_through(frame: Node3D, finished: Callable) -> void:
 	Input.action_release("forward")
 	player.velocity = Vector3.ZERO
 
+func capture(name: String) -> void:
+	if capture_directory.is_empty() or DisplayServer.get_name() == "headless":
+		return
+	player.get_node("Camera3D/RayCast3D")._physics_process(0.0)
+	await tick()
+	await RenderingServer.frame_post_draw
+	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + name + ".png") == OK, "Actual return-door frame saved")
+
 func _ready() -> void:
+	if DisplayServer.get_name() != "headless":
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_NO_FOCUS, true)
 	run.call_deferred()
 
 func run() -> void:
@@ -74,6 +85,15 @@ func run() -> void:
 	portal.door.animation.advance(portal.door.animation.current_animation_length)
 	await walk_through(portal.source_frame, func() -> bool: return portal.inside)
 	check(portal.inside and player.collision_mask == portal_space.ROOM_LAYER, "Real capsule movement enters the paid memory")
+	var initial_room: WeakRef = weakref(portal.room)
+	await walk_through(portal.destination_frame, func() -> bool: return not portal.inside)
+	check(portal.active and portal.inside and initial_room.get_ref() == portal.room and portal.destination_frame.to_local(player.global_position).z > 0, "Actual capsule cannot walk out of an incomplete memory; its room stays live")
+	var return_door: portal_return_door = portal.room.find_children("*", "portal_return_door", true, false)[0]
+	check(return_door.get_look_prompts().entries[0].text == "Complete Memory to Return", "Return door explains its completion lock through the existing world prompts")
+	var was_open: bool = portal.door.is_open
+	return_door.interact()
+	check(portal.door.is_open == was_open, "An unfinished return door does not toggle the shared door")
+	await capture("locked")
 	var actor: Node3D = WorldState.spawn_item(load("res://Scenes/test_object.tscn"), level, Transform3D(Basis.IDENTITY, portal.destination_frame.to_global(Vector3(.7, -.4, 1))), false, true)
 	var body: RigidBody3D = WorldState._bodies(actor)[0]
 	body.freeze = true
@@ -89,9 +109,16 @@ func run() -> void:
 	check(player.global_position.distance_to(saved_pose.origin) < .01 and player.collision_mask == portal_space.ROOM_LAYER, "Continue preserves the actual inside player position and collision space")
 	actor = WorldState._actor(actor_id)
 	check(is_instance_valid(actor) and actor.get_meta("portal_inside", false), "Continue restores original saved cargo into the memory space")
+	await walk_through(portal.destination_frame, func() -> bool: return not portal.inside)
+	check(portal.active and portal.inside and portal.return_gate.collision_layer == portal_space.ROOM_LAYER, "Continue restores the incomplete return barrier")
 	Flags.set_flag("memory 1 complete", true)
+	await tick()
+	check(portal.return_gate.collision_layer == 0, "Completion removes the return barrier")
 	check(portal.active and portal.inside, "Completing a memory does not erase it while occupied")
-	portal.door.interact()
+	var restored_door: portal_return_door = portal.room.find_children("*", "portal_return_door", true, false)[0]
+	check(restored_door.get_look_prompts().entries[0].text != "Complete Memory to Return", "Completion restores normal return-door prompts")
+	await capture("complete")
+	restored_door.interact()
 	portal.door.animation.advance(portal.door.animation.current_animation_length)
 	var old_room: WeakRef = weakref(portal.room)
 	await walk_through(portal.destination_frame, func() -> bool: return not portal.active)
@@ -108,5 +135,5 @@ func run() -> void:
 	pool.queue_free()
 	await tick()
 	SaveGame.reset_save()
-	print("Memory portals / production purchase / real walking / inside save-continue / explicit completion / return closure / cargo: ", "PASS" if failures.is_empty() else failures)
+	print("Memory portals / production purchase / real walking / inside save-continue / blocked return / restored barrier / completed exit / cargo: ", "PASS" if failures.is_empty() else failures)
 	get_tree().quit(0 if failures.is_empty() else 1)

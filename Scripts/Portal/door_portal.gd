@@ -25,6 +25,7 @@ var source_frame: Marker3D
 var destination_frame: Node3D
 var source_surface: MeshInstance3D
 var return_surface: MeshInstance3D
+var return_gate: StaticBody3D
 var viewport: SubViewport
 var portal_camera: Camera3D
 var camera: Camera3D
@@ -134,8 +135,26 @@ func _install_room(instance: Node3D) -> bool:
 		var return_door: Node3D = return_door_scene.instantiate() as Node3D
 		return_door.set_script(preload("res://Scripts/Portal/portal_return_door.gd"))
 		return_door.target = door
+		return_door.portal = self
 		room.add_child(return_door)
 		return_door.global_transform = destination_frame.global_transform * Transform3D(Basis.IDENTITY, -source_offset)
+	return_gate = StaticBody3D.new()
+	return_gate.name = "MemoryReturnGate"
+	return_gate.collision_layer = 0
+	return_gate.collision_mask = 0
+	var shape := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = Vector3(aperture.x, aperture.y, .08)
+	shape.shape = box
+	return_gate.add_child(shape)
+	destination_frame.add_child(return_gate)
+	var prompts := object_prompts.new()
+	prompts.prompts = prompt_set.new()
+	var hint := prompt_entry.new()
+	hint.text = "Complete Memory to Return"
+	prompts.prompts.entries.append(hint)
+	return_gate.add_child(prompts)
+	_refresh_return_gate()
 	return true
 
 func _destination(id: StringName) -> portal_destination:
@@ -218,14 +237,27 @@ func open_memory(id: StringName, destination_id: StringName) -> bool:
 	DevTools.log_info("Opened %s / %s" % [id, destination_id], "memories")
 	return true
 
+func memory_complete() -> bool:
+	var entry: computer_entry = Progression.entries.get(memory_id)
+	return entry != null and not entry.completion_flag.is_empty() and Flags.check_flag(entry.completion_flag)
+
+func _refresh_return_gate() -> void:
+	if not is_instance_valid(return_gate):
+		return
+	var mask: int = portal_space.ROOM_LAYER if not memory_id.is_empty() and not memory_complete() else 0
+	if return_gate.collision_layer != mask:
+		return_gate.collision_layer = mask
+
 func _close_memory() -> void:
-	if inside or not active:
+	if inside or not active or not memory_complete():
 		closing_memory = false
 		return
 	_evacuate_room_items()
 	var finished_id: StringName = memory_id
 	active = false
 	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	source_surface.hide()
+	room.hide()
 	source_frame.free()
 	room.free()
 	viewport.free()
@@ -234,6 +266,7 @@ func _close_memory() -> void:
 	room = null
 	destination_frame = null
 	return_surface = null
+	return_gate = null
 	viewport = null
 	portal_camera = null
 	memory_id = &""
@@ -393,6 +426,7 @@ func crosses_aperture(frame: Node3D, previous: Vector3, current: Vector3) -> boo
 	return absf(point.x) < aperture.x * .5 and absf(point.y) < aperture.y * .5
 
 func _physics_process(_delta: float) -> void:
+	_refresh_return_gate()
 	if not active or suspended:
 		return
 	var from: Node3D = destination_frame if inside else source_frame
@@ -403,6 +437,9 @@ func _physics_process(_delta: float) -> void:
 	_transfer_loose_items()
 
 func teleport_player(pose_map: Transform3D) -> void:
+	if inside and not memory_id.is_empty() and not memory_complete():
+		DevTools.log_info("Return blocked until %s is complete." % memory_id, "memories")
+		return
 	var pickup: player_pickup = player.get_node("Controllers/Player_Pickup")
 	var placement: prop_placement = player.get_node("Controllers/Prop_Placement")
 	if placement.is_building():
@@ -427,7 +464,7 @@ func teleport_player(pose_map: Transform3D) -> void:
 	WorldState._physics_process(0.0)
 	WorldState.capture()
 	crossed.emit(inside)
-	if not inside and not memory_id.is_empty():
+	if not inside and not memory_id.is_empty() and memory_complete():
 		closing_memory = true
 		_close_memory.call_deferred()
 

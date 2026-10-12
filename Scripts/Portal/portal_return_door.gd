@@ -2,6 +2,7 @@ class_name portal_return_door
 extends Node3D
 
 var target: start_room_door
+var portal: door_portal
 var animation: AnimationPlayer
 var last_animation: StringName = &""
 var last_animation_position: float = -1.0
@@ -39,12 +40,17 @@ func sync_animation() -> void:
 	animation.stop(true)
 
 func get_look_prompts() -> prompt_set:
+	if _return_locked():
+		return object_prompts.find_for(portal.return_gate).prompts
 	return target.prompt_component.prompts if is_instance_valid(target) else null
 
 func interact() -> void:
-	if not is_instance_valid(target):
+	if not is_instance_valid(target) or _return_locked():
 		return
 	target.interact()
+
+func _return_locked() -> bool:
+	return is_instance_valid(portal) and portal.inside and not portal.memory_id.is_empty() and not portal.memory_complete()
 
 func _play_open_sound() -> void:
 	Audio.play_3d(target.open_sound, global_position, target.open_sound_volume, target.open_sound_pitch, target.open_sound_bus)

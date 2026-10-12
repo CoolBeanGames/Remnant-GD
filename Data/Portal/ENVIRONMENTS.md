@@ -2,7 +2,7 @@
 
 ## In-game test
 
-After leaving the concrete room and letting it vanish unseen, buy Memory 1/2/3 at the computer for its apartment/warehouse/hospital portal. E opens the retained Strange Door. Returning closes a paid portal and safely evacuates saved cargo. Completion flags gate further memory purchases; unfinished memories reopen for free. See Data/Computer/MEMORY_UPGRADES.md. F9 remains a debug preview when no paid memory is active or unfinished; it selects apartment, warehouse, hospital, then wraps. The destination is stored in the Blackboard; a brief text-only portal status confirms the destination. F9 is a host gameplay shortcut, not an addon modal. Menus/wake-up/respawn room/keyboard repeat cannot activate it. Later story triggers can call DoorPortal.select_destination(&"hospital") and await destination_changed.
+After leaving the concrete room and letting it vanish unseen, buy Memory 1/2/3 at the computer for its apartment/warehouse/hospital portal. E opens the retained Strange Door. The paid return doorway blocks travel until that memory's Completion Flag is true; its existing world prompt explains the lock. Returning afterward closes the portal and safely evacuates saved cargo. Completion flags also gate further memory purchases. See Data/Computer/MEMORY_UPGRADES.md. F9 remains a debug preview when no paid memory is active or unfinished; it selects apartment, warehouse, hospital, then wraps. The destination is stored in the Blackboard; a brief text-only portal status confirms the destination. F9 is a host gameplay shortcut, not an addon modal. Menus/wake-up/respawn room/keyboard repeat cannot activate it. Later story triggers can call DoorPortal.select_destination(&"hospital") and await destination_changed.
 
 ## Editable scene files
 
@@ -37,3 +37,10 @@ Use Tests/portal_destinations_test.tscn for actual capsule movement, inventory/l
 Tests/portal_destinations_visual_test.tscn runs with a real renderer and writes Reports/PortalEnvironments/*.png. The gallery includes doorway/direct poses, furnished interiors, the warehouse catwalk, hospital ward and station. Review every capture; headless physics does not prove lighting/material appearance. Portal rendering is perspective/HDR matched but is not recursive or a remote interaction ray. Baked furniture is scenery, and future storytelling interactions remain a separate task.
 
 Windows delivery also passed editor import, release export and an isolated 90-frame exported startup. An additional rendered probe loaded the release Remnant.pck with the matching Godot 4.7.2 console engine, exercised F9 through all three destinations, checked their collision bodies and saved three actual room images. All three images were opened and reviewed. This probe checks packaged content/rendering; it is distinct from the release EXE startup check. The build manifest records its pre-commit source HEAD and the explicit worktree changes.
+
+
+## Completed memory returns
+
+A paid return portal blocks the player physically and through teleport_player until its configured completion flag is true. The existing door/world prompts explain Complete Memory to Return, and locked interaction cannot toggle the shared door. Continue recreates the return barrier from the saved flag. Explicit completion enables returning without removing an occupied room; actual completed return safely moves saved cargo out, closes the door and releases the area. Script/API identities are in Data/Computer/MEMORY_UPGRADES.md. Debug previews retain ordinary two-way travel.
+
+Portal render remapping now unpairs a live instance from its scenario before changing render/light masks, then rejoins that same world. This avoids Godot's stale light pairs during completed cargo return and room unloading; masks are changed only when needed. See [upstream engine issue](https://github.com/godotengine/godot/issues/121989). The real Forward+/D3D12 walking/save/return fixture verifies this path with inspected logs.

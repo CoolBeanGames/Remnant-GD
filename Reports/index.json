@@ -182,6 +182,13 @@
     "description": "Three one-time score purchases open the apartment, warehouse and hospital through the Strange Door."
   },
   {
+    "title": "Complete the memory. Then return.",
+    "kind": "Development history",
+    "local": "development_summary.html#memory-return-lock",
+    "online": "../index.html#memory-return-lock",
+    "description": "The exit now waits for the memory's saved completion flag. Walking back early cannot close or unload the area."
+  },
+  {
     "title": "Rail stations, lever upgrades and prestige permission",
     "kind": "Rendered gallery",
     "local": "RailStations/index.html",
