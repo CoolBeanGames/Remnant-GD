@@ -9,7 +9,10 @@ enum Tab { MECHANICS, SELF, STORE, MULCH }
 @export_range(0, 1000000, 1) var base_cost: int = 10
 @export_range(1.0, 10.0) var cost_multiplier: float = 3.0
 @export var escalating_store_price: bool = false
-## Zero means unlimited. Store entries are always repeatable.
+## Score earned across runs, rather than current spendable balance; zero is immediate.
+@export_range(0, 1000000, 1) var reveal_lifetime_score: int = 0
+@export var single_purchase: bool = false
+## Zero means unlimited. Store entries repeat unless single_purchase is enabled.
 @export_range(0, 100, 1) var max_level: int = 5
 ## Regular score upgrades can unlock a saved run flag without numeric effects.
 @export var unlock_flag: String = ""

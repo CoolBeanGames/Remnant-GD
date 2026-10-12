@@ -118,6 +118,13 @@ func run() -> void:
 	WorldState._physics_process(0)
 	check(Blackboard.read_data("player_camera_rotation").is_equal_approx(original_rotation), "Autosave records gameplay look instead of terminal focus pose")
 	await capture("terminal_mechanics")
+	await key(KEY_F1)
+	check(IssueReporter.is_open and get_tree().paused, "F1 opens over the connected PC")
+	IssueReporter.description.text = "A long wrapped issue description. ".repeat(18)
+	await capture("terminal_issue_report")
+	IssueReporter.close_report()
+	await frames()
+	check(not get_tree().paused and terminal.session != null and Blackboard.read_data("player_input_blocked") == true, "Closing F1 restores the connected PC and its movement lock")
 	# Genuine screen-coordinate tab and purchase clicks, not direct purchase calls.
 	terminal.interface.tabs.current_tab = 2
 	await frames(12)

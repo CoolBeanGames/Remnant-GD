@@ -11,6 +11,7 @@ signal finished
 @export var first_dialogue: dialogue_sequence = preload("res://Data/Dialogue/first_spawn.tres")
 @export var respawn_dialogue: dialogue_sequence = preload("res://Data/Dialogue/respawn.tres")
 @export var slide_sounds: Array[AudioStream] = [preload("res://Audio/SFX/slide_1.wav"), preload("res://Audio/SFX/slide_2.wav")]
+@export_range(0, 2, .01) var slide_volume: float = .25
 @export var effort_sounds: Array[AudioStream] = [preload("res://Audio/Vocals/vo__jump_1.wav"), preload("res://Audio/Vocals/vo__jump_2.wav")]
 @export var death_sounds: Array[AudioStream] = [preload("res://Audio/Vocals/vo__death_1.wav"), preload("res://Audio/Vocals/vo__death_2.wav"), preload("res://Audio/Vocals/vo__death_3.wav"), preload("res://Audio/Vocals/vo__death_4.wav")]
 @export var death_fade_seconds: float = .65
@@ -107,7 +108,7 @@ func _process(delta: float) -> void:
 	_apply_pose(pose_time)
 	while cue_index < 2 and pose_time >= [1.3, 3.65][cue_index]:
 		if slide_sounds.size() > cue_index:
-			Audio.play_global(slide_sounds[cue_index], 1.0, 1.0, &"RoomSFX")
+			Audio.play_global(slide_sounds[cue_index], slide_volume, 1.0, &"RoomSFX")
 		if not effort_sounds.is_empty():
 			Audio.play_global(effort_sounds.pick_random(), .7, 1.0, &"Vocals")
 		cue_index += 1

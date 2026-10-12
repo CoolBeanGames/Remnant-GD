@@ -30,7 +30,7 @@
     "rear",
     "detail"
   ],
-  "render_samples": 80,
+  "render_samples": 32,
   "render_device": "GPU",
   "moving_part": {
     "pivot": "PIVOT | hospital door hinge",

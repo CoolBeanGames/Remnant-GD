@@ -17,3 +17,5 @@ title = "Plate Rebound"
 description = "Future plate purchases: +0.10 bounce per level."
 base_cost = 30
 effects = Array[ExtResource("effect")]([SubResource("Effect0")])
+
+reveal_lifetime_score = 100

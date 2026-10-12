@@ -42,7 +42,7 @@ func run() -> void:
 	check(pc.buy(Progression.entries[&"buy_mulcher"]).is_empty() and is_instance_valid(Mulch.station), "Store purchase installs mulcher directly onto grinder")
 	check(Mulch.station.get_node("DamageGrid").text.count("\n") == 10, "Damage grid has ten actual rows")
 	var before: int = Progression.score()
-	check(pc.buy(Progression.entries[&"buy_mulcher"]) == "Mulcher already installed." and Progression.score() == before, "Installed machine cannot be purchased twice")
+	check(not pc.buy(Progression.entries[&"buy_mulcher"]).is_empty() and Progression.score() == before, "Installed machine cannot be purchased twice")
 	check(not Mulch.tab_unlocked(), "One purchase does not unlock Mulch")
 	check(pc.buy(Progression.entries[&"buy_mulch_bin"]).is_empty() and Mulch.tab_unlocked(), "Bin delivery unlocks the fourth tab")
 	var ui: computer_ui = load("res://Scenes/UI/computer_ui.tscn").instantiate()

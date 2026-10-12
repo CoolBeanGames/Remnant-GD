@@ -161,3 +161,6 @@ cycle_light_colour={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+
+[audio]
+driver/enable_input=true

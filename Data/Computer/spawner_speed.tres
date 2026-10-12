@@ -16,3 +16,5 @@ title = "Spawner Speed"
 description = "All automatic spawners produce items 20% sooner per level, including ones already placed."
 base_cost = 250
 effects = Array[ExtResource("effect")]([SubResource("Effect")])
+
+reveal_lifetime_score = 4500

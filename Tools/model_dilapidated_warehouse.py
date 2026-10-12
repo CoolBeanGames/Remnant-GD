@@ -168,6 +168,7 @@ railing('Catwalk hall edge',(8.95,-3,cat_z),(8.95,8.95,cat_z))
 railing('Catwalk outer edge',(10.75,-3,cat_z),(10.75,10.60,cat_z))
 railing('Catwalk return rail',(.10,9.0,cat_z),(8.90,9.0,cat_z))
 railing('Catwalk return end',(.10,9.0,cat_z),(.10,10.60,cat_z))
+railing('Catwalk rear gap guard',(.10,10.60,cat_z),(3.90,10.60,cat_z))
 for i in range(24):
     y=-9.815+i*.29;z=(i+1)*.175
     w.box('Steel stair tread',(9.85,y,z-.032),(1.80,.29,.064),rust,.006)

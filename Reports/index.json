@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Thirty reports. One more pass.",
+    "kind": "Development history",
+    "local": "development_summary.html#october-issue-pass",
+    "online": "../index.html#october-issue-pass",
+    "description": "The local F1 inbox becomes fixes to the workshop, memories, progression and physical art—plus optional camera and microphone recording."
+  },
+  {
     "title": "Load. Ride. Eject.",
     "kind": "Development history",
     "local": "development_summary.html#rail-stations",
@@ -187,6 +194,13 @@
     "local": "development_summary.html#memory-return-lock",
     "online": "../index.html#memory-return-lock",
     "description": "The exit now waits for the memory's saved completion flag. Walking back early cannot close or unload the area."
+  },
+  {
+    "title": "October issue pass: engine checks and revised art",
+    "kind": "Rendered gallery",
+    "local": "IssueBatch/index.html",
+    "online": "../IssueBatch/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "Rail stations, lever upgrades and prestige permission",

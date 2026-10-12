@@ -9,7 +9,10 @@ description = "Deposit pellets physically to bank permanent mulch coins."
 tab = 2
 base_cost = 500
 cost_multiplier = 1.8
-max_level = 0
+max_level = 1
+single_purchase = true
 installation = "mulch_bin"
 delivery_scene = ExtResource("delivery")
-escalating_store_price = true
+escalating_store_price = false
+
+reveal_lifetime_score = 1400

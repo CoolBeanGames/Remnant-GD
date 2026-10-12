@@ -10,9 +10,9 @@
   ],
   "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
   "mesh_objects": 31,
-  "triangles": 14756,
+  "triangles": 18184,
   "packed_images": 9,
-  "render_samples": 64,
+  "render_samples": 32,
   "render_device": "GPU",
   "blender": "4.5.1 LTS",
   "views": [

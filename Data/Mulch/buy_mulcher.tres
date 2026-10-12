@@ -10,3 +10,6 @@ base_cost = 1000
 cost_multiplier = 3.0
 max_level = 1
 installation = "mulcher"
+single_purchase = true
+
+reveal_lifetime_score = 1800

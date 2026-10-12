@@ -7,6 +7,7 @@ signal combo_paid(points: int, multiplier: float, items: int)
 @export var window_decrease: float = 0.4
 @export var minimum_window: float = 0.5
 @export var multiplier_step: float = 0.5
+@export var maximum_multiplier: float = 15.0
 
 var item_count: int = 0
 var base_points: int = 0
@@ -25,7 +26,7 @@ func _process(delta: float) -> void:
 
 
 func multiplier() -> float:
-	return 1.0 + maxi(0, item_count - 1) * maxf(0.0, multiplier_step)
+	return minf(maxf(1.0, maximum_multiplier), 1.0 + maxi(0, item_count - 1) * maxf(0.0, multiplier_step))
 
 
 func pending_points() -> int:

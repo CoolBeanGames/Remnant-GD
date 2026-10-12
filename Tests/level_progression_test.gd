@@ -60,6 +60,7 @@ func run() -> void:
 	check(actor.is_queued_for_deletion(), "Fallen physical item is culled")
 	check(Progression.score() == 30, "Culling awards no score")
 	Blackboard.store_data("score", 500)
+	SaveGame.profile["lifetime_score"] = 4500 # Offer discovery; balance still tests its real cost.
 	var upgrade: computer_entry = load("res://Data/Computer/spawner_speed.tres")
 	check(Progression.purchase(upgrade, level, null, level.player).is_empty(), "Spawner upgrade can be bought")
 	check(is_equal_approx(spawner.spawn_interval, 6.4), "Upgrade speeds an existing spawner up by 20 percent")

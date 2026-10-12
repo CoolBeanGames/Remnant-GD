@@ -31,6 +31,7 @@ var step_grace: float = 0.0
 var wind_velocity: Vector3 = Vector3.ZERO
 var applied_wind: Vector3 = Vector3.ZERO
 var step_ceiling := KinematicCollision3D.new()
+var step_obstacle := KinematicCollision3D.new()
 @export var wind_drag: float = 3.0
 var platform_reset_pending: bool = false
 var previous_rail_platform: bool = false
@@ -176,7 +177,12 @@ func _try_step(motion: Vector3) -> bool:
 	if (not character_body.is_on_floor() and step_grace <= 0.0) or motion.is_zero_approx() or step_height <= 0.0:
 		return false
 	var pose: Transform3D = character_body.global_transform
-	if not character_body.test_move(pose, motion):
+	if not character_body.test_move(pose, motion, step_obstacle):
+		return false
+	# Authored continuous stair ramps use native slope motion. The forward
+	# step probe otherwise samples higher up the ramp and teleports the capsule.
+	var obstacle: Object = step_obstacle.get_collider()
+	if obstacle is Node and obstacle.is_in_group("smooth-walking-surface"):
 		return false
 	var up: Vector3 = Vector3.UP * step_height
 	if character_body.test_move(pose, up, step_ceiling) and step_ceiling.get_normal().dot(Vector3.DOWN) > 0.5:

@@ -231,7 +231,7 @@ func _read_payload() -> Dictionary:
 func _restore_profile(payload: Dictionary) -> void:
 	var value: Variant = _decode(payload.get("profile", {}))
 	if value is Dictionary:
-		profile = {"mulch_coins": maxi(0, int(value.get("mulch_coins", 0))), "mulch_upgrades": value.get("mulch_upgrades", {}).duplicate(true), "settings": value.get("settings", {}).duplicate(true)}
+		profile = {"mulch_coins": maxi(0, int(value.get("mulch_coins", 0))), "mulch_upgrades": value.get("mulch_upgrades", {}).duplicate(true), "settings": value.get("settings", {}).duplicate(true), "lifetime_score": maxi(0, int(value.get("lifetime_score", 0))), "mulcher_unlocked": bool(value.get("mulcher_unlocked", payload.get("flags", {}).get("mulcher purchased", false)))}
 
 func load_profile() -> void:
 	var payload: Dictionary = _read_payload()

@@ -4,7 +4,7 @@ Before getting started, become familiar with this repository: read AGENTS.md, gu
 
 ## In the game
 
-Press **F1** from gameplay, title, or a paused menu. The game captures its rendered window **before** showing WHAT'S WRONG?, pauses simulation and exposes the mouse. Describe the bug or requested change and choose SAVE REPORT. Empty reports are rejected. Close/Escape returns to the exact prior pause, mouse and input-lock state. A failed write keeps the text available to retry. Cancel saves nothing.
+Press **F1** from gameplay, title, a paused menu or the focused PC. The game captures its rendered window **before** showing WHAT'S WRONG?, pauses simulation and exposes the mouse. The description wraps automatically. Choose SAVE REPORT; successful submission closes the popup and restores the exact prior pause, mouse and input-lock state. Empty reports are rejected. A failed write keeps the text available to retry. Close/Escape cancels without saving.
 
 Reports live in `.issues/inbox/<timestamp-id>/report.json` with sibling `screenshot.png` when running from this project. They are local and ignored by Git, not sent online. They survive New Game/Delete Save. Exported games use `user://issue_reports/inbox` because the packaged project is read-only; copy those report folders into this project's inbox for agent review. This records the game viewport, including existing HUD/menus, not other desktop applications. No agent is automatically launched; the next coding session reads the inbox.
 

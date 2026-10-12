@@ -48,11 +48,14 @@ func prestige_items_unlocked() -> bool:
 func tab_unlocked() -> bool:
 	return Flags.check_flag("mulcher purchased") and Flags.check_flag("mulch bin purchased")
 
+func installed_unlock() -> bool:
+	return bool(SaveGame.profile.get("mulcher_unlocked", false)) or Flags.check_flag("mulcher purchased")
+
 func bind_level(root: Node3D) -> void:
 	level = root
 	restore()
 	Progression.apply_effects(self, "mulcher")
-	if Flags.check_flag("mulcher purchased"):
+	if installed_unlock():
 		install()
 		_schedule_pellets()
 
@@ -67,6 +70,8 @@ func install() -> bool:
 		var mount: Node3D = grinder.get_node_or_null("MulcherMount") if grinder != null else null
 		station.global_transform = mount.global_transform if mount != null else Transform3D(Basis.IDENTITY, origin + Vector3(2.0, .55, 1.4))
 	Flags.set_flag("mulcher purchased", true)
+	SaveGame.profile["mulcher_unlocked"] = true
+	SaveGame.save_profile()
 	changed.emit()
 	return true
 

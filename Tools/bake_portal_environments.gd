@@ -5,8 +5,13 @@ extends SceneTree
 const OUTPUT: String = "res://Scenes/Environments/"
 var baked: Dictionary = {}
 var failures: Array[String] = []
+var stage_output: bool = false
+var staged_files: Array[String] = []
 
 func _initialize() -> void:
+	stage_output = OS.get_cmdline_user_args().has("--stage")
+	if stage_output:
+		DirAccess.remove_absolute("res://.godot/portal_bake/bake_manifest.json")
 	_build.call_deferred()
 
 func _read(path: String) -> Dictionary:
@@ -27,6 +32,12 @@ func _build() -> void:
 		var manifest: Dictionary = _read("res://Models/Interiors/%s/assembly_manifest.json" % folder)
 		_build_room("dilapidated_" + kind, manifest.instances, Vector3(0, 1.7195, 18.44 if kind == "warehouse" else 13.44))
 	print("Environment scene/collision bake: ", "PASS / %d shared art wrappers" % baked.size() if failures.is_empty() else failures)
+	if stage_output and failures.is_empty():
+		var manifest := FileAccess.open("res://.godot/portal_bake/bake_manifest.json", FileAccess.WRITE)
+		if manifest == null:
+			failures.append("Cannot write staging completion manifest")
+		else:
+			manifest.store_string(JSON.stringify({"version": 1, "files": staged_files}))
 	quit(0 if failures.is_empty() else 1)
 
 func _export_path(source: String) -> String:
@@ -68,6 +79,8 @@ func _bake_art(source: String) -> String:
 	var faces := PackedVector3Array()
 	for mesh: MeshInstance3D in model.find_children("*", "MeshInstance3D", true, false):
 		var lower: String = str(mesh.name).to_lower()
+		if "steel stair tread" in lower or "worn safety nosing" in lower:
+			continue
 		if mesh.mesh == null or "grime" in lower or "blood" in lower or "stain" in lower or "decal" in lower or "newsprint" in lower or "damp" in lower or "print" in lower:
 			continue
 		var pose: Transform3D = _relative_transform(model, mesh)
@@ -108,7 +121,16 @@ func _build_room(kind: String, placements: Array, entrance_position: Vector3) ->
 	var root := Node3D.new()
 	root.name = kind.to_pascal_case()
 	root.set_script(load("res://Scripts/Portal/portal_room.gd"))
-	root.set("environment", load("res://Data/Portal/interior_environment.tres"))
+	root.set("environment", load("res://Data/Portal/apartment_environment.tres" if kind == "furnished_apartment" else "res://Data/Portal/dark_environment.tres"))
+	root.set("suppress_player_light", true)
+	if kind == "furnished_apartment":
+		var left: Array[AudioStream] = []
+		var right: Array[AudioStream] = []
+		for index in range(1, 4):
+			left.append(load("res://Audio/SFX/Footsteps/Wood/wood_left_%d.wav" % index))
+			right.append(load("res://Audio/SFX/Footsteps/Wood/wood_right_%d.wav" % index))
+		root.set("left_foot_sounds", left)
+		root.set("right_foot_sounds", right)
 	var entrance := Marker3D.new()
 	entrance.name = "Entrance"
 	root.add_child(entrance)
@@ -139,24 +161,36 @@ func _build_room(kind: String, placements: Array, entrance_position: Vector3) ->
 		for side in [-1, 1]:
 			_box(root, "VestibuleWall", Vector3(1.76 + side * 1.13, 1.70, 3.90), Vector3(.14, 3.4, 1.8), Color(.32, .32, .27))
 		_box(root, "VestibuleCeiling", Vector3(1.76, 3.43, 3.9), Vector3(2.4, .14, 1.8), Color(.32, .32, .27))
-		_omni(lighting, Vector3(1.4, 2.45, -1.3), Color(.75, .85, .94), 1.65, 5.0, true)
-		_omni(lighting, Vector3(-2.95, 1.55, .4), Color(1, .71, .42), .95, 3.5, false)
-		_omni(lighting, Vector3(-2.65, 2.3, -2.1), Color(.78, .87, .86), .9, 3.0, false)
-		_omni(lighting, Vector3(1.76, 2.85, 3.88), Color(.78, .83, .8), .75, 3.4, false)
+		_omni(lighting, Vector3(1.4, 2.45, -1.3), Color(1, .58, .16), .32, 5.0, true)
+		_omni(lighting, Vector3(-2.95, 1.55, .4), Color(1, .49, .09), .18, 3.5, false)
+		_omni(lighting, Vector3(-2.65, 2.3, -2.1), Color(1, .58, .17), .12, 3.0, false)
+		_omni(lighting, Vector3(1.76, 2.85, 3.88), Color(1, .58, .17), .13, 3.4, false)
 	elif kind == "dilapidated_warehouse":
 		_box(root, "EntranceLanding", Vector3(0, -.08, 18.35), Vector3(4.0, .16, 1.2), Color(.23, .24, .22))
-		for z in [-12, -3, 7, 15]:
-			for x in [-6, 6]:
-				_omni(lighting, Vector3(x, 6.8, z), Color(.82, .89, .92), 2.3, 13.0, z == 7)
-		_omni(lighting, Vector3(7.4, 6.8, -13.6), Color(1, .78, .52), 1.8, 7, true)
+		_stair_ramp(root)
 	else:
 		_box(root, "EntranceLanding", Vector3(0, -.08, 13.25), Vector3(2.5, .16, 1.2), Color(.28, .30, .29))
-		for z in [-9.4, -4.5, 3.75, 9.4]:
-			_omni(lighting, Vector3(0, 2.9, z), Color(.76, .87, .86), 1.5, 7.5, z == 9.4)
-			for x in [-5.4, 5.4]:
-				_omni(lighting, Vector3(x, 2.85, z), Color(.88, .92, .83), 1.5, 6.5, false)
 	_save_scene(root, OUTPUT + kind + ".tscn")
 	root.free()
+
+func _stair_ramp(root: Node3D) -> void:
+	var body := StaticBody3D.new()
+	body.name = "StairWalkingSurface"
+	root.add_child(body)
+	body.owner = root
+	body.add_to_group("Floor", true)
+	body.add_to_group("smooth-walking-surface", true)
+	var collision := CollisionShape3D.new()
+	var shape := ConcavePolygonShape3D.new()
+	var a := Vector3(8.96, 0, 10.11)
+	var b := Vector3(10.74, 0, 10.11)
+	var c := Vector3(10.74, 4.205, 2.98)
+	var d := Vector3(8.96, 4.205, 2.98)
+	shape.set_faces(PackedVector3Array([a, b, c, a, c, d]))
+	shape.backface_collision = true
+	collision.shape = shape
+	body.add_child(collision)
+	collision.owner = root
 
 func _box(root: Node3D, name: String, position: Vector3, size: Vector3, color: Color) -> void:
 	var body := StaticBody3D.new()
@@ -194,9 +228,15 @@ func _omni(root: Node3D, position: Vector3, color: Color, energy: float, radius:
 	light.shadow_enabled = shadow
 
 func _save(resource: Resource, path: String) -> void:
-	var error: Error = ResourceSaver.save(resource, path)
+	# Optional staging avoids rewriting editor-watched resources mid-bake.
+	# External references retain their canonical scene paths when published.
+	var output: String = "res://.godot/portal_bake/" + path.trim_prefix(OUTPUT) if stage_output else path
+	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
+	var error: Error = ResourceSaver.save(resource, output)
 	if error != OK:
 		failures.append("Cannot save %s: %s" % [path, error])
+	elif stage_output:
+		staged_files.append(path.trim_prefix(OUTPUT))
 
 func _save_scene(root: Node3D, path: String) -> void:
 	var packed := PackedScene.new()

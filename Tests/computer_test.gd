@@ -40,7 +40,7 @@ func _run() -> void:
 	world.add_child(delivery)
 	terminal.delivery_point = delivery
 	world.add_child(terminal)
-	check(terminal.catalog.entries.size() == 42, "Editable catalog contains regular upgrades, approved tool upgrades, three memory unlocks, twelve store entries and nine permanent mulch upgrades.")
+	check(terminal.catalog.entries.size() == 45, "Editable catalog contains regular upgrades, approved tool upgrades, three memory unlocks, three combo upgrades, twelve store entries and nine permanent mulch upgrades.")
 	var old_fan: Node3D = load("res://Scenes/Actors/fan.tscn").instantiate()
 	old_fan.position = Vector3(20, 2, 20)
 	world.add_child(old_fan)
@@ -124,7 +124,7 @@ func _run() -> void:
 	await tick()
 	var ui: computer_ui = terminal.interface
 	check(ui.is_open and Blackboard.read_data("player_input_blocked") and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "E opens terminal and blocks gameplay input.")
-	check(ui.tabs.get_child(0).get_node("List").get_child_count() == 15 and ui.tabs.get_child(1).get_node("List").get_child_count() == 6 and ui.tabs.get_child(2).get_node("List").get_child_count() == 12 and ui.tabs.is_tab_hidden(3), "Computer presents expanded regular categories and locks Mulch until both purchases.")
+	check(ui.tabs.get_child(0).get_node("List").get_child_count() == 18 and ui.tabs.get_child(1).get_node("List").get_child_count() == 6 and ui.tabs.get_child(2).get_node("List").get_child_count() == 12 and ui.tabs.is_tab_hidden(3), "Computer presents expanded regular categories and locks Mulch until both purchases.")
 	ui._buy(Progression.entries[&"buy_light"])
 	check(Progression.score() == 990 and ui.score_label.text.contains("00000990"), "UI button buys a real delivery and refreshes credit.")
 	ui.close()

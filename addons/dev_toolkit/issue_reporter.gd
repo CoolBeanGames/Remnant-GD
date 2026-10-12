@@ -64,6 +64,8 @@ func _build_ui() -> void:
 	rows.add_child(hint)
 	description = TextEdit.new()
 	description.placeholder_text = "What happened? What should happen instead?"
+	description.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
+	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	description.custom_minimum_size = Vector2(520, 220)
 	rows.add_child(description)
 	status = Label.new()
@@ -120,6 +122,7 @@ func _submit() -> void:
 	submit.disabled = true
 	description.editable = false
 	issue_saved.emit(path)
+	close_report()
 
 func save_report(text: String, image: Image) -> String:
 	if text.strip_edges().is_empty() or image == null or image.is_empty():

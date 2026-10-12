@@ -25,7 +25,6 @@ var source_frame: Marker3D
 var destination_frame: Node3D
 var source_surface: MeshInstance3D
 var return_surface: MeshInstance3D
-var return_gate: StaticBody3D
 var viewport: SubViewport
 var portal_camera: Camera3D
 var camera: Camera3D
@@ -38,10 +37,21 @@ var active_destination_id: StringName = &""
 var switching: bool = false
 var memory_id: StringName = &""
 var closing_memory: bool = false
+## Cache resources in the background, while keeping just one instantiated area.
+var warmed_scenes: Dictionary[String, PackedScene] = {}
+var warming_paths: Array[String] = []
+var warm_queue: Array[String] = []
 var half_turn := Transform3D(Basis(Vector3.UP, PI), Vector3.ZERO)
 
 func _ready() -> void:
 	add_to_group("story-portal")
+	# The dummy renderer cannot safely create shared mesh RIDs on loader threads.
+	# Rendered games warm one scene at a time; headless tools load on demand.
+	if DisplayServer.get_name() != "headless":
+		for destination in destinations:
+			if destination != null and ResourceLoader.exists(destination.scene_path, "PackedScene") and not warm_queue.has(destination.scene_path):
+				warm_queue.append(destination.scene_path)
+		_start_next_warm()
 	if door == null or player == null:
 		return
 	camera = player.get_node("Camera3D")
@@ -69,7 +79,7 @@ func activate(debug_preview: bool = false) -> void:
 	var selected: portal_destination = _destination(StringName(str(Blackboard.read_data("portal_destination_id"))))
 	if selected == null and not destinations.is_empty():
 		selected = destinations[0]
-	var scene: PackedScene = load(selected.scene_path) as PackedScene if selected != null else destination_scene
+	var scene: PackedScene = _loaded_scene(selected.scene_path) if selected != null else destination_scene
 	if scene == null:
 		DevTools.log_error("Portal destination scene is missing.", "portal")
 		return
@@ -138,23 +148,6 @@ func _install_room(instance: Node3D) -> bool:
 		return_door.portal = self
 		room.add_child(return_door)
 		return_door.global_transform = destination_frame.global_transform * Transform3D(Basis.IDENTITY, -source_offset)
-	return_gate = StaticBody3D.new()
-	return_gate.name = "MemoryReturnGate"
-	return_gate.collision_layer = 0
-	return_gate.collision_mask = 0
-	var shape := CollisionShape3D.new()
-	var box := BoxShape3D.new()
-	box.size = Vector3(aperture.x, aperture.y, .08)
-	shape.shape = box
-	return_gate.add_child(shape)
-	destination_frame.add_child(return_gate)
-	var prompts := object_prompts.new()
-	prompts.prompts = prompt_set.new()
-	var hint := prompt_entry.new()
-	hint.text = "Complete Memory to Return"
-	prompts.prompts.entries.append(hint)
-	return_gate.add_child(prompts)
-	_refresh_return_gate()
 	return true
 
 func _destination(id: StringName) -> portal_destination:
@@ -162,6 +155,26 @@ func _destination(id: StringName) -> portal_destination:
 		if entry != null and entry.id == id:
 			return entry
 	return null
+
+func _loaded_scene(path: String) -> PackedScene:
+	warm_queue.erase(path)
+	if warmed_scenes.has(path):
+		return warmed_scenes[path]
+	if warming_paths.has(path):
+		var scene: PackedScene = ResourceLoader.load_threaded_get(path) as PackedScene
+		warming_paths.erase(path)
+		if scene != null:
+			warmed_scenes[path] = scene
+			DevTools.log_info("Memory resource ready / " + path.get_file(), "portal")
+		return scene
+	return load(path) as PackedScene
+
+func _start_next_warm() -> void:
+	if not warming_paths.is_empty() or warm_queue.is_empty():
+		return
+	var path: String = warm_queue.pop_front()
+	if ResourceLoader.load_threaded_request(path, "PackedScene") == OK:
+		warming_paths.append(path)
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo:
@@ -241,13 +254,6 @@ func memory_complete() -> bool:
 	var entry: computer_entry = Progression.entries.get(memory_id)
 	return entry != null and not entry.completion_flag.is_empty() and Flags.check_flag(entry.completion_flag)
 
-func _refresh_return_gate() -> void:
-	if not is_instance_valid(return_gate):
-		return
-	var mask: int = portal_space.ROOM_LAYER if not memory_id.is_empty() and not memory_complete() else 0
-	if return_gate.collision_layer != mask:
-		return_gate.collision_layer = mask
-
 func _close_memory() -> void:
 	if inside or not active or not memory_complete():
 		closing_memory = false
@@ -266,7 +272,6 @@ func _close_memory() -> void:
 	room = null
 	destination_frame = null
 	return_surface = null
-	return_gate = null
 	viewport = null
 	portal_camera = null
 	memory_id = &""
@@ -284,7 +289,7 @@ func _switch_destination(selected: portal_destination) -> void:
 	if not active or suspended:
 		switching = false
 		return
-	var scene: PackedScene = load(selected.scene_path) as PackedScene
+	var scene: PackedScene = _loaded_scene(selected.scene_path)
 	if scene == null or not scene.can_instantiate():
 		switching = false
 		return
@@ -366,6 +371,10 @@ func mapping(from: Node3D, to: Node3D) -> Transform3D:
 	return to.global_transform * half_turn * from.global_transform.affine_inverse()
 
 func _process(_delta: float) -> void:
+	for path in warming_paths.duplicate():
+		if ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_LOADED:
+			_loaded_scene(path)
+	_start_next_warm()
 	if active:
 		_update_view()
 
@@ -426,7 +435,6 @@ func crosses_aperture(frame: Node3D, previous: Vector3, current: Vector3) -> boo
 	return absf(point.x) < aperture.x * .5 and absf(point.y) < aperture.y * .5
 
 func _physics_process(_delta: float) -> void:
-	_refresh_return_gate()
 	if not active or suspended:
 		return
 	var from: Node3D = destination_frame if inside else source_frame
@@ -437,9 +445,6 @@ func _physics_process(_delta: float) -> void:
 	_transfer_loose_items()
 
 func teleport_player(pose_map: Transform3D) -> void:
-	if inside and not memory_id.is_empty() and not memory_complete():
-		DevTools.log_info("Return blocked until %s is complete." % memory_id, "memories")
-		return
 	var pickup: player_pickup = player.get_node("Controllers/Player_Pickup")
 	var placement: prop_placement = player.get_node("Controllers/Prop_Placement")
 	if placement.is_building():
@@ -469,6 +474,15 @@ func teleport_player(pose_map: Transform3D) -> void:
 		_close_memory.call_deferred()
 
 func _set_player_space() -> void:
+	var footsteps: footstep_audio = player.get_node_or_null("footstep_sound_players")
+	if room is portal_room and footsteps != null:
+		if inside:
+			footsteps.set_sound_override(room, room.left_foot_sounds, room.right_foot_sounds)
+		else:
+			footsteps.clear_sound_override(room)
+	var headlight: Light3D = player.get_node_or_null("Camera3D/SpotLight3D")
+	if headlight != null:
+		headlight.visible = not (inside and room is portal_room and room.suppress_player_light)
 	portal_space.apply_actor(player, inside)
 	player.get_node("Camera3D/RayCast3D").collision_mask = player.collision_mask
 	player.get_node("Camera3D/RayCast3D")._set_looked_at(null)
@@ -549,6 +563,9 @@ func _transfer_assembly(root: Node3D, pose_map: Transform3D, inside_room: bool) 
 			previous_bodies[id] = bodies[0].global_position
 
 func _exit_tree() -> void:
+	# Join background resource loads before this world or engine is destroyed.
+	for path in warming_paths.duplicate():
+		_loaded_scene(path)
 	if is_instance_valid(camera):
 		camera.cull_mask = original_cull_mask
 		camera.environment = original_environment

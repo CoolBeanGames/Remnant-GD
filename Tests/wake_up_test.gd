@@ -5,9 +5,10 @@ func check(ok: bool, text: String) -> void:
 	if not ok:
 		failures.append(text)
 		push_error(text)
-func tick() -> void:
-	await get_tree().physics_frame
-	await get_tree().process_frame
+func tick(count: int = 1) -> void:
+	for i in count:
+		await get_tree().physics_frame
+		await get_tree().process_frame
 func _ready() -> void:
 	run.call_deferred()
 func run() -> void:
@@ -92,8 +93,9 @@ func run() -> void:
 	check(dialogue.current == null, "First-spawn dialogue does not replay on later loads")
 	level.queue_free()
 	await tick()
-	for audio: audio_player in pool.active:
-		audio.reset()
-	await get_tree().create_timer(.1).timeout
+	for audio: audio_player in pool.active.duplicate():
+		audio.stop()
+	pool.queue_free()
+	await tick(6)
 	print("Wake cinematic, dialogue, breathing, tallies and boundary: ", "PASS" if failures.is_empty() else failures)
 	get_tree().quit(0 if failures.is_empty() else 1)

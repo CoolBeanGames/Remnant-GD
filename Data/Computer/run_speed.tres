@@ -17,3 +17,5 @@ description = "Increase walking and sprinting speed by 15% per level."
 tab = 1
 base_cost = 30
 effects = Array[ExtResource("effect")]([SubResource("Effect0")])
+
+reveal_lifetime_score = 150

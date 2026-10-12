@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("effect")
+target = "combo"
+property = NodePath("maximum_multiplier")
+operation = 0
+amount = 5
+[resource]
+script = ExtResource("entry")
+id = &"combo_max"
+title = "Combo Maximum"
+description = "Raise the multiplier ceiling by 5x per tier."
+base_cost = 250
+cost_multiplier = 3.0
+max_level = 5
+reveal_lifetime_score = 350
+effects = Array[ExtResource("effect")]([SubResource("Effect")])

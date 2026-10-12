@@ -12,7 +12,7 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 
 ## Memory upgrades
 
-Buy **Memory 1 / 2 / 3** in the computer’s **Self** tab for **1,500 / 25,000 / 50,000 score**. Each opens its apartment / warehouse / hospital portal through the Strange Door. Other memory purchases stay locked until its completion flag is true. Returning is blocked until the memory is marked complete; returning afterward closes the portal. Continue retains purchases and resumes the owned portal after the existing wake-up; New Game resets them. [Authoring and exact flags](Data/Computer/MEMORY_UPGRADES.md).
+Buy **Memory 1 / 2 / 3** in the computer’s **Self** tab for **1,500 / 25,000 / 50,000 score**. Each opens its apartment / warehouse / hospital portal through the Strange Door. Other memory purchases stay locked until its completion flag is true. Unfinished memories permit return/reentry while blocking another memory purchase; completed return closes the portal. Offers appear at half price and disappear after purchase. Continue retains purchases and resumes the owned portal after the existing wake-up; New Game resets them. [Authoring and exact flags](Data/Computer/MEMORY_UPGRADES.md).
 
 ## Rail stations, lever upgrades and prestige permission
 
@@ -38,7 +38,7 @@ Export/texture guidance and a Remnant-specific authoring reference live alongsid
 
 ## Explorable portal destinations
 
-The furnished apartment, warehouse and hospital are now **game scenes with static collision, furniture and editable lighting**. Leave the concrete room and let it disappear, then buy a memory at the computer to open its portal. **F9** remains a debug preview when no paid memory is active or unfinished. Open the Strange Door with E and walk through; its counterpart returns to the workshop once the paid memory is complete. Only one destination is live at a time. Cycling from inside brings you/held cargo back outside the door and preserves other collected items in the workshop. Selection uses saved Blackboard.portal_destination_id; F9 respects menu/wake-up/respawn locks.
+The furnished apartment, warehouse and hospital are now **game scenes with static collision, furniture and editable lighting**. Leave the concrete room and let it disappear, then buy a memory at the computer to open its portal. **F9** remains a debug preview when no paid memory is active or unfinished. Open the Strange Door with E and walk through; its counterpart permits returning freely, retaining unfinished memories and closing completed ones. Only one destination is live at a time. Cycling from inside brings you/held cargo back outside the door and preserves other collected items in the workshop. Selection uses saved Blackboard.portal_destination_id; F9 respects menu/wake-up/respawn locks.
 
 [Environment authoring](Data/Portal/ENVIRONMENTS.md) explains the 35 shared art/collision wrappers, engine scenes, destination resources and future select_destination trigger API. The player capsule fits the apartment entrance, warehouse stairs reach the office, and the hospital rooms/staff entrance are walkable. [Actual engine captures](Reports/PortalEnvironments/index.html) show all three destinations. Existing Blender sources stay separate; story triggers and furniture interactions are future work.
 
@@ -556,7 +556,7 @@ Removed runtime: Buildings registry, ScoreRewards queue, packed crates, recipes,
 | UID | uid://b2vhko1kxul63 |
 | Autoload | GrindCombo |
 
-Exports: initial_window: float=3, window_decrease: float=0.4, minimum_window: float=0.5, multiplier_step: float=0.5, score_sound: AudioStream=Score.wav, score_volume: float=2. Runtime: item_count/base_points: int, remaining/current_window: float. Signals: combo_changed(), combo_paid(points: int, multiplier: float, items: int).
+Exports: initial_window: float=3, window_decrease: float=0.4, minimum_window: float=0.5, multiplier_step: float=0.5, maximum_multiplier: float=15, score_sound: AudioStream=Score.wav, score_volume: float=2. Runtime: item_count/base_points: int, remaining/current_window: float. Signals: combo_changed(), combo_paid(points: int, multiplier: float, items: int).
 
 | Method | Behavior |
 |---|---|
@@ -1037,3 +1037,9 @@ Shared title/pause Options now has Audio, Controls and Graphics tabs: fullscreen
 The installed `godot-project-workflow` skill is also versioned in [Skills/godot-project-workflow](Skills/godot-project-workflow/SKILL.md). It covers repository familiarity, mandatory F1 report/image review, existing system reuse, physics/material/save checks, diagnostics, meaningful tests, documentation, HTML/Notion summaries, Git delivery and Windows exports; Remnant details are separate from the portable workflow.
 
 Meaningful coding prompts now finish with a Windows development build and a GitHub commit/push after verification. Run `Tools/build_windows.py --godot PATH_TO_GODOT` with Python to make an export using verified matching official templates. Outputs, manifests and smoke logs stay in ignored `Builds/`; the latest path is in `Builds/latest.txt`. [Build configuration and verification](Data/WINDOWS_BUILDS.md).
+
+## October issue pass and recorder inputs
+
+All 30 October 12 F1 reports were reviewed with their screenshots. Current changes cover the quieter intro slide, wrapping/auto-close reporter accessible over the PC, room/furniture/door/collision corrections, staged catalog discovery, three combo upgrades, pellet prompts/targeting, permanent Mulcher ownership and one Mulch Bin per run. [Current details and tuning](Data/ISSUE_BATCH_2026-10-12.md).
+
+**F7** toggles the default Windows webcam and microphone mode. The preview occupies the top-left 15% of viewport width, preserving the camera aspect ratio. **F6** starts/stops the existing lossless recorder; microphone capture joins that recording without speaker feedback. F7 releases the devices; gameplay recording can continue. Missing cameras/permissions remain optional. [Recorder setup and controls](Data/RECORDING.md). [Reviewed issue-pass gallery](Reports/IssueBatch/index.html).

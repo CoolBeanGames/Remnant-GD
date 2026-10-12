@@ -22,6 +22,8 @@ func run() -> void:
 	IssueReporter.issue_saved.connect(func(path: String): saved.append(path))
 	IssueReporter._submit()
 	check(saved.size() == 1, "One report submitted")
+	check(not IssueReporter.is_open and not get_tree().paused, "Successful submission automatically closes and restores gameplay")
+	check(IssueReporter.description.wrap_mode == TextEdit.LINE_WRAPPING_BOUNDARY, "Long reports wrap without a horizontal document")
 	if not saved.is_empty():
 		var record: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(saved[0]))
 		var restored := Image.load_from_file(saved[0].get_base_dir().path_join("screenshot.png"))

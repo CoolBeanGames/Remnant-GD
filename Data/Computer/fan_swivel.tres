@@ -15,3 +15,5 @@ description = "New fans can sweep between adjustable stops while placed. The mou
 base_cost = 150
 max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("Unlock")])
+
+reveal_lifetime_score = 2500

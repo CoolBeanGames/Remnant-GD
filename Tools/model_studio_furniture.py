@@ -173,7 +173,7 @@ def lathe(name, profile, mat, pos=(0,0,0), parent=None):
         for i in range(count):
             a = j*count+i
             b = j*count+(i+1)%count
-            faces.append((a,b,b+count,a+count))
+            faces.append((a+count,b+count,b,a))
     mesh = bpy.data.meshes.new(name)
     mesh.from_pydata(verts, [], faces)
     mesh.update()
@@ -255,7 +255,7 @@ def cushion(name, pos, dims, mat):
 
 
 def sofa(armchair=False):
-    w = .9 if armchair else 2.1
+    w = 1.08 if armchair else 2.1
     cloth = material('ochre_cloth' if armchair else 'olive_cloth')
     box('Walnut lower sofa frame', (0,.05,.23),(w-.12,.78,.20),wood,.025)
     for x in (-w/2+.13,w/2-.13):
@@ -274,8 +274,36 @@ def sofa(armchair=False):
         for xx in (-.13,.13):
             sphere('Recessed fabric tuft',(x+xx,.209,.75),(.017,.014,.017),seam)
     if not armchair:
-        pillow = cushion('Loose faded ochre pillow',(-.68,.04,.67),(.37,.16,.38),material('ochre_cloth'))
-        pillow.rotation_euler = (math.radians(-15),math.radians(-13),math.radians(-11))
+        # A pinched sewn edge and inflated cloth faces, rather than a hard box.
+        vertices=[];faces=[];n=24
+        for side in (-1,1):
+            for j in range(n+1):
+                v=j/n*2-1
+                for i in range(n+1):
+                    u=i/n*2-1
+                    swell=(max(0,1-u*u)*max(0,1-v*v))**.6
+                    vertices.append((u*.24*(1-.05*abs(v)**6),side*(.012+.082*swell),v*.205*(1-.05*abs(u)**6)))
+        count=(n+1)**2
+        for side in range(2):
+            for j in range(n):
+                for i in range(n):
+                    a=side*count+j*(n+1)+i;f=(a,a+1,a+n+2,a+n+1)
+                    faces.append(f if side==0 else tuple(reversed(f)))
+        edge=list(range(n+1))+[j*(n+1)+n for j in range(1,n+1)]+[n*(n+1)+i for i in range(n-1,-1,-1)]+[j*(n+1) for j in range(n-1,0,-1)]
+        for i,a in enumerate(edge):
+            b=edge[(i+1)%len(edge)];faces.append((a+count,b+count,b,a))
+        mesh=bpy.data.meshes.new('Soft pillow with pinched stitched edge');mesh.from_pydata(vertices,[],faces);mesh.update()
+        pillow=bpy.data.objects.new('Loose faded ochre pillow',mesh);asset.objects.link(pillow)
+        mesh.materials.append(material('ochre_cloth'))
+        for face in mesh.polygons:face.use_smooth=True
+        uv=mesh.uv_layers.new()
+        for face in mesh.polygons:
+            for li in face.loop_indices:
+                co=mesh.vertices[mesh.loops[li].vertex_index].co;uv.data[li].uv=(co.x/.48+.5,co.z/.41+.5)
+        pillow.location=(-.68,.02,.64);pillow.rotation_euler=(math.radians(-27),math.radians(-13),math.radians(-11))
+        stitch=pipe('Loose pillow stitched perimeter',[(vertices[i][0],0,vertices[i][2]) for i in edge],.0017,seam,closed=True)
+        stitch.parent=pillow
+
 
 
 def dining_chair(x,y,angle):
@@ -337,9 +365,11 @@ def bookshelf():
 
 def television():
     box('CRT rear chassis',(0,.08,.305),(.63,.46,.56),black,.06)
-    box('CRT front bezel',(0,-.205,.32),(.66,.055,.53),black,.035)
-    box('Convex glass face',( -.045,-.244,.345),(.49,.055,.39),plain('Smoky CRT glass',(.025,.051,.043),.19),.057)
-    panel('Subtle phosphor image',(-.045,-.273,.345),(.445,.335),print_material('Phosphor scan lines','crt_screen.png',.3))
+    # Four solid bezel edges frame an opening; glass sits behind its front lip.
+    for name,pos,dims in [('left',(-.31,-.205,.32),(.04,.055,.53)),('controls',(.265,-.205,.32),(.13,.055,.53)),('bottom',(-.045,-.205,.095),(.49,.055,.11)),('top',(-.045,-.205,.5625),(.49,.055,.045))]:
+        box('CRT recessed bezel '+name,pos,dims,black,.010)
+    box('Recessed glass face',(-.045,-.196,.345),(.49,.023,.39),plain('Smoky CRT glass',(.025,.051,.043),.19),.011)
+    panel('Subtle phosphor image',(-.045,-.208,.345),(.445,.335),print_material('Phosphor scan lines','crt_screen.png',.08))
     for z in (.35,.46):
         cylinder('Tuning knob',(.267,-.258,z),.024,.024,cream,rotation=(math.pi/2,0,0))
     for i in range(9):
@@ -601,7 +631,9 @@ def photo():
         box('Frame cross rail',(0,-.017,z),(.238,.024,.018),wood,.004)
     panel('Photograph mount',(0,-.019,.13),(.224,.224),material('paper'))
     panel('Fictional 1980s family photograph',(0,-.020,.13),(.205,.14),print_material('Faded family print','family_photo.png'))
-    glass=plain('Photo protective glass',(.93,.95,.90),.11,transmission=1)
+    glass=plain('Photo protective glass',(.93,.95,.90),.11)
+    glass.node_tree.nodes['Principled BSDF'].inputs['Alpha'].default_value=.10
+    glass.surface_render_method='DITHERED'
     box('Thin protective glazing',(0,-.022,.13),(.223,.001,.222),glass,.0002)
     stand=pivot('Frame easel hinge',(0,.015,.22))
     leg=box('Folding easel',(0,0,-.11),(.06,.008,.22),wood,.002,stand)

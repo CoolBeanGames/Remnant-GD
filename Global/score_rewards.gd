@@ -31,6 +31,7 @@ func _award() -> void:
 	if not (score is int or score is float):
 		score = 0
 	Blackboard.store_data("score", score + amount)
+	Progression.record_earned_score(amount)
 	Audio.play_global(score_sound, score_volume, 1.0, &"SFX")
 	if pending_points == 0:
 		reset()

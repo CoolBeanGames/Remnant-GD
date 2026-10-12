@@ -5,14 +5,14 @@
   "collection": "ASSET | TV",
   "dimensions_blender_m": [
     0.66,
-    0.5905,
+    0.5875,
     0.9812
   ],
   "origin": "Bottom centre; tabletop props at contact plane. Sink pivot is countertop insertion plane.",
-  "mesh_objects": 30,
-  "triangles": 7338,
+  "mesh_objects": 33,
+  "triangles": 7662,
   "packed_images": 10,
-  "render_samples": 64,
+  "render_samples": 32,
   "render_device": "GPU",
   "blender": "4.5.1 LTS",
   "views": [

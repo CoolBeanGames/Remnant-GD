@@ -15,3 +15,5 @@ description = "New fans include a suction head and catch bag. H switches blow/su
 base_cost = 200
 max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("Unlock")])
+
+reveal_lifetime_score = 2200

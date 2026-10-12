@@ -15,3 +15,5 @@ description = "New lights include changeable lenses. L cycles their light colour
 base_cost = 80
 max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("Unlock")])
+
+reveal_lifetime_score = 650

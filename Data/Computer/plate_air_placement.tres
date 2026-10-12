@@ -15,3 +15,5 @@ description = "Unlocks V to lock newly bought plates in the air. B still places 
 base_cost = 450
 max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("Unlock")])
+
+reveal_lifetime_score = 900

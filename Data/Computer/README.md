@@ -112,3 +112,11 @@ See Data/Computer/LEVER_UPGRADES.md for the five-tier cooldown/output upgrades, 
 ## Memory unlocks
 
 The Self tab offers Memory 1 (1,500 score), Memory 2 (25,000) and Memory 3 (50,000). Each is a fixed-price, one-time run purchase that sets a saved flag, shows UNLOCKED and restores on Continue. Purchases open the apartment/warehouse/hospital portals. Other memory purchases wait for the active memory’s explicit completion flag. Returning is blocked until the memory is marked complete; returning afterward closes the portal. F9 previews remain available outside active/unfinished memories. See Data/Computer/MEMORY_UPGRADES.md for exact flag names, resource fields and tests.
+
+## Catalog discovery and combo upgrades
+
+Computer entries export reveal_lifetime_score (default 0), checked against Progression.lifetime_score(). Awarded score increments persistent profile.lifetime_score; spending does not reverse introductions, and New Game retains earnings. Old saves migrate their current balance; already purchased entries remain visible. Editable starter thresholds introduce ordinary upgrades gradually, from 75 earnings for Fan Power through 4,500 for spawner speed. Memories separately appear at half their fixed price and disappear after purchase; Data/Computer/MEMORY_UPGRADES.md defines the corrected return flow.
+
+Mechanics adds Combo Maximum (+5 cap, 250 initial score / 350 reveal), Combo Increment (+0.25 step, 500 / 800 reveal) and Combo Decay (20% less window-shortening penalty, 750 / 1,500 reveal). Five tiers each, ×3 price growth, target=combo in upgrade_effect; effects apply immediately and restore from original baselines. Global/grind_combo.gd now caps the base multiplier at 15; initial 1.0 and +0.5 steps remain. The payout still uses the accelerating one-point queue.
+
+single_purchase (default false) makes a Store resource one-time. Mulcher installs persistently and Mulch Bin is limited to one purchase per run. The physical screen layout fills its viewport with 18 px outer margins, 20 px default text and 114 px offer rows. F1–F7/tilde pass to global diagnostic tools before PC input forwarding, including focus/return motion.

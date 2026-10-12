@@ -15,3 +15,5 @@ description = "New lights use a directional beam for illuminating a chosen patch
 base_cost = 100
 max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("Unlock")])
+
+reveal_lifetime_score = 600

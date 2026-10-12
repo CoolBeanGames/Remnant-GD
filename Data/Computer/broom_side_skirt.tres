@@ -15,3 +15,5 @@ description = "New brooms include side guards to gather loose objects and reduce
 base_cost = 75
 max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("Unlock")])
+
+reveal_lifetime_score = 2700

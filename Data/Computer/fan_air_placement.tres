@@ -15,3 +15,5 @@ description = "Unlocks V to lock newly bought fans in the air. B still places th
 base_cost = 600
 max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("Unlock")])
+
+reveal_lifetime_score = 900

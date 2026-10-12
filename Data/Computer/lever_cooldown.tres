@@ -16,3 +16,5 @@ base_cost = 65
 cost_multiplier = 3.0
 max_level = 5
 effects = Array[ExtResource("effect")]([SubResource("upgrade")])
+
+reveal_lifetime_score = 300

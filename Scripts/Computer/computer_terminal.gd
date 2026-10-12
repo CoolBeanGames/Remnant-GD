@@ -116,6 +116,9 @@ func screen_pointer(window_position: Vector2) -> Vector2:
 func _input(event: InputEvent) -> void:
 	if session == null or not is_instance_valid(interface) or DevTools.any_modal_open() or get_tree().paused:
 		return
+	# Global development shortcuts belong to the root viewport, not the PC UI.
+	if event is InputEventKey and (event.keycode in [KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_QUOTELEFT] or event.physical_keycode in [KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_QUOTELEFT]):
+		return
 	if event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_ESCAPE or event.physical_keycode == KEY_ESCAPE):
 		close_interface()
 		get_viewport().set_input_as_handled()

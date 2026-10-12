@@ -1,217 +1,226 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://Scripts/Portal/portal_room.gd" id="1_d5fjy"]
-[ext_resource type="Environment" path="res://Data/Portal/interior_environment.tres" id="2_fva7a"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/StudioApartment_studio_apartment.tscn" id="3_j5hht"]
-[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="4_vvdbo"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Kitchenette_kitchenette.tscn" id="5_bqgnw"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Fridge_fridge.tscn" id="6_8gvfx"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Stove_stove.tscn" id="7_xf5ns"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Sink_sink.tscn" id="8_r5y4m"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Microwave_microwave.tscn" id="9_sio3g"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/CoffeePot_coffee_pot.tscn" id="10_m7w3k"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="11_reuxv"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Couch_couch.tscn" id="12_b7m4y"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Chair_chair.tscn" id="13_ptsoc"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TableAndChairs_table_and_chairs.tscn" id="14_ar2py"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/EntertainmentCenter_entertainment_center.tscn" id="15_vm2sk"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TV_t_v.tscn" id="16_jmxmq"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/VCR_v_c_r.tscn" id="17_wo3yw"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/LandlinePhone_landline_phone.tscn" id="18_ub6ct"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Bookshelf_bookshelf.tscn" id="19_pkipk"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PottedPlant_potted_plant.tscn" id="20_u6ba1"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="21_8fr33"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/FamilyPhoto_family_photo.tscn" id="22_mm5wm"]
+[ext_resource type="Script" path="res://Scripts/Portal/portal_room.gd" id="1_ly0lv"]
+[ext_resource type="Environment" path="res://Data/Portal/apartment_environment.tres" id="2_4ruj8"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Footsteps/Wood/wood_left_1.wav" id="3_ocq2u"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Footsteps/Wood/wood_left_2.wav" id="4_1v2lu"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Footsteps/Wood/wood_left_3.wav" id="5_64k0l"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Footsteps/Wood/wood_right_1.wav" id="6_a1216"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Footsteps/Wood/wood_right_2.wav" id="7_coqg4"]
+[ext_resource type="AudioStream" path="res://Audio/SFX/Footsteps/Wood/wood_right_3.wav" id="8_ixdia"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/StudioApartment_studio_apartment.tscn" id="9_keovi"]
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="10_yqikv"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Kitchenette_kitchenette.tscn" id="11_o1y0c"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Fridge_fridge.tscn" id="12_ucrso"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Stove_stove.tscn" id="13_q7pot"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Sink_sink.tscn" id="14_4dcl0"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Microwave_microwave.tscn" id="15_p4ac4"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/CoffeePot_coffee_pot.tscn" id="16_ft7no"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="17_h5cbs"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Couch_couch.tscn" id="18_ulykf"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Chair_chair.tscn" id="19_wjtbe"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TableAndChairs_table_and_chairs.tscn" id="20_r33i3"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/EntertainmentCenter_entertainment_center.tscn" id="21_215sw"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TV_t_v.tscn" id="22_xw0cx"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/VCR_v_c_r.tscn" id="23_rob50"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/LandlinePhone_landline_phone.tscn" id="24_lqgbl"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Bookshelf_bookshelf.tscn" id="25_6to3u"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PottedPlant_potted_plant.tscn" id="26_iibbq"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="27_hqb0u"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/FamilyPhoto_family_photo.tscn" id="28_3lnt4"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_x4ice"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_w5hi0"]
 size = Vector3(2.4, 0.16, 1.7)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bhex"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xv8xw"]
 albedo_color = Color(0.23, 0.22, 0.19, 1)
 roughness = 0.94
 
-[sub_resource type="BoxMesh" id="BoxMesh_gxhev"]
-material = SubResource("StandardMaterial3D_6bhex")
+[sub_resource type="BoxMesh" id="BoxMesh_0q6ly"]
+material = SubResource("StandardMaterial3D_xv8xw")
 size = Vector3(2.4, 0.16, 1.7)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_x5tbg"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_hc8al"]
 size = Vector3(0.14, 3.4, 1.8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4rttr"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y8ju5"]
 albedo_color = Color(0.32, 0.32, 0.27, 1)
 roughness = 0.94
 
-[sub_resource type="BoxMesh" id="BoxMesh_rc1ik"]
-material = SubResource("StandardMaterial3D_4rttr")
+[sub_resource type="BoxMesh" id="BoxMesh_wuydj"]
+material = SubResource("StandardMaterial3D_y8ju5")
 size = Vector3(0.14, 3.4, 1.8)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_jfr7f"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_m4nw6"]
 size = Vector3(0.14, 3.4, 1.8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pt1n"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7y1r"]
 albedo_color = Color(0.32, 0.32, 0.27, 1)
 roughness = 0.94
 
-[sub_resource type="BoxMesh" id="BoxMesh_h8tvu"]
-material = SubResource("StandardMaterial3D_5pt1n")
+[sub_resource type="BoxMesh" id="BoxMesh_e1ylc"]
+material = SubResource("StandardMaterial3D_q7y1r")
 size = Vector3(0.14, 3.4, 1.8)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_chpk2"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_0tgr1"]
 size = Vector3(2.4, 0.14, 1.8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ayxp8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l524v"]
 albedo_color = Color(0.32, 0.32, 0.27, 1)
 roughness = 0.94
 
-[sub_resource type="BoxMesh" id="BoxMesh_xx6es"]
-material = SubResource("StandardMaterial3D_ayxp8")
+[sub_resource type="BoxMesh" id="BoxMesh_iqcfv"]
+material = SubResource("StandardMaterial3D_l524v")
 size = Vector3(2.4, 0.14, 1.8)
 
-[node name="FurnishedApartment" type="Node3D" unique_id=1328323156]
-script = ExtResource("1_d5fjy")
-environment = ExtResource("2_fva7a")
+[node name="FurnishedApartment" type="Node3D" unique_id=1885575150]
+script = ExtResource("1_ly0lv")
+environment = ExtResource("2_4ruj8")
+left_foot_sounds = Array[AudioStream]([ExtResource("3_ocq2u"), ExtResource("4_1v2lu"), ExtResource("5_64k0l")])
+right_foot_sounds = Array[AudioStream]([ExtResource("6_a1216"), ExtResource("7_coqg4"), ExtResource("8_ixdia")])
+suppress_player_light = true
 
-[node name="Entrance" type="Marker3D" parent="." unique_id=1409697801]
+[node name="Entrance" type="Marker3D" parent="." unique_id=909445920]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.76, 1.7195, 4.6)
 
-[node name="Art" type="Node3D" parent="." unique_id=117338760]
+[node name="Art" type="Node3D" parent="." unique_id=518539929]
 
-[node name="Apartment shell" type="Node3D" parent="Art" unique_id=1984634560 instance=ExtResource("3_j5hht")]
-script = ExtResource("4_vvdbo")
+[node name="Apartment shell" type="Node3D" parent="Art" unique_id=1984634560 instance=ExtResource("9_keovi")]
+script = ExtResource("10_yqikv")
 pose_overrides = Dictionary[String, Transform3D]({
 "Model/Apartment entrance _ hinged leaf": Transform3D(-0.06975648, 0, 0.9975641, 0, 1, 0, -0.9975641, 0, -0.06975648, 1.274, 0, 3.175)
 })
 
-[node name="Kitchenette" type="Node3D" parent="Art" unique_id=1379225302 instance=ExtResource("5_bqgnw")]
+[node name="Kitchenette" type="Node3D" parent="Art" unique_id=1379225302 instance=ExtResource("11_o1y0c")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.54, 0, 0.3)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="Fridge" type="Node3D" parent="Art" unique_id=685521532 instance=ExtResource("6_8gvfx")]
+[node name="Fridge" type="Node3D" parent="Art" unique_id=685521532 instance=ExtResource("12_ucrso")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.49, 0, 2.48)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="Stove" type="Node3D" parent="Art" unique_id=115997937 instance=ExtResource("7_xf5ns")]
+[node name="Stove" type="Node3D" parent="Art" unique_id=115997937 instance=ExtResource("13_q7pot")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.53, 0, 1.49)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="Sink" type="Node3D" parent="Art" unique_id=1383847910 instance=ExtResource("8_r5y4m")]
+[node name="Sink" type="Node3D" parent="Art" unique_id=1383847910 instance=ExtResource("14_4dcl0")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.54, 0.91, 0.87)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="Microwave" type="Node3D" parent="Art" unique_id=380927386 instance=ExtResource("9_sio3g")]
+[node name="Microwave" type="Node3D" parent="Art" unique_id=380927386 instance=ExtResource("15_p4ac4")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.45, 0.915, -0.29)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="CoffeePot" type="Node3D" parent="Art" unique_id=1626233228 instance=ExtResource("10_m7w3k")]
+[node name="CoffeePot" type="Node3D" parent="Art" unique_id=1626233228 instance=ExtResource("16_ft7no")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.48, 0.915, 0.25)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="TrashCan" type="Node3D" parent="Art" unique_id=46325136 instance=ExtResource("11_reuxv")]
+[node name="TrashCan" type="Node3D" parent="Art" unique_id=46325136 instance=ExtResource("17_h5cbs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.53, 0, 1.39)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="Couch" type="Node3D" parent="Art" unique_id=445037688 instance=ExtResource("12_b7m4y")]
+[node name="Couch" type="Node3D" parent="Art" unique_id=445037688 instance=ExtResource("18_ulykf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, 0, -0.32)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="Chair" type="Node3D" parent="Art" unique_id=2090323947 instance=ExtResource("13_ptsoc")]
-transform = Transform3D(0.90630776, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.90630776, -0.78, 0, -1.85)
-script = ExtResource("4_vvdbo")
+[node name="Chair" type="Node3D" parent="Art" unique_id=2090323947 instance=ExtResource("19_wjtbe")]
+transform = Transform3D(0.90630776, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.90630776, -0.48, 0, -1.63)
+script = ExtResource("10_yqikv")
 
-[node name="TableAndChairs" type="Node3D" parent="Art" unique_id=1456710361 instance=ExtResource("14_ar2py")]
+[node name="TableAndChairs" type="Node3D" parent="Art" unique_id=1456710361 instance=ExtResource("20_r33i3")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.77, 0, -1.71)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="EntertainmentCenter" type="Node3D" parent="Art" unique_id=530894412 instance=ExtResource("15_vm2sk")]
+[node name="EntertainmentCenter" type="Node3D" parent="Art" unique_id=530894412 instance=ExtResource("21_215sw")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.58, 0, 2.8)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="TV" type="Node3D" parent="Art" unique_id=349448306 instance=ExtResource("16_jmxmq")]
+[node name="TV" type="Node3D" parent="Art" unique_id=349448306 instance=ExtResource("22_xw0cx")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.83, 0.658, 2.8)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="VCR" type="Node3D" parent="Art" unique_id=148786220 instance=ExtResource("17_wo3yw")]
+[node name="VCR" type="Node3D" parent="Art" unique_id=148786220 instance=ExtResource("23_rob50")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.3, 0.382, 2.8)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("18_ub6ct")]
+[node name="LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("24_lqgbl")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.658, 2.81)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="Bookshelf" type="Node3D" parent="Art" unique_id=2033440946 instance=ExtResource("19_pkipk")]
+[node name="Bookshelf" type="Node3D" parent="Art" unique_id=2033440946 instance=ExtResource("25_6to3u")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.59, 0, 1.41)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="PottedPlant" type="Node3D" parent="Art" unique_id=470598459 instance=ExtResource("20_u6ba1")]
+[node name="PottedPlant" type="Node3D" parent="Art" unique_id=470598459 instance=ExtResource("26_iibbq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.91, 0, -2.7)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("21_8fr33")]
+[node name="PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("27_hqb0u")]
 transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 2.77, 0.781, -1.71)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="FamilyPhoto" type="Node3D" parent="Art" unique_id=976005215 instance=ExtResource("22_mm5wm")]
+[node name="FamilyPhoto" type="Node3D" parent="Art" unique_id=976005215 instance=ExtResource("28_3lnt4")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.54, 1.851, 1.57)
-script = ExtResource("4_vvdbo")
+script = ExtResource("10_yqikv")
 
-[node name="Lighting" type="Node3D" parent="." unique_id=1692507762]
+[node name="Lighting" type="Node3D" parent="." unique_id=801474780]
 
-[node name="InteriorLight" type="OmniLight3D" parent="Lighting" unique_id=268665080]
+[node name="InteriorLight" type="OmniLight3D" parent="Lighting" unique_id=1494443097]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 2.45, -1.3)
-light_color = Color(0.75, 0.85, 0.94, 1)
-light_energy = 1.65
+light_color = Color(1, 0.58, 0.16, 1)
+light_energy = 0.32
 shadow_enabled = true
 
-[node name="InteriorLight2" type="OmniLight3D" parent="Lighting" unique_id=1136312580]
+[node name="InteriorLight2" type="OmniLight3D" parent="Lighting" unique_id=1224530621]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.95, 1.55, 0.4)
-light_color = Color(1, 0.71, 0.42, 1)
-light_energy = 0.95
+light_color = Color(1, 0.49, 0.09, 1)
+light_energy = 0.18
 omni_range = 3.5
 
-[node name="InteriorLight3" type="OmniLight3D" parent="Lighting" unique_id=970242209]
+[node name="InteriorLight3" type="OmniLight3D" parent="Lighting" unique_id=2075436330]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.65, 2.3, -2.1)
-light_color = Color(0.78, 0.87, 0.86, 1)
-light_energy = 0.9
+light_color = Color(1, 0.58, 0.17, 1)
+light_energy = 0.12
 omni_range = 3.0
 
-[node name="InteriorLight4" type="OmniLight3D" parent="Lighting" unique_id=567202330]
+[node name="InteriorLight4" type="OmniLight3D" parent="Lighting" unique_id=1459867239]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.76, 2.85, 3.88)
-light_color = Color(0.78, 0.83, 0.8, 1)
-light_energy = 0.75
+light_color = Color(1, 0.58, 0.17, 1)
+light_energy = 0.13
 omni_range = 3.4
 
-[node name="VestibuleFloor" type="StaticBody3D" parent="." unique_id=1892167496 groups=["Floor"]]
+[node name="VestibuleFloor" type="StaticBody3D" parent="." unique_id=116736183 groups=["Floor"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.76, -0.08, 3.88)
 
-[node name="@CollisionShape3D@75" type="CollisionShape3D" parent="VestibuleFloor" unique_id=1574165042]
-shape = SubResource("BoxShape3D_x4ice")
+[node name="@CollisionShape3D@76" type="CollisionShape3D" parent="VestibuleFloor" unique_id=883839998]
+shape = SubResource("BoxShape3D_w5hi0")
 
-[node name="@MeshInstance3D@76" type="MeshInstance3D" parent="VestibuleFloor" unique_id=1685890498]
-mesh = SubResource("BoxMesh_gxhev")
+[node name="@MeshInstance3D@77" type="MeshInstance3D" parent="VestibuleFloor" unique_id=1423943529]
+mesh = SubResource("BoxMesh_0q6ly")
 
-[node name="VestibuleWall" type="StaticBody3D" parent="." unique_id=494800078 groups=["Floor"]]
+[node name="VestibuleWall" type="StaticBody3D" parent="." unique_id=259775783 groups=["Floor"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63, 1.7, 3.9)
 
-[node name="@CollisionShape3D@77" type="CollisionShape3D" parent="VestibuleWall" unique_id=1025092335]
-shape = SubResource("BoxShape3D_x5tbg")
+[node name="@CollisionShape3D@78" type="CollisionShape3D" parent="VestibuleWall" unique_id=1177544149]
+shape = SubResource("BoxShape3D_hc8al")
 
-[node name="@MeshInstance3D@78" type="MeshInstance3D" parent="VestibuleWall" unique_id=1963908328]
-mesh = SubResource("BoxMesh_rc1ik")
+[node name="@MeshInstance3D@79" type="MeshInstance3D" parent="VestibuleWall" unique_id=854363633]
+mesh = SubResource("BoxMesh_wuydj")
 
-[node name="VestibuleWall2" type="StaticBody3D" parent="." unique_id=910605632 groups=["Floor"]]
+[node name="VestibuleWall2" type="StaticBody3D" parent="." unique_id=1668860860 groups=["Floor"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89, 1.7, 3.9)
 
-[node name="@CollisionShape3D@79" type="CollisionShape3D" parent="VestibuleWall2" unique_id=62673217]
-shape = SubResource("BoxShape3D_jfr7f")
+[node name="@CollisionShape3D@80" type="CollisionShape3D" parent="VestibuleWall2" unique_id=1880246276]
+shape = SubResource("BoxShape3D_m4nw6")
 
-[node name="@MeshInstance3D@80" type="MeshInstance3D" parent="VestibuleWall2" unique_id=1512105369]
-mesh = SubResource("BoxMesh_h8tvu")
+[node name="@MeshInstance3D@81" type="MeshInstance3D" parent="VestibuleWall2" unique_id=1610046190]
+mesh = SubResource("BoxMesh_e1ylc")
 
-[node name="VestibuleCeiling" type="StaticBody3D" parent="." unique_id=557754133 groups=["Floor"]]
+[node name="VestibuleCeiling" type="StaticBody3D" parent="." unique_id=1639434766 groups=["Floor"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.76, 3.43, 3.9)
 
-[node name="@CollisionShape3D@81" type="CollisionShape3D" parent="VestibuleCeiling" unique_id=316179304]
-shape = SubResource("BoxShape3D_chpk2")
+[node name="@CollisionShape3D@82" type="CollisionShape3D" parent="VestibuleCeiling" unique_id=541602902]
+shape = SubResource("BoxShape3D_0tgr1")
 
-[node name="@MeshInstance3D@82" type="MeshInstance3D" parent="VestibuleCeiling" unique_id=2143046946]
-mesh = SubResource("BoxMesh_xx6es")
+[node name="@MeshInstance3D@83" type="MeshInstance3D" parent="VestibuleCeiling" unique_id=1666937653]
+mesh = SubResource("BoxMesh_iqcfv")

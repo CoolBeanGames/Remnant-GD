@@ -106,7 +106,12 @@ for side in (-1,1):
         if side>0 and y==-1.7:
             wall_with_holes('DIVIDER | staff access','y',y,1.7,9,[(5.8,1.45,0,2.31)])
         else:wall_segment('DIVIDER | ward partitions','y',y,-9,-1.7) if side<0 else wall_segment('DIVIDER | ward partitions','y',y,1.7,9)
-for y in (-13,13):wall_with_holes('OUTER | end wall','y',y,-9,9,[(0,2.6,0,2.31)])
+for y in (-13,13):wall_with_holes('OUTER | end wall','y',y,-9,9,[(0,2.6,0,3.31)])
+
+# The far exit is a closed architectural barrier, not a route into void.
+for x in (-.65,.65):
+    w.box('Closed far exit leaf',(x,12.94,1.59),(1.295,.12,3.18),cream,.006)
+    w.box('Closed far exit push bar',(x,12.865,1.03),(.92,.035,.04),cream,.004)
 
 # Ceiling panels, open service gaps, rusted rails and dangling wiring.
 missing={(2,2),(5,3),(3,5),(4,7),(1,8),(6,6)}
@@ -126,7 +131,7 @@ for y in (-10,-4,3.5,9.5):
 for y in (-11.8,-7,-.5,6.1,11.8):
     for side in (-1,1):
         # The handrail is interrupted before every doorway.
-        if any(abs(y-d['centre'][1])<1.02 and d['side']==side for d in doors):continue
+        if abs(y)<2.31 or (side>0 and -5.8<y< -1.7) or any(abs(y-d['centre'][1])<1.02 and d['side']==side for d in doors):continue
         w.box('Corridor impact rail',(side*1.592,y,.93),(.06,1.22,.12),cream)
 
 # Stains are localized rather than a uniform dirty overlay.
@@ -239,8 +244,8 @@ for record in room_records:
         prop('Wheelchair','Stored nursing wheelchair',(7.35,-4.65,0),-40)
 for i,d in enumerate(doors):prop('HospitalDoor',f'Ward door {i+1}',tuple(d['centre']),90 if d['side']<0 else -90)
 prop('Wheelchair','Abandoned hall wheelchair',(-.84,-6.8,0),-15)
-prop('WaitingBench','Cross hall waiting bench',(4.5,-1.22,0),0)
-prop('WaitingBench','West waiting bench',(-5.4,1.22,0),180)
+prop('WaitingBench','Cross hall waiting bench',(4.5,-1.22,0),180)
+prop('WaitingBench','West waiting bench',(-5.4,1.22,0),0)
 FURN=w.ROOT/'Models/Interiors/StudioFurniture'
 for key,stem,pos,angle in [('LandlinePhone','landline_phone',(3.65,-3.15,1.01),-90),
                           ('PileOfMail','pile_of_mail',(3.60,-4.27,1.01),-80),('TrashCan','trash_can',(8.1,-3.6,0),0)]:

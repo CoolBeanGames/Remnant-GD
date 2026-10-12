@@ -24,9 +24,20 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	target_position = Vector3(0.0, 0.0, -ray_distance)
 
-	force_raycast_update()
-
+	# Overlapping enlarged targets must not hide the next reachable physical item.
+	# Remove only temporary area exceptions; solid walls still stop the ray.
+	var skipped: Array[CollisionObject3D] = []
+	for attempt in 12:
+		force_raycast_update()
+		var collider: Object = get_collider()
+		if collider is pickup_target and (not collider.can_target() or _pickup_occluded(collider)):
+			add_exception(collider)
+			skipped.append(collider)
+		else:
+			break
 	_update_looked_at()
+	for area in skipped:
+		remove_exception(area)
 
 
 func _update_looked_at() -> void:

@@ -1,6 +1,7 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://Scripts/Mulch/mulch_pellet.gd" id="script"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/pickup_target.tscn" id="target"]
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
 [sub_resource type="SphereShape3D" id="Shape"]
 radius = 0.12
 [sub_resource type="SphereMesh" id="Mesh"]
@@ -23,3 +24,5 @@ material_override = SubResource("Material")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("Shape")
 [node name="PickupTarget" parent="." instance=ExtResource("target")]
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("prompts")

@@ -16,3 +16,5 @@ escalating_store_price = true
 max_level = 0
 delivery_scene = ExtResource("scene")
 delivery_kind = "plate"
+
+reveal_lifetime_score = 0

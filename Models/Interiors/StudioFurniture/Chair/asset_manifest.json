@@ -4,7 +4,7 @@
   "export": "Models/Interiors/StudioFurniture/Chair/chair.glb",
   "collection": "ASSET | Chair",
   "dimensions_blender_m": [
-    0.9356,
+    1.1156,
     0.9756,
     1.0051
   ],
@@ -12,7 +12,7 @@
   "mesh_objects": 17,
   "triangles": 7704,
   "packed_images": 6,
-  "render_samples": 64,
+  "render_samples": 32,
   "render_device": "GPU",
   "blender": "4.5.1 LTS",
   "views": [

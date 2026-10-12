@@ -61,3 +61,7 @@ Modal state protects refusing/freed owners and deduplicates fallback contexts fo
 ## Host F9 portal preview
 
 Remnant reserves F9 to cycle the furnished apartment, warehouse and hospital after the concrete room disappears. DoorPortal owns this gameplay shortcut and ignores it while the toolkit or game menus own input. It adds no portable addon dependency; future story selection uses the same resource-driven select_destination API. See Data/Portal/ENVIRONMENTS.md.
+
+## Recorder input mode
+
+The portable recorder exports input_mode_key=F7, webcam_width_fraction=.15, microphone_gain=1; set_input_mode(bool) enables/releases optional Windows camera inputs. webcam_capture.gd (RefCounted) wraps bounded FFmpeg DirectShow PNG pipe IO in a worker. A private muted bus plus AudioStreamMicrophone captures the Default mic while recording, without SFX monitoring. Host audio/driver/enable_input must be true. F7 and F6 remain separate mode/record controls; Data/RECORDING.md documents setup, aspect ratio, failure handling and lifecycle. The Remnant compatibility autoload wrapper is unchanged.

@@ -35,6 +35,11 @@ def build():
     def prose(markdown):
         content=[]
         for block in markdown.strip().split('\n\n'):
+            lines=block.splitlines()
+            if len(lines)>1 and lines[0].startswith('|') and re.fullmatch(r'[| :\-]+',lines[1]):
+                rows=[[cell.strip() for cell in line.strip().strip('|').split('|')] for line in lines]
+                content.append('<table><thead><tr>'+''.join('<th>'+html.escape(cell)+'</th>' for cell in rows[0])+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+html.escape(cell)+'</td>' for cell in row)+'</tr>' for row in rows[2:])+'</tbody></table>')
+                continue
             if block.startswith('#'):
                 depth=len(block)-len(block.lstrip('#')); tag='h'+str(min(depth,3))
                 content.append('<'+tag+'>'+html.escape(block[depth:].strip())+'</'+tag+'>')
@@ -98,6 +103,8 @@ def build():
         next(row for row in index if row['id']==archive_id)['text']=archive_text
     # Current maintained gameplay/workflow guides keep sidebar, body and search in sync.
     maintained = [
+        ('page-october-issue-pass', 'October issue pass / recorder inputs', 'Overview', 'Data/ISSUE_BATCH_2026-10-12.md', 'page-development-archive', 'F1 F7 webcam microphone camera lifetime discovery combo Mulcher pellets memory return stairs'),
+        ('page-global-gameplay-recorder', 'Gameplay recorder / optional inputs', 'Globals', 'Data/RECORDING.md', None, 'F6 F7 webcam microphone recorder lossless FFmpeg aspect'),
         ('page-rail-stations', 'Rail loader and unloader', 'Actors', 'Data/Items/RAIL_STATIONS.md', 'page-manual-automation', 'rail station loader unloader endpoint cargo basket docking queue save'),
         ('page-door-portal', 'Doorway portal and memory areas', 'Scripts', 'Data/Portal/ENVIRONMENTS.md', None, 'portal memory unlock completion return closure cargo F9 preview'),
         ('page-memory-upgrades', 'Memory unlock upgrades', 'Scripts', 'Data/Computer/MEMORY_UPGRADES.md', 'page-lever-upgrades', 'memory unlock story flags score 1500 25000 50000 Self save New Game'),

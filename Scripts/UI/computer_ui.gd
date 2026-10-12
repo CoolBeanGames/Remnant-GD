@@ -7,6 +7,7 @@ var is_open: bool = false
 var rows: Array[Dictionary] = []
 var last_score: int = -1
 var last_mulch: int = -1
+var last_lifetime: int = -1
 @onready var score_label: Label = $Screen/Center/Panel/Margin/Rows/Header/Score
 @onready var tabs: TabContainer = $Screen/Center/Panel/Margin/Rows/Tabs
 @onready var status: Label = $Screen/Center/Panel/Margin/Rows/Status
@@ -42,7 +43,7 @@ func _process(_delta: float) -> void:
 	if is_open:
 		if not is_instance_valid(terminal):
 			close()
-		elif last_score != Progression.score() or last_mulch != Mulch.coins():
+		elif last_score != Progression.score() or last_mulch != Mulch.coins() or last_lifetime != Progression.lifetime_score():
 			refresh()
 
 func _build_rows() -> void:
@@ -69,14 +70,16 @@ func refresh() -> void:
 		return
 	last_score = Progression.score()
 	last_mulch = Mulch.coins()
+	last_lifetime = Progression.lifetime_score()
 	tabs.set_tab_hidden(3, not Mulch.tab_unlocked())
 	score_label.text = "CREDIT: %08d / MULCH: %06d" % [last_score, last_mulch]
 	for state in rows:
 		var entry: computer_entry = state.entry
+		state.row.visible = Progression.entry_visible(entry)
 		var tier: int = Progression.level(entry)
-		var complete: bool = entry.tab != computer_entry.Tab.STORE and entry.max_level > 0 and tier >= entry.max_level
+		var complete: bool = (entry.tab != computer_entry.Tab.STORE and entry.max_level > 0 and tier >= entry.max_level) or (entry.single_purchase and tier > 0)
 		var button: Button = state.row.get_node("Buy")
-		var installed: bool = entry.installation == "mulcher" and Flags.check_flag("mulcher purchased")
+		var installed: bool = entry.installation == "mulcher" and Mulch.installed_unlock()
 		var balance: int = last_mulch if entry.tab == computer_entry.Tab.MULCH else last_score
 		var reopening: bool = complete and not entry.memory_destination.is_empty() and not Flags.check_flag(entry.completion_flag)
 		var blocked_memory: String = Progression.memory_purchase_error(entry) if not entry.memory_destination.is_empty() else ""

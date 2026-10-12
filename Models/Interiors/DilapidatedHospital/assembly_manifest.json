@@ -506,7 +506,7 @@
         -1.22,
         0
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": 180
     },
     {
       "name": "West waiting bench",
@@ -517,7 +517,7 @@
         1.22,
         0
       ],
-      "rotation_z_degrees": 180
+      "rotation_z_degrees": 0
     },
     {
       "name": "Nursing LandlinePhone",

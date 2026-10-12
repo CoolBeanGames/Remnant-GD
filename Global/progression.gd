@@ -7,6 +7,8 @@ var levels: Dictionary = {}
 var restored_levels: bool = false
 
 func register_catalog(catalog: computer_catalog) -> void:
+	# Migrate old saves without hiding offers their existing score already unlocked.
+	SaveGame.profile["lifetime_score"] = maxi(lifetime_score(), score())
 	if not restored_levels:
 		var saved: Variant = Blackboard.read_data("upgrade_levels")
 		if saved is Dictionary:
@@ -22,6 +24,7 @@ func register_catalog(catalog: computer_catalog) -> void:
 			if entry.tab in [computer_entry.Tab.MECHANICS, computer_entry.Tab.SELF] and not entry.unlock_flag.is_empty() and level(entry) > 0 and not Flags.check_flag(entry.unlock_flag):
 				Flags.set_flag(entry.unlock_flag, true)
 	Blackboard.store_data("upgrade_levels", levels.duplicate(true))
+	apply_effects(GrindCombo, "combo")
 	for handle in get_tree().get_nodes_in_group("manual-lever"):
 		handle.refresh_upgrade()
 
@@ -32,9 +35,32 @@ func score() -> int:
 	var value: Variant = Blackboard.read_data("score")
 	return int(value) if value is int or value is float else 0
 
+func lifetime_score() -> int:
+	return maxi(score(), maxi(0, int(SaveGame.profile.get("lifetime_score", 0))))
+
+func record_earned_score(amount: int) -> void:
+	if amount > 0:
+		SaveGame.profile["lifetime_score"] = maxi(score(), int(SaveGame.profile.get("lifetime_score", 0)) + amount)
+
+func entry_visible(entry: computer_entry) -> bool:
+	if not entry.memory_destination.is_empty():
+		if level(entry) > 0:
+			return false
+		var saved: Variant = Blackboard.read_data("revealed_memories")
+		var revealed: Dictionary = saved if saved is Dictionary else {}
+		if score() >= ceili(entry.base_cost * .5) and not revealed.has(entry.id):
+			revealed[entry.id] = true
+			Blackboard.store_data("revealed_memories", revealed)
+		return revealed.has(entry.id)
+	return lifetime_score() >= entry.reveal_lifetime_score or level(entry) > 0 or (entry.installation == "mulcher" and Mulch.installed_unlock())
+
 func purchase(entry: computer_entry, world: Node, spawn_point: Node3D, player: Node) -> String:
 	if entry == null or entry.id == &"" or entries.get(entry.id) != entry:
 		return "Unavailable entry."
+	if entry.single_purchase and level(entry) > 0:
+		return "Already purchased."
+	if not entry_visible(entry) and level(entry) == 0:
+		return "Earn more score to unlock this offer."
 	if entry.tab != computer_entry.Tab.STORE and entry.max_level > 0 and level(entry) >= entry.max_level:
 		if not entry.memory_destination.is_empty() and not Flags.check_flag(entry.completion_flag):
 			return reopen_memory(entry)
@@ -51,7 +77,7 @@ func purchase(entry: computer_entry, world: Node, spawn_point: Node3D, player: N
 		var blocked: String = memory_purchase_error(entry)
 		if not blocked.is_empty():
 			return blocked
-	if entry.installation == "mulcher" and Flags.check_flag("mulcher purchased"):
+	if entry.installation == "mulcher" and Mulch.installed_unlock():
 		return "Mulcher already installed."
 	var price: int = entry.cost(level(entry))
 	if score() < price:
@@ -89,6 +115,7 @@ func purchase(entry: computer_entry, world: Node, spawn_point: Node3D, player: N
 		levels[entry.id] = level(entry) + 1
 		apply_player(player)
 		apply_effects(Mulch, "mulcher")
+		apply_effects(GrindCombo, "combo")
 		for spawner in get_tree().get_nodes_in_group("automatic-spawner"):
 			spawner.refresh_upgrade()
 		for handle in get_tree().get_nodes_in_group("manual-lever"):

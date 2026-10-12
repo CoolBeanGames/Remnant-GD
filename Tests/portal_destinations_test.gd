@@ -5,6 +5,7 @@ var level: level_sequence
 var portal: door_portal
 var player: CharacterBody3D
 var movement: Node
+var peak_ascent: float = 0.0
 
 func check(ok: bool, message: String) -> void:
 	if not ok:
@@ -34,10 +35,13 @@ func pose(position: Vector3, yaw: float = 0.0) -> void:
 	portal.previous_camera_position = portal.camera.global_position
 
 func walk_until(target: Callable, count: int = 180) -> void:
+	peak_ascent = 0.0
 	Input.action_press("forward")
 	for index in count:
 		await get_tree().physics_frame
+		var previous_height: float = player.global_position.y
 		movement._physics_process(1.0 / 60.0)
+		peak_ascent = maxf(peak_ascent, player.global_position.y-previous_height)
 		await get_tree().process_frame
 		if target.call():
 			break
@@ -141,6 +145,7 @@ func run() -> void:
 	await tick()
 	await walk_until(func() -> bool: return player.global_position.y > 4.1 and player.global_position.z < 2.8, 240)
 	check(player.global_position.y > 4.1, "Real capsule climbs all 24 warehouse stairs without a jump upgrade")
+	check(peak_ascent < .12, "Warehouse stair collision produces a smooth rise instead of individual tread jumps")
 	await walk_until(func() -> bool: return player.global_position.z < -11.5, 500)
 	print("Warehouse office walk pose: ", player.global_position)
 	check(player.global_position.z < -11.5 and player.global_position.y > 4.1, "Catwalk connects physically to the production office")
