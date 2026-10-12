@@ -3,7 +3,7 @@
 A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, utilizing **Jolt Physics 3D** and **Direct3D 12**.
 
 > [!TIP]
-> **Interactive Documentation**: An offline-ready, searchable HTML wiki is available in [`.wiki/index.html`](.wiki/index.html). You can double-click it in your file explorer to open it immediately in any browser with instant search, dark/light theme toggle, and code copying.
+> **Interactive Documentation**: An offline-ready, searchable HTML wiki is available in [`.wiki/index.html`](.wiki/index.html). You can double-click it in your file explorer to open it immediately in any browser with full-text search, phone navigation and code copying. It shares the development summaries’ paper/ink/rust design.
 
 ---
 
@@ -12,7 +12,7 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 
 Normal gameplay has no HUD. E uses the actual PC display with clickable upgrade tabs; Esc disconnects. F holds collected notes as lit paper. N toggles the typed transcript, or reopens the latest note. Pause > Notes selects the original paper; putting it away returns to the journal. [Authoring/controls](Data/WORLD_INTERFACES.md) cover optional physical scenes/page textures and camera/cargo/save restoration.
 
-[Development index](Reports/index.html) links historical summaries, galleries and the offline wiki. [In-game interface views](Reports/WorldInterfaces/index.html) show the physical terminal and reader.
+[Documentation maintenance](Data/DOCUMENTATION.md) covers shared styling, offline search and local/phone navigation. [Development index](Reports/index.html) links historical summaries, galleries and the offline wiki. [In-game interface views](Reports/WorldInterfaces/index.html) show the physical terminal and reader.
 
 ## Reusable Blender workflow
 

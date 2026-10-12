@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "One record. One design.",
+    "kind": "Development history",
+    "local": "development_summary.html#documentation-archive",
+    "online": "../index.html#documentation-archive",
+    "description": "Summaries, render galleries and the system wiki now connect through a searchable development index. The wiki uses the same paper, ink, rust, type and sharp borders."
+  },
+  {
     "title": "The world is the interface.",
     "kind": "Development history",
     "local": "development_summary.html#world-interfaces",

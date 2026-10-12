@@ -168,3 +168,7 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-12][00:48:30] - updated the guide to include 'HUD-free gameplay, 3D terminal clicks, lit artist-adjustable physical notes, N transcript and pause journal, camera/cargo/light/save restoration, regression/render checks and indexed HTML delivery. Wiki theme follows the first build/commit as requested.'
 
 2026-10-12 00:57: World-interface verification complete: 11 selected suites pass with clean logs. Windows_2026-10-12_00-52-16 release passed isolated startup and packaged-PCK rendered interaction checks; five packaged views reviewed. First delivery precedes wiki design work as requested.
+
+2026-10-12 01:09: After gameplay build/commit 1d6742c, restyled the 105-page wiki using the exact summary theme, preserved Globals-first navigation and added the documentation archive guide. Shared Index/Summary/Wiki links support local files and phone deployment. Literal full-text search and back/forward routes replace unsafe query regex highlighting. HTML authoring sources are reusable and outputs remain self-contained.
+
+2026-10-12 01:19: Wiki/archive verification: 17 actual Chromium browser checks pass, 106 matching page/search entries and 23 preserved index entries. Desktop and emulated 390 px renders reviewed. Current local links/anchors validate; generators are idempotent. Existing owner-private phone audience confirmed before publication.
