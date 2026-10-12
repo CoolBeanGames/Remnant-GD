@@ -233,3 +233,5 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-12][07:17:48] - Completion-only memory return implementation 249f048 pushed and remote confirmed. Pages run 38247899666 succeeded; exact live source and all 13 artifact hashes verified. Seventeen live browser checks plus current memory routing/search/expanded images pass; actual phone/desktop frames reviewed. Notion entry appended/read back. Documentation-only final delivery record reuses the verified Windows_2026-10-12_07-06-44 release.
 
 [2026-10-12][09:37:57] - updated the guide to include 'October F1 issue pass, current memory travel/progression, environment/art corrections and F7 webcam/microphone capture'.
+
+2026-10-12 delivery: all 30 October inbox reports resolved locally; 19 selected scene suites and Windows_2026-10-12_09-57-20 release verified, including a rendered release-PCK probe. Implementation 796923b pushed; Pages 38268636785 and all 14 published hashes plus 18 local/live browser checks verified. Notion log appended/read back. Godot editor closed gracefully on request. Reports/development_summary.html#october-issue-pass.
