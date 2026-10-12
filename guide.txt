@@ -1,5 +1,5 @@
 REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
-Last Updated: 2026-10-12 00:48:30
+Last Updated: 2026-10-12 02:19:06
 
 Maintain README.md, the offline .wiki/index.html (sidebar, content and search), and this guide for every script/system/scene change. Globals must remain the first script category; other categories follow Scripts subfolders. Wiki must remain self-contained. Document script path, class/inheritance, UID/autoload, signals, exported/runtime state, public API and scene dependencies. Add a timestamped running-log entry using [YYYY-MM-DD][HH:MM:SS] - updated the guide to include 'feature'.
 
@@ -184,3 +184,5 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-12][02:12:23] - Added GitHub Pages documentation packaging and automatic main-branch publication: full wiki, history/index and seven galleries; source commit/hash metadata, complete internal reference validation, project-subpath-safe private-link remapping and pinned official Actions. Existing private-site access preserved; live publication verification follows.
 
 [2026-10-12][02:14:56] - GitHub Pages package verified: ten HTML routes, 107 matching wiki/search pages, 26 archive entries, 206 internal references; deterministic builds, invalid-link rejection and source/output guards pass. Seventeen actual-browser checks plus twelve HTTP routes pass with project prefix and reviewed phone views. Windows_2026-10-12_02-10-57 release/import/export/startup passes. Pages enabled for Actions on the existing public repository.
+
+[2026-10-12][02:19:06] - GitHub Pages live verification complete: workflow 38216736251 built and deployed source 0917585 successfully; twelve HTTPS routes and all artifact hashes match, 17 browser checks pass on the real site and phone/desktop views reviewed. Public summary/archive/wiki/galleries are at coolbeangames.github.io/Remnant-GD. Normal documentation pushes maintain hosting automatically; existing private site remains untouched.
