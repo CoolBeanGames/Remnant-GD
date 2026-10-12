@@ -7,6 +7,10 @@ description: Build, extend, debug, review and deliver Godot projects using their
 
 Complete the requested gameplay or tooling change through the project's current systems, then provide verified results. Keep reusable infrastructure independent of game-specific logic. This skill captures the Remnant workflow and adapts it to other Godot projects; it does not require other projects to adopt Remnant's gameplay or autoloads.
 
+## UI presentation preference
+
+For this user's Godot projects, keep traditional on-screen UI as minimal as possible. Prefer information and interactions in the game world whenever practical, such as physical computer screens, signs and held notes. Old-school UI is acceptable for initial drafts and prototypes; when refining them, move suitable displays and interactions into the world. Respect explicit project requirements and another owner's UI direction when reusing the skill.
+
 ## Begin with the project and its issue inbox
 
 Read AGENTS.md, the maintenance guide, README and relevant scripts, scenes and authoring resources before editing. Inspect Git status and preserve existing work. Current instructions/design take precedence over retired history.
