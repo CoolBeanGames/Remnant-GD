@@ -20,7 +20,17 @@ static func is_loose(body: RigidBody3D) -> bool:
 static func is_processable(body: RigidBody3D) -> bool:
 	if not is_loose(body) or not body.is_inside_tree():
 		return false
-	return not body.is_in_group("machine-immune") and not item_root(body).is_in_group("machine-immune")
+	return not prestige_locked(body) and not body.is_in_group("machine-immune") and not item_root(body).is_in_group("machine-immune")
+
+
+## A tag on either the rigid body or its item wrapper gates every pickup path.
+static func prestige_locked(node: Node) -> bool:
+	var world: Node = Blackboard.read_data("game_root") as Node
+	while is_instance_valid(node) and node != world:
+		if node.is_in_group("prestige items"):
+			return not Mulch.prestige_items_unlocked()
+		node = node.get_parent()
+	return false
 
 
 static func item_root(body: RigidBody3D) -> Node3D:
@@ -78,3 +88,61 @@ static func support_extent(body: RigidBody3D, axis: Vector3) -> float:
 		var center: Vector3 = shape.to_global(bounds.get_center()) - body.global_position
 		extent = maxf(extent, radius - center.dot(axis))
 	return maxf(extent, 0.125)
+
+
+## Shared station/car snapshots resolve existing actors, never duplicate cargo.
+static func cargo_records(entries: Array[Dictionary]) -> Array[Dictionary]:
+	var records: Array[Dictionary] = []
+	for entry in entries:
+		var body: RigidBody3D = entry.body.get_ref() as RigidBody3D
+		if not is_instance_valid(body):
+			continue
+		var actor: Node3D = item_root(body)
+		var id: String = str(actor.get_meta("persistent_item_id", ""))
+		if id.is_empty():
+			continue
+		var record: Dictionary = {"id": id, "path": str(actor.get_path_to(body)), "pose": entry.pose, "freeze": entry.freeze, "mode": entry.mode}
+		if body.has_method("capture_current_contents"):
+			record.contents = cargo_records(body.contents)
+		records.append(record)
+	return records
+
+
+static func restore_basket_contents(basket: RigidBody3D, records: Array, resolve_actor: Callable) -> void:
+	basket.on_released()
+	basket.carried = true
+	basket.last_carry_pose = basket.global_transform
+	for record in records:
+		if not record is Dictionary:
+			continue
+		var actor: Node3D = resolve_actor.call(str(record.get("id", ""))) as Node3D
+		var body: RigidBody3D = actor.get_node_or_null(NodePath(record.get("path", ""))) as RigidBody3D if is_instance_valid(actor) else null
+		if not is_instance_valid(body) or body.get_meta("carried_by_player", false) or body.has_meta("rail_cargo_owner"):
+			continue
+		var states: Array[Dictionary] = collider_states(body)
+		basket.contents.append({"body": weakref(body), "pose": record.get("pose", Transform3D.IDENTITY),
+			"freeze": record.get("freeze", false), "mode": record.get("mode", RigidBody3D.FREEZE_MODE_STATIC), "states": states})
+		set_collisions(states, false)
+		body.global_transform = basket.global_transform * record.get("pose", Transform3D.IDENTITY)
+		body.freeze = true
+		body.linear_velocity = Vector3.ZERO
+		body.angular_velocity = Vector3.ZERO
+
+
+## Exact solid bounds in a caller's space; sensors and pickup targets do not count.
+static func solid_bounds(body: RigidBody3D, inverse_pose: Transform3D) -> AABB:
+	var result := AABB()
+	var first: bool = true
+	for shape in body.find_children("*", "CollisionShape3D", true, false):
+		if shape.disabled or shape.shape == null or not shape.get_parent() is PhysicsBody3D or shape.get_parent().collision_layer == 0:
+			continue
+		var bounds: AABB = shape.shape.get_debug_mesh().get_aabb()
+		var pose: Transform3D = inverse_pose * shape.global_transform
+		for corner in 8:
+			var point: Vector3 = pose * bounds.get_endpoint(corner)
+			if first:
+				result = AABB(point, Vector3.ZERO)
+				first = false
+			else:
+				result = result.expand(point)
+	return result

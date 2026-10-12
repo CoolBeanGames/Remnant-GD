@@ -10,7 +10,7 @@ Follow the workflow's verification and resolution-record requirements. Maintain 
 
 The user established these standing preferences on 2026-10-11: verify meaningful code changes, maintain project documentation and HTML/Notion development summaries, make a Windows build, then commit and push the completed work to the configured GitHub remote. Information-only/no-change prompts need no empty commit or redundant build. Preserve unrelated work and existing publication access. Do not force-push or commit local reports, saves, recordings, templates or binaries.
 
-Use the reusable Godot workflow in `Skills/godot-project-workflow/SKILL.md` (also installed in the user skills folder). Follow `Data/WINDOWS_BUILDS.md` and `Tools/build_windows.py` for exports. Summaries use `Reports/development_summary.html` and the configured Notion Agent Workflow Log; retain history and report actual test/build/push outcomes.
+Use the reusable Godot workflow in `Skills/godot-project-workflow/SKILL.md` (also installed in the user skills folder). Follow `Data/WINDOWS_BUILDS.md` and `Tools/build_windows.py` for exports. Use `Skills/development-reports/SKILL.md` (installed as `$development-reports`) for the established report style, linked HTML/wiki/Notion history and verified GitHub Pages hosting. Summaries use `Reports/development_summary.html` and the configured Notion Agent Workflow Log; retain history and report actual test/build/push outcomes.
 
 # Blender modelling
 

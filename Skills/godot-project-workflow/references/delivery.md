@@ -4,6 +4,8 @@ Remnant has standing user authorization for normal GitHub pushes and Windows bui
 
 ## Documentation and summaries
 
+For the user’s established HTML/Notion/wiki report style and GitHub Pages delivery, use the companion development-reports skill at Skills/development-reports/SKILL.md (also installed as $development-reports). It preserves history and provides the shared theme, template and project hosting configuration.
+
 Update README, relevant guides, offline wiki content/sidebar/search and timestamped maintenance log. Validate unique page IDs and all navigation/search targets. Remnant wiki lists Globals first, then Scripts subfolders. Document script path/class/inheritance, UID/autoload, signals, configuration/runtime state, API and dependencies.
 
 Create/update self-contained responsive HTML in the reports folder. Match the game's restrained style, make it readable on a phone, explain changed behavior/controls, verification/build and limits. Preserve useful old sections/dated history and real commit links. Visually inspect layout and links. Local HTML remains useful if publication is unavailable.

@@ -101,8 +101,10 @@ func _find_grouped_parent(object: Object) -> Node3D:
 
 
 func _is_valid_target(target: Node3D) -> bool:
-	if not interaction_allowed(target):
+	if not interaction_allowed(target) or physics_items.prestige_locked(target):
 		return false
+	if target.is_in_group("prestige items"):
+		return true
 	for group: StringName in target_groups:
 		if target.is_in_group(group):
 			return true
@@ -136,7 +138,7 @@ func _set_looked_at(target: Node3D) -> void:
 
 
 func get_looked_at() -> Node3D:
-	return looked_at if is_instance_valid(looked_at) and interaction_allowed(looked_at) else null
+	return looked_at if is_instance_valid(looked_at) and interaction_allowed(looked_at) and not physics_items.prestige_locked(looked_at) else null
 
 
 func is_looking_at_something() -> bool:

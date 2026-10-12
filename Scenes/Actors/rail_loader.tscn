@@ -1,0 +1,228 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Actors/rail_station.gd" id="script"]
+
+[ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
+
+[ext_resource type="Resource" path="res://Data/Prompts/pickup_rail_loader.tres" id="look"]
+
+[ext_resource type="Resource" path="res://Data/Prompts/carrying_rotatable.tres" id="carry"]
+
+[ext_resource type="Texture2D" path="res://Models/Lever/Materials/worn-rusted-painted_albedo.png" id="rust_albedo"]
+
+[ext_resource type="Texture2D" path="res://Models/Lever/Materials/worn-rusted-painted_normal-ogl.png" id="rust_normal"]
+
+[ext_resource type="Texture2D" path="res://Models/Lever/Materials/worn-rusted-painted_roughness.png" id="rust_roughness"]
+
+[ext_resource type="Texture2D" path="res://Models/buildings/lamp/Materials/scratched-up-steel-bl/scratched-up-steel_albedo.png" id="steel_albedo"]
+
+[ext_resource type="Texture2D" path="res://Models/buildings/lamp/Materials/scratched-up-steel-bl/scratched-up-steel_normal-ogl.png" id="steel_normal"]
+
+[ext_resource type="Texture2D" path="res://Models/buildings/lamp/Materials/scratched-up-steel-bl/scratched-up-steel_roughness.png" id="steel_roughness"]
+
+[sub_resource type="StandardMaterial3D" id="Rust"]
+albedo_texture = ExtResource("rust_albedo")
+metallic = 0.65
+roughness = 0.9
+roughness_texture = ExtResource("rust_roughness")
+normal_enabled = true
+normal_texture = ExtResource("rust_normal")
+uv1_triplanar = true
+uv1_triplanar_sharpness = 4.0
+
+
+[sub_resource type="StandardMaterial3D" id="Steel"]
+albedo_texture = ExtResource("steel_albedo")
+metallic = 0.65
+roughness = 0.9
+roughness_texture = ExtResource("steel_roughness")
+normal_enabled = true
+normal_texture = ExtResource("steel_normal")
+uv1_triplanar = true
+uv1_triplanar_sharpness = 4.0
+
+
+[sub_resource type="StandardMaterial3D" id="Accent"]
+albedo_color = Color(0.35, 0.45, 0.31, 1)
+
+[sub_resource type="BoxMesh" id="LeftLegMesh"]
+size = Vector3(0.13, 0.48, 1.8)
+material = SubResource("Rust")
+
+[sub_resource type="BoxShape3D" id="LeftLegShape"]
+size = Vector3(0.13, 0.48, 1.8)
+
+[sub_resource type="BoxMesh" id="RightLegMesh"]
+size = Vector3(0.13, 0.48, 1.8)
+material = SubResource("Rust")
+
+[sub_resource type="BoxShape3D" id="RightLegShape"]
+size = Vector3(0.13, 0.48, 1.8)
+
+[sub_resource type="BoxMesh" id="FrontCrossMesh"]
+size = Vector3(2.3, 0.14, 0.14)
+material = SubResource("Rust")
+
+[sub_resource type="BoxShape3D" id="FrontCrossShape"]
+size = Vector3(2.3, 0.14, 0.14)
+
+[sub_resource type="BoxMesh" id="BinFloorMesh"]
+size = Vector3(2.16, 0.08, 2.08)
+material = SubResource("Rust")
+
+[sub_resource type="BoxShape3D" id="BinFloorShape"]
+size = Vector3(2.16, 0.08, 2.08)
+
+[sub_resource type="BoxMesh" id="LeftWallMesh"]
+size = Vector3(0.12, 0.8, 2.02)
+material = SubResource("Rust")
+
+[sub_resource type="BoxShape3D" id="LeftWallShape"]
+size = Vector3(0.12, 0.8, 2.02)
+
+[sub_resource type="BoxMesh" id="RightWallMesh"]
+size = Vector3(0.12, 0.8, 2.02)
+material = SubResource("Rust")
+
+[sub_resource type="BoxShape3D" id="RightWallShape"]
+size = Vector3(0.12, 0.8, 2.02)
+
+[sub_resource type="BoxMesh" id="BackWallMesh"]
+size = Vector3(2.04, 0.8, 0.12)
+material = SubResource("Rust")
+
+[sub_resource type="BoxShape3D" id="BackWallShape"]
+size = Vector3(2.04, 0.8, 0.12)
+
+[sub_resource type="BoxMesh" id="FrontWallMesh"]
+size = Vector3(2.04, 0.8, 0.12)
+material = SubResource("Rust")
+
+[sub_resource type="BoxShape3D" id="FrontWallShape"]
+size = Vector3(2.04, 0.8, 0.12)
+
+[sub_resource type="BoxMesh" id="RimLeftMesh"]
+size = Vector3(0.16, 0.045, 2.16)
+material = SubResource("Accent")
+
+[sub_resource type="BoxMesh" id="RimRightMesh"]
+size = Vector3(0.16, 0.045, 2.16)
+material = SubResource("Accent")
+
+[sub_resource type="BoxShape3D" id="IntakeShape"]
+size = Vector3(1.92,1.8,1.9)
+
+[sub_resource type="BoxShape3D" id="DockShape"]
+size = Vector3(2.25,2,0.9)
+
+[node name="RailLoader" type="RigidBody3D" groups=["pick-up", "machine-immune"]]
+script = ExtResource("script")
+mass = 8.0
+mode = 0
+carry_prompts = ExtResource("carry")
+
+[node name="Prompts" type="Node" parent="."]
+script = ExtResource("prompts")
+prompts = ExtResource("look")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="."]
+position = Vector3(-1.08, 0.24, 1.3)
+mesh = SubResource("LeftLegMesh")
+
+[node name="LeftLegCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-1.08, 0.24, 1.3)
+shape = SubResource("LeftLegShape")
+
+[node name="RightLeg" type="MeshInstance3D" parent="."]
+position = Vector3(1.08, 0.24, 1.3)
+mesh = SubResource("RightLegMesh")
+
+[node name="RightLegCollision" type="CollisionShape3D" parent="."]
+position = Vector3(1.08, 0.24, 1.3)
+shape = SubResource("RightLegShape")
+
+[node name="FrontCross" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.38, 0.78)
+mesh = SubResource("FrontCrossMesh")
+
+[node name="FrontCrossCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.38, 0.78)
+shape = SubResource("FrontCrossShape")
+
+[node name="BinFloor" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.41, 1.75)
+mesh = SubResource("BinFloorMesh")
+
+[node name="BinFloorCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.41, 1.75)
+shape = SubResource("BinFloorShape")
+
+[node name="LeftWall" type="MeshInstance3D" parent="."]
+position = Vector3(-1.02, 0.85, 1.75)
+mesh = SubResource("LeftWallMesh")
+
+[node name="LeftWallCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-1.02, 0.85, 1.75)
+shape = SubResource("LeftWallShape")
+
+[node name="RightWall" type="MeshInstance3D" parent="."]
+position = Vector3(1.02, 0.85, 1.75)
+mesh = SubResource("RightWallMesh")
+
+[node name="RightWallCollision" type="CollisionShape3D" parent="."]
+position = Vector3(1.02, 0.85, 1.75)
+shape = SubResource("RightWallShape")
+
+[node name="BackWall" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.85, 0.74)
+mesh = SubResource("BackWallMesh")
+
+[node name="BackWallCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.85, 0.74)
+shape = SubResource("BackWallShape")
+
+[node name="FrontWall" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.85, 2.76)
+mesh = SubResource("FrontWallMesh")
+
+[node name="FrontWallCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.85, 2.76)
+shape = SubResource("FrontWallShape")
+
+[node name="RimLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-1.02, 1.27, 1.75)
+mesh = SubResource("RimLeftMesh")
+
+[node name="RimRight" type="MeshInstance3D" parent="."]
+position = Vector3(1.02, 1.27, 1.75)
+mesh = SubResource("RimRightMesh")
+
+[node name="Intake" type="Area3D" parent="."]
+position = Vector3(0,1.35,1.75)
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Intake"]
+shape = SubResource("IntakeShape")
+
+[node name="Dock" type="Area3D" parent="."]
+position = Vector3(0,0.9,-0.45)
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Dock"]
+shape = SubResource("DockShape")
+
+[node name="Output" type="Marker3D" parent="."]
+position = Vector3(0,0.85,2.65)
+
+[node name="Status" type="Label3D" parent="."]
+position = Vector3(0,0.85,0.67)
+rotation = Vector3(0,3.141592654,0)
+text = "LOAD / 00"
+font_size = 52
+outline_size = 8
+pixel_size = 0.003
+modulate = Color(0.87,0.86,0.72,1)

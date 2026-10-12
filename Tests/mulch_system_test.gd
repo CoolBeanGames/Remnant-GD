@@ -48,7 +48,7 @@ func run() -> void:
 	var ui: computer_ui = load("res://Scenes/UI/computer_ui.tscn").instantiate()
 	add_child(ui)
 	ui.open(pc)
-	check(not ui.tabs.is_tab_hidden(3) and ui.tabs.get_child(3).get_node("List").get_child_count() == 8, "Unlocked computer shows modular mulch upgrades")
+	check(not ui.tabs.is_tab_hidden(3) and ui.tabs.get_child(3).get_node("List").get_child_count() == 9, "Unlocked computer shows modular mulch upgrades")
 	ui.close()
 	var pellets: Array[Node3D] = []
 	Mulch.pellet_produced.connect(func(pellet: Node3D): pellets.append(pellet))

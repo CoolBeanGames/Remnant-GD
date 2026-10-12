@@ -7,6 +7,27 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Load. Ride. Eject.",
+    "kind": "Development history",
+    "local": "development_summary.html#rail-stations",
+    "online": "../index.html#rail-stations",
+    "description": "Two endpoint shop parts preserve the original physics cargo, and two upgrades make the existing manual lever more productive."
+  },
+  {
+    "title": "Grind Additional Items.",
+    "kind": "Development history",
+    "local": "development_summary.html#prestige-items",
+    "online": "../index.html#prestige-items",
+    "description": "A one-time, 500-pellet permission for future prestige items—and a prerequisite for the true ending."
+  },
+  {
+    "title": "The report format, kept for next time.",
+    "kind": "Development history",
+    "local": "development_summary.html#reporting-skill",
+    "online": "../index.html#reporting-skill",
+    "description": "A discoverable reporting skill now preserves this exact visual format and GitHub hosting workflow for future agents and projects."
+  },
+  {
     "title": "Move into the view.",
     "kind": "Development history",
     "local": "development_summary.html#view-motion",
@@ -152,6 +173,13 @@
     "local": "development_summary.html#controls",
     "online": "../index.html#controls",
     "description": "Preserved development chapter and verification."
+  },
+  {
+    "title": "Rail stations, lever upgrades and prestige permission",
+    "kind": "Rendered gallery",
+    "local": "RailStations/index.html",
+    "online": "../RailStations/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "In-world look, carry and ghost controls",

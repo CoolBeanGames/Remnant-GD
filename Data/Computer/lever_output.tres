@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="upgrade"]
+script = ExtResource("effect")
+target = "lever"
+property = NodePath("items_per_pull")
+operation = 0
+amount = 1
+[resource]
+script = ExtResource("entry")
+id = &"lever_output"
+title = "Lever Output"
+description = "One extra random chute drop per manual pull, spaced apart to prevent overlap."
+base_cost = 80
+cost_multiplier = 3.0
+max_level = 5
+effects = Array[ExtResource("effect")]([SubResource("upgrade")])

@@ -137,7 +137,7 @@ func try_pickup() -> bool:
 	_debug("Target: %s" % str(target.get_path()))
 	_debug("Groups: %s" % str(target.get_groups()))
 
-	if not target.is_in_group("pick-up"):
+	if not target.is_in_group("pick-up") and not target.is_in_group("prestige items"):
 		_debug("FAILED: Object is not in group 'pick-up'.")
 		return false
 
@@ -150,7 +150,7 @@ func try_pickup() -> bool:
 
 ## Shared pickup entry point for loose props and scripted interactions.
 func pickup_object(target: RigidBody3D) -> bool:
-	if is_holding_object() or not is_instance_valid(target) or hold_position == null:
+	if is_holding_object() or not is_instance_valid(target) or hold_position == null or physics_items.prestige_locked(target):
 		return false
 	var cargo_owner: Variant = target.get_meta("rail_cargo_owner") if target.has_meta("rail_cargo_owner") else null
 	if cargo_owner is WeakRef:

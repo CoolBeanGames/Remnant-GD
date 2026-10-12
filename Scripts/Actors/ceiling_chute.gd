@@ -12,6 +12,46 @@ extends Node3D
 @export var note_scene: PackedScene = preload("res://Scenes/Actors/note_drop.tscn")
 @export var note_exit_speed: float = 3.0
 
+@export_category("Manual Batches")
+@export_range(.05, 1, .01) var batch_spawn_spacing: float = .15
+## Empty disables queue persistence for an additional independent chute.
+@export var batch_save_key: String = "manual_spawn_queue"
+var queued_spawns: int = 0
+var batch_remaining: float = 0.0
+
+func _ready() -> void:
+	if not batch_save_key.is_empty():
+		var saved: Variant = Blackboard.read_data(batch_save_key)
+		if saved is int:
+			queued_spawns = maxi(0, saved)
+			batch_remaining = batch_spawn_spacing
+
+## Each successful manual pull counts once, regardless of its individual drops.
+func spawn_batch(count: int) -> void:
+	if not enabled:
+		return
+	queued_spawns += clampi(count, 1, 16)
+	_save_queue()
+	if batch_remaining <= 0:
+		_drain_batch()
+
+func _physics_process(delta: float) -> void:
+	if not enabled:
+		return
+	batch_remaining = maxf(0, batch_remaining - delta)
+	if queued_spawns > 0 and batch_remaining <= 0:
+		_drain_batch()
+
+func _drain_batch() -> void:
+	queued_spawns -= 1
+	batch_remaining = maxf(.05, batch_spawn_spacing)
+	_save_queue()
+	spawn()
+
+func _save_queue() -> void:
+	if not batch_save_key.is_empty():
+		Blackboard.store_data(batch_save_key, queued_spawns)
+
 
 func spawn():
 	if not enabled or not is_instance_valid(spawn_point):

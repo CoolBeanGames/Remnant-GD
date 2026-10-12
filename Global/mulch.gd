@@ -41,6 +41,10 @@ func coins() -> int:
 func upgrade_level(id: StringName) -> int:
 	return int(SaveGame.profile.get("mulch_upgrades", {}).get(id, 0))
 
+## Profile-owned story permission, available before any terminal binds its catalog.
+func prestige_items_unlocked() -> bool:
+	return upgrade_level(&"grind_additional_items") > 0
+
 func tab_unlocked() -> bool:
 	return Flags.check_flag("mulcher purchased") and Flags.check_flag("mulch bin purchased")
 
@@ -168,4 +172,5 @@ func buy_upgrade(entry: computer_entry, player: Node) -> String:
 	SaveGame.save_profile()
 	coins_changed.emit(coins())
 	changed.emit()
+	DevTools.log_info("Purchased permanent %s / tier %d / %d mulch coins" % [entry.id, upgrade_level(entry.id), price], "upgrades")
 	return ""

@@ -27,3 +27,7 @@ Banked coins AND purchased mulch tiers survive New Game. Regular tiers, owned ma
 | Scripts/UI/computer_ui.gd / computer_ui / CanvasLayer / uid://bjci6pu4481e4 | last_mulch, fourth TabContainer tab; listens Mulch.changed | open/refresh show both balances, currency-specific buttons, installed state and conditional tab visibility. Reuses computer_row.tscn. |
 
 Run ownership flags: mulcher purchased, mulch bin purchased. Blackboard: mulch_points, mulcher_damage, mulcher_repairs, mulcher_repair_remaining. SaveGame.profile: mulch_coins and mulch_upgrades. level_sequence binds Mulch after WorldState.begin; grinding_area consumes the item before deferred deletion. Tests/mulch_system_test.tscn covers installation, no duplicates, unlock, real pellet production/deposits, damage/repair pricing, composed tiers and New Game persistence.
+
+## True-ending item permission
+
+The ninth Mulch entry, Grind Additional Items, costs 500 banked pellets once. It permanently unlocks pickup/grinding for the editor global group prestige items. Future scenes and ending triggers remain for later authoring. See Data/Mulch/PRESTIGE_ITEMS.md for the shared gates, save semantics and tests.

@@ -57,6 +57,7 @@ grindable="Item wrapper roots destroyed together with their rigid-body children"
 lever="Manual chute levers"
 build-socket="Compatible machine attachment and conveyor connection markers"
 machine-immune="Reusable tools and baskets excluded from grinding"
+"prestige items"="Pickup and grinding require the permanent Grind Additional Items mulch upgrade"
 
 [input]
 

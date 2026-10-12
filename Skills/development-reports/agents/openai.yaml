@@ -1,0 +1,4 @@
+interface:
+  display_name: "Development Reports"
+  short_description: "Verified HTML, wiki and Notion reports hosted on GitHub Pages"
+  default_prompt: "Use $development-reports to document this completed work in the established report style, retain searchable history, verify the phone layout, and publish to the configured GitHub Pages archive."

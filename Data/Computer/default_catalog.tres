@@ -39,6 +39,13 @@
 [ext_resource type="Resource" path="res://Data/Computer/buy_train_rail.tres" id="buy_train_rail"]
 [ext_resource type="Resource" path="res://Data/Computer/buy_rail_slider.tres" id="buy_rail_slider"]
 
+[ext_resource type="Resource" path="res://Data/Computer/lever_cooldown.tres" id="lever_cooldown"]
+[ext_resource type="Resource" path="res://Data/Computer/lever_output.tres" id="lever_output"]
+[ext_resource type="Resource" path="res://Data/Computer/buy_rail_loader.tres" id="buy_rail_loader"]
+[ext_resource type="Resource" path="res://Data/Computer/buy_rail_unloader.tres" id="buy_rail_unloader"]
+
+[ext_resource type="Resource" path="res://Data/Mulch/grind_additional_items.tres" id="prestige"]
+
 [resource]
 script = ExtResource("catalog")
-entries = Array[ExtResource("entry")]([ExtResource("e0"), ExtResource("e1"), ExtResource("e2"), ExtResource("e3"), ExtResource("e4"), ExtResource("e5"), ExtResource("e6"), ExtResource("e7"), ExtResource("e8"), ExtResource("e9"), ExtResource("e10"), ExtResource("e11"), ExtResource("e12"), ExtResource("e13"), ExtResource("e14"), ExtResource("m0"), ExtResource("m1"), ExtResource("m2"), ExtResource("m3"), ExtResource("m4"), ExtResource("m5"), ExtResource("m6"), ExtResource("m7"), ExtResource("m8"), ExtResource("m9"), ExtResource("m10"), ExtResource("m11"), ExtResource("vacuum_head"), ExtResource("fan_swivel"), ExtResource("broom_side_skirt"), ExtResource("light_beam_hood"), ExtResource("light_coloured_lens"), ExtResource("buy_train_rail"), ExtResource("buy_rail_slider")])
+entries = Array[ExtResource("entry")]([ExtResource("e0"), ExtResource("e1"), ExtResource("e2"), ExtResource("e3"), ExtResource("e4"), ExtResource("e5"), ExtResource("e6"), ExtResource("e7"), ExtResource("e8"), ExtResource("e9"), ExtResource("e10"), ExtResource("e11"), ExtResource("e12"), ExtResource("e13"), ExtResource("e14"), ExtResource("m0"), ExtResource("m1"), ExtResource("m2"), ExtResource("m3"), ExtResource("m4"), ExtResource("m5"), ExtResource("m6"), ExtResource("m7"), ExtResource("m8"), ExtResource("m9"), ExtResource("m10"), ExtResource("m11"), ExtResource("vacuum_head"), ExtResource("fan_swivel"), ExtResource("broom_side_skirt"), ExtResource("light_beam_hood"), ExtResource("light_coloured_lens"), ExtResource("buy_train_rail"), ExtResource("buy_rail_slider"), ExtResource("lever_cooldown"), ExtResource("lever_output"), ExtResource("buy_rail_loader"), ExtResource("buy_rail_unloader"), ExtResource("prestige")])

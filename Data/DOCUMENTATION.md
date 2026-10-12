@@ -20,7 +20,7 @@ The established private phone site keeps the summary at /index.html, the archive
 
 ## GitHub Pages hosting
 
-The public repository also hosts the complete documentation at https://coolbeangames.github.io/Remnant-GD/. Summary history is the landing page; /Archive/index.html is the searchable index, /Wiki/index.html is the full system wiki, and the eight current gallery folders retain their own index.html pages. The existing owner-private site keeps its access unchanged. Local HTML remains available independently of either host.
+The public repository also hosts the complete documentation at https://coolbeangames.github.io/Remnant-GD/. Summary history is the landing page; /Archive/index.html is the searchable index, /Wiki/index.html is the full system wiki, and the nine current gallery folders retain their own index.html pages. The existing owner-private site keeps its access unchanged. Local HTML remains available independently of either host.
 
 .github/workflows/documentation-pages.yml builds and deploys documentation after changes to the archive/wiki/tooling reach main, and supports manual runs in GitHub Actions. GitHub Pages is configured to use Actions. Official actions are pinned to verified release commits. The build reads the source repository with no persisted checkout credential; only the deployment job has Pages write and OIDC permissions. Sparse checkout avoids game models/audio in the working tree. No personal access token or new paid service is required by the workflow.
 
@@ -31,3 +31,7 @@ Run Python with Tools/build_documentation_site.py for a local package. Output mu
 Game sources are built and committed before wiki restyling, as requested for this change. The world-interface release is Windows_2026-10-12_00-52-16. Eleven selected suites, isolated release startup and the rendered packaged-PCK interface probe passed. The following documentation changes do not alter runtime exports.
 
 The current in-world prompt refinement is documented in Data/GAMEPLAY_FEEDBACK.md and Reports/WorldPrompts/index.html. Retain HUDFeedback as a dated presentation step rather than overwriting its screenshots.
+
+## Reporting skill
+
+The installed and versioned development-reports skill defines the existing visual format and verified GitHub hosting workflow. See Data/REPORTING.md and Skills/development-reports/SKILL.md. New RailStations gallery retains actual engine views of endpoint loader/unloader, cargo transfer and in-world upgrade entries.

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[resource]
+script = ExtResource("entry")
+id = &"grind_additional_items"
+title = "Grind Additional Items"
+description = "Permanently unlock pickup and grinding for prestige items. Required for the true ending. Survives New Game."
+tab = 3
+base_cost = 500
+max_level = 1

@@ -86,6 +86,14 @@ func connected_rail(end: int) -> Dictionary:
 	return connection
 
 
+## A station reserves a exposed track end without removing its physical stop.
+func endpoint_station(end: int, except: Node = null) -> rail_station:
+	for station in get_tree().get_nodes_in_group("rail-station"):
+		if station != except and station is rail_station and station.placed and not station.is_queued_for_deletion() and station.mounted_rail() == self and station.endpoint_end == end:
+			return station
+	return null
+
+
 func _refresh_connections(force: bool = false) -> void:
 	var frame: int = Engine.get_physics_frames()
 	if force or _network_frame != frame:
@@ -170,7 +178,7 @@ func get_placement_pose(host: Node3D, hit_position: Vector3, _normal: Vector3, r
 	if absf(carriage_height - rail.carriage_height) > minf(connection_tolerance, rail.connection_tolerance):
 		return {"valid": false}
 	var end: int = -1 if rail.to_local(hit_position).z < 0 else 1
-	if not rail.connected_rail(end).is_empty():
+	if not rail.connected_rail(end).is_empty() or rail.endpoint_station(end) != null:
 		return {"valid": false}
 	var reversed: bool = rotation.z.z < 0.0
 	var basis: Basis = rail.global_basis * (Basis(Vector3.UP, PI) if reversed else Basis.IDENTITY)
@@ -215,7 +223,7 @@ static func from_collider(collider: Node3D) -> train_rail:
 func get_carried_bodies() -> Array[RigidBody3D]:
 	var result: Array[RigidBody3D] = []
 	for prop in get_tree().get_nodes_in_group("placed-prop"):
-		if prop is rail_slider and prop.is_supported_by(self):
+		if (prop is rail_slider or prop is rail_station) and prop.is_supported_by(self):
 			result.append(prop)
 			for body in prop.get_carried_bodies():
 				if not result.has(body):

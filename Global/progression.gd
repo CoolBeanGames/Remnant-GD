@@ -18,6 +18,8 @@ func register_catalog(catalog: computer_catalog) -> void:
 		if entry != null and entry.id != &"":
 			entries[entry.id] = entry
 	Blackboard.store_data("upgrade_levels", levels.duplicate(true))
+	for handle in get_tree().get_nodes_in_group("manual-lever"):
+		handle.refresh_upgrade()
 
 func level(entry: computer_entry) -> int:
 	return Mulch.upgrade_level(entry.id) if entry.tab == computer_entry.Tab.MULCH else int(levels.get(entry.id, 0))
@@ -72,6 +74,8 @@ func purchase(entry: computer_entry, world: Node, spawn_point: Node3D, player: N
 		apply_effects(Mulch, "mulcher")
 		for spawner in get_tree().get_nodes_in_group("automatic-spawner"):
 			spawner.refresh_upgrade()
+		for handle in get_tree().get_nodes_in_group("manual-lever"):
+			handle.refresh_upgrade()
 	Blackboard.store_data("score", score() - price)
 	Blackboard.store_data("upgrade_levels", levels.duplicate(true))
 	purchased.emit(entry, actor)

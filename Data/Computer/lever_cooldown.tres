@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[sub_resource type="Resource" id="upgrade"]
+script = ExtResource("effect")
+target = "lever"
+property = NodePath("cycle_time_multiplier")
+operation = 1
+amount = 0.8
+[resource]
+script = ExtResource("entry")
+id = &"lever_cooldown"
+title = "Lever Cooldown"
+description = "Shortens the pull and reset animation by 20% per tier. Applies to the current lever."
+base_cost = 65
+cost_multiplier = 3.0
+max_level = 5
+effects = Array[ExtResource("effect")]([SubResource("upgrade")])

@@ -154,7 +154,7 @@ func _capture_resting_cargo() -> void:
 	var rail: train_rail = mounted_rail()
 	for collider in cargo_area.get_overlapping_bodies():
 		var body: RigidBody3D = physics_items.rigid_body(collider)
-		if body == self or body == rail or not physics_items.is_loose(body) or body.get_meta("carried_by_player", false) or body.has_meta("rail_cargo_owner"):
+		if body == self or body == rail or not physics_items.is_loose(body) or physics_items.prestige_locked(body) or body.get_meta("carried_by_player", false) or body.has_meta("rail_cargo_owner"):
 			continue
 		var point: Vector3 = to_local(body.global_position)
 		if absf(point.x) > deck_half_size.x or absf(point.z) > deck_half_size.y:
@@ -241,28 +241,7 @@ func _release_all_cargo() -> void:
 
 
 func get_rail_state() -> Dictionary:
-	var records: Array[Dictionary] = []
-	for entry in cargo:
-		var body: RigidBody3D = entry.body.get_ref() as RigidBody3D
-		if not is_instance_valid(body):
-			continue
-		var actor: Node3D = physics_items.item_root(body)
-		var id: String = str(actor.get_meta("persistent_item_id", ""))
-		if not id.is_empty():
-			var record: Dictionary = {"id": id, "path": str(actor.get_path_to(body)), "pose": entry.pose, "freeze": entry.freeze, "mode": entry.mode}
-			if body.has_method("capture_current_contents"):
-				var contents: Array[Dictionary] = []
-				for inner in body.contents:
-					var inner_body: RigidBody3D = inner.body.get_ref() as RigidBody3D
-					if not is_instance_valid(inner_body):
-						continue
-					var inner_actor: Node3D = physics_items.item_root(inner_body)
-					var inner_id: String = str(inner_actor.get_meta("persistent_item_id", ""))
-					if not inner_id.is_empty():
-						contents.append({"id": inner_id, "path": str(inner_actor.get_path_to(inner_body)), "pose": inner.pose, "freeze": inner.freeze, "mode": inner.mode})
-				record.contents = contents
-			records.append(record)
-	return {"position": slider_position, "speed": linear_velocity.dot(mounted_rail().global_basis.z.normalized()) if mounted_rail() != null else 0.0, "basis": rail_basis, "cargo": records}
+	return {"position": slider_position, "speed": linear_velocity.dot(mounted_rail().global_basis.z.normalized()) if mounted_rail() != null else 0.0, "basis": rail_basis, "cargo": physics_items.cargo_records(cargo)}
 
 
 func restore_rail_state(state: Dictionary, resolve_actor: Callable = Callable()) -> void:
@@ -287,27 +266,89 @@ func restore_rail_state(state: Dictionary, resolve_actor: Callable = Callable())
 
 
 func _restore_basket_contents(basket: RigidBody3D, records: Array, resolve_actor: Callable) -> void:
-	# Save restoration precedes Area3D overlap updates, so resolve saved contents
-	# directly rather than depending on a sensor already seeing every inner item.
-	basket.on_released()
-	basket.carried = true
 	basket.global_transform = global_transform * cargo.back().pose
-	basket.last_carry_pose = basket.global_transform
-	for record in records:
-		if not record is Dictionary:
+	physics_items.restore_basket_contents(basket, records, resolve_actor)
+
+
+func capture_current_cargo() -> void:
+	_capture_resting_cargo()
+
+
+## Stations use the existing cargo owner; item identity and nested contents stay intact.
+func accept_cargo(body: RigidBody3D, pose: Transform3D) -> bool:
+	if not is_instance_valid(body) or physics_items.prestige_locked(body) or body == self or body.has_meta("rail_cargo_owner") or body.get_meta("carried_by_player", false):
+		return false
+	_capture_cargo_body(body)
+	cargo.back().pose = global_transform.affine_inverse() * pose
+	_sync_cargo()
+	return true
+
+
+func eject_cargo(body: RigidBody3D, pose: Transform3D, velocity: Vector3) -> void:
+	for entry in cargo:
+		if entry.body.get_ref() != body:
 			continue
-		var actor: Node3D = resolve_actor.call(str(record.get("id", ""))) as Node3D
-		var body: RigidBody3D = actor.get_node_or_null(NodePath(record.get("path", ""))) as RigidBody3D if is_instance_valid(actor) else null
-		if not is_instance_valid(body) or body.get_meta("carried_by_player", false) or body.has_meta("rail_cargo_owner"):
+		# Move a captured basket while it still owns its contents, then release.
+		entry.pose = global_transform.affine_inverse() * pose
+		_sync_cargo()
+		var assembly: Array[RigidBody3D] = [body]
+		if body.has_method("get_carried_bodies"):
+			assembly.append_array(body.get_carried_bodies())
+		release_cargo_body(body)
+		for part in assembly:
+			if is_instance_valid(part):
+				part.linear_velocity = velocity
+				part.angular_velocity = Vector3.ZERO
+				part.sleeping = false
+		return
+
+
+## Conservative deck packing also checks built props and nearby scenery.
+func cargo_loading_pose(body: RigidBody3D, ignored: Array[RID]) -> Dictionary:
+	var axes: Basis = global_basis.orthonormalized()
+	var solid: AABB = physics_items.solid_bounds(body, Transform3D(axes, body.global_position).affine_inverse())
+	if not solid.has_volume():
+		return {}
+	var lower: Vector3 = -solid.position
+	var upper: Vector3 = solid.end
+	var shape := BoxShape3D.new()
+	shape.size = lower + upper
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = shape
+	query.collision_mask = int(get_meta("collision_space_mask", 1))
+	query.exclude = ignored.duplicate()
+	query.exclude.append(get_rid())
+	query.exclude.append(body.get_rid())
+	var rail: train_rail = mounted_rail()
+	if rail != null:
+		query.exclude.append(rail.get_rid())
+	var space: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
+	var occupied: Array[AABB] = []
+	for entry in cargo:
+		var existing: RigidBody3D = entry.body.get_ref() as RigidBody3D
+		if not is_instance_valid(existing):
 			continue
-		var states: Array[Dictionary] = physics_items.collider_states(body)
-		basket.contents.append({"body": weakref(body), "pose": record.get("pose", Transform3D.IDENTITY),
-			"freeze": record.get("freeze", false), "mode": record.get("mode", RigidBody3D.FREEZE_MODE_STATIC), "states": states})
-		physics_items.set_collisions(states, false)
-		body.global_transform = basket.global_transform * record.get("pose", Transform3D.IDENTITY)
-		body.freeze = true
-		body.linear_velocity = Vector3.ZERO
-		body.angular_velocity = Vector3.ZERO
+		var bounds: AABB = physics_items.solid_bounds(existing, global_transform.affine_inverse())
+		if bounds.has_volume():
+			occupied.append(bounds)
+	for height in [0.0, .45, .9, 1.35]:
+		for x in [0.0, -.55, .55]:
+			for z in [0.0, -.55, .55]:
+				if x - lower.x < -deck_half_size.x or x + upper.x > deck_half_size.x or z - lower.z < -deck_half_size.y or z + upper.z > deck_half_size.y:
+					continue
+				var point := Vector3(x, deck_surface + lower.y + height + .015, z)
+				var bounds := AABB(point - lower, lower + upper)
+				var blocked: bool = false
+				for other in occupied:
+					if bounds.grow(.01).intersects(other):
+						blocked = true
+						break
+				if blocked:
+					continue
+				query.transform = Transform3D(axes, to_global(point + (upper - lower) * .5))
+				if space.intersect_shape(query, 1).is_empty():
+					return {"pose": Transform3D(body.global_basis, to_global(point))}
+	return {}
 
 
 func _exit_tree() -> void:

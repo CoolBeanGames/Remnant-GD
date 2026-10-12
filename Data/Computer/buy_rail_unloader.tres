@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/rail_unloader.tscn" id="scene"]
+[resource]
+script = ExtResource("entry")
+id = &"buy_rail_unloader"
+title = "Rail Unloader"
+description = "Snap to a free rail end. Removes deck cargo and ejects it outward; built tools stay attached."
+tab = 2
+base_cost = 170
+cost_multiplier = 1.8
+escalating_store_price = true
+max_level = 0
+delivery_scene = ExtResource("scene")

@@ -31,3 +31,7 @@ Script identities: train_rail.gd uid://bchfhr21xqpuu; rail_slider.gd uid://0tqyb
 `Tests/rail_chain_test.tscn` exercises joined sections, endpoint ghost placement, bidirectional transfers, reversed sections, cargo/attachments, safe disconnection and save restoration. `Tests/rail_player_test.tscn` checks the real player's platform riding, attached riding surfaces and normal dismount/teleport behavior.
 
 Rails form straight tracks. Joins require matching endpoint positions, track direction, up direction, carriage height and physics/portal space; held or loose rails do not connect. Turns and junction routing are outside this system. Each section keeps its own anchor, so retrieving one rail does not pick up the entire track.
+
+## Endpoint stations
+
+Rail Loader and Rail Unloader are ordinary shop parts with end-only B/B/F ghosts, physical input/output and preserved original cargo. A station reserves its exposed rail end against chaining. Carrying a rail includes its mounted station and queued nested contents. See Data/Items/RAIL_STATIONS.md for full authoring, backpressure, saved queue and tests.

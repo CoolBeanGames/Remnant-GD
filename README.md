@@ -10,6 +10,14 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Rail stations, lever upgrades and prestige permission
+
+Buy Rail Loader / Rail Unloader in the Store and ghost-place them at exposed rail ends with B/B/F. Drop objects into the loader; it transfers them when a car arrives. The unloader spits loose cargo outward while built-on tools stay attached. Full decks leave items waiting; nested baskets and saved queues retain their original items. [Station authoring](Data/Items/RAIL_STATIONS.md) and [engine views](Reports/RailStations/index.html).
+
+Mechanics now upgrades the existing lever's full animation cooldown (20% shorter per tier) and output (+1 item per pull, up to six), with spaced random drops. [Lever settings](Data/Computer/LEVER_UPGRADES.md). The Mulch tab's one-time **Grind Additional Items** costs **500 pellets**, persists across New Game, and unlocks the new editor group **prestige items**; scenes/true-ending triggers come later. [Permission authoring](Data/Mulch/PRESTIGE_ITEMS.md).
+
+The installed [development-reports skill](Skills/development-reports/SKILL.md) captures this project's exact report style, archive/wiki/Notion workflow and GitHub Pages publication, with reusable theme/template assets for future projects. Invoke `$development-reports`; meaningful development prompts retain the established tests/build/commit delivery workflow.
+
 ## Interfaces in the world
 
 Look prompts float beside the target; carry controls follow the held item and build controls follow its ghost. Editable 3D label scenes and optional object markers keep presentation reusable. A subtle 7-degree Y angle adds visible perspective; tune Yaw Degrees on WorldPrompts (0 restores flat text). See [prompt authoring](Data/GAMEPLAY_FEEDBACK.md) and the [rendered gallery](Reports/WorldPrompts/index.html).

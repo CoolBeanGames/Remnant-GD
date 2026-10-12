@@ -96,7 +96,33 @@ def build():
     else:
         pages[existing]=archive_page
         next(row for row in index if row['id']==archive_id)['text']=archive_text
-    page_ids=[id for id,classes,part in parts if 'doc-page' in classes]
+    # Current maintained gameplay/workflow guides keep sidebar, body and search in sync.
+    maintained = [
+        ('page-rail-stations', 'Rail loader and unloader', 'Actors', 'Data/Items/RAIL_STATIONS.md', 'page-manual-automation', 'rail station loader unloader endpoint cargo basket docking queue save'),
+        ('page-lever-upgrades', 'Manual lever upgrades', 'Scripts', 'Data/Computer/LEVER_UPGRADES.md', 'page-scripts-actors-lever-controller', 'lever cooldown animation speed output spawn batch manual queue'),
+        ('page-prestige-items', 'Prestige items permission', 'Mulch', 'Data/Mulch/PRESTIGE_ITEMS.md', 'page-mulch-scenes', 'prestige items grind additional items true ending mulch permanent pickup'),
+        ('page-development-reports', 'Development reporting skill', 'Overview', 'Data/REPORTING.md', 'page-development-archive', 'reporting skill html template style GitHub Pages publication Notion'),
+        ('page-global-mulch', 'Mulch / bank and permanent upgrades', 'Globals', 'Data/Mulch/README.md', None, 'mulcher pellets permanent upgrades prestige items repair profile'),
+        ('page-scripts-actors-lever-controller', 'lever_controller.gd', 'Scripts', 'Data/Computer/LEVER_UPGRADES.md', None, 'lever pull reset animation cooldown output Audio'),
+    ]
+    for ref_id, title, category, guide_path, after_id, keywords in maintained:
+        markdown=(ROOT/guide_path).read_text(encoding='utf-8-sig')
+        if guide_path.endswith('SKILL.md'):
+            markdown=re.sub(r'^---\n.*?\n---\n', '', markdown, count=1, flags=re.S)
+        page='<div id="'+ref_id+'" class="doc-page">'+prose(markdown)+'</div>'
+        slot=next((i for i,part in enumerate(pages) if 'id="'+ref_id+'"' in part),None)
+        if slot is None:
+            pages.append(page)
+            item='<li><a class="nav-item-link" data-page="'+ref_id+'" href="#'+ref_id+'">'+html.escape(title)+'</a></li>'
+            nav,count=re.subn(r'(<li>\s*<a\b[^>]*data-page="'+re.escape(after_id)+r'".*?</li>)',lambda match:match[0]+item,nav,count=1,flags=re.S)
+            assert count==1, 'Missing maintained-guide sidebar anchor '+str(after_id)
+            index.append({'id':ref_id,'title':title,'category':category,'keywords':keywords,'summary':markdown.split('\n\n')[1].replace('\n',' ')[:260],'text':markdown})
+        else:
+            pages[slot]=page
+            row=next(row for row in index if row['id']==ref_id)
+            row.update({'title':title,'keywords':keywords,'text':markdown})
+    page_ids=[re.search(r'id="([^"]+)"',page)[1] for page in pages]
+
     if feedback_id not in page_ids: page_ids.append(feedback_id)
     if archive_id not in page_ids: page_ids.insert(0,archive_id)
     for ref_id in prompt_refs:

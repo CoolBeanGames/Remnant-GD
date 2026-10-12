@@ -176,6 +176,11 @@ func _restore(records: Array, request_session: int = -1) -> void:
 		var actor: Node3D = _actor(str(record.get("id", "")))
 		if is_instance_valid(actor) and actor.has_method("restore_tool_state"):
 			actor.restore_tool_state(record.get("tool_state", {}), _actor)
+	# Restoration is a temporary lifecycle phase, not a permanent placement bypass.
+	for id in items:
+		var actor: Node3D = _actor(id)
+		if is_instance_valid(actor):
+			actor.remove_meta("restoring")
 	tracking = true
 	capture()
 	DevTools.log_info("World restored / %d items" % items.size(), "world")
@@ -286,6 +291,9 @@ func capture() -> void:
 			record.rail_state = actor.get_rail_state()
 		if actor is train_rail:
 			for property in ["rail_length", "carriage_height", "end_margin", "connection_tolerance"]:
+				record.properties[property] = actor.get(property)
+		if actor is rail_station:
+			for property in ["mode", "capacity", "scan_interval", "dock_tolerance", "bin_bounds", "loading_batch", "eject_speed", "eject_lift", "eject_spacing"]:
 				record.properties[property] = actor.get(property)
 		if actor is rail_slider:
 			for property in ["travel_damping", "deck_half_size", "deck_surface", "cargo_tolerance"]:

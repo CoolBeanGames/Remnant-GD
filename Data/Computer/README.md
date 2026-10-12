@@ -65,7 +65,7 @@ The testing level contains no loose test props. The manual chute remains availab
 
 `Scenes/Actors/automatic_spawner.tscn` is a pickup/ghost-placeable prop sold for 400 score initially. Place it using B/B/F like other props. Its Output marker determines where items appear; Item Pool determines which random scene is selected. It produces one item every 8 seconds while placed, unheld and the level is enabled. Inspector exports configure the item pool, interval, minimum interval and required flag. Empty Required Flag removes the level requirement.
 
-`Data/Computer/spawner_speed.tres` starts at 250 score, scales by 3.0, has five tiers and multiplies the interval by 0.8 each tier. This upgrade applies to existing and future spawners. The default catalog has 34 entries: thirteen Mechanics, three Self, ten Store and eight Mulch. Edit these resources to change prices and effects. The effect target and store delivery kind accept spawner.
+`Data/Computer/spawner_speed.tres` starts at 250 score, scales by 3.0, has five tiers and multiplies the interval by 0.8 each tier. This upgrade applies to existing and future spawners. The default catalog has 39 entries: fifteen Mechanics, three Self, twelve Store and nine Mulch. Edit these resources to change prices and effects. The effect target and store delivery kind accept spawner.
 
 ### Blackboard state
 
@@ -96,10 +96,14 @@ Mechanics/self tier costs are `ceil(base_cost * multiplier^purchased_level)`. Fa
 
 Successful deliveries increment their entry count in Progression.levels and Blackboard upgrade_levels. These counts persist separately from current world ownership: dropping, losing or retrieving an item does not reduce its next purchase price. The store shows DELIVERED / RISING PRICE for escalating offers. Snapshots are duplicated so resetting the live progression dictionary cannot erase saved counts. computer_entry exports escalating_store_price; cost(level) applies its exponent to upgrades and opted-in store entries, with bounded nonnegative integer costs.
 
-The catalog now has thirteen Mechanics, three Self, ten Store and eight Mulch entries. Mulch is hidden until current-run Mulcher/Bin purchases; those upgrades use permanent coins and stack after normal tiers. Full prices/effects/authoring: Data/Mulch/README.md.
+The catalog now has fifteen Mechanics, three Self, twelve Store and nine Mulch entries. Mulch is hidden until current-run Mulcher/Bin purchases; those upgrades use permanent coins and stack after normal tiers. Full prices/effects/authoring: Data/Mulch/README.md.
 
 ## Approved attachments and air placement
 
 Air Fan and Air Plate are no longer separate store stock. Fan Air Placement (600 score) and Plate Air Placement (450) are one-time Mechanics upgrades for future normal deliveries; B still starts ghost placement and V optionally locks the held pose in air. Existing legacy air props remain compatible with saves. Vacuum Head (200), Fan Swivel Mount (150), Broom Side Skirt (75), Light Beam Hood (100) and Coloured Lens (80) are also single-tier upgrades for future tools. H switches upgraded fans between blow/suction, G empties their bag, J toggles sweep and L changes upgraded light colour.
 
 Rail (90) and Slider (65) store deliveries each escalate by 1.8. Place the slider on the rail; resting cargo and built props follow it. A mounted powered fan drives it opposite the airflow. [Controls, prices and integration](../Items/MANUAL_AUTOMATION.md), [tool authoring](../Items/TOOL_UPGRADES.md), [rail authoring](../Items/RAILS.md).
+
+## Lever and endpoint deliveries
+
+See Data/Computer/LEVER_UPGRADES.md for the five-tier cooldown/output upgrades, staggered random drops and queue persistence. Rail Loader (140 initial score) and Unloader (170) are regular escalating Store deliveries; Data/Items/RAIL_STATIONS.md covers endpoint-only ghost placement and cargo transfer. Data/Mulch/PRESTIGE_ITEMS.md documents the 500-pellet permanent permission for the new prestige items group.
