@@ -11,6 +11,7 @@ signal destination_changed(id: StringName, title: String)
 @export var return_door_scene: PackedScene = preload("res://Models/Door/source/doorway_animated.glb")
 @export var sky_position: Vector3 = Vector3(1600, 0, 0)
 @export var activation_flag: String = "exited room"
+@export var purchase_required: bool = false
 @export var source_offset: Vector3 = Vector3(0, 1.7195, 0)
 @export var aperture: Vector2 = Vector2(1.74, 3.18)
 @export_range(0.25, 1.0, 0.05) var resolution_scale: float = 1.0
@@ -34,9 +35,12 @@ var previous_bodies: Dictionary = {}
 var graphics_revision: int = -1
 var active_destination_id: StringName = &""
 var switching: bool = false
+var memory_id: StringName = &""
+var closing_memory: bool = false
 var half_turn := Transform3D(Basis(Vector3.UP, PI), Vector3.ZERO)
 
 func _ready() -> void:
+	add_to_group("story-portal")
 	if door == null or player == null:
 		return
 	camera = player.get_node("Camera3D")
@@ -53,10 +57,14 @@ func request_activation() -> void:
 	pending = true
 	activate.call_deferred()
 
-func activate() -> void:
+func activate(debug_preview: bool = false) -> void:
 	pending = false
 	if active or not Flags.check_flag(activation_flag) or destination_scene == null:
 		return
+	var saved_memory: Variant = Blackboard.read_data("active_memory_id")
+	if purchase_required and not debug_preview and (not (saved_memory is String or saved_memory is StringName) or str(saved_memory).is_empty()):
+		return
+	memory_id = StringName(saved_memory) if not debug_preview and (saved_memory is String or saved_memory is StringName) else &""
 	var selected: portal_destination = _destination(StringName(str(Blackboard.read_data("portal_destination_id"))))
 	if selected == null and not destinations.is_empty():
 		selected = destinations[0]
@@ -147,6 +155,11 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func cycle_destination() -> bool:
+	if not memory_id.is_empty() or (purchase_required and Progression.pending_memory() != null):
+		return false
+	if purchase_required and not active and Flags.check_flag(activation_flag):
+		activate(true)
+		return active
 	if destinations.is_empty():
 		return false
 	var index: int = -1
@@ -163,7 +176,7 @@ func cycle_destination() -> bool:
 ## Gameplay triggers can call this same API later, without synthesizing F9 input.
 func select_destination(id: StringName) -> bool:
 	var selected: portal_destination = _destination(id)
-	if not active or suspended or switching or selected == null or selected.id == active_destination_id:
+	if not active or suspended or switching or not memory_id.is_empty() or selected == null or selected.id == active_destination_id:
 		return false
 	if not ResourceLoader.exists(selected.scene_path, "PackedScene"):
 		DevTools.log_error("Missing portal destination: %s" % selected.scene_path, "portal")
@@ -171,6 +184,68 @@ func select_destination(id: StringName) -> bool:
 	switching = true
 	_switch_destination.call_deferred(selected)
 	return true
+
+## A purchase selects synchronously before score is charged, retaining failure safety.
+func open_memory(id: StringName, destination_id: StringName) -> bool:
+	var selected: portal_destination = _destination(destination_id)
+	if inside or suspended or switching or closing_memory or selected == null or not Flags.check_flag(activation_flag) or not ResourceLoader.exists(selected.scene_path, "PackedScene"):
+		return false
+	var old_memory: StringName = memory_id
+	var old_destination: Variant = Blackboard.read_data("portal_destination_id")
+	Blackboard.store_data("active_memory_id", str(id))
+	if not active:
+		Blackboard.store_data("portal_destination_id", str(destination_id))
+		activate()
+	else:
+		memory_id = id
+		if active_destination_id != destination_id:
+			switching = true
+			_switch_destination(selected)
+		else:
+			destination_changed.emit(selected.id, selected.title)
+	if not active or active_destination_id != destination_id:
+		memory_id = old_memory
+		if old_destination == null:
+			Blackboard.remove_data("portal_destination_id")
+		else:
+			Blackboard.store_data("portal_destination_id", old_destination)
+		if old_memory.is_empty():
+			Blackboard.remove_data("active_memory_id")
+		else:
+			Blackboard.store_data("active_memory_id", str(old_memory))
+		return false
+	memory_id = id
+	DevTools.log_info("Opened %s / %s" % [id, destination_id], "memories")
+	return true
+
+func _close_memory() -> void:
+	if inside or not active:
+		closing_memory = false
+		return
+	_evacuate_room_items()
+	var finished_id: StringName = memory_id
+	active = false
+	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	source_frame.free()
+	room.free()
+	viewport.free()
+	source_frame = null
+	source_surface = null
+	room = null
+	destination_frame = null
+	return_surface = null
+	viewport = null
+	portal_camera = null
+	memory_id = &""
+	active_destination_id = &""
+	previous_bodies.clear()
+	Blackboard.remove_data("active_memory_id")
+	door.request_close()
+	WorldState._physics_process(0.0)
+	WorldState.capture()
+	closing_memory = false
+	Progression.changed.emit()
+	DevTools.log_info("Closed %s after returning. Saved cargo evacuated." % finished_id, "memories")
 
 func _switch_destination(selected: portal_destination) -> void:
 	if not active or suspended:
@@ -352,6 +427,9 @@ func teleport_player(pose_map: Transform3D) -> void:
 	WorldState._physics_process(0.0)
 	WorldState.capture()
 	crossed.emit(inside)
+	if not inside and not memory_id.is_empty():
+		closing_memory = true
+		_close_memory.call_deferred()
 
 func _set_player_space() -> void:
 	portal_space.apply_actor(player, inside)

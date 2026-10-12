@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+[resource]
+script = ExtResource("entry")
+id = &"memory_1"
+title = "Memory 1"
+description = "Open Memory 1 through the Strange Door."
+tab = 1
+base_cost = 1500
+cost_multiplier = 1.0
+max_level = 1
+unlock_flag = "memory 1 unlocked"
+memory_destination = &"apartment"
+completion_flag = "memory 1 complete"

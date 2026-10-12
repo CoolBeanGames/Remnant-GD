@@ -26,6 +26,7 @@ func run() -> void:
 	level.set("spawn_animation_enabled", false)
 	# Keep the original small-room physics fixture; full authored destinations have their own suite.
 	level.get_node("DoorPortal").destinations.clear()
+	level.get_node("DoorPortal").purchase_required = false # Explicit free F9/physics test mode.
 	add_child(level)
 	var player: CharacterBody3D = level.player
 	player.process_mode = Node.PROCESS_MODE_DISABLED
@@ -160,6 +161,7 @@ func run() -> void:
 	var resumed: level_sequence = load("res://Scenes/testing_level.tscn").instantiate()
 	resumed.set("spawn_animation_enabled", false)
 	resumed.get_node("DoorPortal").destinations.clear()
+	resumed.get_node("DoorPortal").purchase_required = false # Explicit free preview fixture.
 	add_child(resumed)
 	resumed.player.process_mode = Node.PROCESS_MODE_DISABLED
 	await tick()

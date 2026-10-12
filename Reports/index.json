@@ -175,6 +175,13 @@
     "description": "Preserved development chapter and verification."
   },
   {
+    "title": "Buy a memory. Step through.",
+    "kind": "Development history",
+    "local": "development_summary.html#memory-unlocks",
+    "online": "../index.html#memory-unlocks",
+    "description": "Three one-time score purchases open the apartment, warehouse and hospital through the Strange Door."
+  },
+  {
     "title": "Rail stations, lever upgrades and prestige permission",
     "kind": "Rendered gallery",
     "local": "RailStations/index.html",

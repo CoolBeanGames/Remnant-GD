@@ -99,6 +99,9 @@ def build():
     # Current maintained gameplay/workflow guides keep sidebar, body and search in sync.
     maintained = [
         ('page-rail-stations', 'Rail loader and unloader', 'Actors', 'Data/Items/RAIL_STATIONS.md', 'page-manual-automation', 'rail station loader unloader endpoint cargo basket docking queue save'),
+        ('page-door-portal', 'Doorway portal and memory areas', 'Scripts', 'Data/Portal/ENVIRONMENTS.md', None, 'portal memory unlock completion return closure cargo F9 preview'),
+        ('page-memory-upgrades', 'Memory unlock upgrades', 'Scripts', 'Data/Computer/MEMORY_UPGRADES.md', 'page-lever-upgrades', 'memory unlock story flags score 1500 25000 50000 Self save New Game'),
+        ('page-global-progression', 'Progression / computer purchases', 'Globals', 'Data/Computer/README.md', None, 'computer upgrade purchase score levels unlock_flag memory flag'),
         ('page-lever-upgrades', 'Manual lever upgrades', 'Scripts', 'Data/Computer/LEVER_UPGRADES.md', 'page-scripts-actors-lever-controller', 'lever cooldown animation speed output spawn batch manual queue'),
         ('page-prestige-items', 'Prestige items permission', 'Mulch', 'Data/Mulch/PRESTIGE_ITEMS.md', 'page-mulch-scenes', 'prestige items grind additional items true ending mulch permanent pickup'),
         ('page-development-reports', 'Development reporting skill', 'Overview', 'Data/REPORTING.md', 'page-development-archive', 'reporting skill html template style GitHub Pages publication Notion'),

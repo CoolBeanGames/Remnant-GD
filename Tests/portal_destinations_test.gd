@@ -73,6 +73,7 @@ func run() -> void:
 	add_child(pool)
 	level = load("res://Scenes/testing_level.tscn").instantiate()
 	level.spawn_animation_enabled = false
+	level.get_node("DoorPortal").purchase_required = false # Explicit free F9/physics test mode.
 	add_child(level)
 	player = level.player
 	player.process_mode = Node.PROCESS_MODE_DISABLED
@@ -181,6 +182,7 @@ func run() -> void:
 	Blackboard.store_data("portal_inside", true)
 	level = load("res://Scenes/testing_level.tscn").instantiate()
 	level.spawn_animation_enabled = false
+	level.get_node("DoorPortal").purchase_required = false # Explicit free preview fixture.
 	add_child(level)
 	level.player.process_mode = Node.PROCESS_MODE_DISABLED
 	await tick(4)

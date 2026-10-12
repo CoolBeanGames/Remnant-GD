@@ -27,6 +27,7 @@ func run() -> void:
 	pool.blackboard_name = &"audio_pool"
 	add_child(pool)
 	var level: level_sequence = load("res://Scenes/testing_level.tscn").instantiate()
+	level.get_node("DoorPortal").purchase_required = false # Explicit free preview fixture.
 	add_child(level)
 	var wake: player_wake_up = level.player.get_node("Controllers/Wake_Up")
 	var dialogue: dialogue_player = level.get_node("DialoguePlayer")
@@ -79,6 +80,7 @@ func run() -> void:
 	level.queue_free()
 	await tick()
 	level = load("res://Scenes/testing_level.tscn").instantiate()
+	level.get_node("DoorPortal").purchase_required = false # Explicit free preview fixture.
 	add_child(level)
 	await tick()
 	wake = level.player.get_node("Controllers/Wake_Up")

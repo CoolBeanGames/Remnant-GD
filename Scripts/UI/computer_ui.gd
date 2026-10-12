@@ -78,10 +78,21 @@ func refresh() -> void:
 		var button: Button = state.row.get_node("Buy")
 		var installed: bool = entry.installation == "mulcher" and Flags.check_flag("mulcher purchased")
 		var balance: int = last_mulch if entry.tab == computer_entry.Tab.MULCH else last_score
+		var reopening: bool = complete and not entry.memory_destination.is_empty() and not Flags.check_flag(entry.completion_flag)
+		var blocked_memory: String = Progression.memory_purchase_error(entry) if not entry.memory_destination.is_empty() else ""
 		button.disabled = complete or installed or balance < entry.cost(tier) or (entry.tab == computer_entry.Tab.MULCH and not Mulch.tab_unlocked())
+		if not blocked_memory.is_empty():
+			button.disabled = true
 		button.text = "INSTALLED" if installed else ("COMPLETE" if complete else "BUY / %d%s" % [entry.cost(tier), " MULCH" if entry.tab == computer_entry.Tab.MULCH else ""])
+		if complete and not entry.unlock_flag.is_empty():
+			button.text = "UNLOCKED"
+		if reopening:
+			button.text = "OPEN" if not Progression.memory_is_open(entry) else "OPEN PORTAL"
+			button.disabled = Progression.memory_is_open(entry) or Progression.memory_portal(entry) == null
 		if entry.tab == computer_entry.Tab.STORE:
 			state.row.get_node("Text/Level").text = "DELIVERED %d / RISING PRICE" % tier if entry.escalating_store_price else ("GRINDER INSTALLATION" if entry.installation == "mulcher" else "SKY DELIVERY")
+		elif not entry.unlock_flag.is_empty():
+			state.row.get_node("Text/Level").text = ("AWAITING COMPLETION" if reopening else "UNLOCKED") if complete else (blocked_memory.to_upper() if not blocked_memory.is_empty() else "ONE-TIME UNLOCK")
 		else:
 			state.row.get_node("Text/Level").text = "LEVEL %d / %s" % [tier, str(entry.max_level) if entry.max_level > 0 else "--"]
 

@@ -2,7 +2,7 @@
 
 ## In-game test
 
-After leaving the concrete room and letting it vanish unseen, E opens the retained Strange Door. F9 selects apartment, warehouse, hospital, then wraps. The destination is stored in the Blackboard; a brief text-only portal status confirms the destination. F9 is a host gameplay shortcut, not an addon modal. Menus/wake-up/respawn room/keyboard repeat cannot activate it. Later story triggers can call DoorPortal.select_destination(&"hospital") and await destination_changed.
+After leaving the concrete room and letting it vanish unseen, buy Memory 1/2/3 at the computer for its apartment/warehouse/hospital portal. E opens the retained Strange Door. Returning closes a paid portal and safely evacuates saved cargo. Completion flags gate further memory purchases; unfinished memories reopen for free. See Data/Computer/MEMORY_UPGRADES.md. F9 remains a debug preview when no paid memory is active or unfinished; it selects apartment, warehouse, hospital, then wraps. The destination is stored in the Blackboard; a brief text-only portal status confirms the destination. F9 is a host gameplay shortcut, not an addon modal. Menus/wake-up/respawn room/keyboard repeat cannot activate it. Later story triggers can call DoorPortal.select_destination(&"hospital") and await destination_changed.
 
 ## Editable scene files
 

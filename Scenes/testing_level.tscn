@@ -287,6 +287,7 @@ delivery_parent = NodePath("..")
 
 [node name="DoorPortal" type="Node3D" parent="." unique_id=1263641720 node_paths=PackedStringArray("door", "player")]
 script = ExtResource("door_portal")
+purchase_required = true
 door = NodePath("../doorway_animated")
 player = NodePath("../Player")
 destinations = Array[ExtResource("portal_destination_script")]([ExtResource("portal_apartment"), ExtResource("portal_warehouse"), ExtResource("portal_hospital")])

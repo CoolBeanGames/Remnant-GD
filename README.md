@@ -10,6 +10,10 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Memory upgrades
+
+Buy **Memory 1 / 2 / 3** in the computer’s **Self** tab for **1,500 / 25,000 / 50,000 score**. Each opens its apartment / warehouse / hospital portal through the Strange Door. Other memory purchases stay locked until its completion flag is true. Returning closes the portal; unfinished memories reopen for free. Continue retains purchases and resumes the owned portal after the existing wake-up; New Game resets them. [Authoring and exact flags](Data/Computer/MEMORY_UPGRADES.md).
+
 ## Rail stations, lever upgrades and prestige permission
 
 Buy Rail Loader / Rail Unloader in the Store and ghost-place them at exposed rail ends with B/B/F. Drop objects into the loader; it transfers them when a car arrives. The unloader spits loose cargo outward while built-on tools stay attached. Full decks leave items waiting; nested baskets and saved queues retain their original items. [Station authoring](Data/Items/RAIL_STATIONS.md) and [engine views](Reports/RailStations/index.html).
@@ -34,7 +38,7 @@ Export/texture guidance and a Remnant-specific authoring reference live alongsid
 
 ## Explorable portal destinations
 
-The furnished apartment, warehouse and hospital are now **game scenes with static collision, furniture and editable lighting**. Leave the concrete room and let it disappear, then **F9 cycles APARTMENT → WAREHOUSE → HOSPITAL → APARTMENT**. Open the Strange Door with E and walk through; its counterpart returns to the workshop. Only one destination is live at a time. Cycling from inside brings you/held cargo back outside the door and preserves other collected items in the workshop. Selection uses saved Blackboard.portal_destination_id; F9 respects menu/wake-up/respawn locks.
+The furnished apartment, warehouse and hospital are now **game scenes with static collision, furniture and editable lighting**. Leave the concrete room and let it disappear, then buy a memory at the computer to open its portal. **F9** remains a debug preview when no paid memory is active or unfinished. Open the Strange Door with E and walk through; its counterpart returns to the workshop. Only one destination is live at a time. Cycling from inside brings you/held cargo back outside the door and preserves other collected items in the workshop. Selection uses saved Blackboard.portal_destination_id; F9 respects menu/wake-up/respawn locks.
 
 [Environment authoring](Data/Portal/ENVIRONMENTS.md) explains the 35 shared art/collision wrappers, engine scenes, destination resources and future select_destination trigger API. The player capsule fits the apartment entrance, warehouse stairs reach the office, and the hospital rooms/staff entrance are walkable. [Actual engine captures](Reports/PortalEnvironments/index.html) show all three destinations. Existing Blender sources stay separate; story triggers and furniture interactions are future work.
 

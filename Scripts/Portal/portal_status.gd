@@ -11,11 +11,13 @@ func _ready() -> void:
 	label.hide()
 
 func _changed(_id: StringName, title: String) -> void:
-	label.text = "PORTAL / %s\n[F9] NEXT DESTINATION" % title
+	label.text = "MEMORY / %s" % title if not portal.memory_id.is_empty() else "PORTAL / %s\n[F9] NEXT DESTINATION" % title
 	remaining = seconds
 	label.show()
 
 func _process(delta: float) -> void:
+	if not portal.active:
+		label.hide()
 	visible = not get_tree().paused and not Blackboard.read_data("player_input_blocked") and not DevTools.any_modal_open()
 	if get_tree().paused:
 		return

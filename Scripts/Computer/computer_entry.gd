@@ -11,6 +11,11 @@ enum Tab { MECHANICS, SELF, STORE, MULCH }
 @export var escalating_store_price: bool = false
 ## Zero means unlimited. Store entries are always repeatable.
 @export_range(0, 100, 1) var max_level: int = 5
+## Regular score upgrades can unlock a saved run flag without numeric effects.
+@export var unlock_flag: String = ""
+## Memory purchases open an existing destination; completion comes from story triggers.
+@export var memory_destination: StringName = &""
+@export var completion_flag: String = ""
 @export_enum("none", "mulcher", "mulch_bin") var installation: String = "none"
 @export var effects: Array[upgrade_effect] = []
 @export var delivery_scene: PackedScene
