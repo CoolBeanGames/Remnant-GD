@@ -128,6 +128,7 @@ func _run() -> void:
 	ui._buy(Progression.entries[&"buy_light"])
 	check(Progression.score() == 990 and ui.score_label.text.contains("00000990"), "UI button buys a real delivery and refreshes credit.")
 	ui.close()
+	await get_tree().create_timer(terminal.return_seconds + .06).timeout
 	check(not Blackboard.read_data("player_input_blocked") and Input.mouse_mode == mouse_before, "Closing restores gameplay and the previous mouse mode.")
 	# Optional fan audio never calls play for an empty stream.
 	old_fan._process(.01)

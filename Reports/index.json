@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Move into the view.",
+    "kind": "Development history",
+    "local": "development_summary.html#view-motion",
+    "online": "../index.html#view-motion",
+    "description": "The computer camera eases toward its screen. Physical notes rise into your hands and lower when you put them away."
+  },
+  {
     "title": "A quiet angle.",
     "kind": "Development history",
     "local": "development_summary.html#prompt-angle",

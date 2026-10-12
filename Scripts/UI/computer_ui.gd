@@ -30,11 +30,10 @@ func close() -> void:
 	if is_open and is_instance_valid(terminal):
 		terminal.close_interface()
 
-func suspend() -> void:
-	if not is_open:
-		return
+func suspend(keep_visible: bool = false) -> void:
 	is_open = false
-	hide()
+	if not keep_visible:
+		hide()
 
 func _exit_tree() -> void:
 	suspend()

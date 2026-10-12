@@ -12,6 +12,7 @@ var had_block: bool
 var previous_pause: bool
 var active: bool = false
 var hidden: Array[Dictionary] = []
+var motion: Tween
 
 func begin(view: Camera3D, pause_world: bool) -> void:
 	camera = view
@@ -50,10 +51,39 @@ func _hide(node: Node) -> void:
 	hidden.append({"node": weakref(node), "visible": node.get("visible")})
 	node.call("hide")
 
+## Blend position and shortest-path rotation, preserving exact restoration state.
+func move_camera(owner_node: Node, target: Transform3D, seconds: float, finished: Callable = Callable()) -> void:
+	stop_motion()
+	if not is_instance_valid(camera):
+		return
+	if seconds <= 0:
+		camera.global_transform = target
+		if finished.is_valid():
+			finished.call()
+		return
+	var start: Transform3D = camera.global_transform
+	motion = owner_node.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	motion.tween_method(_blend_camera.bind(start, target), 0.0, 1.0, seconds)
+	if finished.is_valid():
+		motion.tween_callback(finished)
+
+func _blend_camera(weight: float, start: Transform3D, target: Transform3D) -> void:
+	if active and is_instance_valid(camera):
+		camera.global_transform = start.interpolate_with(target, weight)
+
+func stop_motion() -> void:
+	if motion != null and motion.is_valid():
+		motion.kill()
+	motion = null
+
+func is_moving() -> bool:
+	return motion != null and motion.is_running()
+
 func restore() -> void:
 	if not active:
 		return
 	active = false
+	stop_motion()
 	if is_instance_valid(camera):
 		camera.global_transform = pose
 		camera.cull_mask = camera_mask

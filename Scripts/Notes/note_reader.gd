@@ -7,6 +7,15 @@ signal closed(note: Dictionary, return_to_journal: bool)
 @export var paper_size: Vector2 = Vector2(.36, .45)
 @export var paper_distance: float = .48
 @export_range(.05, 2, .05) var reading_light_energy: float = .6
+@export_group("Paper Motion")
+@export_range(0, 2, .05) var raise_seconds: float = .50
+@export_range(0, 2, .05) var lower_seconds: float = .30
+@export var lowered_offset: Vector3 = Vector3(.10, -.52, .15)
+@export var lowered_rotation_degrees: Vector3 = Vector3(-18, 5, -8)
+var paper_motion: Tween
+var closing: bool = false
+var _close_notify: bool = true
+var _motion_modal_paused: bool = false
 const READING_LAYER: int = 1 << 18
 var is_open: bool = false
 var typed: bool = false
@@ -45,7 +54,7 @@ func open_note(note: Dictionary, return_to_journal: bool = false) -> bool:
 	if note.is_empty() or not is_instance_valid(camera) or DevTools.any_modal_open():
 		return false
 	if is_open:
-		close(false)
+		close(false, true)
 	elif Blackboard.read_data("player_input_blocked") == true:
 		return false
 	current_note = note.duplicate(true)
@@ -57,6 +66,7 @@ func open_note(note: Dictionary, return_to_journal: bool = false) -> bool:
 	is_open = true
 	typed = false
 	_create_paper(_definition(note))
+	_move_paper(_reading_pose(), raise_seconds, true)
 	title_label.text = str(note.get("title", "NOTE"))
 	body_label.text = str(note.get("body", ""))
 	body_label.scroll_to_line(0)
@@ -67,7 +77,7 @@ func _create_paper(definition: note_definition) -> void:
 	holder = Node3D.new()
 	holder.name = "HeldReadingNote"
 	camera.add_child(holder)
-	holder.position = Vector3(0, -.02, -paper_distance)
+	holder.transform = _lowered_pose()
 	# Only its dedicated lamp illuminates the paper; world lights cannot wash it out.
 	for light in get_tree().root.find_children("*", "Light3D", true, false):
 		light_masks.append({"node": weakref(light), "mask": light.light_cull_mask})
@@ -153,8 +163,49 @@ func _printed_page() -> ViewportTexture:
 	print_text.text = str(current_note.get("title", "NOTE")) + "\n\n" + str(current_note.get("body", ""))
 	return page_viewport.get_texture()
 
+func _reading_pose() -> Transform3D:
+	return Transform3D(Basis.IDENTITY, Vector3(0, -.02, -paper_distance))
+
+func _lowered_pose() -> Transform3D:
+	return Transform3D(Basis.from_euler(lowered_rotation_degrees * PI / 180.0), _reading_pose().origin + lowered_offset)
+
+func _stop_paper_motion() -> void:
+	if paper_motion != null and paper_motion.is_valid():
+		paper_motion.kill()
+	paper_motion = null
+	_motion_modal_paused = false
+
+func _move_paper(target: Transform3D, seconds: float, start_lowered: bool = false, finished: Callable = Callable()) -> void:
+	_stop_paper_motion()
+	if start_lowered:
+		holder.transform = _lowered_pose()
+	if seconds <= 0:
+		holder.transform = target
+		if finished.is_valid():
+			finished.call()
+		return
+	var start: Transform3D = holder.transform
+	paper_motion = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	paper_motion.tween_method(_blend_paper.bind(start, target), 0.0, 1.0, seconds)
+	if finished.is_valid():
+		paper_motion.tween_callback(finished)
+
+func _blend_paper(weight: float, start: Transform3D, target: Transform3D) -> void:
+	if is_instance_valid(holder):
+		holder.transform = start.interpolate_with(target, weight)
+
+func _process(_delta: float) -> void:
+	# Reading runs while the world is paused, but diagnostic dialogs own their pause.
+	if paper_motion != null and paper_motion.is_valid():
+		if DevTools.any_modal_open() and not _motion_modal_paused:
+			paper_motion.pause()
+			_motion_modal_paused = true
+		elif not DevTools.any_modal_open() and _motion_modal_paused:
+			paper_motion.play()
+			_motion_modal_paused = false
+
 func toggle_transcript() -> void:
-	if not is_open:
+	if not is_open or closing:
 		return
 	typed = not typed
 	transcript.visible = typed
@@ -162,11 +213,26 @@ func toggle_transcript() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if typed else Input.MOUSE_MODE_CAPTURED
 	if typed:
 		body_label.grab_focus()
+	else:
+		_move_paper(_reading_pose(), raise_seconds, true)
 
-func close(notify: bool = true) -> void:
+func close(notify: bool = true, immediate: bool = false) -> void:
 	if not is_open:
 		return
+	if immediate or typed or not is_inside_tree() or not is_instance_valid(holder):
+		_close_notify = notify
+		_finish_close()
+		return
+	if closing:
+		return
+	closing = true
+	_close_notify = notify
+	_move_paper(_lowered_pose(), lower_seconds, false, _finish_close)
+
+func _finish_close() -> void:
+	_stop_paper_motion()
 	is_open = false
+	closing = false
 	typed = false
 	transcript.hide()
 	if is_instance_valid(holder):
@@ -187,12 +253,16 @@ func close(notify: bool = true) -> void:
 	var back: bool = from_journal
 	current_note = {}
 	from_journal = false
-	if notify:
+	if _close_notify:
 		Notes.note_read_finished.emit(finished)
 		closed.emit(finished, back)
 
 func _input(event: InputEvent) -> void:
 	if DevTools.any_modal_open():
+		return
+	if closing:
+		if event is InputEventKey or event is InputEventMouse:
+			get_viewport().set_input_as_handled()
 		return
 	if is_open and not typed and is_instance_valid(print_text) and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
 		var direction: int = -1 if event.button_index == MOUSE_BUTTON_WHEEL_UP else 1
@@ -219,6 +289,6 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _exit_tree() -> void:
-	close(false)
+	close(false, true)
 	if Blackboard.read_data("note_reader") == self:
 		Blackboard.remove_data("note_reader")

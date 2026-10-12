@@ -2,6 +2,18 @@ extends Node
 var failures: Array[String] = []
 var capture_directory: String = "res://Reports/WorldPrompts"
 var level: level_sequence
+func settle() -> void:
+	var end: int = Time.get_ticks_msec() + 3000
+	while Time.get_ticks_msec() < end:
+		var pc: computer_terminal = level.computer
+		var reader: note_reader = level.get_node("NoteReader")
+		var pc_moving: bool = pc.session != null and (pc.session.is_moving() or pc.closing)
+		var paper_moving: bool = reader.paper_motion != null and reader.paper_motion.is_running()
+		if not pc_moving and not paper_moving and not reader.closing:
+			await frames()
+			return
+		await get_tree().process_frame
+	check(false, "World view motion finishes within its expected duration")
 func _ready() -> void:
 	run.call_deferred()
 func check(ok: bool, message: String) -> void:
@@ -94,7 +106,10 @@ func run() -> void:
 	camera.global_transform = original_pose
 	ray._set_looked_at(null)
 	terminal.interact()
-	await frames(15)
+	await frames(2)
+	await get_tree().create_timer(terminal.focus_seconds * .35).timeout
+	await capture("terminal_approach")
+	await settle()
 	for hud in get_tree().get_nodes_in_group("gameplay_hud"):
 		check(not hud.get("visible"), "Gameplay HUD hidden during physical PC use: " + hud.name)
 	check(terminal.interface is Control and terminal.interface.get_parent() == terminal.display_viewport, "Catalog UI is a viewport control on the PC")
@@ -112,6 +127,8 @@ func run() -> void:
 	check(Progression.score() < score, "Real 3D mouse click purchases a catalog delivery")
 	await capture("terminal_store")
 	await key(KEY_ESCAPE)
+	await capture("terminal_return")
+	await settle()
 	check(terminal.session == null and camera.global_transform.is_equal_approx(original_pose), "Escape restores exact original camera")
 	check(terminal.display_viewport.render_target_update_mode == SubViewport.UPDATE_DISABLED and not Blackboard.read_data("player_input_blocked"), "Closed PC stops rendering and releases input")
 	check(crosshair.visible, "Crosshair returns after PC disconnect")
@@ -137,7 +154,10 @@ func run() -> void:
 	var definition: note_definition = load("res://Data/Notes/door.tres")
 	# A found bottle becomes readable paper and remains a unique saved journal entry.
 	Notes.collect(definition)
-	await frames(15)
+	await frames(2)
+	await get_tree().create_timer(reader.raise_seconds * .35).timeout
+	await capture("physical_note_rise")
+	await settle()
 	for hud in get_tree().get_nodes_in_group("gameplay_hud"):
 		check(not hud.get("visible"), "Gameplay HUD hidden while reading: " + hud.name)
 	check(reader.is_open and reader.holder.get_parent() == camera and get_tree().paused, "Pickup creates lit paper held in front of the real camera")
@@ -150,19 +170,24 @@ func run() -> void:
 	await key(KEY_N)
 	check(not reader.typed and reader.holder.visible, "N closes transcript and restores the physical paper")
 	await key(KEY_ESCAPE)
+	await capture("physical_note_lower")
+	await settle()
 	check(not reader.is_open and not get_tree().paused and not Blackboard.read_data("player_input_blocked") and crosshair.visible, "Putting away restores gameplay ownership and crosshair")
 	await key(KEY_N)
 	check(reader.is_open and reader.typed, "N outside a reading session reopens the latest collected transcript")
 	reader.close()
+	await settle()
 	var menu: pause_menu = level.get_node("PauseMenu")
 	menu.open()
 	menu.show_notes()
 	check(menu.list.item_count == 1, "Pause menu lists saved note titles")
 	menu._select_note(0)
 	await frames(15)
+	await settle()
 	check(reader.is_open and reader.from_journal and not menu.is_open, "Pause selection hands off to the in-world paper")
 	await capture("journal_paper")
 	reader.close()
+	await settle()
 	check(menu.is_open and menu.journal.visible and get_tree().paused, "Reader close returns to the same paused journal")
 	menu.close()
 	var encoded: Variant = SaveGame._encode(Notes.all_notes())
@@ -173,6 +198,7 @@ func run() -> void:
 	var before_light: int = level.get_node("ceiling_chute/LevelLight2").light_cull_mask
 	check(before_light & note_reader.READING_LAYER == 0, "World lights cannot wash out paper")
 	reader.close()
+	await settle()
 	check(level.get_node("ceiling_chute/LevelLight2").light_cull_mask & note_reader.READING_LAYER != 0, "World lighting mask restored after reading")
 	# Carried cargo is hidden for reading, then restored without dropping it.
 	var carried_basket: RigidBody3D = load("res://Scenes/Actors/basket.tscn").instantiate()
@@ -182,6 +208,7 @@ func run() -> void:
 	reader.open_note(definition.snapshot())
 	check(not carried_basket.visible and carried_basket.freeze and pickup.held_object == carried_basket, "Paper reading preserves the held basket while hiding its model")
 	reader.close()
+	await settle()
 	check(carried_basket.visible and carried_basket.freeze and pickup.held_object == carried_basket, "Closing paper restores the same held basket and physics state")
 	pickup.drop_object()
 	# Optional artist-made geometry and page texture survive actual resource/save paths.
@@ -204,10 +231,12 @@ func run() -> void:
 	reader.open_note(authored.snapshot())
 	check(reader.holder.get_child(0).has_node("AuthoredFace") and reader.holder.get_child(0).get_node("AuthoredFace").layers == note_reader.READING_LAYER, "Saved custom note scene is instantiated on the isolated reading layer")
 	reader.close()
+	await settle()
 	# Legacy journals with no asset fields still print readable paper.
 	reader.open_note({"id": "legacy", "title": "OLD JOURNAL", "body": "Legacy content"})
 	check(reader.page_viewport != null and reader.print_text.text.contains("Legacy content"), "Existing save journals need no migration")
 	reader.close()
+	await settle()
 	# Tear down an open PC while its camera is removed first.
 	terminal.interact()
 	await frames(4)

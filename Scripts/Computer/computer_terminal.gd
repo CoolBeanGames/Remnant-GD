@@ -9,6 +9,10 @@ extends StaticBody3D
 @export var enabled: bool = true
 @export var display_resolution: Vector2i = Vector2i(1024, 768)
 @export_range(.35, 2, .01) var viewing_distance: float = .60
+@export_group("View Motion")
+@export_range(0, 2, .05) var focus_seconds: float = .55
+@export_range(0, 2, .05) var return_seconds: float = .40
+var closing: bool = false
 var interface: Control
 var display_viewport: SubViewport
 var session: world_view_session
@@ -48,7 +52,8 @@ func _open_interface() -> void:
 	session.begin(camera, false)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	var facing: Basis = screen.global_basis.orthonormalized()
-	camera.global_transform = Transform3D(facing, screen.global_position + facing.z * viewing_distance)
+	var focus_pose := Transform3D(facing, screen.global_position + facing.z * viewing_distance)
+	session.move_camera(self, focus_pose, focus_seconds)
 	interface.open(self)
 	display_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	screen_material.albedo_color = Color.WHITE
@@ -56,19 +61,36 @@ func _open_interface() -> void:
 	$Text.hide()
 	DevTools.log_info("Connected to in-world terminal.", "computer")
 
-func close_interface() -> void:
+func close_interface(immediate: bool = false) -> void:
+	if session == null:
+		return
+	if immediate or not is_inside_tree():
+		_finish_close()
+		return
+	if closing:
+		return
+	closing = true
+	if is_instance_valid(interface):
+		interface.suspend(true)
+	# Keep the display visible and input owned while the camera eases back.
+	session.move_camera(self, session.pose, return_seconds, _finish_close)
+
+func _finish_close() -> void:
 	if session == null:
 		return
 	if is_instance_valid(interface):
 		interface.suspend()
 	if is_instance_valid(display_viewport):
 		display_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		if pointer_inside:
+			display_viewport.notify_mouse_exited()
+	pointer_inside = false
 	screen_material.albedo_texture = null
 	screen_material.albedo_color = Color(.01, .08, .03)
 	$Text.visible = enabled
-	if session != null:
-		session.restore()
+	session.restore()
 	session = null
+	closing = false
 	DevTools.log_info("Disconnected from in-world terminal.", "computer")
 
 ## Map window pixels onto the real display quad, including perspective/rotation.
@@ -92,10 +114,13 @@ func screen_pointer(window_position: Vector2) -> Vector2:
 	return uv * Vector2(display_viewport.size)
 
 func _input(event: InputEvent) -> void:
-	if not is_instance_valid(interface) or not interface.is_open or DevTools.any_modal_open() or get_tree().paused:
+	if session == null or not is_instance_valid(interface) or DevTools.any_modal_open() or get_tree().paused:
 		return
 	if event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_ESCAPE or event.physical_keycode == KEY_ESCAPE):
 		close_interface()
+		get_viewport().set_input_as_handled()
+		return
+	if closing or session.is_moving():
 		get_viewport().set_input_as_handled()
 		return
 	if event is InputEventMouse:
@@ -133,7 +158,7 @@ func set_enabled(value: bool) -> void:
 	$OfflineScreen.visible = not value
 	$Text.visible = value
 	if not value:
-		close_interface()
+		close_interface(true)
 
 func _exit_tree() -> void:
-	close_interface()
+	close_interface(true)

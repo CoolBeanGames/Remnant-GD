@@ -194,3 +194,7 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-12][03:32:15] - updated the guide to include 'subtle configurable camera-local Y angle for look/carry/build lettering, retained readability and upright text, rendered review and delivery'.
 
 [2026-10-12][03:38:52] - updated the guide to include 'verified 7-degree prompt-angle delivery: three suites/source+release views, Windows_2026-10-12_03-32-35, pushed cacf14c, and live Pages/phone/hash checks'.
+
+[2026-10-12][04:26:37] - Added editable eased PC camera focus/return and physical paper raise/lower through existing world sessions. Input/cargo/HUD/save ownership persists until motion finishes; early cancellation, diagnostics, note replacement and unload are safe. Seven affected suites passed with clean logs; rendered PC/paper motion views reviewed; normal Windows/docs/GitHub/Notion delivery follows.
+
+[2026-10-12][04:29:28] - Verified smooth-view delivery: seven clean affected suites; source and matching-engine release-PCK interface probes; six source and six packaged frames reviewed. Windows_2026-10-12_04-24-18 import/export/isolated startup passes. Local HTML has 108 wiki/search entries, 30 retained archive entries and 17 passing browser checks; phone summary/gallery reviewed. F1 inbox remains empty.

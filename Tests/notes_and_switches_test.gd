@@ -81,11 +81,13 @@ func run() -> void:
 	check(Notes.has_note(definition.id) and Notes.all_notes().size() == 1, "Note saved once to Blackboard")
 	check(reader.current_note.body == definition.body and reader.holder != null, "Physical reader retains authored content")
 	reader.close()
+	await get_tree().create_timer(reader.lower_seconds + .06).timeout
 	check(not get_tree().paused and not Blackboard.read_data("player_input_blocked"), "Continue restores play and input")
 	Notes.collect(definition)
 	await get_tree().process_frame
 	check(Notes.all_notes().size() == 1, "Duplicate pickups do not duplicate journal entries")
 	reader.close()
+	await get_tree().create_timer(reader.lower_seconds + .06).timeout
 	var escape := InputEventKey.new()
 	escape.physical_keycode = KEY_ESCAPE
 	escape.pressed = true
@@ -96,6 +98,7 @@ func run() -> void:
 	menu._select_note(0)
 	check(reader.is_open and not menu.is_open and reader.from_journal, "Journal selection opens the physical note")
 	reader.close()
+	await get_tree().create_timer(reader.lower_seconds + .06).timeout
 	check(menu.is_open and menu.journal.visible, "Putting the paper away returns to the paused journal")
 	menu._input(escape)
 	check(menu.main.visible and menu.is_open, "Escape goes back from journal")

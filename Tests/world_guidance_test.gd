@@ -80,6 +80,7 @@ func run() -> void:
 	reader.open_note(note)
 	check(not Flags.check_flag("message first note"), "Reading does not trigger warning until reader closes")
 	reader.close()
+	await get_tree().create_timer(reader.lower_seconds + .06).timeout
 	check(shown.back() == "DO" and Flags.check_flag("message first note"), "First finished note starts DO NOT LISTEN")
 	for i in 3:
 		messages._process(1)
