@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_fr0qq"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/Sink/sink.glb" id="2_uco8v"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Sink_sink.tres" id="3_i8rdg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eo5rv"]
+friction = 0.95
+
+[node name="Sink_sink" type="Node3D" unique_id=1383847910]
+script = ExtResource("1_fr0qq")
+
+[node name="Model" type="Node3D" parent="." unique_id=115559426 instance=ExtResource("2_uco8v")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1333948055 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_eo5rv")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1374864655]
+shape = ExtResource("3_i8rdg")

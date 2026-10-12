@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_gxpnq"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/Microwave/microwave.glb" id="2_fomds"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Microwave_microwave.tres" id="3_vaqmn"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sjwrx"]
+friction = 0.95
+
+[node name="Microwave_microwave" type="Node3D" unique_id=380927386]
+script = ExtResource("1_gxpnq")
+
+[node name="Model" type="Node3D" parent="." unique_id=1812552372 instance=ExtResource("2_fomds")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=2104972285 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_sjwrx")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1240024825]
+shape = ExtResource("3_vaqmn")

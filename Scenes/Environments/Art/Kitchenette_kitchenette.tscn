@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_wb8ji"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/Kitchenette/kitchenette.glb" id="2_1g7gm"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Kitchenette_kitchenette.tres" id="3_74av5"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2tq1d"]
+friction = 0.95
+
+[node name="Kitchenette_kitchenette" type="Node3D" unique_id=1379225302]
+script = ExtResource("1_wb8ji")
+
+[node name="Model" type="Node3D" parent="." unique_id=1520508443 instance=ExtResource("2_1g7gm")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1958205697 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_2tq1d")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=801632931]
+shape = ExtResource("3_74av5")

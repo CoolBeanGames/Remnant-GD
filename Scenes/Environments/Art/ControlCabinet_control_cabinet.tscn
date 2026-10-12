@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_y636m"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/WarehouseMachinery/ControlCabinet/control_cabinet.glb" id="2_jbbcv"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/ControlCabinet_control_cabinet.tres" id="3_w1m61"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3yjo0"]
+friction = 0.95
+
+[node name="ControlCabinet_control_cabinet" type="Node3D" unique_id=1888298457]
+script = ExtResource("1_y636m")
+
+[node name="Model" type="Node3D" parent="." unique_id=641682840 instance=ExtResource("2_jbbcv")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1987629430 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_3yjo0")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1118154759]
+shape = ExtResource("3_w1m61")

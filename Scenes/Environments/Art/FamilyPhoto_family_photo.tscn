@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_w8f8m"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/FamilyPhoto/family_photo.glb" id="2_arnrf"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/FamilyPhoto_family_photo.tres" id="3_wo5wg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sh10y"]
+friction = 0.95
+
+[node name="FamilyPhoto_family_photo" type="Node3D" unique_id=976005215]
+script = ExtResource("1_w8f8m")
+
+[node name="Model" type="Node3D" parent="." unique_id=1203830111 instance=ExtResource("2_arnrf")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=2121409821 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_sh10y")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=576049749]
+shape = ExtResource("3_wo5wg")

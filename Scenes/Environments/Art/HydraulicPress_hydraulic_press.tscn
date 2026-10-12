@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_hf06v"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/WarehouseMachinery/HydraulicPress/hydraulic_press.glb" id="2_swwn0"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/HydraulicPress_hydraulic_press.tres" id="3_gnhv2"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_526kn"]
+friction = 0.95
+
+[node name="HydraulicPress_hydraulic_press" type="Node3D" unique_id=565693535]
+script = ExtResource("1_hf06v")
+
+[node name="Model" type="Node3D" parent="." unique_id=498147220 instance=ExtResource("2_swwn0")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=314005867 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_526kn")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=137300631]
+shape = ExtResource("3_gnhv2")

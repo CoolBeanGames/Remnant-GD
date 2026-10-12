@@ -1,0 +1,171 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/portal_room.gd" id="1_433og"]
+[ext_resource type="Environment" path="res://Data/Portal/interior_environment.tres" id="2_q5ecb"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/DilapidatedWarehouse_dilapidated_warehouse.tscn" id="3_1vyaa"]
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="4_gubja"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/HydraulicPress_hydraulic_press.tscn" id="5_v3fik"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/IndustrialLathe_industrial_lathe.tscn" id="6_ue0bq"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/AirCompressor_air_compressor.tscn" id="7_o3jvn"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/ControlCabinet_control_cabinet.tscn" id="8_oynbe"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/OfficeDesk_office_desk.tscn" id="9_ebpma"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/DebrisKit_debris_kit.tscn" id="10_rxex4"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Chair_chair.tscn" id="11_fbym3"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/LandlinePhone_landline_phone.tscn" id="12_kp4c6"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="13_t0w0y"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="14_hqe48"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lm0wp"]
+size = Vector3(4, 0.16, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e8h1n"]
+albedo_color = Color(0.23, 0.24, 0.22, 1)
+roughness = 0.94
+
+[sub_resource type="BoxMesh" id="BoxMesh_6idld"]
+material = SubResource("StandardMaterial3D_e8h1n")
+size = Vector3(4, 0.16, 1.2)
+
+[node name="DilapidatedWarehouse" type="Node3D" unique_id=446339419]
+script = ExtResource("1_433og")
+environment = ExtResource("2_q5ecb")
+
+[node name="Entrance" type="Marker3D" parent="." unique_id=124805546]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.7195, 18.44)
+
+[node name="Art" type="Node3D" parent="." unique_id=216381362]
+
+[node name="Warehouse shell" type="Node3D" parent="Art" unique_id=971818237 instance=ExtResource("3_1vyaa")]
+script = ExtResource("4_gubja")
+
+[node name="HydraulicPress 1" type="Node3D" parent="Art" unique_id=565693535 instance=ExtResource("5_v3fik")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -4)
+script = ExtResource("4_gubja")
+
+[node name="HydraulicPress 2" type="Node3D" parent="Art" unique_id=2025526014 instance=ExtResource("5_v3fik")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -10)
+script = ExtResource("4_gubja")
+
+[node name="IndustrialLathe 1" type="Node3D" parent="Art" unique_id=2079284163 instance=ExtResource("6_ue0bq")]
+transform = Transform3D(0.99026805, 0, -0.1391731, 0, 1, 0, 0.1391731, 0, 0.99026805, -5, 0, 4)
+script = ExtResource("4_gubja")
+
+[node name="IndustrialLathe 2" type="Node3D" parent="Art" unique_id=1110343139 instance=ExtResource("6_ue0bq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+script = ExtResource("4_gubja")
+
+[node name="AirCompressor 1" type="Node3D" parent="Art" unique_id=1132356678 instance=ExtResource("7_o3jvn")]
+transform = Transform3D(0.9396926, 0, -0.34202012, 0, 1, 0, 0.34202012, 0, 0.9396926, 4, 0, -3)
+script = ExtResource("4_gubja")
+
+[node name="ControlCabinet 1" type="Node3D" parent="Art" unique_id=1888298457 instance=ExtResource("8_oynbe")]
+transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 7, 0, -13)
+script = ExtResource("4_gubja")
+
+[node name="ControlCabinet 2" type="Node3D" parent="Art" unique_id=1337716825 instance=ExtResource("8_oynbe")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10, 0, -6)
+script = ExtResource("4_gubja")
+
+[node name="OfficeDesk 1" type="Node3D" parent="Art" unique_id=82838382 instance=ExtResource("9_ebpma")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 6.4, 4.2, -13.5)
+script = ExtResource("4_gubja")
+
+[node name="DebrisKit 1" type="Node3D" parent="Art" unique_id=765735620 instance=ExtResource("10_rxex4")]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -9, 0, 10)
+script = ExtResource("4_gubja")
+
+[node name="DebrisKit 2" type="Node3D" parent="Art" unique_id=1902640679 instance=ExtResource("10_rxex4")]
+transform = Transform3D(0.9135454, 0, -0.40673664, 0, 1, 0, 0.40673664, 0, 0.9135454, 1, 0, -12)
+script = ExtResource("4_gubja")
+
+[node name="DebrisKit 3" type="Node3D" parent="Art" unique_id=2041794817 instance=ExtResource("10_rxex4")]
+transform = Transform3D(0.42261824, 0, 0.9063078, 0, 1, 0, -0.9063078, 0, 0.42261824, 5, 0, 8)
+script = ExtResource("4_gubja")
+
+[node name="DebrisKit 4" type="Node3D" parent="Art" unique_id=1235386272 instance=ExtResource("10_rxex4")]
+transform = Transform3D(0.99026805, 0, 0.1391731, 0, 1, 0, -0.1391731, 0, 0.99026805, -8, 0, -14)
+script = ExtResource("4_gubja")
+
+[node name="Chair" type="Node3D" parent="Art" unique_id=2090323947 instance=ExtResource("11_fbym3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 4.2, -14.85)
+script = ExtResource("4_gubja")
+
+[node name="LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("12_kp4c6")]
+transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 5.95, 4.995, -13.72)
+script = ExtResource("4_gubja")
+
+[node name="PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("13_t0w0y")]
+transform = Transform3D(0.9612617, 0, 0.27563736, 0, 1, 0, -0.27563736, 0, 0.9612617, 6.4, 4.997, -13.21)
+script = ExtResource("4_gubja")
+
+[node name="TrashCan" type="Node3D" parent="Art" unique_id=46325136 instance=ExtResource("14_hqe48")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 4.2, -15.8)
+script = ExtResource("4_gubja")
+
+[node name="Lighting" type="Node3D" parent="." unique_id=851198230]
+
+[node name="InteriorLight" type="OmniLight3D" parent="Lighting" unique_id=1391413003]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6.8, -12)
+light_color = Color(0.82, 0.89, 0.92, 1)
+light_energy = 2.3
+omni_range = 13.0
+
+[node name="InteriorLight2" type="OmniLight3D" parent="Lighting" unique_id=925218011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6.8, -12)
+light_color = Color(0.82, 0.89, 0.92, 1)
+light_energy = 2.3
+omni_range = 13.0
+
+[node name="InteriorLight3" type="OmniLight3D" parent="Lighting" unique_id=465456761]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6.8, -3)
+light_color = Color(0.82, 0.89, 0.92, 1)
+light_energy = 2.3
+omni_range = 13.0
+
+[node name="InteriorLight4" type="OmniLight3D" parent="Lighting" unique_id=220756950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6.8, -3)
+light_color = Color(0.82, 0.89, 0.92, 1)
+light_energy = 2.3
+omni_range = 13.0
+
+[node name="InteriorLight5" type="OmniLight3D" parent="Lighting" unique_id=1812087625]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6.8, 7)
+light_color = Color(0.82, 0.89, 0.92, 1)
+light_energy = 2.3
+shadow_enabled = true
+omni_range = 13.0
+
+[node name="InteriorLight6" type="OmniLight3D" parent="Lighting" unique_id=455551124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6.8, 7)
+light_color = Color(0.82, 0.89, 0.92, 1)
+light_energy = 2.3
+shadow_enabled = true
+omni_range = 13.0
+
+[node name="InteriorLight7" type="OmniLight3D" parent="Lighting" unique_id=2033661973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6.8, 15)
+light_color = Color(0.82, 0.89, 0.92, 1)
+light_energy = 2.3
+omni_range = 13.0
+
+[node name="InteriorLight8" type="OmniLight3D" parent="Lighting" unique_id=1062763505]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6.8, 15)
+light_color = Color(0.82, 0.89, 0.92, 1)
+light_energy = 2.3
+omni_range = 13.0
+
+[node name="InteriorLight9" type="OmniLight3D" parent="Lighting" unique_id=214682219]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.4, 6.8, -13.6)
+light_color = Color(1, 0.78, 0.52, 1)
+light_energy = 1.8
+shadow_enabled = true
+omni_range = 7.0
+
+[node name="EntranceLanding" type="StaticBody3D" parent="." unique_id=774890525 groups=["Floor"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, 18.35)
+
+[node name="@CollisionShape3D@83" type="CollisionShape3D" parent="EntranceLanding" unique_id=456620042]
+shape = SubResource("BoxShape3D_lm0wp")
+
+[node name="@MeshInstance3D@84" type="MeshInstance3D" parent="EntranceLanding" unique_id=1776500573]
+mesh = SubResource("BoxMesh_6idld")

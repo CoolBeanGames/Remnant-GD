@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_ugnsp"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/Chair/chair.glb" id="2_a6u17"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Chair_chair.tres" id="3_4j5fo"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g5nnh"]
+friction = 0.95
+
+[node name="Chair_chair" type="Node3D" unique_id=2090323947]
+script = ExtResource("1_ugnsp")
+
+[node name="Model" type="Node3D" parent="." unique_id=1878366404 instance=ExtResource("2_a6u17")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1494786878 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_g5nnh")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=43584402]
+shape = ExtResource("3_4j5fo")

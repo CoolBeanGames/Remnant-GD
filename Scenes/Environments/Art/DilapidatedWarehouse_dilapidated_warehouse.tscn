@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_dxu4u"]
+[ext_resource type="PackedScene" path="res://Models/Architecture/DilapidatedWarehouse/dilapidated_warehouse.glb" id="2_gixfo"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/DilapidatedWarehouse_dilapidated_warehouse.tres" id="3_3v1i4"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bi3o3"]
+friction = 0.95
+
+[node name="DilapidatedWarehouse_dilapidated_warehouse" type="Node3D" unique_id=971818237]
+script = ExtResource("1_dxu4u")
+
+[node name="Model" type="Node3D" parent="." unique_id=1191233411 instance=ExtResource("2_gixfo")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=9529130 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_bi3o3")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=603770369]
+shape = ExtResource("3_3v1i4")

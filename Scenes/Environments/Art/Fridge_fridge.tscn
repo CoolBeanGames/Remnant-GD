@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_7yaxb"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/Fridge/fridge.glb" id="2_6jxnj"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Fridge_fridge.tres" id="3_x6rak"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_c8ah8"]
+friction = 0.95
+
+[node name="Fridge_fridge" type="Node3D" unique_id=685521532]
+script = ExtResource("1_7yaxb")
+
+[node name="Model" type="Node3D" parent="." unique_id=849740108 instance=ExtResource("2_6jxnj")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1531287840 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_c8ah8")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1238566952]
+shape = ExtResource("3_x6rak")

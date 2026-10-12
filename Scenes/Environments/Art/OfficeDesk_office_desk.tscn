@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_f2hbk"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/WarehouseMachinery/OfficeDesk/office_desk.glb" id="2_fpnbu"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/OfficeDesk_office_desk.tres" id="3_k07e1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fi6gs"]
+friction = 0.95
+
+[node name="OfficeDesk_office_desk" type="Node3D" unique_id=82838382]
+script = ExtResource("1_f2hbk")
+
+[node name="Model" type="Node3D" parent="." unique_id=395453931 instance=ExtResource("2_fpnbu")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=584792788 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_fi6gs")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=735769151]
+shape = ExtResource("3_k07e1")

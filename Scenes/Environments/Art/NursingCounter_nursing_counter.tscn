@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_td41y"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/HospitalProps/NursingCounter/nursing_counter.glb" id="2_iktri"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/NursingCounter_nursing_counter.tres" id="3_57x4u"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jx6de"]
+friction = 0.95
+
+[node name="NursingCounter_nursing_counter" type="Node3D" unique_id=1056335337]
+script = ExtResource("1_td41y")
+
+[node name="Model" type="Node3D" parent="." unique_id=2038076827 instance=ExtResource("2_iktri")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=320405218 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_jx6de")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=35998282]
+shape = ExtResource("3_57x4u")

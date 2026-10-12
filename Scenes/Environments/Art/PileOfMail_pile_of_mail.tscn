@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_r7xni"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/PileOfMail/pile_of_mail.glb" id="2_utq88"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/PileOfMail_pile_of_mail.tres" id="3_xe5j5"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w7vl5"]
+friction = 0.95
+
+[node name="PileOfMail_pile_of_mail" type="Node3D" unique_id=1031069350]
+script = ExtResource("1_r7xni")
+
+[node name="Model" type="Node3D" parent="." unique_id=2139036908 instance=ExtResource("2_utq88")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1209795537 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_w7vl5")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=577732729]
+shape = ExtResource("3_xe5j5")

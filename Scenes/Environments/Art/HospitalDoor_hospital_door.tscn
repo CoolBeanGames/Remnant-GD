@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_spkpa"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/HospitalProps/HospitalDoor/hospital_door.glb" id="2_aneo1"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/HospitalDoor_hospital_door.tres" id="3_crybk"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uw4k6"]
+friction = 0.95
+
+[node name="HospitalDoor_hospital_door" type="Node3D" unique_id=1669491552]
+script = ExtResource("1_spkpa")
+
+[node name="Model" type="Node3D" parent="." unique_id=238466406 instance=ExtResource("2_aneo1")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=72144563 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_uw4k6")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1422894042]
+shape = ExtResource("3_crybk")

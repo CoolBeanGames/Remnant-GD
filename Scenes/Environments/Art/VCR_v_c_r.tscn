@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_rh3gm"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/VCR/v_c_r.glb" id="2_sqwb4"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/VCR_v_c_r.tres" id="3_0yp1l"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lhc7b"]
+friction = 0.95
+
+[node name="VCR_v_c_r" type="Node3D" unique_id=148786220]
+script = ExtResource("1_rh3gm")
+
+[node name="Model" type="Node3D" parent="." unique_id=256966291 instance=ExtResource("2_sqwb4")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=812133660 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_lhc7b")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1059161004]
+shape = ExtResource("3_0yp1l")

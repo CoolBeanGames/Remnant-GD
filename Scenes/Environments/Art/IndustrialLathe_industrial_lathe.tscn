@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_cmco2"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/WarehouseMachinery/IndustrialLathe/industrial_lathe.glb" id="2_w1lof"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/IndustrialLathe_industrial_lathe.tres" id="3_hqhht"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_52j1w"]
+friction = 0.95
+
+[node name="IndustrialLathe_industrial_lathe" type="Node3D" unique_id=2079284163]
+script = ExtResource("1_cmco2")
+
+[node name="Model" type="Node3D" parent="." unique_id=469955238 instance=ExtResource("2_w1lof")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=2087510174 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_52j1w")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=986411606]
+shape = ExtResource("3_hqhht")

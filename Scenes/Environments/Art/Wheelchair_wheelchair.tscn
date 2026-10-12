@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_0ynkg"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/HospitalProps/Wheelchair/wheelchair.glb" id="2_eemwp"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Wheelchair_wheelchair.tres" id="3_inq08"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_81o6l"]
+friction = 0.95
+
+[node name="Wheelchair_wheelchair" type="Node3D" unique_id=1691644873]
+script = ExtResource("1_0ynkg")
+
+[node name="Model" type="Node3D" parent="." unique_id=915590412 instance=ExtResource("2_eemwp")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1453358776 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_81o6l")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=495855131]
+shape = ExtResource("3_inq08")

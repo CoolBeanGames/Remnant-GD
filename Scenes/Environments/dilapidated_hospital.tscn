@@ -1,0 +1,320 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/portal_room.gd" id="1_d6t6t"]
+[ext_resource type="Environment" path="res://Data/Portal/interior_environment.tres" id="2_5imhw"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/DilapidatedHospital_dilapidated_hospital.tscn" id="3_ul7go"]
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="4_sifkl"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/HospitalBed_hospital_bed.tscn" id="5_hihf4"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/BedsideCabinet_bedside_cabinet.tscn" id="6_e64yk"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/IVStand_iv_stand.tscn" id="7_pcp18"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/MedicalTrolley_medical_trolley.tscn" id="8_mka8r"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/NursingCounter_nursing_counter.tscn" id="9_8qppt"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Wheelchair_wheelchair.tscn" id="10_umri5"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/HospitalDoor_hospital_door.tscn" id="11_cqsaw"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/WaitingBench_waiting_bench.tscn" id="12_g24ob"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/LandlinePhone_landline_phone.tscn" id="13_gj6gd"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="14_202yd"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="15_35xvc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nk58e"]
+size = Vector3(2.5, 0.16, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0rhbi"]
+albedo_color = Color(0.28, 0.3, 0.29, 1)
+roughness = 0.94
+
+[sub_resource type="BoxMesh" id="BoxMesh_ns3bg"]
+material = SubResource("StandardMaterial3D_0rhbi")
+size = Vector3(2.5, 0.16, 1.2)
+
+[node name="DilapidatedHospital" type="Node3D" unique_id=1234950327]
+script = ExtResource("1_d6t6t")
+environment = ExtResource("2_5imhw")
+
+[node name="Entrance" type="Marker3D" parent="." unique_id=780947597]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.7195, 13.44)
+
+[node name="Art" type="Node3D" parent="." unique_id=1199054515]
+
+[node name="Hospital shell" type="Node3D" parent="Art" unique_id=270833041 instance=ExtResource("3_ul7go")]
+script = ExtResource("4_sifkl")
+
+[node name="Ward 01 bed 1" type="Node3D" parent="Art" unique_id=1342478159 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.7, 0, 10.85)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 01 cabinet 1" type="Node3D" parent="Art" unique_id=1724962682 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.2, 0, 10.05)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 01 bed 2" type="Node3D" parent="Art" unique_id=1712992193 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.7, 0, 7.95)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 01 cabinet 2" type="Node3D" parent="Art" unique_id=1919269152 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.2, 0, 7.15)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 01 IV stand" type="Node3D" parent="Art" unique_id=773687798 instance=ExtResource("7_pcp18")]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 1, 0, -0.2079117, 0, 0.9781476, -5.4, 0, 8.95)
+script = ExtResource("4_sifkl")
+
+[node name="Treatment examination bed" type="Node3D" parent="Art" unique_id=1213477988 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.7, 0, 3.8)
+script = ExtResource("4_sifkl")
+
+[node name="Treatment trolley" type="Node3D" parent="Art" unique_id=1025828207 instance=ExtResource("8_mka8r")]
+transform = Transform3D(0.9612617, 0, -0.27563736, 0, 1, 0, 0.27563736, 0, 0.9612617, -4.7, 0, 4.8)
+script = ExtResource("4_sifkl")
+
+[node name="Treatment IV stand" type="Node3D" parent="Art" unique_id=72118956 instance=ExtResource("7_pcp18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.65, 0, 2.85)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 03 bed 1" type="Node3D" parent="Art" unique_id=69882291 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.7, 0, -3.05)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 03 cabinet 1" type="Node3D" parent="Art" unique_id=1421432383 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.2, 0, -3.85)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 03 bed 2" type="Node3D" parent="Art" unique_id=741921495 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.7, 0, -5.95)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 03 cabinet 2" type="Node3D" parent="Art" unique_id=268722506 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.2, 0, -6.75)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 03 IV stand" type="Node3D" parent="Art" unique_id=417838121 instance=ExtResource("7_pcp18")]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 1, 0, -0.2079117, 0, 0.9781476, -5.4, 0, -4.95)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 05 bed 1" type="Node3D" parent="Art" unique_id=1712303176 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.7, 0, -8.7)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 05 cabinet 1" type="Node3D" parent="Art" unique_id=1923973437 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.2, 0, -9.5)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 05 bed 2" type="Node3D" parent="Art" unique_id=1233917247 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.7, 0, -11.6)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 05 cabinet 2" type="Node3D" parent="Art" unique_id=1619137011 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.2, 0, -12.4)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 05 IV stand" type="Node3D" parent="Art" unique_id=1965294099 instance=ExtResource("7_pcp18")]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 1, 0, -0.2079117, 0, 0.9781476, -5.4, 0, -10.6)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 02 bed 1" type="Node3D" parent="Art" unique_id=337743393 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.7, 0, 10.85)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 02 cabinet 1" type="Node3D" parent="Art" unique_id=396285920 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 8.2, 0, 10.05)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 02 bed 2" type="Node3D" parent="Art" unique_id=2021862533 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.7, 0, 7.95)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 02 cabinet 2" type="Node3D" parent="Art" unique_id=1010509090 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 8.2, 0, 7.15)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 02 IV stand" type="Node3D" parent="Art" unique_id=1249001461 instance=ExtResource("7_pcp18")]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 1, 0, -0.2079117, 0, 0.9781476, 5.4, 0, 8.95)
+script = ExtResource("4_sifkl")
+
+[node name="Nursing station counter" type="Node3D" parent="Art" unique_id=1056335337 instance=ExtResource("9_8qppt")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.5, 0, 3.75)
+script = ExtResource("4_sifkl")
+
+[node name="Nursing supplies trolley" type="Node3D" parent="Art" unique_id=1176555013 instance=ExtResource("8_mka8r")]
+transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, 7.5, 0, 2.5)
+script = ExtResource("4_sifkl")
+
+[node name="Stored nursing wheelchair" type="Node3D" parent="Art" unique_id=1691644873 instance=ExtResource("10_umri5")]
+transform = Transform3D(0.76604444, 0, -0.6427876, 0, 1, 0, 0.6427876, 0, 0.76604444, 7.35, 0, 4.65)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 04 bed 1" type="Node3D" parent="Art" unique_id=1981327526 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.7, 0, -3.05)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 04 cabinet 1" type="Node3D" parent="Art" unique_id=1621468782 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 8.2, 0, -3.85)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 04 bed 2" type="Node3D" parent="Art" unique_id=1400918843 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.7, 0, -5.95)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 04 cabinet 2" type="Node3D" parent="Art" unique_id=1700351388 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 8.2, 0, -6.75)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 04 IV stand" type="Node3D" parent="Art" unique_id=1474745925 instance=ExtResource("7_pcp18")]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 1, 0, -0.2079117, 0, 0.9781476, 5.4, 0, -4.95)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 06 bed 1" type="Node3D" parent="Art" unique_id=485907393 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.7, 0, -8.7)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 06 cabinet 1" type="Node3D" parent="Art" unique_id=1571749386 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 8.2, 0, -9.5)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 06 bed 2" type="Node3D" parent="Art" unique_id=1577659772 instance=ExtResource("5_hihf4")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.7, 0, -11.6)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 06 cabinet 2" type="Node3D" parent="Art" unique_id=223977183 instance=ExtResource("6_e64yk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 8.2, 0, -12.4)
+script = ExtResource("4_sifkl")
+
+[node name="Ward 06 IV stand" type="Node3D" parent="Art" unique_id=2113277340 instance=ExtResource("7_pcp18")]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 1, 0, -0.2079117, 0, 0.9781476, 5.4, 0, -10.6)
+script = ExtResource("4_sifkl")
+
+[node name="Ward door 1" type="Node3D" parent="Art" unique_id=1669491552 instance=ExtResource("11_cqsaw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7, 0, 9.4)
+script = ExtResource("4_sifkl")
+
+[node name="Ward door 2" type="Node3D" parent="Art" unique_id=1110346105 instance=ExtResource("11_cqsaw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7, 0, 3.75)
+script = ExtResource("4_sifkl")
+
+[node name="Ward door 3" type="Node3D" parent="Art" unique_id=1979509560 instance=ExtResource("11_cqsaw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7, 0, -4.5)
+script = ExtResource("4_sifkl")
+
+[node name="Ward door 4" type="Node3D" parent="Art" unique_id=2140479276 instance=ExtResource("11_cqsaw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7, 0, -10.15)
+script = ExtResource("4_sifkl")
+
+[node name="Ward door 5" type="Node3D" parent="Art" unique_id=1909103200 instance=ExtResource("11_cqsaw")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.7, 0, 9.4)
+script = ExtResource("4_sifkl")
+
+[node name="Ward door 6" type="Node3D" parent="Art" unique_id=1233605971 instance=ExtResource("11_cqsaw")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.7, 0, -4.5)
+script = ExtResource("4_sifkl")
+
+[node name="Ward door 7" type="Node3D" parent="Art" unique_id=318364664 instance=ExtResource("11_cqsaw")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.7, 0, -10.15)
+script = ExtResource("4_sifkl")
+
+[node name="Abandoned hall wheelchair" type="Node3D" parent="Art" unique_id=883541621 instance=ExtResource("10_umri5")]
+transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, -0.84, 0, 6.8)
+script = ExtResource("4_sifkl")
+
+[node name="Cross hall waiting bench" type="Node3D" parent="Art" unique_id=1465189349 instance=ExtResource("12_g24ob")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 1.22)
+script = ExtResource("4_sifkl")
+
+[node name="West waiting bench" type="Node3D" parent="Art" unique_id=1316490460 instance=ExtResource("12_g24ob")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -5.4, 0, -1.22)
+script = ExtResource("4_sifkl")
+
+[node name="Nursing LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("13_gj6gd")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.65, 1.01, 3.15)
+script = ExtResource("4_sifkl")
+
+[node name="Nursing PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("14_202yd")]
+transform = Transform3D(0.17364822, 0, -0.9848077, 0, 1, 0, 0.9848077, 0, 0.17364822, 3.6, 1.01, 4.27)
+script = ExtResource("4_sifkl")
+
+[node name="Nursing TrashCan" type="Node3D" parent="Art" unique_id=46325136 instance=ExtResource("15_35xvc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.1, 0, 3.6)
+script = ExtResource("4_sifkl")
+
+[node name="Lighting" type="Node3D" parent="." unique_id=1546916906]
+
+[node name="InteriorLight" type="OmniLight3D" parent="Lighting" unique_id=1083663499]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, -9.4)
+light_color = Color(0.76, 0.87, 0.86, 1)
+light_energy = 1.5
+omni_range = 7.5
+
+[node name="InteriorLight2" type="OmniLight3D" parent="Lighting" unique_id=2083850194]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 2.85, -9.4)
+light_color = Color(0.88, 0.92, 0.83, 1)
+light_energy = 1.5
+omni_range = 6.5
+
+[node name="InteriorLight3" type="OmniLight3D" parent="Lighting" unique_id=156383512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 2.85, -9.4)
+light_color = Color(0.88, 0.92, 0.83, 1)
+light_energy = 1.5
+omni_range = 6.5
+
+[node name="InteriorLight4" type="OmniLight3D" parent="Lighting" unique_id=1386624769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, -4.5)
+light_color = Color(0.76, 0.87, 0.86, 1)
+light_energy = 1.5
+omni_range = 7.5
+
+[node name="InteriorLight5" type="OmniLight3D" parent="Lighting" unique_id=1556158511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 2.85, -4.5)
+light_color = Color(0.88, 0.92, 0.83, 1)
+light_energy = 1.5
+omni_range = 6.5
+
+[node name="InteriorLight6" type="OmniLight3D" parent="Lighting" unique_id=1436697398]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 2.85, -4.5)
+light_color = Color(0.88, 0.92, 0.83, 1)
+light_energy = 1.5
+omni_range = 6.5
+
+[node name="InteriorLight7" type="OmniLight3D" parent="Lighting" unique_id=1358793207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 3.75)
+light_color = Color(0.76, 0.87, 0.86, 1)
+light_energy = 1.5
+omni_range = 7.5
+
+[node name="InteriorLight8" type="OmniLight3D" parent="Lighting" unique_id=1605315920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 2.85, 3.75)
+light_color = Color(0.88, 0.92, 0.83, 1)
+light_energy = 1.5
+omni_range = 6.5
+
+[node name="InteriorLight9" type="OmniLight3D" parent="Lighting" unique_id=1684263448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 2.85, 3.75)
+light_color = Color(0.88, 0.92, 0.83, 1)
+light_energy = 1.5
+omni_range = 6.5
+
+[node name="InteriorLight10" type="OmniLight3D" parent="Lighting" unique_id=1010533903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 9.4)
+light_color = Color(0.76, 0.87, 0.86, 1)
+light_energy = 1.5
+shadow_enabled = true
+omni_range = 7.5
+
+[node name="InteriorLight11" type="OmniLight3D" parent="Lighting" unique_id=984691501]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 2.85, 9.4)
+light_color = Color(0.88, 0.92, 0.83, 1)
+light_energy = 1.5
+omni_range = 6.5
+
+[node name="InteriorLight12" type="OmniLight3D" parent="Lighting" unique_id=1450466836]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 2.85, 9.4)
+light_color = Color(0.88, 0.92, 0.83, 1)
+light_energy = 1.5
+omni_range = 6.5
+
+[node name="EntranceLanding" type="StaticBody3D" parent="." unique_id=542564410 groups=["Floor"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, 13.25)
+
+[node name="@CollisionShape3D@85" type="CollisionShape3D" parent="EntranceLanding" unique_id=1038936190]
+shape = SubResource("BoxShape3D_nk58e")
+
+[node name="@MeshInstance3D@86" type="MeshInstance3D" parent="EntranceLanding" unique_id=787565051]
+mesh = SubResource("BoxMesh_ns3bg")

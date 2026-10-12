@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_myh45"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/HospitalProps/HospitalBed/hospital_bed.glb" id="2_n1ddl"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/HospitalBed_hospital_bed.tres" id="3_6rtf4"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lharu"]
+friction = 0.95
+
+[node name="HospitalBed_hospital_bed" type="Node3D" unique_id=1342478159]
+script = ExtResource("1_myh45")
+
+[node name="Model" type="Node3D" parent="." unique_id=1783423558 instance=ExtResource("2_n1ddl")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1382975474 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_lharu")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1051916247]
+shape = ExtResource("3_6rtf4")

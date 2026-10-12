@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_q41qo"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/HospitalProps/MedicalTrolley/medical_trolley.glb" id="2_l1vy4"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/MedicalTrolley_medical_trolley.tres" id="3_rkx65"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8r2pu"]
+friction = 0.95
+
+[node name="MedicalTrolley_medical_trolley" type="Node3D" unique_id=1025828207]
+script = ExtResource("1_q41qo")
+
+[node name="Model" type="Node3D" parent="." unique_id=951918369 instance=ExtResource("2_l1vy4")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=438140078 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_8r2pu")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=568392774]
+shape = ExtResource("3_rkx65")

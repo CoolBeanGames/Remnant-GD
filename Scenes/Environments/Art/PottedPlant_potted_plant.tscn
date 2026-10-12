@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_vyt88"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/PottedPlant/potted_plant.glb" id="2_kms7l"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/PottedPlant_potted_plant.tres" id="3_o0u3u"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jxby1"]
+friction = 0.95
+
+[node name="PottedPlant_potted_plant" type="Node3D" unique_id=470598459]
+script = ExtResource("1_vyt88")
+
+[node name="Model" type="Node3D" parent="." unique_id=1803715518 instance=ExtResource("2_kms7l")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=855057389 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_jxby1")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1564315387]
+shape = ExtResource("3_o0u3u")

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_0bn6a"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/TrashCan/trash_can.glb" id="2_5cqeh"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/TrashCan_trash_can.tres" id="3_lsbj8"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fc4h7"]
+friction = 0.95
+
+[node name="TrashCan_trash_can" type="Node3D" unique_id=46325136]
+script = ExtResource("1_0bn6a")
+
+[node name="Model" type="Node3D" parent="." unique_id=769828595 instance=ExtResource("2_5cqeh")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1280642089 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_fc4h7")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1584671070]
+shape = ExtResource("3_lsbj8")

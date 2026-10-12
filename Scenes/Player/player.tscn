@@ -35,6 +35,7 @@
 [ext_resource type="Script" uid="uid://djmqfnex7by5r" path="res://Scripts/Player/prop_placement.gd" id="placement"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ig4qq"]
+radius = 0.35
 
 [node name="Player" type="CharacterBody3D" unique_id=1906623250]
 

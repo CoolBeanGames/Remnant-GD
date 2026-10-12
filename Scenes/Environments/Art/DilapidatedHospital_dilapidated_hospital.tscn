@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_mtsit"]
+[ext_resource type="PackedScene" path="res://Models/Architecture/DilapidatedHospital/dilapidated_hospital.glb" id="2_lk6ju"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/DilapidatedHospital_dilapidated_hospital.tres" id="3_b23jp"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_57har"]
+friction = 0.95
+
+[node name="DilapidatedHospital_dilapidated_hospital" type="Node3D" unique_id=270833041]
+script = ExtResource("1_mtsit")
+
+[node name="Model" type="Node3D" parent="." unique_id=351698980 instance=ExtResource("2_lk6ju")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1753992394 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_57har")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1467550237]
+shape = ExtResource("3_b23jp")

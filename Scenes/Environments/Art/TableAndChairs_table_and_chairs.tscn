@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_civdx"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/TableAndChairs/table_and_chairs.glb" id="2_satwy"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/TableAndChairs_table_and_chairs.tres" id="3_tc8sa"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_k4q03"]
+friction = 0.95
+
+[node name="TableAndChairs_table_and_chairs" type="Node3D" unique_id=1456710361]
+script = ExtResource("1_civdx")
+
+[node name="Model" type="Node3D" parent="." unique_id=835711079 instance=ExtResource("2_satwy")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=984508730 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_k4q03")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=976592727]
+shape = ExtResource("3_tc8sa")

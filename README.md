@@ -14,11 +14,17 @@ The installed [blender-asset-workflow skill](Skills/blender-asset-workflow/SKILL
 
 Export/texture guidance and a Remnant-specific authoring reference live alongside the skill. Engine lighting, physics and gameplay integration follow the target project's own workflow. The repository copy is versioned; the matching user copy is installed under the user skills folder.
 
+## Explorable portal destinations
+
+The furnished apartment, warehouse and hospital are now **game scenes with static collision, furniture and editable lighting**. Leave the concrete room and let it disappear, then **F9 cycles APARTMENT → WAREHOUSE → HOSPITAL → APARTMENT**. Open the Strange Door with E and walk through; its counterpart returns to the workshop. Only one destination is live at a time. Cycling from inside brings you/held cargo back outside the door and preserves other collected items in the workshop. Selection uses saved Blackboard.portal_destination_id; F9 respects menu/wake-up/respawn locks.
+
+[Environment authoring](Data/Portal/ENVIRONMENTS.md) explains the 35 shared art/collision wrappers, engine scenes, destination resources and future select_destination trigger API. The player capsule fits the apartment entrance, warehouse stairs reach the office, and the hospital rooms/staff entrance are walkable. [Actual engine captures](Reports/PortalEnvironments/index.html) show all three destinations. Existing Blender sources stay separate; story triggers and furniture interactions are future work.
+
 ## Dilapidated hospital art collection
 
 The [hospital wing](Models/Architecture/DilapidatedHospital/README.md) has six patient wards, a treatment room, an open nursing station and two connected 3.2 m hallways across an 18 × 26 m floor plan. Broken/missing window panes, dirty clinical surfaces, rusted medical equipment, damaged ceilings and dried blood stains finish the space. Eight medical props each have their own packed Blender source and separate GLB.
 
-[hospital_assembly.blend](Models/Interiors/DilapidatedHospital/hospital_assembly.blend) uses 50 relative collection instances. Eight actual environment renders and three angles per new prop are in the [offline gallery](Reports/Hospital/index.html) and [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/Hospital/index.html). Native and export checks verify textures, bounds, hinges, real glass openings, connected room access, staff access and furniture clearances; Godot imports all nine exports with 730 textured surfaces. The hospital remains a reusable art collection; gameplay collision, scene placement and lighting require engine setup. Windows release/startup, GitHub and Notion delivery accompany the assets.
+[hospital_assembly.blend](Models/Interiors/DilapidatedHospital/hospital_assembly.blend) uses 50 relative collection instances. Eight actual environment renders and three angles per new prop are in the [offline gallery](Reports/Hospital/index.html) and [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/Hospital/index.html). Native and export checks verify textures, bounds, hinges, real glass openings, connected room access, staff access and furniture clearances; Godot imports all nine exports with 730 textured surfaces. The hospital remains a reusable art collection and now also has an explorable portal game scene with baked collision and separate engine lighting. Windows release/startup, GitHub and Notion delivery accompany the assets.
 
 ## Dilapidated warehouse art collection
 

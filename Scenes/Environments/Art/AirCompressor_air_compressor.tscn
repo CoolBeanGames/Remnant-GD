@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_xnldj"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/WarehouseMachinery/AirCompressor/air_compressor.glb" id="2_6fdiv"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/AirCompressor_air_compressor.tres" id="3_xsg5t"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8uh3p"]
+friction = 0.95
+
+[node name="AirCompressor_air_compressor" type="Node3D" unique_id=1132356678]
+script = ExtResource("1_xnldj")
+
+[node name="Model" type="Node3D" parent="." unique_id=1026430414 instance=ExtResource("2_6fdiv")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=2032618939 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_8uh3p")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=488438067]
+shape = ExtResource("3_xsg5t")

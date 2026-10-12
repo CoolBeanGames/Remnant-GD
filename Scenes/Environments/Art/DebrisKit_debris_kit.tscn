@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_alv4i"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/WarehouseMachinery/DebrisKit/debris_kit.glb" id="2_u3d1q"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/DebrisKit_debris_kit.tres" id="3_o12wy"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_84tfs"]
+friction = 0.95
+
+[node name="DebrisKit_debris_kit" type="Node3D" unique_id=765735620]
+script = ExtResource("1_alv4i")
+
+[node name="Model" type="Node3D" parent="." unique_id=1707050775 instance=ExtResource("2_u3d1q")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1566176044 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_84tfs")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=922023273]
+shape = ExtResource("3_o12wy")

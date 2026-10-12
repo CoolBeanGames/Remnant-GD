@@ -24,6 +24,8 @@ func run() -> void:
 	add_child(pool)
 	var level: level_sequence = load("res://Scenes/testing_level.tscn").instantiate()
 	level.set("spawn_animation_enabled", false)
+	# Keep the original small-room physics fixture; full authored destinations have their own suite.
+	level.get_node("DoorPortal").destinations.clear()
 	add_child(level)
 	var player: CharacterBody3D = level.player
 	player.process_mode = Node.PROCESS_MODE_DISABLED
@@ -157,6 +159,7 @@ func run() -> void:
 	Blackboard.store_data("spawned_items", saved)
 	var resumed: level_sequence = load("res://Scenes/testing_level.tscn").instantiate()
 	resumed.set("spawn_animation_enabled", false)
+	resumed.get_node("DoorPortal").destinations.clear()
 	add_child(resumed)
 	resumed.player.process_mode = Node.PROCESS_MODE_DISABLED
 	await tick()

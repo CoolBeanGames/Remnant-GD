@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_c5j3y"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/HospitalProps/IVStand/iv_stand.glb" id="2_0qt16"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/IVStand_iv_stand.tres" id="3_kqhak"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_umbxs"]
+friction = 0.95
+
+[node name="IVStand_iv_stand" type="Node3D" unique_id=773687798]
+script = ExtResource("1_c5j3y")
+
+[node name="Model" type="Node3D" parent="." unique_id=144585764 instance=ExtResource("2_0qt16")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=835041925 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_umbxs")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=508554358]
+shape = ExtResource("3_kqhak")

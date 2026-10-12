@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_aroix"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/CoffeePot/coffee_pot.glb" id="2_r1658"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/CoffeePot_coffee_pot.tres" id="3_ap3cx"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eukvc"]
+friction = 0.95
+
+[node name="CoffeePot_coffee_pot" type="Node3D" unique_id=1626233228]
+script = ExtResource("1_aroix")
+
+[node name="Model" type="Node3D" parent="." unique_id=1831446157 instance=ExtResource("2_r1658")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1099516135 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_eukvc")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1683075711]
+shape = ExtResource("3_ap3cx")

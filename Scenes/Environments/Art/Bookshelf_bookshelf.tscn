@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_4u73f"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/Bookshelf/bookshelf.glb" id="2_5bo57"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Bookshelf_bookshelf.tres" id="3_8ut3n"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vc4hd"]
+friction = 0.95
+
+[node name="Bookshelf_bookshelf" type="Node3D" unique_id=2033440946]
+script = ExtResource("1_4u73f")
+
+[node name="Model" type="Node3D" parent="." unique_id=2050973461 instance=ExtResource("2_5bo57")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=2095500480 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_vc4hd")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=365212185]
+shape = ExtResource("3_8ut3n")

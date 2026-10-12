@@ -38,6 +38,11 @@
 [ext_resource type="PackedScene" uid="uid://dgdb7704h3tdk" path="res://Scenes/Computer/computer_terminal.tscn" id="computer"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/dialogue_player.tscn" id="dialogue_player"]
 [ext_resource type="Script" uid="uid://bt22t5fy4mlpu" path="res://Scripts/Portal/door_portal.gd" id="door_portal"]
+[ext_resource type="Resource" path="res://Data/Portal/apartment.tres" id="portal_apartment"]
+[ext_resource type="Script" path="res://Scripts/Portal/portal_destination.gd" id="portal_destination_script"]
+[ext_resource type="Resource" path="res://Data/Portal/warehouse.tres" id="portal_warehouse"]
+[ext_resource type="Resource" path="res://Data/Portal/hospital.tres" id="portal_hospital"]
+[ext_resource type="PackedScene" path="res://Scenes/Portal/portal_status.tscn" id="portal_status"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/pause_menu.tscn" id="pause_menu"]
 [ext_resource type="Resource" uid="uid://ca7umgs31ux3a" path="res://Data/Prompts/placement.tres" id="place_prompts"]
 [ext_resource type="Script" uid="uid://b8dj368txul6f" path="res://Scripts/Level/light_flicker.gd" id="room_flicker"]
@@ -326,6 +331,10 @@ delivery_parent = NodePath("..")
 script = ExtResource("door_portal")
 door = NodePath("../doorway_animated")
 player = NodePath("../Player")
+destinations = Array[ExtResource("portal_destination_script")]([ExtResource("portal_apartment"), ExtResource("portal_warehouse"), ExtResource("portal_hospital")])
+
+[node name="PortalStatus" parent="." node_paths=PackedStringArray("portal") instance=ExtResource("portal_status")]
+portal = NodePath("../DoorPortal")
 
 [node name="WordMessage" parent="." unique_id=138878723 instance=ExtResource("word_message")]
 word_sound = ExtResource("9_5f81q")

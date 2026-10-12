@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_b3ars"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/EntertainmentCenter/entertainment_center.glb" id="2_00q2q"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/EntertainmentCenter_entertainment_center.tres" id="3_r4o6f"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5vi3g"]
+friction = 0.95
+
+[node name="EntertainmentCenter_entertainment_center" type="Node3D" unique_id=530894412]
+script = ExtResource("1_b3ars")
+
+[node name="Model" type="Node3D" parent="." unique_id=1506594496 instance=ExtResource("2_00q2q")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1271676676 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_5vi3g")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=11000187]
+shape = ExtResource("3_r4o6f")

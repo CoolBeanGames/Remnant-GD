@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_3o0i2"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/LandlinePhone/landline_phone.glb" id="2_k1d3h"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/LandlinePhone_landline_phone.tres" id="3_tjryg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7uiia"]
+friction = 0.95
+
+[node name="LandlinePhone_landline_phone" type="Node3D" unique_id=1832182349]
+script = ExtResource("1_3o0i2")
+
+[node name="Model" type="Node3D" parent="." unique_id=1451263452 instance=ExtResource("2_k1d3h")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=433776556 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_7uiia")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=77108734]
+shape = ExtResource("3_tjryg")

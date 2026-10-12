@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/portal_status.gd" id="script"]
+
+[node name="PortalStatus" type="CanvasLayer"]
+layer = 5
+script = ExtResource("script")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 28.0
+offset_top = 80.0
+offset_right = 440.0
+offset_bottom = 150.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.92, 0.94, 0.90, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 20

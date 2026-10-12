@@ -57,3 +57,7 @@ Tests/ffmpeg_installer_test.tscn also passed headless, rendered and copied-addon
 The portable scene now includes `DevDebugLog` (F5) and its native `DevLogSink`. Use `context.log_info/log_warning/log_error(message, channel)` from portable code; `tool(&"logger")` exposes open/export/folder actions. Every bundled catalog includes the scripted `log` resource. Per-PID sessions preserve interrupted runs, exclude active instances and bound memory/file storage. The native sink uses `Logger`/`OS.add_logger` tested in Godot 4.7.2. Remnant configuration/API and crash-export limits: `Data/DEBUG_LOG.md`.
 
 Modal state protects refusing/freed owners and deduplicates fallback contexts for separately instanced tools. Host input guards should use `any_modal_open()` so every tool is included. Console exports bound history (100), output (65,536 characters) and input (4,096 characters). Native logger, rendered viewer and addon-only regression runs passed.
+
+## Host F9 portal preview
+
+Remnant reserves F9 to cycle the furnished apartment, warehouse and hospital after the concrete room disappears. DoorPortal owns this gameplay shortcut and ignores it while the toolkit or game menus own input. It adds no portable addon dependency; future story selection uses the same resource-driven select_destination API. See Data/Portal/ENVIRONMENTS.md.

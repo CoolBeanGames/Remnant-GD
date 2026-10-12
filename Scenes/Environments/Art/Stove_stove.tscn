@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_eakew"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/Stove/stove.glb" id="2_vyvpc"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Stove_stove.tres" id="3_r0f0h"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ts7yl"]
+friction = 0.95
+
+[node name="Stove_stove" type="Node3D" unique_id=115997937]
+script = ExtResource("1_eakew")
+
+[node name="Model" type="Node3D" parent="." unique_id=773300695 instance=ExtResource("2_vyvpc")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1544519513 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_ts7yl")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1069275057]
+shape = ExtResource("3_r0f0h")

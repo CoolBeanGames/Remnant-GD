@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_xpky7"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/HospitalProps/WaitingBench/waiting_bench.glb" id="2_4n20f"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/WaitingBench_waiting_bench.tres" id="3_7f045"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_80prd"]
+friction = 0.95
+
+[node name="WaitingBench_waiting_bench" type="Node3D" unique_id=1465189349]
+script = ExtResource("1_xpky7")
+
+[node name="Model" type="Node3D" parent="." unique_id=1490720987 instance=ExtResource("2_4n20f")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=194860562 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_80prd")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=62660330]
+shape = ExtResource("3_7f045")

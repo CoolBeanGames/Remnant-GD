@@ -2,9 +2,12 @@ class_name door_portal
 extends Node3D
 
 signal crossed(inside: bool)
+signal destination_changed(id: StringName, title: String)
 @export var door: start_room_door
 @export var player: CharacterBody3D
 @export var destination_scene: PackedScene = preload("res://Scenes/Portal/sky_test_room.tscn")
+@export var destinations: Array[portal_destination] = []
+@export var cycle_key: Key = KEY_F9
 @export var return_door_scene: PackedScene = preload("res://Models/Door/source/doorway_animated.glb")
 @export var sky_position: Vector3 = Vector3(1600, 0, 0)
 @export var activation_flag: String = "exited room"
@@ -29,6 +32,8 @@ var original_environment: Environment
 var previous_camera_position: Vector3
 var previous_bodies: Dictionary = {}
 var graphics_revision: int = -1
+var active_destination_id: StringName = &""
+var switching: bool = false
 var half_turn := Transform3D(Basis(Vector3.UP, PI), Vector3.ZERO)
 
 func _ready() -> void:
@@ -52,15 +57,16 @@ func activate() -> void:
 	pending = false
 	if active or not Flags.check_flag(activation_flag) or destination_scene == null:
 		return
-	room = destination_scene.instantiate() as Node3D
-	add_child(room)
-	room.global_position = sky_position
-	destination_frame = room.get_node("Entrance")
-	portal_space.apply_actor(room, true)
-	# Main-world lights must not reveal the isolated room via their shadows.
-	for light in get_parent().find_children("*", "Light3D", true, false):
-		if not room.is_ancestor_of(light):
-			light.light_cull_mask &= ~portal_space.ROOM_LAYER
+	var selected: portal_destination = _destination(StringName(str(Blackboard.read_data("portal_destination_id"))))
+	if selected == null and not destinations.is_empty():
+		selected = destinations[0]
+	var scene: PackedScene = load(selected.scene_path) as PackedScene if selected != null else destination_scene
+	if scene == null:
+		DevTools.log_error("Portal destination scene is missing.", "portal")
+		return
+	var instance: Node3D = _instantiate_room(scene)
+	if instance == null:
+		return
 	source_frame = Marker3D.new()
 	add_child(source_frame)
 	source_frame.global_transform = door.global_transform * Transform3D(Basis(Vector3.UP, PI), source_offset)
@@ -73,24 +79,167 @@ func activate() -> void:
 	# display conversion instead of treating an sRGB image as linear lighting.
 	viewport.use_hdr_2d = RenderingServer.get_current_rendering_method() != "gl_compatibility"
 	add_child(viewport)
-	Settings.register_environment(room_environment)
 	portal_camera = Camera3D.new()
 	viewport.add_child(portal_camera)
 	portal_camera.current = true
 	source_surface = _surface(source_frame)
+	if not _install_room(instance):
+		source_frame.free()
+		viewport.free()
+		return
+	# Main-world lights must not reveal the isolated room via their shadows.
+	for light in get_parent().find_children("*", "Light3D", true, false):
+		if not room.is_ancestor_of(light):
+			light.light_cull_mask &= ~portal_space.ROOM_LAYER
+	active_destination_id = selected.id if selected != null else &""
+	if selected != null:
+		Blackboard.store_data("portal_destination_id", str(selected.id))
+		destination_changed.emit(selected.id, selected.title)
+	active = true
+	DevTools.log_info("Story portal activated / %s / %s" % [active_destination_id, sky_position], "portal")
+	inside = Blackboard.read_data("portal_inside") == true
+	_set_player_space()
+	previous_camera_position = camera.global_position
+	_update_view()
+
+func _instantiate_room(scene: PackedScene) -> Node3D:
+	var instance: Node = scene.instantiate()
+	if not instance is Node3D or not instance.get_node_or_null("Entrance") is Node3D:
+		instance.free()
+		DevTools.log_error("Portal rooms require a Node3D root and an Entrance marker.", "portal")
+		return null
+	return instance as Node3D
+
+func _install_room(instance: Node3D) -> bool:
+	room = instance
+	# Apply layers before adding collision and lights to the shared world.
+	portal_space.apply_actor(room, true)
+	add_child(room)
+	room.global_position = sky_position
+	destination_frame = room.get_node("Entrance")
+	if room is portal_room and room.environment != null:
+		room_environment = room.environment
+	Settings.register_environment(room_environment)
 	return_surface = _surface(destination_frame)
+	return_surface.layers = portal_space.ROOM_LAYER
 	if return_door_scene != null:
 		var return_door: Node3D = return_door_scene.instantiate() as Node3D
 		return_door.set_script(preload("res://Scripts/Portal/portal_return_door.gd"))
 		return_door.target = door
 		room.add_child(return_door)
 		return_door.global_transform = destination_frame.global_transform * Transform3D(Basis.IDENTITY, -source_offset)
-	active = true
-	DevTools.log_info("Story portal activated at %s." % sky_position, "portal")
-	inside = Blackboard.read_data("portal_inside") == true
-	_set_player_space()
-	previous_camera_position = camera.global_position
-	_update_view()
+	return true
+
+func _destination(id: StringName) -> portal_destination:
+	for entry in destinations:
+		if entry != null and entry.id == id:
+			return entry
+	return null
+
+func _input(event: InputEvent) -> void:
+	if not event is InputEventKey or not event.pressed or event.echo:
+		return
+	if event.keycode != cycle_key and event.physical_keycode != cycle_key:
+		return
+	if get_tree().paused or DevTools.any_modal_open() or Blackboard.read_data("player_input_blocked") == true:
+		return
+	if cycle_destination():
+		get_viewport().set_input_as_handled()
+
+func cycle_destination() -> bool:
+	if destinations.is_empty():
+		return false
+	var index: int = -1
+	for current in destinations.size():
+		if destinations[current] != null and destinations[current].id == active_destination_id:
+			index = current
+			break
+	for offset in range(1, destinations.size() + 1):
+		var next: portal_destination = destinations[(index + offset) % destinations.size()]
+		if next != null:
+			return select_destination(next.id)
+	return false
+
+## Gameplay triggers can call this same API later, without synthesizing F9 input.
+func select_destination(id: StringName) -> bool:
+	var selected: portal_destination = _destination(id)
+	if not active or suspended or switching or selected == null or selected.id == active_destination_id:
+		return false
+	if not ResourceLoader.exists(selected.scene_path, "PackedScene"):
+		DevTools.log_error("Missing portal destination: %s" % selected.scene_path, "portal")
+		return false
+	switching = true
+	_switch_destination.call_deferred(selected)
+	return true
+
+func _switch_destination(selected: portal_destination) -> void:
+	if not active or suspended:
+		switching = false
+		return
+	var scene: PackedScene = load(selected.scene_path) as PackedScene
+	if scene == null or not scene.can_instantiate():
+		switching = false
+		return
+	# Validate off-tree; this also supports inherited scenes. Only one room is
+	# ever live in the world. A malformed replacement leaves the old room usable.
+	var instance: Node3D = _instantiate_room(scene)
+	if instance == null:
+		switching = false
+		return
+	if inside:
+		var return_map: Transform3D = mapping(destination_frame, source_frame)
+		var safe_position: Vector3 = source_frame.to_global(Vector3(0, -source_offset.y + .04, 1.25))
+		return_map.origin += safe_position - return_map * player.global_position
+		teleport_player(return_map)
+	_evacuate_room_items()
+	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	source_surface.hide()
+	# The old collision/geometry leaves the tree before the next room enters.
+	remove_child(room)
+	room.free()
+	room = null
+	destination_frame = null
+	return_surface = null
+	if _install_room(instance):
+		active_destination_id = selected.id
+		Blackboard.store_data("portal_destination_id", str(selected.id))
+		previous_bodies.clear()
+		previous_camera_position = camera.global_position
+		_set_player_space()
+		_update_view()
+		WorldState._physics_process(0.0)
+		WorldState.capture()
+		destination_changed.emit(selected.id, selected.title)
+		DevTools.log_info("Portal destination selected / %s. Previous room unloaded." % selected.id, "portal")
+	switching = false
+
+func _evacuate_room_items() -> void:
+	var actors: Array[Node3D] = []
+	var children: Dictionary = {}
+	for id in WorldState.items:
+		var actor: Node3D = WorldState._actor(id)
+		if is_instance_valid(actor) and actor.get_meta("portal_inside", false):
+			actors.append(actor)
+	for actor in actors:
+		for child in _assembly_actors(actor):
+			if child != actor:
+				children[child.get_instance_id()] = true
+	var pose_map: Transform3D = mapping(destination_frame, source_frame)
+	# Keep purchased props, contained items and contraptions when cycling.
+	# Scene furniture remains static and is deliberately not a saved item.
+	for actor in actors:
+		if actor is rotatable_item and actor.support != null:
+			var host: Node3D = actor.support.get_ref() as Node3D
+			if is_instance_valid(host) and room.is_ancestor_of(host):
+				actor.on_picked_up()
+				actor.on_released()
+	for actor in actors:
+		if not children.has(actor.get_instance_id()) and actor.get_meta("portal_inside", false):
+			_transfer_assembly(actor, pose_map, false)
+	# A malformed attachment cycle must not strand a saved actor in an empty world.
+	for actor in actors:
+		if actor.get_meta("portal_inside", false):
+			_transfer_assembly(actor, pose_map, false)
 
 func _surface(frame: Node3D) -> MeshInstance3D:
 	var surface := MeshInstance3D.new()
