@@ -1,0 +1,156 @@
+[
+  {
+    "title": "Architecture and system wiki",
+    "kind": "Reference",
+    "local": "../.wiki/index.html",
+    "online": "../Wiki/index.html",
+    "description": "Searchable current systems, authoring guides, API and scene dependencies."
+  },
+  {
+    "title": "The world is the interface.",
+    "kind": "Development history",
+    "local": "development_summary.html#world-interfaces",
+    "online": "../index.html#world-interfaces",
+    "description": "Upgrade purchases on the real PC. Notes held as lit paper. Normal gameplay has no HUD."
+  },
+  {
+    "title": "One door. Three destinations.",
+    "kind": "Development history",
+    "local": "development_summary.html#portal-environments",
+    "online": "../index.html#portal-environments",
+    "description": "The furnished apartment, warehouse and hospital are now explorable game scenes."
+  },
+  {
+    "title": "No one is on call.",
+    "kind": "Development history",
+    "local": "development_summary.html#hospital-art",
+    "online": "../index.html#hospital-art",
+    "description": "A connected dilapidated hospital wing with broken windows and blood-stained floors and walls."
+  },
+  {
+    "title": "The last shift never ended.",
+    "kind": "Development history",
+    "local": "development_summary.html#warehouse-art",
+    "online": "../index.html#warehouse-art",
+    "description": "A large dilapidated warehouse with broken windows, dirty concrete and rusted steel."
+  },
+  {
+    "title": "Paper pasted over the world.",
+    "kind": "Development history",
+    "local": "development_summary.html#newsprint-revision",
+    "online": "../index.html#newsprint-revision",
+    "description": "Dense, uneven newspaper clippings following the supplied visual reference."
+  },
+  {
+    "title": "Someone lived here.",
+    "kind": "Development history",
+    "local": "development_summary.html#worn-studio",
+    "online": "../index.html#worn-studio",
+    "description": "A dirty studio and kitchenette, furnished with independently editable assets."
+  },
+  {
+    "title": "Separate assets. Finished surfaces.",
+    "kind": "Development history",
+    "local": "development_summary.html#blender-workflow",
+    "online": "../index.html#blender-workflow",
+    "description": "A reusable Blender skill is installed for this and future projects. It turns the modelling preferences into a consistent authoring and review workflow."
+  },
+  {
+    "title": "Newspaper. A little daylight.",
+    "kind": "Development history",
+    "local": "development_summary.html#apartment",
+    "online": "../index.html#apartment",
+    "description": "Both studio windows are covered with overlapping newspaper, masking tape and slight folds. Three real gaps let sunlight cut thin shafts and stripes across the room. Four actual Blender Cycles renders of the updated editable model."
+  },
+  {
+    "title": "Continuous rails. A repeatable workflow.",
+    "kind": "Development history",
+    "local": "development_summary.html#latest",
+    "online": "../index.html#latest",
+    "description": "Rails now snap at free ends and carry the player, cargo and attached tools across joins in both directions. Fan reaction drives the carriage opposite the airflow."
+  },
+  {
+    "title": "Manual, physical, unpredictable.",
+    "kind": "Development history",
+    "local": "development_summary.html#play",
+    "online": "../index.html#play",
+    "description": "The current design centres on handling objects yourself. The earlier conveyor-and-crate experiment was retired as the game moved toward a more hands-on workshop."
+  },
+  {
+    "title": "A room. A door. A world beyond.",
+    "kind": "Development history",
+    "local": "development_summary.html#world",
+    "online": "../index.html#world",
+    "description": "The environment reveals itself in stages, with saved flags controlling light, sound and interaction."
+  },
+  {
+    "title": "Two economies. One old computer.",
+    "kind": "Development history",
+    "local": "development_summary.html#progress",
+    "online": "../index.html#progress",
+    "description": "Resource-driven purchases and upgrades keep prices, effects, dialogue and content editable without rebuilding the menus."
+  },
+  {
+    "title": "See it. Report it. Record it.",
+    "kind": "Development history",
+    "local": "development_summary.html#tools",
+    "online": "../index.html#tools",
+    "description": "The developer toolkit lives in one portable addon. Other Godot projects can replace its host adapter and keep the tools."
+  },
+  {
+    "title": "Less repeated work. Better ownership.",
+    "kind": "Development history",
+    "local": "development_summary.html#review",
+    "online": "../index.html#review",
+    "description": "The review covered active gameplay, persistence, audio, player controls, level and portal flow, interface code and the portable toolkit. Improvements were paired with regression checks."
+  },
+  {
+    "title": "Controls at a glance.",
+    "kind": "Development history",
+    "local": "development_summary.html#controls",
+    "online": "../index.html#controls",
+    "description": "Preserved development chapter and verification."
+  },
+  {
+    "title": "PC screen and physical notes",
+    "kind": "Rendered gallery",
+    "local": "WorldInterfaces/index.html",
+    "online": "../WorldInterfaces/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
+    "title": "Playable apartment, warehouse and hospital",
+    "kind": "Rendered gallery",
+    "local": "PortalEnvironments/index.html",
+    "online": "../PortalEnvironments/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
+    "title": "Hospital architecture and props",
+    "kind": "Rendered gallery",
+    "local": "Hospital/index.html",
+    "online": "../Hospital/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
+    "title": "Warehouse architecture and machines",
+    "kind": "Rendered gallery",
+    "local": "Warehouse/index.html",
+    "online": "../Warehouse/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
+    "title": "Furnished apartment and separate items",
+    "kind": "Rendered gallery",
+    "local": "StudioFurniture/index.html",
+    "online": "../StudioFurniture/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
+    "title": "Original unfurnished studio",
+    "kind": "Rendered gallery",
+    "local": "StudioApartment/index.html",
+    "online": "../StudioApartment/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  }
+]

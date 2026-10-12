@@ -1,0 +1,41 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/Notes/note_reader.gd" id="script"]
+[sub_resource type="StyleBoxFlat" id="paper"]
+bg_color = Color(0.82, 0.80, 0.73, 1)
+content_margin_left = 28.0
+content_margin_top = 24.0
+content_margin_right = 28.0
+content_margin_bottom = 24.0
+[node name="NoteReader" type="Node"]
+process_mode = 3
+script = ExtResource("script")
+[node name="Transcript" type="CanvasLayer" parent="."]
+layer = 55
+[node name="Screen" type="Control" parent="Transcript"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+[node name="Center" type="CenterContainer" parent="Transcript/Screen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+[node name="Panel" type="PanelContainer" parent="Transcript/Screen/Center"]
+custom_minimum_size = Vector2(760, 570)
+theme_override_styles/panel = SubResource("paper")
+[node name="Margin" type="MarginContainer" parent="Transcript/Screen/Center/Panel"]
+[node name="Rows" type="VBoxContainer" parent="Transcript/Screen/Center/Panel/Margin"]
+theme_override_constants/separation = 24
+[node name="Header" type="HBoxContainer" parent="Transcript/Screen/Center/Panel/Margin/Rows"]
+[node name="Title" type="Label" parent="Transcript/Screen/Center/Panel/Margin/Rows/Header"]
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.035, 0.035, 0.03, 1)
+theme_override_font_sizes/font_size = 25
+text = "NOTE"
+[node name="Close" type="Button" parent="Transcript/Screen/Center/Panel/Margin/Rows/Header"]
+text = "RETURN TO PAPER [N]"
+[node name="Body" type="RichTextLabel" parent="Transcript/Screen/Center/Panel/Margin/Rows"]
+size_flags_vertical = 3
+focus_mode = 2
+bbcode_enabled = false
+theme_override_colors/default_color = Color(0.035, 0.035, 0.03, 1)
+theme_override_font_sizes/normal_font_size = 22

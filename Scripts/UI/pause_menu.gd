@@ -23,7 +23,9 @@ func _ready() -> void:
 	main.get_node("Options").pressed.connect(_options)
 	journal.get_node("Back").pressed.connect(_back)
 	list.item_selected.connect(_select_note)
-	Notes.note_read.connect(_on_note_read)
+	var reader: note_reader = get_parent().get_node_or_null("NoteReader")
+	if reader != null:
+		reader.closed.connect(_on_reader_closed)
 	Blackboard.store_data("pause_menu", self)
 	hide()
 
@@ -92,31 +94,24 @@ func show_notes() -> void:
 		body_label.text = "Notes you pick up from the chute will be kept here."
 	else:
 		list.select(0)
-		_select_note(0)
+		title_label.text = "SELECT A NOTE"
+		body_label.text = "Read the original paper in the world. N toggles the typed transcript; Esc puts it away."
 	journal.get_node("Back").grab_focus()
 
 func _select_note(index: int) -> void:
 	if index < 0 or index >= entries.size():
 		return
-	_display(entries[index])
+	var reader: note_reader = Blackboard.read_data("note_reader") as note_reader
+	if reader == null:
+		return
+	var note: Dictionary = entries[index]
+	close(false)
+	reader.open_note(note, true)
 
-func _display(note: Dictionary) -> void:
-	title_label.text = str(note.get("title", "NOTE")).to_upper()
-	body_label.text = str(note.get("body", ""))
-	body_label.scroll_to_line(0)
-
-func _on_note_read(note: Dictionary) -> void:
-	_open_note.call_deferred(note)
-
-func _open_note(note: Dictionary) -> void:
-	open()
-	pickup_reader = true
-	current_note = note.duplicate(true)
-	show_notes()
-	list.hide()
-	_display(note)
-	$Screen/Center/Panel/Margin/Rows/Header.text = "NOTE FOUND"
-	journal.get_node("Back").text = "CONTINUE"
+func _on_reader_closed(_note: Dictionary, return_to_journal: bool) -> void:
+	if return_to_journal and is_inside_tree():
+		open()
+		show_notes()
 
 func _back() -> void:
 	if pickup_reader:

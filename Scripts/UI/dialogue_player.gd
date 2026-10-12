@@ -1,6 +1,8 @@
 class_name dialogue_player
 extends CanvasLayer
 
+@export var show_text: bool = true
+
 signal sequence_started(sequence: dialogue_sequence)
 signal sequence_finished(sequence: dialogue_sequence)
 signal line_started(line: dialogue_line)
@@ -17,6 +19,7 @@ var voice_playback_id: int = -1
 var confirm_consumed: bool = false
 
 func _ready() -> void:
+	label.visible = show_text
 	hide()
 	Dialogue.bind(self)
 
@@ -117,7 +120,7 @@ func advance() -> void:
 		_next_line()
 
 func _input(event: InputEvent) -> void:
-	if DevTools.any_modal_open():
+	if DevTools.any_modal_open() or Blackboard.read_data("world_view_session") != null:
 		return
 	if current != null and event.is_action_pressed("confirm") and not event.is_echo():
 		confirm_consumed = true

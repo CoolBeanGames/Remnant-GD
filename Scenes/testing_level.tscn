@@ -6,11 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cho7ut4k28i46" path="res://Models/Chute/ceiling_chute.fbx" id="4_1cks4"]
 [ext_resource type="Script" uid="uid://di3swkqh5sn4a" path="res://Scripts/Actors/ceiling_chute.gd" id="5_rhpwq"]
 [ext_resource type="PackedScene" uid="uid://x4o8rin8xvjo" path="res://Scenes/Actors/lever_assembly.tscn" id="7_esepx"]
-[ext_resource type="Texture2D" uid="uid://b7yhmhlfgdnyq" path="res://Textures/UI/Aim.png" id="8_46ng8"]
 [ext_resource type="AudioStream" uid="uid://tbj605lnr7v0" path="res://Audio/SFX/LightOn.wav" id="9_5f81q"]
-[ext_resource type="Script" uid="uid://dydvfnp1pg6a4" path="res://Scripts/UI/prompt_display.gd" id="10_prompts"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/prompt_label.tscn" id="11_label"]
-[ext_resource type="Resource" uid="uid://u6flu1c5065j" path="res://Data/Prompts/carrying.tres" id="12_carrying"]
 [ext_resource type="Script" uid="uid://bcxrh405f124t" path="res://Scripts/Level/grinding_area.gd" id="15_grinding"]
 [ext_resource type="PackedScene" uid="uid://dnpgvodrsbg0f" path="res://Scenes/Actors/score_sign.tscn" id="16_bfm0w"]
 [ext_resource type="Material" uid="uid://c8hi1mot5we01" path="res://Materials/Concrete.tres" id="21_cuoug"]
@@ -34,7 +30,6 @@
 [ext_resource type="AudioStream" uid="uid://cxvroce8w3q8m" path="res://Audio/SFX/Sonic_Soundfx_household_kitchen_microwave_door_open_1.wav" id="41_okd6y"]
 [ext_resource type="AudioStream" uid="uid://uumnvveh55wn" path="res://Audio/SFX/zapsplat_household_door_int_wood_close_slight_room_perspective_004_91210.wav" id="43_axeev"]
 [ext_resource type="Script" uid="uid://tkhos0n6dl5f" path="res://Scripts/Level/chute_zone.gd" id="chute_zone"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/combo_display.tscn" id="combo_ui"]
 [ext_resource type="PackedScene" uid="uid://dgdb7704h3tdk" path="res://Scenes/Computer/computer_terminal.tscn" id="computer"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/dialogue_player.tscn" id="dialogue_player"]
 [ext_resource type="Script" uid="uid://bt22t5fy4mlpu" path="res://Scripts/Portal/door_portal.gd" id="door_portal"]
@@ -42,9 +37,8 @@
 [ext_resource type="Script" path="res://Scripts/Portal/portal_destination.gd" id="portal_destination_script"]
 [ext_resource type="Resource" path="res://Data/Portal/warehouse.tres" id="portal_warehouse"]
 [ext_resource type="Resource" path="res://Data/Portal/hospital.tres" id="portal_hospital"]
-[ext_resource type="PackedScene" path="res://Scenes/Portal/portal_status.tscn" id="portal_status"]
+[ext_resource type="PackedScene" path="res://Scenes/Notes/note_reader.tscn" id="note_reader"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/pause_menu.tscn" id="pause_menu"]
-[ext_resource type="Resource" uid="uid://ca7umgs31ux3a" path="res://Data/Prompts/placement.tres" id="place_prompts"]
 [ext_resource type="Script" uid="uid://b8dj368txul6f" path="res://Scripts/Level/light_flicker.gd" id="room_flicker"]
 [ext_resource type="Script" uid="uid://dex5nct350r2k" path="res://Scripts/Level/level_sequence.gd" id="sequence"]
 [ext_resource type="Script" uid="uid://b4dbbusrrdhih" path="res://Scripts/Level/staged_light.gd" id="staged_light"]
@@ -220,46 +214,6 @@ shape = SubResource("ChuteZone")
 transform = Transform3D(0.35958397, 0, 0.93311274, 0, 1, 0, -0.93311274, 0, 0.35958397, 10.564274, 0.0064259213, -5.414606)
 chute = NodePath("../ceiling_chute")
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2093236951]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -400.0
-offset_right = 400.0
-offset_bottom = 400.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CenterContainer" unique_id=1806873442]
-layout_mode = 2
-texture = ExtResource("8_46ng8")
-stretch_mode = 4
-
-[node name="Prompt_Container" type="CenterContainer" parent="." unique_id=418286355]
-custom_minimum_size = Vector2(0, 60)
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Prompt_Container" unique_id=754580691 node_paths=PackedStringArray("ray", "pickup", "placement")]
-layout_mode = 2
-theme_override_constants/separation = 20
-script = ExtResource("10_prompts")
-ray = NodePath("../../Player/Camera3D/RayCast3D")
-pickup = NodePath("../../Player/Controllers/Player_Pickup")
-placement = NodePath("../../Player/Controllers/Prop_Placement")
-placement_prompts = ExtResource("place_prompts")
-label_scene = ExtResource("11_label")
-carrying_prompts = ExtResource("12_carrying")
-
 [node name="grinding_area" type="Area3D" parent="." unique_id=727562887]
 collision_layer = 0
 script = ExtResource("15_grinding")
@@ -273,8 +227,6 @@ shape = SubResource("BoxShape3D_owqr0")
 
 [node name="Score Sign" parent="." unique_id=168954924 instance=ExtResource("16_bfm0w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.002789, 8.339717, -1)
-
-[node name="ComboDisplay" parent="." unique_id=76884644 instance=ExtResource("combo_ui")]
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=1844295386 node_paths=PackedStringArray("door", "player", "camera", "interior", "footsteps")]
 use_collision = true
@@ -333,10 +285,8 @@ door = NodePath("../doorway_animated")
 player = NodePath("../Player")
 destinations = Array[ExtResource("portal_destination_script")]([ExtResource("portal_apartment"), ExtResource("portal_warehouse"), ExtResource("portal_hospital")])
 
-[node name="PortalStatus" parent="." node_paths=PackedStringArray("portal") instance=ExtResource("portal_status")]
-portal = NodePath("../DoorPortal")
-
 [node name="WordMessage" parent="." unique_id=138878723 instance=ExtResource("word_message")]
+show_text = false
 word_sound = ExtResource("9_5f81q")
 
 [node name="WorldGuidance" type="Node" parent="." unique_id=1315693518 node_paths=PackedStringArray("level", "messages")]
@@ -345,9 +295,13 @@ level = NodePath("..")
 messages = NodePath("../WordMessage")
 
 [node name="DialoguePlayer" parent="." unique_id=751087534 instance=ExtResource("dialogue_player")]
+show_text = false
 
 [node name="WorldBoundary" type="StaticBody3D" parent="." unique_id=293164494 node_paths=PackedStringArray("centre_target")]
 script = ExtResource("world_boundary")
 centre_target = NodePath("../Player")
+
+[node name="NoteReader" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("note_reader")]
+camera = NodePath("../Player/Camera3D")
 
 [editable path="ceiling_chute"]

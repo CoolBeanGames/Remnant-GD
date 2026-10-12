@@ -76,10 +76,10 @@ func run() -> void:
 	check(messages.current.is_empty() and not guidance.grinder_waiting, "Grinding cancels the reminder immediately")
 	await tick()
 	var note: Dictionary = {"id": "test", "title": "TEST", "body": "Test text"}
-	var menu: pause_menu = level.get_node("PauseMenu")
-	menu._open_note(note)
+	var reader: note_reader = level.get_node("NoteReader")
+	reader.open_note(note)
 	check(not Flags.check_flag("message first note"), "Reading does not trigger warning until reader closes")
-	menu.close()
+	reader.close()
 	check(shown.back() == "DO" and Flags.check_flag("message first note"), "First finished note starts DO NOT LISTEN")
 	for i in 3:
 		messages._process(1)

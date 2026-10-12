@@ -1,6 +1,6 @@
 # Editing the workshop computer
 
-Open `Scenes/testing_level.tscn` and select **Computer**. Press E in-game to connect; use the tabs and mouse, then Esc or Exit to close.
+Open `Scenes/testing_level.tscn` and select **Computer**. Press E to focus the actual PC screen. Click/scroll its textured display; Esc or EXIT restores gameplay. See [world interfaces](../WORLD_INTERFACES.md).
 
 ## Catalog and prices
 
@@ -30,7 +30,7 @@ For another player ability, implement an exported numeric/bool property in the a
 
 Move **DeliveryPoint** in the testing level to choose where purchases drop from the sky. Computer > Delivery Point and Delivery Parent can be changed independently. Store entries can reference any Node3D scene; current stock is Fan, Steel Plate, Light, Basket, Push Broom, Train Rail, Rail Slider, Automatic Spawner, Mulcher and Mulch Bin. Air placement is a Mechanics unlock on normal future fans/plates. Mark future fan/plate entries with their matching Delivery Kind to receive purchased Mechanics upgrades.
 
-`Scenes/Computer/computer_terminal.tscn` is the placeholder physical computer. Keep its root script and collider when replacing the artwork. `Scenes/UI/computer_ui.tscn` controls the overlay layout/theme and `computer_row.tscn` is the reusable offer row. Keep named control paths referenced by `computer_ui.gd` when rearranging those scenes.
+`Scenes/Computer/computer_terminal.tscn` is the placeholder physical computer. Keep its root script and collider when replacing the artwork. `Scenes/UI/computer_ui.tscn` controls the viewport layout/theme and `computer_row.tscn` is the reusable offer row. Keep named control paths referenced by `computer_ui.gd` when rearranging those scenes.
 
 ## Controls and state
 

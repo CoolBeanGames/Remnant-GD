@@ -1,10 +1,8 @@
 class_name computer_ui
-extends CanvasLayer
+extends Control
 
 @export var row_scene: PackedScene
 var terminal: computer_terminal
-var previous_mouse: Input.MouseMode
-var previous_block: Variant
 var is_open: bool = false
 var rows: Array[Dictionary] = []
 var last_score: int = -1
@@ -21,12 +19,7 @@ func _ready() -> void:
 
 func open(source: computer_terminal) -> void:
 	terminal = source
-	if not is_open:
-		previous_mouse = Input.mouse_mode
-		previous_block = Blackboard.read_data("player_input_blocked")
 	is_open = true
-	Blackboard.store_data("player_input_blocked", true)
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	status.text = "SCORE / REGULAR UPGRADES. MULCH / PERMANENT UPGRADES."
 	_build_rows()
 	show()
@@ -34,22 +27,17 @@ func open(source: computer_terminal) -> void:
 	$Screen/Center/Panel/Margin/Rows/Header/Close.grab_focus()
 
 func close() -> void:
+	if is_open and is_instance_valid(terminal):
+		terminal.close_interface()
+
+func suspend() -> void:
 	if not is_open:
 		return
 	is_open = false
-	Blackboard.store_data("player_input_blocked", previous_block)
-	Input.mouse_mode = previous_mouse
 	hide()
 
 func _exit_tree() -> void:
-	close()
-
-func _input(event: InputEvent) -> void:
-	if DevTools.any_modal_open():
-		return
-	if is_open and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		close()
-		get_viewport().set_input_as_handled()
+	suspend()
 
 func _process(_delta: float) -> void:
 	if is_open:

@@ -10,7 +10,7 @@ func tick() -> void:
 func _ready() -> void:
 	run.call_deferred()
 func run() -> void:
-	SaveGame.save_path = "res://.godot/persistence_test.save"
+	SaveGame.save_path = "user://persistence_test.save"
 	SaveGame.enabled = false
 	SaveGame.saving_disabled = false
 	DirAccess.remove_absolute(SaveGame.save_path)

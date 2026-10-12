@@ -1,5 +1,7 @@
 # Authoring dialogue
 
+Normal gameplay sets show_text=false on DialoguePlayer. Voices/sequences/E advance/once flags remain. Captions are optional in other scenes. World viewing sessions own input before dialogue. See Data/WORLD_INTERFACES.md.
+
 The normal testing level includes `Scenes/UI/dialogue_player.tscn`. Its bottom-screen Text label is reusable and has no panel. Edit that scene to change its font, colour, margins, wrapping and outline. Optional voiceover uses the existing pooled Audio system on Vocals by default, so it remains audible during the initial room's SFX gate. Set Voice Bus on DialoguePlayer to another existing bus if needed.
 
 Create a `dialogue_sequence` Resource and save it under Data/Dialogue. Give it an optional Id, enable Once for story beats that must survive reloads, and add `dialogue_line` resources to Lines. Each line has editable multiline Text, an optional Voiceover stream, Characters Per Second, Hold Seconds, Fade Seconds, Wait For Voice and Voice Volume. Blank voice streams are silent and safe. Null lines are skipped; empty sequences do nothing.

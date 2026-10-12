@@ -1,5 +1,9 @@
 # Notes, switches and pause menu
 
+## Current physical reading
+
+F holds lit paper. N toggles the transcript; Esc puts paper away. Pause > Notes lists titles and holds selected originals in world, then returns to the journal. Definitions accept Page Texture, Reading Scene and Reading Pose for future physical art. Blank fields print existing text; old journals remain readable. See [current authoring](../WORLD_INTERFACES.md). The old screen reader below is retired history; production chute chance is 2%, and Options/save are implemented.
+
 ## Add another note
 
 1. Duplicate a note resource in `Data/Notes`, such as `door.tres`.

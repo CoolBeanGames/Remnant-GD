@@ -1,6 +1,8 @@
 class_name word_message
 extends CanvasLayer
 
+@export var show_text: bool = true
+
 signal word_shown(word: String, key: StringName)
 signal message_finished(key: StringName)
 @export var word_seconds: float = 0.65
@@ -16,6 +18,7 @@ var remaining: float = 0.0
 @onready var label: Label = $Word
 
 func _ready() -> void:
+	label.visible = show_text
 	hide()
 	get_viewport().size_changed.connect(_fit_word)
 	Blackboard.store_data("world_messages", self)

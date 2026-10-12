@@ -8,6 +8,12 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Interfaces in the world
+
+Normal gameplay has no HUD. E uses the actual PC display with clickable upgrade tabs; Esc disconnects. F holds collected notes as lit paper. N toggles the typed transcript, or reopens the latest note. Pause > Notes selects the original paper; putting it away returns to the journal. [Authoring/controls](Data/WORLD_INTERFACES.md) cover optional physical scenes/page textures and camera/cargo/save restoration.
+
+[Development index](Reports/index.html) links historical summaries, galleries and the offline wiki. [In-game interface views](Reports/WorldInterfaces/index.html) show the physical terminal and reader.
+
 ## Reusable Blender workflow
 
 The installed [blender-asset-workflow skill](Skills/blender-asset-workflow/SKILL.md) guides realistic environment and prop modelling for this and future projects. It requires finished textures/materials on every model, separate editable room and item assets assembled through links/instances, and at least three useful final Blender views with every image visually reviewed. Native sources, packed textures and requested separate exports are delivered together. Invoke it as `$blender-asset-workflow`; automatic discovery remains enabled.

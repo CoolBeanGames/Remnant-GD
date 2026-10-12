@@ -223,7 +223,8 @@ func _physics_process(delta: float) -> void:
 		Blackboard.store_data("player_rotation", player.global_rotation)
 		var camera: Camera3D = player.get_node_or_null("Camera3D")
 		if camera != null:
-			Blackboard.store_data("player_camera_rotation", camera.rotation)
+			var view_session: world_view_session = Blackboard.read_data("world_view_session") as world_view_session
+			Blackboard.store_data("player_camera_rotation", view_session.original_camera_rotation if view_session != null and view_session.active else camera.rotation)
 	snapshot_elapsed += delta
 	if snapshot_elapsed >= .1:
 		snapshot_elapsed = 0.0
