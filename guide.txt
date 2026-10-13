@@ -1,5 +1,5 @@
 REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
-Last Updated: 2026-10-13 16:28:15 UTC
+Last Updated: 2026-10-13 16:33:53 UTC
 
 Maintain README.md, the offline .wiki/index.html (sidebar, content and search), and this guide for every script/system/scene change. Globals must remain the first script category; other categories follow Scripts subfolders. Wiki must remain self-contained. Document script path, class/inheritance, UID/autoload, signals, exported/runtime state, public API and scene dependencies. Add a timestamped running-log entry using [YYYY-MM-DD][HH:MM:SS] - updated the guide to include 'feature'.
 
@@ -280,3 +280,5 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-13 / Lexicon authoring] External three-tab Notes/Dialog/Flavor editor, standalone Windows package, portable @tool Resources/catalog dock and runtime player/presenter/trigger. Export copies shared images/voices, maintains master catalogs and JSON source, validates branches, protects unmanaged files and rolls back failed replacements/pruning. Host adapter uses pooled Vocals and physical Notes.collect. Read Data/LEXICON.md and Tools/Lexicon/README.md before agent authoring; preserve stable IDs and host flags. Game F1 batch was verified/built/pushed first as requested.
 
 [2026-10-13][16:28:15] - updated the guide to include 'apartment floor and TV correction': 192 extension boards cover X=3.9..12.3 with a 1.8 mm seam; native/GLB/collision repaired. TV/stand/VCR/required phone move to the south wall beside the coffee table in the game and linked native. Scoped apartment bake/sync, native verifier and player capsule/floor/story checks, four Cycles/four actual package views. Windows 2026-10-13_11-23-37 verified; README/current asset guide/wiki/HTML history updated.
+
+[2026-10-13][16:33:53] - updated the guide to include 'apartment correction delivery': implementation 07222830001c4bfeb3cdae9a82d6abe2912af583 pushed and remote-confirmed; Pages 38431102234 succeeded, exact source/all 23 live hashes/21 browser checks verified and final phone/desktop views reviewed. Same Windows 11-23-37 build; documentation-only completion. All 68 unrelated designer files remain byte-for-byte.
