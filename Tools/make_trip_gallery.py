@@ -13,11 +13,12 @@ OUT = ROOT / 'Reports/TripModels'
 def picture(path, caption):
     # Keep original PNG evidence; compress only the self-contained phone gallery.
     with Image.open(path) as source:
+        width, height = source.size
         image = source.convert('RGB')
         packed = BytesIO()
         image.save(packed, format='JPEG', quality=90, optimize=True, subsampling=0)
     data = base64.b64encode(packed.getvalue()).decode('ascii')
-    return '<figure><img loading="lazy" src="data:image/jpeg;base64,' + data + '" alt="' + html.escape(caption, quote=True) + '"><figcaption>' + html.escape(caption) + '</figcaption></figure>'
+    return '<figure><img loading="lazy" width="' + str(width) + '" height="' + str(height) + '" src="data:image/jpeg;base64,' + data + '" alt="' + html.escape(caption, quote=True) + '"><figcaption>' + html.escape(caption) + '</figcaption></figure>'
 
 
 def main():
