@@ -27,13 +27,14 @@ func _build() -> void:
 				continue
 			leaf.rotation.y = deg_to_rad(-96)
 		_bake_model(model, "Trip_" + name, not name.begins_with("garbage_bag"))
-	if selected.is_empty():
+	if selected.is_empty() or selected.has("apartment_shell"):
 		var shell: Node3D = (load("res://Models/Architecture/StudioApartment/studio_apartment.glb") as PackedScene).instantiate()
 		shell.name = "Model"
 		for node in shell.find_children("*", "Node3D", true, false):
 			if "Apartment entrance" in str(node.name) and "hinged leaf" in str(node.name):
 					node.rotation.y = deg_to_rad(94)
 		_bake_model(shell, "StudioApartment_studio_apartment", true)
+	if selected.is_empty():
 		for environment_name: String in ["DilapidatedWarehouse", "DilapidatedHospital"]:
 			var file_name: String = "dilapidated_warehouse" if environment_name == "DilapidatedWarehouse" else "dilapidated_hospital"
 			var architecture: Node3D = (load("res://Models/Architecture/%s/%s.glb" % [environment_name, file_name]) as PackedScene).instantiate()

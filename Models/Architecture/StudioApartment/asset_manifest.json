@@ -38,5 +38,10 @@
     1.195,
     2.2
   ],
-  "revision": "October Trip spreadsheet: separate east bedroom, original bath/entrance/newsprint retained"
+  "revision": "Expanded apartment with continuous oak floor; separate bedroom retained",
+  "floor_extension_m": [
+    3.9,
+    12.3
+  ],
+  "floor_board_seam_m": 0.0018
 }

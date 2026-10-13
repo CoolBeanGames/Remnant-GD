@@ -1,6 +1,6 @@
 # Worn studio apartment / independent architectural shell
 
-An original architectural shell, authored in Blender 4.5.1 LTS. Its current finish has mottled yellowed plaster, worn oak, aged enamel/tile and ten local damp, grease and traffic-stain patches. The clear interior is approximately 7.8 x 6.2 metres with a 2.8 m ceiling; a separate 2.5 x 2.3 m bathroom occupies the northwest corner. Furniture, appliances and the kitchenette are separate native/export assets under Models/Interiors/StudioFurniture. The linked preview in Models/Interiors/FurnishedStudio assembles them; none are baked into this shell. Doors, windows, trim, electrical plates, a ventilation grille and recessed ceiling luminaires are permanent architectural details.
+An original architectural shell, authored in Blender 4.5.1 LTS. Its current finish has mottled yellowed plaster, worn oak, aged enamel/tile and ten local damp, grease and traffic-stain patches. The expanded clear interior is **16.2 x 6.2 metres**, with a 2.8 m ceiling, a 4.25 x 6.2 m east bedroom and the retained northwest bathroom. Furniture, appliances and the kitchenette are separate native/export assets under Models/Interiors/StudioFurniture and Models/Imported/Trip. The linked preview in Models/Interiors/FurnishedStudio assembles them; none are baked into this shell. Entry and bathroom doors now use separate imported art wrappers in the playable portal scene. Windows, trim, electrical plates, ventilation grille and recessed ceiling luminaires remain permanent architectural details.
 
 ## Files
 
@@ -11,7 +11,9 @@ An original architectural shell, authored in Blender 4.5.1 LTS. Its current fini
 - `asset_manifest.json`: dimensions, Blender version, evaluated geometry totals and render settings. Current model has 158 architectural meshes and 133,024 triangles.
 - `Reports/StudioApartment/`: retained earlier unfurnished newspaper-window renders and gallery. Current worn/furnished views are in Reports/FurnishedStudio; the complete gallery is Reports/StudioFurniture/index.html.
 
-The model is an authoring experiment, not an instance in the current game or portal room. It has no Godot physics collisions, gameplay script, autoload, UID, signals or persistent state. Its glass uses glTF transmission; renderer-specific glass appearance may differ from Blender.
+The shell is now used by Scenes/Environments/furnished_apartment.tscn, with baked static collision in Scenes/Environments/Art/StudioApartment_studio_apartment.tscn. Its independent source has no gameplay script or persistent state. Its glass uses glTF transmission; renderer-specific glass appearance may differ from Blender. Earlier unfurnished verification below is historical; current assignments and scoped rebuild instructions are in Data/Items/TRIP_MODELS.md.
+
+The extension boards cover X=3.9..12.3 m and meet the original timber at a normal **1.8 mm seam**. Tools/repair_apartment_floor.py fixes the existing 192 extension boards without rebuilding other architecture; Tools/expand_trip_apartment.py uses the same corrected dimensions for future rebuilds. Export the shell and bake with `--only=apartment_shell` to refresh its collision. Four reviewed current Cycles views and four game views are in Reports/ApartmentCorrection, with a separate presentation native under Models/Interiors/ApartmentCorrectionPresentation/Source. The linked TV/stand/phone/VCR placement belongs to the assembly and game scene, not this architectural export.
 
 ## Newspaper windows / reference revision
 

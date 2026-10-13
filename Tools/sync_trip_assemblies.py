@@ -4,6 +4,7 @@ import hashlib
 import shutil
 import os
 import re
+import sys
 from pathlib import Path
 import bpy
 from mathutils import Vector
@@ -23,7 +24,13 @@ def change_entry(entry, name):
     entry['collection'] = 'ASSET | ' + name
 
 
+selected = next((a.split('=', 1)[1].split(',') for a in sys.argv if a.startswith('--only=')), [])
+allowed = {'FurnishedStudio', 'DilapidatedWarehouse', 'DilapidatedHospital'}
+if set(selected) - allowed:
+    raise ValueError('Unknown assembly selection: ' + ', '.join(selected))
 for directory, filename, key in [('FurnishedStudio', 'studio_apartment_furnished.blend', 'linked_assets'), ('DilapidatedWarehouse', 'warehouse_assembly.blend', 'instances'), ('DilapidatedHospital', 'hospital_assembly.blend', 'instances')]:
+    if selected and directory not in selected:
+        continue
     folder = ROOT / 'Models/Interiors' / directory
     backup = ROOT / '.godot/trip_assembly_backups' / directory
     backup.mkdir(parents=True, exist_ok=True)

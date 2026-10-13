@@ -160,20 +160,20 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5.5,
 script = ExtResource("10_yqikv")
 
 [node name="EntertainmentCenter" type="Node3D" parent="Art" unique_id=530894412 instance=ExtResource("21_215sw")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.58, 0, 2.8)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.7, 0, 2.8)
 script = ExtResource("10_yqikv")
 
 [node name="TV" type="Node3D" parent="Art" unique_id=349448306 instance=ExtResource("22_xw0cx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.83, 0.658, 2.8)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.45, 0.658, 2.8)
 script = ExtResource("memory_object")
 story = ExtResource("story_tv")
 
 [node name="VCR" type="Node3D" parent="Art" unique_id=148786220 instance=ExtResource("23_rob50")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.3, 0.382, 2.8)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.98, 0.382, 2.8)
 script = ExtResource("10_yqikv")
 
 [node name="LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("24_lqgbl")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.658, 2.81)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 5.28, 0.658, 2.81)
 script = ExtResource("memory_object")
 story = ExtResource("story_phone")
 

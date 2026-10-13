@@ -44,6 +44,8 @@ The lever keeps its green/red lights, controller, sounds and upgrade-driven cycl
 
 The independent apartment shell at `Models/Architecture/StudioApartment` now measures **16.2 × 6.2 m**. The east bedroom is **4.25 × 6.2 m**, with a **1.195 × 2.2 m clear doorway** onto the supported existing floor. Original newspaper windows, bathroom surfaces and worn materials remain. Entry/bathroom door geometry is separated from the shell and replaced by imported open leaves/frames.
 
+The extension's 48 timber columns span Blender X=3.9..12.3 m. They meet the original boards with a **1.8 mm seam**, rather than the former 102 mm exposed strip. The structural slabs still overlap below; the repaired visual geometry and its collision are exported together. In Godot, EntertainmentCenter is at (4.7, 0, 2.8), TV at (4.45, 0.658, 2.8), VCR at (4.98, 0.382, 2.8) and LandlinePhone at (5.28, 0.658, 2.81). The TV assembly sits on the south wall beside the coffee table. Phone E/flag and TV look-only story Resources retain their original bindings.
+
 The bedroom bed is a new independent textured asset at `Models/Interiors/StudioFurniture/BedroomBed/Source/bedroom_bed.blend` and `bedroom_bed.glb`, using packed worn fabric/wood maps. CoffeeTable links its Trip native; the desk belongs only to the warehouse office. They are assembled through `Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend`; no furniture is baked into the architecture.
 
 Warehouse and hospital native assemblies also link the replacement sources independently. Blender manifests map (x,y,z) to Godot (x,z,-y), with Z rotation becoming Y rotation. Current engine room scenes have **23 apartment, 21 warehouse and 56 hospital art instances**. Story node aliases, required memory Resources and saved flags remain connected; the new furniture does not become scored world items. Garbage bags deliberately have no StaticBody3D. The original warehouse stair ramp/rails and hospital circulation corrections remain authored. [Collision, lighting and portal workflow](../Portal/ENVIRONMENTS.md).
@@ -57,8 +59,10 @@ These tools are already applied to the current assets. Review intended changes a
 | Tools/prepare_trip_models.py | Reads the configured supplied workbook, validates the exact 32-file list, safely extracts ZIP members and writes catalog.json |
 | Tools/import_trip_models.py | Blender preparation/export; `--preview` makes earlier one-view previews, `--only id,id` scopes assets, normal execution produces final packed natives/GLBs/three views |
 | Tools/expand_trip_apartment.py | Blender shell expansion and independent bedroom bed; uses an ignored original-shell snapshot to avoid cumulative expansion |
+| Tools/repair_apartment_floor.py | Idempotent in-place repair of the 192 extension boards; preserves other architecture/materials, checks the 1.8 mm seam and exports only the shell |
 | Tools/setup_trip_scenes.py | Writes the nine item scenes/pool and art wrappers, replaces room model references and adds named furniture/doors/bags; preserves unrelated scene content |
 | Tools/sync_trip_assemblies.py | Updates linked native assemblies and manifests by existing instance name; verifies original backups under ignored .godot and saves via a staged file |
+| Tools/render_apartment_correction.py | Four reviewed Cycles angles of the repaired floor and relocated TV; separate presentation native and Reports/ApartmentCorrection gallery |
 | Tools/bake_trip_art.gd | Inherits bake_portal_environments.gd save helpers; rebuilds only 22 affected wrappers and 42 art/collision resources, preserving authored room scenes |
 | Tools/publish_portal_bake.py | Validates a nonempty, unique, scoped .tscn/.tres completion manifest and atomically publishes staged files with bounded lock retries |
 | Tools/render_trip_apartment.py | Four final apartment angles plus three independent-bed views; presentation native lives separately under Models/Interiors/TripPresentation/Source |
@@ -77,11 +81,15 @@ Blender --background --python Tools/verify_trip_native.py
 
 **Do not blindly run the old whole-room bake.** `Tools/bake_portal_environments.gd` regenerates room scenes and can remove current memory scripts, stair fixes, lighting and designer overrides. The Trip bake deliberately changes only shared art/collision resources. Its completion manifest contains 42 files for the current 22 wrappers; the publisher validates scope rather than requiring the historical fixed count of 73. `.godot` backups/staging and original input workbook/ZIPs remain local.
 
+For shell-only updates, run `Tools/bake_trip_art.gd -- --stage --only=apartment_shell`, then the publisher: exactly the apartment art wrapper and its collision Resource change. `Tools/sync_trip_assemblies.py -- --only=FurnishedStudio` refreshes only the apartment native and manifest from the authored game scene; other memory assemblies stay untouched. These tools are authoring utilities, with no gameplay autoloads or signals.
+
 ## Verification and performance
 
 The documented canonical paths were checked against disk: all 32 packed natives, 32 GLBs, 32 manifests and 96 final prop renders exist, along with the independent bed, apartment presentation native and named actor/tool/test files. Local guide links resolve.
 
 `Tests/trip_models_test.tscn` checks nine-entry random distribution, exclusion of the test block, all nine actual chute paths and floor landings, score/friction, separate lever and door animation, and real player-capsule movement through the bedroom opening. Existing imported_items, spawn_pool, computer, memory, portal walking, mulch and plate suites cover retained behavior. Use isolated user data, inspect logs, and review real renderer captures for visual changes; headless physics does not prove materials or screen alignment.
+
+`Tests/apartment_layout_test.tscn` loads the actual apartment and casts twelve floor probes across the former gap. It checks the new TV/stand positions, an unobstructed TV ray, retained phone prompt/flag and TV story, then moves a 0.35 m radius / 1.8 m capsule from the entrance through the living room and bedroom. Optional captures produce four real Forward+ views. The same fixture can be loaded externally against the matching release PCK; this supplements the executable's ordinary startup smoke. [Current correction gallery](../../Reports/ApartmentCorrection/index.html).
 
 `item_spawn_pool.pick_item()` now takes a direct valid selection from the authored array before its null-safe fallback, avoiding a temporary array for normal spawns. The Godot 4.7.2 local benchmark measured **350,916 → 50,697 µs** median for 100,000 picks over five samples. This measures that call path, without claiming a whole-game frame-rate improvement. Analytical box bounds were slower in the same benchmark, so existing cached native debug-mesh bounds are retained.
 

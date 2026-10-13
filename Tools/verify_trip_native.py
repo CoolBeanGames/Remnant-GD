@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import bpy
+from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
 base = ROOT / 'Models/Imported/Trip'
@@ -23,5 +24,21 @@ for directory, filename in [('FurnishedStudio', 'studio_apartment_furnished.blen
     assert all(o.instance_collection is not None for o in instances)
     if directory == 'FurnishedStudio':
         assert next(o for o in instances if o.name.endswith('BedroomBed')).instance_collection.name.startswith('ASSET | BedroomBed')
-        assert next(o for o in instances if o.name.endswith('BedroomDesk')).instance_collection.name.startswith('ASSET | desk')
+        assert not any(o.name.endswith('BedroomDesk') for o in instances), 'The desk belongs only in the warehouse office'
+        television = next(o for o in instances if o.name.endswith(' / TV'))
+        assert (television.location - Vector((4.45, -2.8, .658))).length < .0001, 'TV assembly does not match the current game scene'
+bpy.ops.wm.open_mainfile(filepath=str(ROOT / 'Models/Architecture/StudioApartment/Source/studio_apartment.blend'))
+floor = bpy.data.objects['Oak floor | staggered individual boards']
+original_end = max((floor.matrix_world @ Vector(v)).x for v in floor.bound_box)
+boards = [o for o in bpy.data.collections['APARTMENT | permanent architecture'].objects if o.name.startswith('Bedroom worn oak board')]
+assert len(boards) == 192
+extension_start = min((o.matrix_world @ Vector(v)).x for o in boards for v in o.bound_box)
+assert .0017 <= extension_start - original_end <= .0019, 'A wide gap remains between original and extension boards'
+assert all(o.data.uv_layers and o.data.materials for o in boards), 'Extension boards must remain textured'
+for obj in [floor, *boards]:
+    for material in obj.data.materials:
+        for node in material.node_tree.nodes:
+            if node.type == 'TEX_IMAGE' and node.image:
+                assert node.image.packed_file, 'Floor texture is not embedded'
 print('Trip native assets: PASS / 32 UV-mapped packed natives / 3 valid linked assemblies', flush=True)
+print('Apartment shell: PASS / 192 UV-mapped boards / 1.8 mm seam / TV pose matches scene', flush=True)

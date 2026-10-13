@@ -70,10 +70,12 @@ for y in [-1.2, .05]:
 box('Bedroom door head', (7.93, -.575, 2.22), (.20, 1.3, .055), trim)
 for side in [-1, 1]:
     box('Bedroom north/south skirting', (8.2, side * 3.073, .065), (8.4, .04, .13), trim)
-for i in range(48):
+floor_start, floor_end, floor_columns = 3.9, 12.3, 48
+board_width = (floor_end - floor_start) / floor_columns
+for i in range(floor_columns):
     for j in range(4):
         material = bpy.data.materials['Oak / board tone %02d' % ((i + j) % 4)]
-        box('Bedroom worn oak board', (4.00 + (i + .5) * .176, -3.1 + (j + .5) * 1.55, -.014), (.174, 1.548, .028), material, bevel=.001)
+        box('Bedroom worn oak board', (floor_start + (i + .5) * board_width, -3.1 + (j + .5) * 1.55, -.014), (board_width - .0018, 1.548, .028), material, bevel=.001)
 bpy.context.view_layer.update()
 bpy.ops.file.pack_all()
 bpy.ops.wm.save_as_mainfile(filepath=str(ROOM / 'Source/studio_apartment.blend'))

@@ -157,7 +157,7 @@
       "asset": "EntertainmentCenter",
       "source": "Models/Interiors/StudioFurniture/EntertainmentCenter/Source/entertainment_center.blend",
       "position_m": [
-        -0.58,
+        4.7,
         -2.8,
         0.0
       ],
@@ -172,7 +172,7 @@
       "asset": "TV",
       "source": "Models/Imported/Trip/television/Source/television.blend",
       "position_m": [
-        -0.83,
+        4.45,
         -2.8,
         0.658
       ],
@@ -188,7 +188,7 @@
       "asset": "VCR",
       "source": "Models/Interiors/StudioFurniture/VCR/Source/v_c_r.blend",
       "position_m": [
-        -0.3,
+        4.98,
         -2.8,
         0.382
       ],
@@ -203,7 +203,7 @@
       "asset": "LandlinePhone",
       "source": "Models/Interiors/StudioFurniture/LandlinePhone/Source/landline_phone.blend",
       "position_m": [
-        0.0,
+        5.28,
         -2.81,
         0.658
       ],

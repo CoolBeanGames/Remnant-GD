@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Floor closed. TV moved.",
+    "kind": "Development history",
+    "local": "development_summary.html#apartment-floor-tv",
+    "online": "../index.html#apartment-floor-tv",
+    "description": "The marked floor gap is repaired in the native model and game collision. The television sits on the left wall beside the coffee table."
+  },
+  {
     "title": "Words, pictures and choices.",
     "kind": "Development history",
     "local": "development_summary.html#lexicon",
@@ -257,6 +264,13 @@
     "local": "development_summary.html#title-mulcher-window",
     "online": "../index.html#title-mulcher-window",
     "description": "Your new title workshop keeps its artwork and gains continuous grinder sound. The moved Mulcher ejects away from the grinder, and Play fills the available window."
+  },
+  {
+    "title": "Apartment floor repair and relocated television",
+    "kind": "Rendered gallery",
+    "local": "ApartmentCorrection/index.html",
+    "online": "../ApartmentCorrection/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "Lexicon editor, branches and portable Godot SDK",
