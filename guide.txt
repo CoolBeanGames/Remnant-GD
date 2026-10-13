@@ -1,5 +1,5 @@
 REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
-Last Updated: 2026-10-13 18:53:07 UTC
+Last Updated: 2026-10-13 18:59:57 UTC
 
 Maintain README.md, the offline .wiki/index.html (sidebar, content and search), and this guide for every script/system/scene change. Globals must remain the first script category; other categories follow Scripts subfolders. Wiki must remain self-contained. Document script path, class/inheritance, UID/autoload, signals, exported/runtime state, public API and scene dependencies. Add a timestamped running-log entry using [YYYY-MM-DD][HH:MM:SS] - updated the guide to include 'feature'.
 
@@ -284,3 +284,4 @@ HISTORICAL RUNNING LOG (older designs are retired)
 
 [2026-10-13][16:33:53] - updated the guide to include 'apartment correction delivery': implementation 07222830001c4bfeb3cdae9a82d6abe2912af583 pushed and remote-confirmed; Pages 38431102234 succeeded, exact source/all 23 live hashes/21 browser checks verified and final phone/desktop views reviewed. Same Windows 11-23-37 build; documentation-only completion. All 68 unrelated designer files remain byte-for-byte.
 [2026-10-13][18:53:07] - updated the guide to include 'fridge orientation and corrected apartment yaw conversion'; preserved designer edits, 25 source/25 release-PCK layout checks, packed native front assertion, six reviewed final views and Windows_2026-10-13_13-46-06.
+[2026-10-13][18:59:57] - updated the guide to include 'verified fridge correction delivery'; implementation 711e943 pushed and remote-confirmed, Pages 38450969519 succeeded, all 24 live hashes/21 browser checks pass. Same Windows_2026-10-13_13-46-06 build; documentation-only completion record.
