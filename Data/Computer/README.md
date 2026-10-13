@@ -115,9 +115,15 @@ See Data/Computer/LEVER_UPGRADES.md for the five-tier cooldown/output upgrades, 
 
 The Self tab offers Memory 1 (1,500 score), Memory 2 (25,000) and Memory 3 (50,000). Each is a fixed-price, one-time run purchase that sets a saved flag, shows UNLOCKED and restores on Continue. Purchases open the apartment/warehouse/hospital portals. Other memory purchases wait for the active memory’s explicit completion flag. Unfinished return/reentry retains the portal; completed return closes it. F9 previews preserve paid-memory ownership even during an unfinished memory. See Data/Computer/MEMORY_UPGRADES.md for exact flag names, resource fields and tests.
 
+## Starter tool order
+
+The Store starts with **Light (10), Steel Plate (20), Push Broom (10)** in that order. All three have `reveal_lifetime_score = 0` and appear when the computer becomes available at 30 score. Basket follows at 50 lifetime earnings, Fan at **500**, and Fan Power at **600**; Fan Power is also moved below the lever upgrades in Mechanics. Fan price stays 175 with 1.8 per-purchase growth. Buying a broom no longer waits for 250 earnings. Edit the ordered entries in `default_catalog.tres` and each offer's reveal threshold to tune progression. Previously purchased offers stay visible, and persistent lifetime earnings keep introductions across runs.
+
+Plates can join all four edges through the existing build ghost. [Plate snapping and rotation](../Items/PLATE_SNAPPING.md).
+
 ## Catalog discovery and combo upgrades
 
-Computer entries export reveal_lifetime_score (default 0), checked against Progression.lifetime_score(). Awarded score increments persistent profile.lifetime_score; spending does not reverse introductions, and New Game retains earnings. Old saves migrate their current balance; already purchased entries remain visible. Editable starter thresholds introduce ordinary upgrades gradually, from 75 earnings for Fan Power through 4,500 for spawner speed. Memories separately appear at half their fixed price and disappear after purchase; Data/Computer/MEMORY_UPGRADES.md defines the corrected return flow.
+Computer entries export reveal_lifetime_score (default 0), checked against Progression.lifetime_score(). Awarded score increments persistent profile.lifetime_score; spending does not reverse introductions, and New Game retains earnings. Old saves migrate their current balance; already purchased entries remain visible. Editable starter thresholds introduce ordinary upgrades gradually, from 100 earnings for Plate Rebound through 4,500 for spawner speed, with Fan Power at 600. Memories separately appear at half their fixed price and disappear after purchase; Data/Computer/MEMORY_UPGRADES.md defines the corrected return flow.
 
 Mechanics adds Combo Maximum (+5 cap, 250 initial score / 350 reveal), Combo Increment (+0.25 step, 500 / 800 reveal) and Combo Decay (20% less window-shortening penalty, 750 / 1,500 reveal). Five tiers each, ×3 price growth, target=combo in upgrade_effect; effects apply immediately and restore from original baselines. Global/grind_combo.gd now caps the base multiplier at 15; initial 1.0 and +0.5 steps remain. The payout still uses the accelerating one-point queue.
 

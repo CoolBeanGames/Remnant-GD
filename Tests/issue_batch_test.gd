@@ -22,6 +22,8 @@ func run() -> void:
 	Progression.levels.clear()
 	Progression.restored_levels = false
 	Progression.register_catalog(load("res://Data/Computer/default_catalog.tres"))
+	for id in [&"buy_light", &"buy_steel_plate", &"buy_push_broom"]:
+		check(Progression.entry_visible(Progression.entries[id]), "Starter tool is available as soon as the computer opens: " + str(id))
 	var memory: computer_entry = Progression.entries[&"memory_1"]
 	Blackboard.store_data("score", 749)
 	check(not Progression.entry_visible(memory), "Memory remains hidden below half its exact cost")
@@ -32,9 +34,16 @@ func run() -> void:
 	Progression.levels[memory.id] = 1
 	check(not Progression.entry_visible(memory), "Purchased memory disappears from the display")
 	var fan: computer_entry = Progression.entries[&"fan_power"]
-	check(not Progression.entry_visible(fan), "Future offers are initially hidden")
+	var fan_offer: computer_entry = Progression.entries[&"buy_fan"]
+	check(not Progression.entry_visible(fan) and not Progression.entry_visible(fan_offer), "Fans and their upgrades wait until after the starter tools")
+	Progression.record_earned_score(499)
+	Blackboard.store_data("score", 175)
+	check(not Progression.entry_visible(fan_offer) and Progression.purchase(fan_offer, null, null, null) == "Earn more score to unlock this offer.", "An affordable fan still cannot be bought before 500 lifetime earnings")
+	Progression.record_earned_score(1)
+	check(Progression.entry_visible(fan_offer) and not Progression.entry_visible(fan), "At 500 earnings the fan appears before its power upgrades")
 	Progression.record_earned_score(100)
-	check(Progression.entry_visible(fan) and Progression.lifetime_score() == 100, "Earnings reveal offers independently of spending")
+	Blackboard.store_data("score", 0)
+	check(Progression.entry_visible(fan) and Progression.lifetime_score() == 600, "At 600 earnings Fan Power appears and remains after spending")
 	GrindCombo.reset()
 	GrindCombo.set_process(false)
 	for i in 40:
@@ -86,9 +95,9 @@ func run() -> void:
 	Mulch.bind_level(world)
 	check(SaveGame.profile.get("mulcher_unlocked", false), "Installed Mulcher migrates into the permanent profile")
 	check(SaveGame.save_now() and SaveGame.load_now(), "Run/profile can save and reload")
-	check(SaveGame.profile.get("mulcher_unlocked", false) and Progression.lifetime_score() >= 100, "Permanent unlock and lifetime earnings survive loading")
+	check(SaveGame.profile.get("mulcher_unlocked", false) and Progression.lifetime_score() >= 600, "Permanent unlock and lifetime earnings survive loading")
 	check(SaveGame.new_game(), "New Game clears the run successfully")
-	check(Mulch.installed_unlock() and Progression.lifetime_score() >= 100, "New Game retains the Mulcher and lifetime earnings")
+	check(Mulch.installed_unlock() and Progression.lifetime_score() >= 600, "New Game retains the Mulcher and lifetime earnings")
 	var bin: computer_entry = load("res://Data/Mulch/buy_mulch_bin.tres")
 	Progression.register_catalog(load("res://Data/Computer/default_catalog.tres"))
 	Progression.levels[bin.id] = 1

@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 
-[ext_resource type="Script" path="res://Scripts/Actors/rotatable_item.gd" id="1"]
+[ext_resource type="Script" path="res://Scripts/Actors/steel_plate.gd" id="1"]
 
 [ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="2"]
 

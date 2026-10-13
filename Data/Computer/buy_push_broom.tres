@@ -13,4 +13,4 @@ max_level = 0
 delivery_scene = ExtResource("scene")
 delivery_kind = "broom"
 
-reveal_lifetime_score = 250
+reveal_lifetime_score = 0

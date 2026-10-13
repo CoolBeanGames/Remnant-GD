@@ -217,6 +217,20 @@
     "description": "Building a powerful fan setup takes more score. The first fan now costs 175, five times its previous price."
   },
   {
+    "title": "Start simple. Join the plates.",
+    "kind": "Development history",
+    "local": "development_summary.html#plate-edges-starters",
+    "online": "../index.html#plate-edges-starters",
+    "description": "Light, plate and broom lead the Store. Fans arrive later, and steel sheets snap together into larger manual contraptions."
+  },
+  {
+    "title": "Four-edge plate joins and starter Store",
+    "kind": "Rendered gallery",
+    "local": "PlateEdges/index.html",
+    "online": "../PlateEdges/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
     "title": "Memory objects: required E interactions and look flavor",
     "kind": "Rendered gallery",
     "local": "MemoryTriggers/index.html",

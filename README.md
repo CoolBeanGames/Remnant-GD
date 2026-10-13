@@ -10,6 +10,12 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Starter tools and joined plates
+
+The Store leads with **Light, Steel Plate and Push Broom**, available as soon as the computer opens. Fans appear at **500 lifetime earned score**, Fan Power at **600**. Fans still start at 175 score. Broom discovery starts immediately.
+
+**B** builds plates onto any of another placed plate's **four edges**. Aim near an edge to join; aim centrally for ordinary surface anchoring. Wheel/R can fold aligned joins, and joined assemblies follow normal carry, Q retrieval and saving. [Plate authoring](Data/Items/PLATE_SNAPPING.md) · [Store progression](Data/Computer/README.md).
+
 ## Fan pricing
 
 Fans start at **175 score** and rise by **1.8× per purchase**: 175, 315, then 567. Saved purchase counts retain this curve. Edit [the fan offer](Data/Computer/buy_fan.tres) to tune it; [catalog pricing](Data/Computer/README.md) covers all offers.

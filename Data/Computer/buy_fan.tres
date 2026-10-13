@@ -17,4 +17,4 @@ max_level = 0
 delivery_scene = ExtResource("scene")
 delivery_kind = "fan"
 
-reveal_lifetime_score = 0
+reveal_lifetime_score = 500

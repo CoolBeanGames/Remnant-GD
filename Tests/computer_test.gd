@@ -125,6 +125,8 @@ func _run() -> void:
 	var ui: computer_ui = terminal.interface
 	check(ui.is_open and Blackboard.read_data("player_input_blocked") and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "E opens terminal and blocks gameplay input.")
 	check(ui.tabs.get_child(0).get_node("List").get_child_count() == 18 and ui.tabs.get_child(1).get_node("List").get_child_count() == 6 and ui.tabs.get_child(2).get_node("List").get_child_count() == 12 and ui.tabs.is_tab_hidden(3), "Computer presents expanded regular categories and locks Mulch until both purchases.")
+	var store_rows: Node = ui.tabs.get_child(2).get_node("List")
+	check(store_rows.get_child(0).get_node("Text/Title").text == "LIGHT" and store_rows.get_child(1).get_node("Text/Title").text == "STEEL PLATE" and store_rows.get_child(2).get_node("Text/Title").text == "PUSH BROOM", "Actual Store rows lead with light, plate and broom.")
 	ui._buy(Progression.entries[&"buy_light"])
 	check(Progression.score() == 990 and ui.score_label.text.contains("00000990"), "UI button buys a real delivery and refreshes credit.")
 	ui.close()
