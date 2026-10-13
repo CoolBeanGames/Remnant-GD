@@ -8,13 +8,13 @@ After leaving the concrete room and letting it vanish unseen, buy Memory 1/2/3 a
 
 | Destination | Engine scene | Art instances | Features |
 | --- | --- | --- | --- |
-| Apartment | Scenes/Environments/furnished_apartment.tscn | 24 | Expanded worn shell, separate bedroom/bed/desk, coffee table, short entrance vestibule and open entry/bathroom doors |
+| Apartment | Scenes/Environments/furnished_apartment.tscn | 23 | Expanded worn shell, separate bedroom/bed/desk, coffee table, short entrance vestibule and open entry/bathroom doors |
 | Warehouse | Scenes/Environments/dilapidated_warehouse.tscn | 21 | Replacement machines/office furniture, non-colliding garbage bags, all 24 stair treads, 4.2 m catwalk and accessible office |
-| Hospital | Scenes/Environments/dilapidated_hospital.tscn | 54 | Six wards, treatment room, nursing counter/rear staff passage, replacement beds/wheelchairs/waiting seats and non-colliding garbage bags |
+| Hospital | Scenes/Environments/dilapidated_hospital.tscn | 56 | Six wards, treatment room, nursing counter/rear staff passage, replacement beds/wheelchairs/waiting seats and non-colliding garbage bags |
 
 Each scene has a portal_room root, Entrance Marker3D, Art instances, Lighting and optional entrance landing. Entry markers face the native south/front openings (local +Z into the building, floor Y=0, centre Y=1.7195). Imported models keep textures and authored metre scale, with transforms mapped from the Blender manifests: (x,y,z) → (x,z,-y), Z rotation → Y rotation. Original .blend/GLB files remain independently editable. The Trip replacements retain story node aliases such as FamilyPhoto, PileOfMail, HydraulicPress and named hospital beds, so memory resources and saved flags continue targeting the same objects. [Trip source/workflow](../Items/TRIP_MODELS.md).
 
-The apartment shell now measures 12.2 × 6.2 m, with a 4.25 × 6.2 m east bedroom and a 1.195 × 2.2 m clear internal doorway. Its bed is an independent textured native/GLB under `Models/Interiors/StudioFurniture/BedroomBed`; the desk and living-room coffee table instance their separate Trip sources. Original newspaper window geometry and bathroom finishes are retained. The short exterior vestibule aligns the taller story door with the smaller apartment entrance. Entry/bathroom leaves use separate imported door wrappers opened to 96 degrees; their frame and open-leaf geometry is baked at that pose. The player capsule uses a 0.35 m radius, 1.8 m height and 1.65 m eye height, fitting both entry and bedroom opening. Existing camera/controller/support systems remain. Pickup targeting volumes are separate from solid geometry.
+The apartment shell now measures 16.2 × 6.2 m, with a 4.25 × 6.2 m east bedroom and a 1.195 × 2.2 m clear internal doorway. Its bed is an independent textured native/GLB under `Models/Interiors/StudioFurniture/BedroomBed`; the living-room coffee table instances its separate Trip source; the desk is in the warehouse office only. Original newspaper window geometry and bathroom finishes are retained. The short exterior vestibule aligns the taller story door with the smaller apartment entrance. Entry/bathroom leaves use separate imported door wrappers opened to 96 degrees; their frame and open-leaf geometry is baked at that pose. The player capsule uses a 0.35 m radius, 1.8 m height and 1.65 m eye height, fitting both entry and bedroom opening. Existing camera/controller/support systems remain. Pickup targeting volumes are separate from solid geometry.
 
 ## Collision bake / lighting
 
@@ -55,3 +55,7 @@ The warehouse renders the original stair treads, but their collisions use StairW
 
 
 When an open editor locks generated files, use the targeted bake's `-- --stage` path, then `python Tools/publish_portal_bake.py`. Only files listed in the successful completion manifest under ignored `.godot/portal_bake` are published. The current Trip bake lists 38 resources; other deliberate bakes may list a different valid count. Editor windows remain open.
+
+## October 13 room revision
+
+Seven ward doors and the staff entrance start closed with E Open/Close prompts; their leaf colliders move in portal space. The far wooden EXIT stays locked. Ward/staff routes are tested with the actual player capsule. Warehouse machines scale 1.65×, its office desk 1.2×, shutter closed and glass alpha 0.12. A resource-only cache warms all three destinations on the title/loading screen; one live room remains the rule. F9 requests after the first exit can wait for respawn-room visibility removal. [Current details](../ISSUE_BATCH_2026-10-13.md).

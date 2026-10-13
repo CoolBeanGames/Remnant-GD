@@ -20,9 +20,14 @@
       "position_m": [
         -6.7,
         -10.85,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 01 cabinet 1",
@@ -31,9 +36,14 @@
       "position_m": [
         -8.2,
         -10.05,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 01 bed 2",
@@ -42,9 +52,14 @@
       "position_m": [
         -6.7,
         -7.95,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 01 cabinet 2",
@@ -53,9 +68,14 @@
       "position_m": [
         -8.2,
         -7.15,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 01 IV stand",
@@ -63,10 +83,15 @@
       "collection": "ASSET | IVStand",
       "position_m": [
         -5.4,
-        -8.950000000000001,
-        0
+        -8.95,
+        0.0
       ],
-      "rotation_z_degrees": 12
+      "rotation_z_degrees": -12.000000523348442,
+      "scale": [
+        1.000000001191325,
+        1.000000001191325,
+        1.000000001191325
+      ]
     },
     {
       "name": "Treatment examination bed",
@@ -75,9 +100,14 @@
       "position_m": [
         -6.7,
         -3.8,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Treatment trolley",
@@ -86,9 +116,14 @@
       "position_m": [
         -4.7,
         -4.8,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -16
+      "rotation_z_degrees": 16.000000166238397,
+      "scale": [
+        1.0000000050573297,
+        1.0000000050573297,
+        1.0000000050573297
+      ]
     },
     {
       "name": "Treatment IV stand",
@@ -97,9 +132,14 @@
       "position_m": [
         -5.65,
         -2.85,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": -0.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
     },
     {
       "name": "Ward 03 bed 1",
@@ -108,9 +148,14 @@
       "position_m": [
         -6.7,
         3.05,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 03 cabinet 1",
@@ -119,9 +164,14 @@
       "position_m": [
         -8.2,
         3.85,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 03 bed 2",
@@ -130,9 +180,14 @@
       "position_m": [
         -6.7,
         5.95,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 03 cabinet 2",
@@ -141,9 +196,14 @@
       "position_m": [
         -8.2,
         6.75,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 03 IV stand",
@@ -152,9 +212,14 @@
       "position_m": [
         -5.4,
         4.95,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 12
+      "rotation_z_degrees": -12.000000523348442,
+      "scale": [
+        1.000000001191325,
+        1.000000001191325,
+        1.000000001191325
+      ]
     },
     {
       "name": "Ward 05 bed 1",
@@ -162,10 +227,15 @@
       "collection": "ASSET | hospital_bed",
       "position_m": [
         -6.7,
-        8.700000000000001,
-        0
+        8.7,
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 05 cabinet 1",
@@ -174,9 +244,14 @@
       "position_m": [
         -8.2,
         9.5,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 05 bed 2",
@@ -185,9 +260,14 @@
       "position_m": [
         -6.7,
         11.6,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 05 cabinet 2",
@@ -196,9 +276,14 @@
       "position_m": [
         -8.2,
         12.4,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 05 IV stand",
@@ -207,9 +292,14 @@
       "position_m": [
         -5.4,
         10.6,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 12
+      "rotation_z_degrees": -12.000000523348442,
+      "scale": [
+        1.000000001191325,
+        1.000000001191325,
+        1.000000001191325
+      ]
     },
     {
       "name": "Ward 02 bed 1",
@@ -218,9 +308,14 @@
       "position_m": [
         6.7,
         -10.85,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 02 cabinet 1",
@@ -229,9 +324,14 @@
       "position_m": [
         8.2,
         -10.05,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 02 bed 2",
@@ -240,9 +340,14 @@
       "position_m": [
         6.7,
         -7.95,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 02 cabinet 2",
@@ -251,9 +356,14 @@
       "position_m": [
         8.2,
         -7.15,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 02 IV stand",
@@ -261,10 +371,15 @@
       "collection": "ASSET | IVStand",
       "position_m": [
         5.4,
-        -8.950000000000001,
-        0
+        -8.95,
+        0.0
       ],
-      "rotation_z_degrees": 12
+      "rotation_z_degrees": -12.000000523348442,
+      "scale": [
+        1.000000001191325,
+        1.000000001191325,
+        1.000000001191325
+      ]
     },
     {
       "name": "Nursing station counter",
@@ -273,9 +388,14 @@
       "position_m": [
         3.5,
         -3.75,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Nursing supplies trolley",
@@ -284,9 +404,14 @@
       "position_m": [
         7.5,
         -2.5,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 20
+      "rotation_z_degrees": -19.999999151463268,
+      "scale": [
+        0.9999999724897868,
+        0.9999999724897868,
+        0.9999999724897868
+      ]
     },
     {
       "name": "Stored nursing wheelchair",
@@ -295,9 +420,14 @@
       "position_m": [
         7.35,
         -4.65,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -40
+      "rotation_z_degrees": 39.9999996897159,
+      "scale": [
+        0.9999999913843368,
+        0.9999999913843368,
+        0.9999999913843368
+      ]
     },
     {
       "name": "Ward 04 bed 1",
@@ -306,9 +436,14 @@
       "position_m": [
         6.7,
         3.05,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 04 cabinet 1",
@@ -317,9 +452,14 @@
       "position_m": [
         8.2,
         3.85,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 04 bed 2",
@@ -328,9 +468,14 @@
       "position_m": [
         6.7,
         5.95,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 04 cabinet 2",
@@ -339,9 +484,14 @@
       "position_m": [
         8.2,
         6.75,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 04 IV stand",
@@ -350,9 +500,14 @@
       "position_m": [
         5.4,
         4.95,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 12
+      "rotation_z_degrees": -12.000000523348442,
+      "scale": [
+        1.000000001191325,
+        1.000000001191325,
+        1.000000001191325
+      ]
     },
     {
       "name": "Ward 06 bed 1",
@@ -360,10 +515,15 @@
       "collection": "ASSET | hospital_bed",
       "position_m": [
         6.7,
-        8.700000000000001,
-        0
+        8.7,
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 06 cabinet 1",
@@ -372,9 +532,14 @@
       "position_m": [
         8.2,
         9.5,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 06 bed 2",
@@ -383,9 +548,14 @@
       "position_m": [
         6.7,
         11.6,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 06 cabinet 2",
@@ -394,9 +564,14 @@
       "position_m": [
         8.2,
         12.4,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Ward 06 IV stand",
@@ -405,9 +580,14 @@
       "position_m": [
         5.4,
         10.6,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 12
+      "rotation_z_degrees": -12.000000523348442,
+      "scale": [
+        1.000000001191325,
+        1.000000001191325,
+        1.000000001191325
+      ]
     },
     {
       "name": "Ward door 1",
@@ -416,15 +596,15 @@
       "position_m": [
         -1.7,
         -9.4,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90,
+      "rotation_z_degrees": -90.00000250447816,
       "scale": [
-        0.59,
-        0.67,
-        0.67
+        0.74,
+        0.665,
+        0.665
       ],
-      "leaf_open_degrees": 96
+      "leaf_open_degrees": 0
     },
     {
       "name": "Ward door 2",
@@ -433,15 +613,15 @@
       "position_m": [
         -1.7,
         -3.75,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90,
+      "rotation_z_degrees": -90.00000250447816,
       "scale": [
-        0.59,
-        0.67,
-        0.67
+        0.74,
+        0.665,
+        0.665
       ],
-      "leaf_open_degrees": 96
+      "leaf_open_degrees": 0
     },
     {
       "name": "Ward door 3",
@@ -450,15 +630,15 @@
       "position_m": [
         -1.7,
         4.5,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90,
+      "rotation_z_degrees": -90.00000250447816,
       "scale": [
-        0.59,
-        0.67,
-        0.67
+        0.74,
+        0.665,
+        0.665
       ],
-      "leaf_open_degrees": 96
+      "leaf_open_degrees": 0
     },
     {
       "name": "Ward door 4",
@@ -467,15 +647,15 @@
       "position_m": [
         -1.7,
         10.15,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 90,
+      "rotation_z_degrees": -90.00000250447816,
       "scale": [
-        0.59,
-        0.67,
-        0.67
+        0.74,
+        0.665,
+        0.665
       ],
-      "leaf_open_degrees": 96
+      "leaf_open_degrees": 0
     },
     {
       "name": "Ward door 5",
@@ -484,15 +664,15 @@
       "position_m": [
         1.7,
         -9.4,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90,
+      "rotation_z_degrees": 90.00000250447816,
       "scale": [
-        0.59,
-        0.67,
-        0.67
+        0.74,
+        0.665,
+        0.665
       ],
-      "leaf_open_degrees": 96
+      "leaf_open_degrees": 0
     },
     {
       "name": "Ward door 6",
@@ -501,15 +681,15 @@
       "position_m": [
         1.7,
         4.5,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90,
+      "rotation_z_degrees": 90.00000250447816,
       "scale": [
-        0.59,
-        0.67,
-        0.67
+        0.74,
+        0.665,
+        0.665
       ],
-      "leaf_open_degrees": 96
+      "leaf_open_degrees": 0
     },
     {
       "name": "Ward door 7",
@@ -518,15 +698,15 @@
       "position_m": [
         1.7,
         10.15,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -90,
+      "rotation_z_degrees": 90.00000250447816,
       "scale": [
-        0.59,
-        0.67,
-        0.67
+        0.74,
+        0.665,
+        0.665
       ],
-      "leaf_open_degrees": 96
+      "leaf_open_degrees": 0
     },
     {
       "name": "Abandoned hall wheelchair",
@@ -535,20 +715,30 @@
       "position_m": [
         -0.84,
         -6.8,
-        0
+        0.0
       ],
-      "rotation_z_degrees": -15
+      "rotation_z_degrees": 15.000000107455659,
+      "scale": [
+        0.9999999732860804,
+        0.9999999732860804,
+        0.9999999732860804
+      ]
     },
     {
       "name": "Cross hall waiting bench",
       "source": "Models/Imported/Trip/waiting_chairs/Source/waiting_chairs.blend",
       "collection": "ASSET | waiting_chairs",
       "position_m": [
-        4.5,
+        3.5,
         -1.22,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 180
+      "rotation_z_degrees": 179.99999499104368,
+      "scale": [
+        1.0000000000000038,
+        1.0000000000000038,
+        1.0000000000000038
+      ]
     },
     {
       "name": "West waiting bench",
@@ -557,9 +747,14 @@
       "position_m": [
         -5.4,
         1.22,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": -0.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
     },
     {
       "name": "Nursing LandlinePhone",
@@ -570,7 +765,12 @@
         -3.15,
         1.01
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": 90.00000250447816,
+      "scale": [
+        1.0000000000000009,
+        1.0000000000000009,
+        1.0000000000000009
+      ]
     },
     {
       "name": "Nursing PileOfMail",
@@ -581,7 +781,12 @@
         -4.27,
         1.01
       ],
-      "rotation_z_degrees": -80
+      "rotation_z_degrees": 79.99999708390776,
+      "scale": [
+        0.9999999551442281,
+        0.9999999551442281,
+        0.9999999551442281
+      ]
     },
     {
       "name": "Nursing TrashCan",
@@ -590,9 +795,14 @@
       "position_m": [
         8.1,
         -3.6,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": -0.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
     },
     {
       "name": "GarbageBag 1",
@@ -600,8 +810,8 @@
       "collection": "ASSET | garbage_bag_a",
       "position_m": [
         -7.5,
-        -5,
-        0
+        -5.0,
+        0.0
       ],
       "rotation_z_degrees": 0.0,
       "collision": false
@@ -612,8 +822,8 @@
       "collection": "ASSET | garbage_bag_b",
       "position_m": [
         7.5,
-        8,
-        0
+        8.0,
+        0.0
       ],
       "rotation_z_degrees": 41.8259190445501,
       "collision": false
@@ -623,24 +833,68 @@
       "source": "Models/Imported/Trip/garbage_bag_a/Source/garbage_bag_a.blend",
       "collection": "ASSET | garbage_bag_a",
       "position_m": [
-        1.6,
+        0.9,
         -9.5,
-        0
+        0.0
       ],
-      "rotation_z_degrees": 83.6518380891002,
-      "collision": false
+      "rotation_z_degrees": -0.0,
+      "collision": false,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
     },
     {
       "name": "GarbageBag 4",
       "source": "Models/Imported/Trip/garbage_bag_b/Source/garbage_bag_b.blend",
       "collection": "ASSET | garbage_bag_b",
       "position_m": [
-        -1.7,
-        9,
-        0
+        -0.9,
+        9.0,
+        0.0
       ],
-      "rotation_z_degrees": 125.47775713365029,
-      "collision": false
+      "rotation_z_degrees": -0.0,
+      "collision": false,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "StaffDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
+      "position_m": [
+        5.8,
+        -1.7,
+        0.0
+      ],
+      "rotation_z_degrees": 179.99999979432002,
+      "scale": [
+        0.74,
+        0.665,
+        0.665
+      ],
+      "leaf_open_degrees": 0
+    },
+    {
+      "name": "ClosedExitDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
+      "position_m": [
+        0.0,
+        12.94,
+        0.0
+      ],
+      "rotation_z_degrees": 0,
+      "scale": [
+        1.25,
+        0.95,
+        0.95
+      ],
+      "leaf_open_degrees": 0
     }
   ],
   "views": [

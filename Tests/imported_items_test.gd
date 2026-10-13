@@ -52,9 +52,9 @@ func run() -> void:
 	for i in names.size():
 		var body: RigidBody3D = actors[i].get_node("RigidBody3D")
 		check(contacts.has(names[i]) and body.global_position.y > .015, names[i] + " physically lands on the real floor")
-		var before: int = audio_pool.active.size()
+		var collision_count_before: int = audio_pool.active.size()
 		body.collide(world) # World has no collision group: wildcard still plays.
-		check(audio_pool.active.size() == before + 1, names[i] + " plays pooled audio for an untagged collision")
+		check(audio_pool.active.size() == collision_count_before + 1, names[i] + " plays pooled audio for an untagged collision")
 		var sound: audio_player = audio_pool.active.back()
 		check(body.sound_matrix[0].sounds.has(sound.audio_3d.stream) and sound.audio_3d.bus == &"SFX", names[i] + " uses its custom bank on SFX")
 	var pickup: player_pickup = player.get_node("Controllers/Player_Pickup")
@@ -79,8 +79,8 @@ func run() -> void:
 	var restored_names: Dictionary = {}
 	for id in WorldState.items:
 		restored_names[WorldState._actor(id).scene_file_path.get_file().get_basename()] = true
-	for name in names:
-		check(restored_names.has(name), "Restoration retains " + name + " identity")
+	for entry_name in names:
+		check(restored_names.has(entry_name), "Restoration retains " + entry_name + " identity")
 	var fan: switchable_prop = load("res://Scenes/Actors/fan.tscn").instantiate()
 	world.add_child(fan)
 	fan.freeze = true
@@ -100,9 +100,9 @@ func run() -> void:
 	var glass: StandardMaterial3D = note.get_node("Model/bottle").material_override
 	var paper: StandardMaterial3D = note.get_node("Model/note").material_override
 	check(glass.albedo_color.a < .5 and paper.transparency == BaseMaterial3D.TRANSPARENCY_DISABLED and glass.albedo_texture != paper.albedo_texture, "Bottle and visible paper have separate glass and opaque materials")
-	var before: int = audio_pool.active.size()
+	var note_sound_count_before: int = audio_pool.active.size()
 	note._on_collision(world)
-	check(audio_pool.active.size() == before + 1 and note.collision_sounds.sounds.has((audio_pool.active.back() as audio_player).audio_3d.stream), "Message bottle uses the glass collision bank")
+	check(audio_pool.active.size() == note_sound_count_before + 1 and note.collision_sounds.sounds.has((audio_pool.active.back() as audio_player).audio_3d.stream), "Message bottle uses the glass collision bank")
 	world.queue_free()
 	await get_tree().process_frame
 	# Every authored collider must pass through the actual chute, not only land
@@ -119,9 +119,9 @@ func run() -> void:
 	Blackboard.store_data("game_root", level)
 	level.chute.note_drop_chance = 0.0
 	var outputs: Array[RigidBody3D] = []
-	for name in names:
+	for entry_name in names:
 		var single := item_spawn_pool.new()
-		single.items = [load("res://Scenes/Items/" + name + ".tscn")]
+		single.items = [load("res://Scenes/Items/" + entry_name + ".tscn")]
 		level.chute.item_pool = single
 		level.chute.spawn()
 		outputs.append(WorldState._bodies(WorldState._actor(WorldState.items.keys().back()))[0])
@@ -130,5 +130,5 @@ func run() -> void:
 		check(is_instance_valid(outputs[i]) and outputs[i].global_position.y > .001 and outputs[i].global_position.y < .3, names[i] + " exits the real chute and settles on the floor")
 	level.queue_free()
 	await get_tree().process_frame
-	print("Imported items, collisions, score, restoration, blades and bottle materials: ", "PASS" if failures.is_empty() else failures)
+	print("Imported items, collisions, score, restoration, blades and bottle materials: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

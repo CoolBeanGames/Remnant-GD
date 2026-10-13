@@ -24,7 +24,7 @@ func run() -> void:
 	check(pool.active.is_empty(), "Short sprints stay silent")
 	movement._update_sprint_audio(.11, true)
 	var breath: audio_player = pool.active.back()
-	check(breath.audio_global.stream == movement.heavy_breathing, "Five seconds of sprinting starts the heavy breath")
+	check(breath.audio_2d.stream == movement.heavy_breathing, "Five seconds of sprinting starts the heavy breath")
 	var count: int = pool.active.size()
 	movement._update_sprint_audio(10.0, true)
 	check(pool.active.size() == count, "Heavy breathing never overlaps itself")
@@ -34,7 +34,7 @@ func run() -> void:
 	check(pool.active.is_empty(), "Respawn cleanup releases heavy breathing")
 	for i in 6:
 		var jump: audio_player = movement.play_jump_sound()
-		check(movement.jump_sounds.has(jump.audio_global.stream) and jump.audio_global.bus == &"Vocals", "Jump selects an authored grunt on the room-audible bus")
+		check(movement.jump_sounds.has(jump.audio_2d.stream) and jump.audio_2d.bus == &"Vocals", "Jump selects an authored grunt on the room-audible bus")
 		jump.stop()
 		jump.playback_finished.emit()
 	movement.jump_sounds.clear()
@@ -79,5 +79,5 @@ func run() -> void:
 	for audio: audio_player in pool.active:
 		audio.reset()
 	await get_tree().create_timer(.1).timeout
-	print("Sprint, jump, death fade, rise sounds and slower look-around: ", "PASS" if failures.is_empty() else failures)
+	print("Sprint, jump, death fade, rise sounds and slower look-around: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

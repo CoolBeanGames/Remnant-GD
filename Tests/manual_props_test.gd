@@ -103,5 +103,5 @@ func _run() -> void:
 	pickup.drop_object()
 	world.queue_free()
 	await tick()
-	print("Manual props and player wind: ", "PASS" if failures.is_empty() else failures)
+	print("Manual props and player wind: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

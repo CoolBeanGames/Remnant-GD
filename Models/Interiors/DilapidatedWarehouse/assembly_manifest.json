@@ -18,77 +18,112 @@
       "source": "Models/Imported/Trip/industrial_machine_a/Source/industrial_machine_a.blend",
       "collection": "ASSET | industrial_machine_a",
       "position_m": [
-        -5,
-        4,
-        0
+        -5.0,
+        4.0,
+        0.0
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": -0.0,
+      "scale": [
+        1.65,
+        1.65,
+        1.65
+      ]
     },
     {
       "name": "HydraulicPress 2",
       "source": "Models/Imported/Trip/industrial_machine_a/Source/industrial_machine_a.blend",
       "collection": "ASSET | industrial_machine_a",
       "position_m": [
-        -5,
-        10,
-        0
+        -5.0,
+        10.0,
+        0.0
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": -0.0,
+      "scale": [
+        1.65,
+        1.65,
+        1.65
+      ]
     },
     {
       "name": "IndustrialLathe 1",
       "source": "Models/Imported/Trip/industrial_machine_b/Source/industrial_machine_b.blend",
       "collection": "ASSET | industrial_machine_b",
       "position_m": [
-        -5,
-        -4,
-        0
+        -5.0,
+        -4.0,
+        0.0
       ],
-      "rotation_z_degrees": -8
+      "rotation_z_degrees": 8.000000099620086,
+      "scale": [
+        1.6499999969459542,
+        1.6499999969459542,
+        1.6499999969459542
+      ]
     },
     {
       "name": "IndustrialLathe 2",
       "source": "Models/Imported/Trip/industrial_machine_b/Source/industrial_machine_b.blend",
       "collection": "ASSET | industrial_machine_b",
       "position_m": [
-        0,
-        5,
-        0
+        0.0,
+        5.0,
+        0.0
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": -0.0,
+      "scale": [
+        1.65,
+        1.65,
+        1.65
+      ]
     },
     {
       "name": "AirCompressor 1",
       "source": "Models/Imported/Trip/industrial_machine_c/Source/industrial_machine_c.blend",
       "collection": "ASSET | industrial_machine_c",
       "position_m": [
-        4,
-        3,
-        0
+        4.0,
+        3.0,
+        0.0
       ],
-      "rotation_z_degrees": -20
+      "rotation_z_degrees": 19.99999926375126,
+      "scale": [
+        1.6499999983522156,
+        1.6499999983522156,
+        1.6499999983522156
+      ]
     },
     {
       "name": "ControlCabinet 1",
       "source": "Models/Imported/Trip/industrial_machine_c/Source/industrial_machine_c.blend",
       "collection": "ASSET | industrial_machine_c",
       "position_m": [
-        7,
-        13,
-        0
+        7.0,
+        13.0,
+        0.0
       ],
-      "rotation_z_degrees": -10
+      "rotation_z_degrees": 10.000000659496422,
+      "scale": [
+        1.6500000008405764,
+        1.6500000008405764,
+        1.6500000008405764
+      ]
     },
     {
       "name": "ControlCabinet 2",
       "source": "Models/Imported/Trip/industrial_machine_c/Source/industrial_machine_c.blend",
       "collection": "ASSET | industrial_machine_c",
       "position_m": [
-        -10,
-        6,
-        0
+        -10.0,
+        6.0,
+        0.0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": -90.00000250447816,
+      "scale": [
+        1.6500000000000015,
+        1.6500000000000015,
+        1.6500000000000015
+      ]
     },
     {
       "name": "OfficeDesk 1",
@@ -99,51 +134,76 @@
         13.5,
         4.2
       ],
-      "rotation_z_degrees": 180
+      "rotation_z_degrees": 179.99999499104368,
+      "scale": [
+        1.2000000000000046,
+        1.2000000000000046,
+        1.2000000000000046
+      ]
     },
     {
       "name": "DebrisKit 1",
       "source": "Models/Interiors/WarehouseMachinery/DebrisKit/Source/debris_kit.blend",
       "collection": "ASSET | DebrisKit",
       "position_m": [
-        -9,
-        -10,
-        0
+        -9.0,
+        -10.0,
+        0.0
       ],
-      "rotation_z_degrees": 30
+      "rotation_z_degrees": -30.00000010841618,
+      "scale": [
+        0.9999999967225799,
+        0.9999999967225799,
+        0.9999999967225799
+      ]
     },
     {
       "name": "DebrisKit 2",
       "source": "Models/Interiors/WarehouseMachinery/DebrisKit/Source/debris_kit.blend",
       "collection": "ASSET | DebrisKit",
       "position_m": [
-        1,
-        12,
-        0
+        1.0,
+        12.0,
+        0.0
       ],
-      "rotation_z_degrees": -24
+      "rotation_z_degrees": 24.000001182325672,
+      "scale": [
+        0.9999999460898232,
+        0.9999999460898232,
+        0.9999999460898232
+      ]
     },
     {
       "name": "DebrisKit 3",
       "source": "Models/Interiors/WarehouseMachinery/DebrisKit/Source/debris_kit.blend",
       "collection": "ASSET | DebrisKit",
       "position_m": [
-        5,
-        -8,
-        0
+        5.0,
+        -8.0,
+        0.0
       ],
-      "rotation_z_degrees": 65
+      "rotation_z_degrees": -65.00000144284029,
+      "scale": [
+        1.0000000025607687,
+        1.0000000025607687,
+        1.0000000025607687
+      ]
     },
     {
       "name": "DebrisKit 4",
       "source": "Models/Interiors/WarehouseMachinery/DebrisKit/Source/debris_kit.blend",
       "collection": "ASSET | DebrisKit",
       "position_m": [
-        -8,
-        14,
-        0
+        -8.0,
+        14.0,
+        0.0
       ],
-      "rotation_z_degrees": 8
+      "rotation_z_degrees": -8.000000094973503,
+      "scale": [
+        0.999999981307206,
+        0.999999981307206,
+        0.999999981307206
+      ]
     },
     {
       "name": "Chair",
@@ -154,18 +214,28 @@
         14.85,
         4.2
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": -0.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
     },
     {
       "name": "LandlinePhone",
       "source": "Models/Interiors/StudioFurniture/LandlinePhone/Source/landline_phone.blend",
       "collection": "ASSET | LandlinePhone",
       "position_m": [
-        5.95,
-        13.72,
-        4.952
+        5.86,
+        13.764,
+        5.102
       ],
-      "rotation_z_degrees": -12
+      "rotation_z_degrees": 12.000000523348442,
+      "scale": [
+        1.000000001191325,
+        1.000000001191325,
+        1.000000001191325
+      ]
     },
     {
       "name": "PileOfMail",
@@ -173,10 +243,15 @@
       "collection": "ASSET | paper_stack",
       "position_m": [
         6.4,
-        13.21,
-        4.951
+        13.152,
+        5.101
       ],
-      "rotation_z_degrees": 16
+      "rotation_z_degrees": -16.000000166238397,
+      "scale": [
+        1.0000000050573297,
+        1.0000000050573297,
+        1.0000000050573297
+      ]
     },
     {
       "name": "TrashCan",
@@ -187,16 +262,21 @@
         15.8,
         4.2
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": -0.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
     },
     {
       "name": "GarbageBag 1",
       "source": "Models/Imported/Trip/garbage_bag_a/Source/garbage_bag_a.blend",
       "collection": "ASSET | garbage_bag_a",
       "position_m": [
-        -8,
-        -8,
-        0
+        -8.0,
+        -8.0,
+        0.0
       ],
       "rotation_z_degrees": 0.0,
       "collision": false
@@ -206,9 +286,9 @@
       "source": "Models/Imported/Trip/garbage_bag_b/Source/garbage_bag_b.blend",
       "collection": "ASSET | garbage_bag_b",
       "position_m": [
-        9,
-        11,
-        0
+        9.0,
+        11.0,
+        0.0
       ],
       "rotation_z_degrees": 41.8259190445501,
       "collision": false
@@ -219,8 +299,8 @@
       "collection": "ASSET | garbage_bag_a",
       "position_m": [
         -9.5,
-        9,
-        0
+        9.0,
+        0.0
       ],
       "rotation_z_degrees": 83.6518380891002,
       "collision": false
@@ -230,9 +310,9 @@
       "source": "Models/Imported/Trip/garbage_bag_b/Source/garbage_bag_b.blend",
       "collection": "ASSET | garbage_bag_b",
       "position_m": [
-        3,
-        -15,
-        0
+        3.0,
+        -15.0,
+        0.0
       ],
       "rotation_z_degrees": 125.47775713365029,
       "collision": false

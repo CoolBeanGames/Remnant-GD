@@ -35,6 +35,8 @@
 [ext_resource type="Script" uid="uid://2t6n5cae53ei" path="res://Scripts/Player/player_pickup.gd" id="29_2ahak"]
 [ext_resource type="Script" uid="uid://djmqfnex7by5r" path="res://Scripts/Player/prop_placement.gd" id="placement"]
 
+[ext_resource type="Script" path="res://Scripts/Player/player_view_zoom.gd" id="view_zoom"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ig4qq"]
 radius = 0.35
 height = 1.8
@@ -122,3 +124,8 @@ camera = NodePath("../../Camera3D")
 script = ExtResource("wake_up")
 player = NodePath("../..")
 camera = NodePath("../../Camera3D")
+
+[node name="Player_View_Zoom" type="Node" parent="Controllers" node_paths=PackedStringArray("camera", "pickup")]
+script = ExtResource("view_zoom")
+camera = NodePath("../../Camera3D")
+pickup = NodePath("../Player_Pickup")

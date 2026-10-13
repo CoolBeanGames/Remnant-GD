@@ -83,12 +83,12 @@ func finish_dialogue() -> void:
 		Dialogue.view.confirm_consumed = false
 	await tick()
 
-func capture(name: String) -> void:
+func capture(entry_name: String) -> void:
 	if capture_directory.is_empty() or DisplayServer.get_name() == "headless":
 		return
 	await tick()
 	await RenderingServer.frame_post_draw
-	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + name + ".png") == OK, "Actual story frame saved")
+	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + entry_name + ".png") == OK, "Actual story frame saved")
 
 func run() -> void:
 	SaveGame.reset_save()
@@ -205,5 +205,5 @@ func run() -> void:
 	SaveGame.new_game()
 	check(not Flags.check_flag("memory 1 photo") and not Flags.check_flag("memory 3 complete") and Blackboard.read_data("memory_flavor_seen") == null, "New Game resets narrative run progress")
 	SaveGame.reset_save()
-	print("Memory triggers / actual look and E / flavor separation / 3-5-4 objectives / disk Continue / completed portal return / New Game: ", "PASS" if failures.is_empty() else failures)
+	print("Memory triggers / actual look and E / flavor separation / 3-5-4 objectives / disk Continue / completed portal return / New Game: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -55,22 +55,22 @@ for obj in list(architecture.objects):
         continue
     if (name.startswith(('East exterior', 'East window', 'Side window', 'Baseboard / east'))
             or name == 'Grime / East damp corner'):
-        obj.location.x += 4.4
+        obj.location.x += 8.4
     if name.startswith('Fixed electrical outlet') and obj.location.x > 3.8:
-        obj.location.x += 4.4
-box('Bedroom structural slab', (6.2, 0, -.14), (4.45, 6.56, .22), bpy.data.objects['Continuous structural floor slab'].data.materials[0], bevel=.01)
-box('Bedroom north exterior', (6.2, 3.19, 1.4), (4.4, .18, 2.8), plaster)
-box('Bedroom south exterior', (6.2, -3.19, 1.4), (4.4, .18, 2.8), plaster)
-box('Bedroom complete ceiling', (6.2, 0, 2.89), (4.4, 6.56, .18), bpy.data.materials['Ceiling / soft white'])
+        obj.location.x += 8.4
+box('Bedroom structural slab', (8.2, 0, -.14), (8.45, 6.56, .22), bpy.data.objects['Continuous structural floor slab'].data.materials[0], bevel=.01)
+box('Bedroom north exterior', (8.2, 3.19, 1.4), (8.4, .18, 2.8), plaster)
+box('Bedroom south exterior', (8.2, -3.19, 1.4), (8.4, .18, 2.8), plaster)
+box('Bedroom complete ceiling', (8.2, 0, 2.89), (8.4, 6.56, .18), bpy.data.materials['Ceiling / soft white'])
 for y1, y2 in [(-3.1, -1.2), (.05, 3.1)]:
-    box('Bedroom partition pier', (3.93, (y1 + y2) / 2, 1.4), (.14, y2 - y1, 2.8), plaster)
-box('Bedroom doorway lintel', (3.93, -.575, 2.55), (.14, 1.25, .5), plaster)
+    box('Bedroom partition pier', (7.93, (y1 + y2) / 2, 1.4), (.14, y2 - y1, 2.8), plaster)
+box('Bedroom doorway lintel', (7.93, -.575, 2.55), (.14, 1.25, .5), plaster)
 for y in [-1.2, .05]:
-    box('Bedroom door jamb', (3.93, y, 1.1), (.20, .055, 2.2), trim)
-box('Bedroom door head', (3.93, -.575, 2.22), (.20, 1.3, .055), trim)
+    box('Bedroom door jamb', (7.93, y, 1.1), (.20, .055, 2.2), trim)
+box('Bedroom door head', (7.93, -.575, 2.22), (.20, 1.3, .055), trim)
 for side in [-1, 1]:
-    box('Bedroom north/south skirting', (6.2, side * 3.073, .065), (4.4, .04, .13), trim)
-for i in range(25):
+    box('Bedroom north/south skirting', (8.2, side * 3.073, .065), (8.4, .04, .13), trim)
+for i in range(48):
     for j in range(4):
         material = bpy.data.materials['Oak / board tone %02d' % ((i + j) % 4)]
         box('Bedroom worn oak board', (4.00 + (i + .5) * .176, -3.1 + (j + .5) * 1.55, -.014), (.174, 1.548, .028), material, bevel=.001)
@@ -82,7 +82,7 @@ for obj in architecture.objects:
     obj.select_set(True)
 bpy.ops.export_scene.gltf(filepath=str(ROOM / 'studio_apartment.glb'), export_format='GLB', use_selection=True, export_apply=True, export_animations=False, export_cameras=False, export_lights=False, export_yup=True)
 info = json.loads((ROOM / 'asset_manifest.json').read_text())
-info.update({'dimensions_m': [12.2, 6.2, 2.8], 'bedroom_m': [4.25, 6.2], 'bedroom_door_clearance_m': [1.195, 2.2], 'architecture_meshes': len([o for o in architecture.objects if o.type == 'MESH']), 'furniture': False, 'revision': 'October Trip spreadsheet: separate east bedroom, original bath/entrance/newsprint retained'})
+info.update({'dimensions_m': [16.2, 6.2, 2.8], 'bedroom_m': [4.25, 6.2], 'bedroom_door_clearance_m': [1.195, 2.2], 'architecture_meshes': len([o for o in architecture.objects if o.type == 'MESH']), 'furniture': False, 'revision': 'October Trip spreadsheet: separate east bedroom, original bath/entrance/newsprint retained'})
 (ROOM / 'asset_manifest.json').write_text(json.dumps(info, indent=2) + '\n')
 
 # Domestic bed: independent native, using existing packed worn fabric/wood maps.
@@ -122,4 +122,4 @@ for obj in bed.objects:
     obj.select_set(True)
 bpy.ops.export_scene.gltf(filepath=str(bed_folder / 'bedroom_bed.glb'), export_format='GLB', use_selection=True, export_apply=True, export_animations=False, export_cameras=False, export_lights=False, export_yup=True)
 (bed_folder / 'asset_manifest.json').write_text(json.dumps({'native': str((bed_folder / 'Source/bedroom_bed.blend').relative_to(ROOT)).replace('\\', '/'), 'export': str((bed_folder / 'bedroom_bed.glb').relative_to(ROOT)).replace('\\', '/'), 'collection': bed.name, 'dimensions_m': [1.66, 2.18, 1.23], 'textures': 'Existing worn oak and aged fabric maps, packed'}, indent=2) + '\n')
-print('EXPANDED APARTMENT / 12.2 x 6.2 m / independent bedroom bed', flush=True)
+print('EXPANDED APARTMENT / 16.2 x 6.2 m / independent bedroom bed', flush=True)

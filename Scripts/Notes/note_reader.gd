@@ -254,7 +254,7 @@ func _finish_close() -> void:
 	current_note = {}
 	from_journal = false
 	if _close_notify:
-		Notes.note_read_finished.emit(finished)
+		Notes.finish_read(finished)
 		closed.emit(finished, back)
 
 func _input(event: InputEvent) -> void:

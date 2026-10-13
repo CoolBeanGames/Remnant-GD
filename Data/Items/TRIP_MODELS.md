@@ -42,11 +42,11 @@ The lever keeps its green/red lights, controller, sounds and upgrade-driven cycl
 
 ## Expanded apartment and linked memories
 
-The independent apartment shell at `Models/Architecture/StudioApartment` now measures **12.2 × 6.2 m**. The east bedroom is **4.25 × 6.2 m**, with a **1.195 × 2.2 m clear doorway** onto the supported existing floor. Original newspaper windows, bathroom surfaces and worn materials remain. Entry/bathroom door geometry is separated from the shell and replaced by imported open leaves/frames.
+The independent apartment shell at `Models/Architecture/StudioApartment` now measures **16.2 × 6.2 m**. The east bedroom is **4.25 × 6.2 m**, with a **1.195 × 2.2 m clear doorway** onto the supported existing floor. Original newspaper windows, bathroom surfaces and worn materials remain. Entry/bathroom door geometry is separated from the shell and replaced by imported open leaves/frames.
 
-The bedroom bed is a new independent textured asset at `Models/Interiors/StudioFurniture/BedroomBed/Source/bedroom_bed.blend` and `bedroom_bed.glb`, using packed worn fabric/wood maps. BedroomDesk and CoffeeTable link their Trip natives. They are assembled through `Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend`; no furniture is baked into the architecture.
+The bedroom bed is a new independent textured asset at `Models/Interiors/StudioFurniture/BedroomBed/Source/bedroom_bed.blend` and `bedroom_bed.glb`, using packed worn fabric/wood maps. CoffeeTable links its Trip native; the desk belongs only to the warehouse office. They are assembled through `Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend`; no furniture is baked into the architecture.
 
-Warehouse and hospital native assemblies also link the replacement sources independently. Blender manifests map (x,y,z) to Godot (x,z,-y), with Z rotation becoming Y rotation. Current engine room scenes have **24 apartment, 21 warehouse and 54 hospital art instances**. Story node aliases, required memory Resources and saved flags remain connected; the new furniture does not become scored world items. Garbage bags deliberately have no StaticBody3D. The original warehouse stair ramp/rails and hospital circulation corrections remain authored. [Collision, lighting and portal workflow](../Portal/ENVIRONMENTS.md).
+Warehouse and hospital native assemblies also link the replacement sources independently. Blender manifests map (x,y,z) to Godot (x,z,-y), with Z rotation becoming Y rotation. Current engine room scenes have **23 apartment, 21 warehouse and 56 hospital art instances**. Story node aliases, required memory Resources and saved flags remain connected; the new furniture does not become scored world items. Garbage bags deliberately have no StaticBody3D. The original warehouse stair ramp/rails and hospital circulation corrections remain authored. [Collision, lighting and portal workflow](../Portal/ENVIRONMENTS.md).
 
 ## Authoring tools
 
@@ -59,7 +59,7 @@ These tools are already applied to the current assets. Review intended changes a
 | Tools/expand_trip_apartment.py | Blender shell expansion and independent bedroom bed; uses an ignored original-shell snapshot to avoid cumulative expansion |
 | Tools/setup_trip_scenes.py | Writes the nine item scenes/pool and art wrappers, replaces room model references and adds named furniture/doors/bags; preserves unrelated scene content |
 | Tools/sync_trip_assemblies.py | Updates linked native assemblies and manifests by existing instance name; verifies original backups under ignored .godot and saves via a staged file |
-| Tools/bake_trip_art.gd | Inherits bake_portal_environments.gd save helpers; rebuilds only 20 affected wrappers and 38 art/collision resources, preserving authored room scenes |
+| Tools/bake_trip_art.gd | Inherits bake_portal_environments.gd save helpers; rebuilds only 22 affected wrappers and 42 art/collision resources, preserving authored room scenes |
 | Tools/publish_portal_bake.py | Validates a nonempty, unique, scoped .tscn/.tres completion manifest and atomically publishes staged files with bounded lock retries |
 | Tools/render_trip_apartment.py | Four final apartment angles plus three independent-bed views; presentation native lives separately under Models/Interiors/TripPresentation/Source |
 | Tools/verify_trip_assets.py | Portable GLB/source/UV/material/embedded-texture/render-path checks for all 32 ids |
@@ -75,7 +75,7 @@ python Tools/verify_trip_assets.py
 Blender --background --python Tools/verify_trip_native.py
 ```
 
-**Do not blindly run the old whole-room bake.** `Tools/bake_portal_environments.gd` regenerates room scenes and can remove current memory scripts, stair fixes, lighting and designer overrides. The Trip bake deliberately changes only shared art/collision resources. Its completion manifest contains 38 files for the current 20 wrappers; the publisher validates scope rather than requiring the historical fixed count of 73. `.godot` backups/staging and original input workbook/ZIPs remain local.
+**Do not blindly run the old whole-room bake.** `Tools/bake_portal_environments.gd` regenerates room scenes and can remove current memory scripts, stair fixes, lighting and designer overrides. The Trip bake deliberately changes only shared art/collision resources. Its completion manifest contains 42 files for the current 22 wrappers; the publisher validates scope rather than requiring the historical fixed count of 73. `.godot` backups/staging and original input workbook/ZIPs remain local.
 
 ## Verification and performance
 

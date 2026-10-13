@@ -47,13 +47,13 @@ func walk_through(frame: Node3D, finished: Callable) -> void:
 	Input.action_release("forward")
 	player.velocity = Vector3.ZERO
 
-func capture(name: String) -> void:
+func capture(entry_name: String) -> void:
 	if capture_directory.is_empty() or DisplayServer.get_name() == "headless":
 		return
 	player.get_node("Camera3D/RayCast3D")._physics_process(0.0)
 	await tick()
 	await RenderingServer.frame_post_draw
-	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + name + ".png") == OK, "Actual return-door frame saved")
+	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + entry_name + ".png") == OK, "Actual return-door frame saved")
 
 func _ready() -> void:
 	if DisplayServer.get_name() != "headless":
@@ -159,5 +159,5 @@ func run() -> void:
 	pool.queue_free()
 	await tick()
 	SaveGame.reset_save()
-	print("Memory portals / production purchase / real walking / inside save-continue / unfinished return / reentry / completed exit / cargo: ", "PASS" if failures.is_empty() else failures)
+	print("Memory portals / production purchase / real walking / inside save-continue / unfinished return / reentry / completed exit / cargo: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

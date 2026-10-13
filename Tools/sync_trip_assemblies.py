@@ -3,6 +3,7 @@ import json, math
 import hashlib
 import shutil
 import os
+import re
 from pathlib import Path
 import bpy
 from mathutils import Vector
@@ -98,6 +99,44 @@ for directory, filename, key in [('FurnishedStudio', 'studio_apartment_furnished
             {'asset': 'BathroomDoor', 'source': trip_source('door'), 'collection': 'ASSET | door', 'position_m': [-2.64, .75, 0], 'rotation_z_degrees': 0, 'scale': [.577, .61, .61], 'leaf_open_degrees': 96},
         ])
     entries.extend(e for e in additions if e.get('name', e.get('asset')) not in existing)
+    if directory == 'DilapidatedHospital':
+        for name, position, angle, scale in [('StaffDoor', [5.8, -1.7, 0], 180, [.74, .665, .665]), ('ClosedExitDoor', [0, 12.94, 0], 0, [1.25, .95, .95])]:
+            if name not in {e.get('name', e.get('asset')) for e in entries}:
+                entries.append({'name': name, 'source': trip_source('door'), 'collection': 'ASSET | door', 'position_m': position, 'rotation_z_degrees': angle, 'scale': scale, 'leaf_open_degrees': 0})
+    # Gameplay scene poses are the current authority for linked presentation props.
+    scene_name = {'FurnishedStudio': 'furnished_apartment', 'DilapidatedWarehouse': 'dilapidated_warehouse', 'DilapidatedHospital': 'dilapidated_hospital'}[directory]
+    blocks = re.split(r'(?=^\[node )', (ROOT / 'Scenes/Environments' / (scene_name + '.tscn')).read_text(), flags=re.M)
+    poses = {}
+    for block in blocks:
+        header = re.match(r'\[node name="([^"]+)"[^\n]*parent="Art"', block)
+        if header is None:
+            continue
+        transform = re.search(r'^transform = Transform3D\(([^)]+)\)', block, re.M)
+        position = re.search(r'^position = Vector3\(([^)]+)\)', block, re.M)
+        rotation = re.search(r'^rotation = Vector3\(([^)]+)\)', block, re.M)
+        if transform:
+            values = [float(v) for v in transform[1].split(',')]
+            scale = sum(v*v for v in values[:3]) ** .5
+            poses[header[1]] = {'position_m': [values[9], -values[11], values[10]], 'rotation_z_degrees': math.degrees(math.atan2(-values[2], values[0])), 'scale': [scale]*3}
+        elif position:
+            values = [float(v) for v in position[1].split(',')]
+            poses[header[1]] = {'position_m': [values[0], -values[2], values[1]], 'rotation_z_degrees': math.degrees(float(rotation[1].split(',')[1])) if rotation else 0}
+    if directory == 'FurnishedStudio':
+        entries[:] = [e for e in entries if e.get('name', e.get('asset')) != 'BedroomDesk']
+    for entry in entries:
+        name = entry.get('name', entry.get('asset'))
+        if name in poses:
+            # Door wrapper scales are already held in the native manifest.
+            values = dict(poses[name])
+            if name.endswith('Door') or name.startswith('Ward door'):
+                values.pop('scale', None)
+            entry.update(values)
+        if name.startswith('Ward door'):
+            entry['leaf_open_degrees'] = 0
+            entry['scale'] = [.74, .665, .665]
+    for entry in entries:
+        if 'leaf_open_degrees' in entry:
+            entry['leaf_open_degrees'] = -abs(entry['leaf_open_degrees'])
     info['revision'] = 'Trip spreadsheet replacements and expanded one-bedroom apartment'
     (folder / 'assembly_manifest.json').write_text(json.dumps(info, indent=2) + '\n')
     bpy.ops.wm.open_mainfile(filepath=str(folder / filename))
@@ -105,6 +144,8 @@ for directory, filename, key in [('FurnishedStudio', 'studio_apartment_furnished
     # Update named manifest instances in place, preserving unrelated instances,
     # the presentation rig and any content absent from the supplied manifest.
     instances = {o.name.removeprefix('Instance / '): o for o in scene.objects if o.type == 'EMPTY' and o.instance_type == 'COLLECTION'}
+    if directory == 'FurnishedStudio' and 'BedroomDesk' in instances:
+        bpy.data.objects.remove(instances.pop('BedroomDesk'), do_unlink=True)
     if directory == 'FurnishedStudio':
         entries_for_scene = [{'name': 'Apartment shell', 'source': info['room_source'], 'collection': 'APARTMENT | permanent architecture', 'position_m': [0, 0, 0], 'rotation_z_degrees': 0}, *entries]
     else:

@@ -37,7 +37,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if powered and is_visible_in_tree() and blade_pivot != null and not blade_axis.is_zero_approx():
 		blade_pivot.rotate(blade_axis.normalized(), deg_to_rad(blade_speed_degrees) * delta)
-	Audio.set_spatial_active(fan_audio, powered and is_visible_in_tree())
+	audio_global.set_spatial_active(fan_audio, powered and is_visible_in_tree())
 
 
 func on_held_transform_updated() -> void:
@@ -50,7 +50,7 @@ func on_held_transform_updated() -> void:
 func _apply_power() -> void:
 	on_held_transform_updated()
 	$Airflow.emitting = powered and visible and not _suction_active()
-	Audio.set_spatial_active(fan_audio, powered and is_visible_in_tree())
+	audio_global.set_spatial_active(fan_audio, powered and is_visible_in_tree())
 
 
 func _physics_process(delta: float) -> void:

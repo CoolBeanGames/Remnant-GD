@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Room to move. Less friction.",
+    "kind": "Development history",
+    "local": "development_summary.html#issues-october-13",
+    "online": "../index.html#issues-october-13",
+    "description": "The full issue batch brings clearer controls, larger memories, working hospital doors, editable books and a clean debugger."
+  },
+  {
     "title": "Supplied objects. A larger apartment.",
     "kind": "Development history",
     "local": "development_summary.html#trip-models-apartment",
@@ -243,6 +250,13 @@
     "local": "development_summary.html#title-mulcher-window",
     "online": "../index.html#title-mulcher-window",
     "description": "Your new title workshop keeps its artwork and gains continuous grinder sound. The moved Mulcher ejects away from the grinder, and Play fills the available window."
+  },
+  {
+    "title": "October 13 fixes, loading and reviewed rooms",
+    "kind": "Rendered gallery",
+    "local": "IssueOctober13/index.html",
+    "online": "../IssueOctober13/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "Trip models, expanded apartment and retained gameplay",

@@ -44,5 +44,5 @@ func run() -> void:
 	breathing.queue_free()
 	camera.queue_free()
 	await get_tree().process_frame
-	print("Camera breathing bounds, look, menus and reset: ", "PASS" if failures.is_empty() else failures)
+	print("Camera breathing bounds, look, menus and reset: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

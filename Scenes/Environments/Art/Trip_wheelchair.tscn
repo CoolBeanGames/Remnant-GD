@@ -7,13 +7,13 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_t64fe"]
 friction = 0.95
 
-[node name="Trip_wheelchair" type="Node3D" unique_id=308455776]
+[node name="Trip_wheelchair" type="Node3D" unique_id=846172149]
 script = ExtResource("1_383ot")
 
 [node name="Model" type="Node3D" parent="." unique_id=829810286 instance=ExtResource("2_jn6d6")]
 
-[node name="Solid" type="StaticBody3D" parent="." unique_id=1551340857 groups=["Floor"]]
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1353325087 groups=["Floor"]]
 physics_material_override = SubResource("PhysicsMaterial_t64fe")
 
-[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1732375293]
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=691439976]
 shape = ExtResource("3_8pl2q")

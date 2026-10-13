@@ -31,13 +31,13 @@ func row_for(id: StringName) -> Control:
 			return state.row
 	return null
 
-func capture(name: String) -> void:
+func capture(entry_name: String) -> void:
 	if capture_directory.is_empty() or DisplayServer.get_name() == "headless":
 		return
 	DirAccess.make_dir_recursive_absolute(capture_directory)
 	await tick()
 	await RenderingServer.frame_post_draw
-	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + name + ".png") == OK, "Actual PC screenshot saved")
+	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + entry_name + ".png") == OK, "Actual PC screenshot saved")
 
 func run() -> void:
 	SaveGame.enabled = false
@@ -131,5 +131,5 @@ func run() -> void:
 	world.queue_free()
 	await tick()
 	SaveGame.reset_save()
-	print("Upgrade ownership / catalog / real PC refresh / direct APIs / disk Continue / New Game: ", "PASS" if failures.is_empty() else failures)
+	print("Upgrade ownership / catalog / real PC refresh / direct APIs / disk Continue / New Game: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

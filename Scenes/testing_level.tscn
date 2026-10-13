@@ -227,7 +227,7 @@ script = ExtResource("15_grinding")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.5901313, 0.55, -4.3860297)
 
 [node name="MulchBinMount" type="Marker3D" parent="grinding_area" unique_id=1215059528]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.6089816, 0.08, -5.110854)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.2, 0.08, -5.110854)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="grinding_area" unique_id=1834579255]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03955078, -0.13726807, -0.07897949)

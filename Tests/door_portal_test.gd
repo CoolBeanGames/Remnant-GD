@@ -173,5 +173,5 @@ func run() -> void:
 		check(restored.get_meta("portal_inside", false) and WorldState._bodies(restored)[0].collision_mask == portal_space.ROOM_LAYER, "Saved sky props restore in isolated room space")
 	resumed.queue_free()
 	await tick()
-	print("Door portal activation, crossing, basket, return and restoration: ", "PASS" if failures.is_empty() else failures)
+	print("Door portal activation, crossing, basket, return and restoration: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

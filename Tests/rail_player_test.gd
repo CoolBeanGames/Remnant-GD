@@ -72,7 +72,7 @@ func _run() -> void:
 	await _check_blocked_relay()
 	world.queue_free()
 	await tick()
-	print("Player rail platform riding: ", "PASS" if failures.is_empty() else failures)
+	print("Player rail platform riding: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)
 
 

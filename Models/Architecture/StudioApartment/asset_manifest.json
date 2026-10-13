@@ -1,7 +1,7 @@
 {
   "blender": "4.5.1 LTS",
   "dimensions_m": [
-    12.2,
+    16.2,
     6.2,
     2.8
   ],
@@ -9,7 +9,7 @@
     2.5,
     2.3
   ],
-  "architecture_meshes": 249,
+  "architecture_meshes": 341,
   "triangles": 133024,
   "render_samples": 128,
   "furniture": false,

@@ -4,6 +4,9 @@ signal note_read(note: Dictionary)
 signal note_read_finished(note: Dictionary)
 signal collection_changed
 
+func finish_read(note: Dictionary) -> void:
+	note_read_finished.emit(note)
+
 func all_notes() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	var saved: Variant = Blackboard.read_data("found_notes")

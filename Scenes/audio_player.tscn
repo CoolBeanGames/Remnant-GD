@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://jnf7npi534wc" path="res://Scripts/Actors/audio_player.gd" id="1_30owj"]
 
-[node name="AudioPlayer" type="Node3D" unique_id=1223418054 node_paths=PackedStringArray("audio_3d", "audio_global")]
+[node name="AudioPlayer" type="Node3D" unique_id=1223418054 node_paths=PackedStringArray("audio_3d", "audio_2d")]
 script = ExtResource("1_30owj")
 audio_3d = NodePath("AudioStreamPlayer3D")
-audio_global = NodePath("AudioStreamPlayer")
+audio_2d = NodePath("AudioStreamPlayer")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2043721790]
 

@@ -70,5 +70,5 @@ func _run() -> void:
 	check(Blackboard.read_data("score") == 131 and ScoreRewards.pending_points == 9 and payouts == [30, 10], "Actual frame countdown must expire and award a fresh chain.")
 	ui.queue_free()
 	await get_tree().process_frame
-	print("Combo countdown/audio/UI: ", "PASS" if failures.is_empty() else failures)
+	print("Combo countdown/audio/UI: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

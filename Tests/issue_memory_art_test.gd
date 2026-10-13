@@ -7,14 +7,14 @@ func check(ok: bool, message: String) -> void:
 func _ready() -> void:
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_NO_FOCUS, true)
 	run.call_deferred()
-func capture(camera: Camera3D, name: String, position: Vector3, target: Vector3) -> Image:
+func capture(camera: Camera3D, entry_name: String, position: Vector3, target: Vector3) -> Image:
 	camera.global_position = position
 	camera.look_at(target)
 	for i in 8:
 		await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	var image: Image = get_viewport().get_texture().get_image()
-	image.save_png("res://Reports/IssueBatch/game/" + name + ".png")
+	image.save_png("res://Reports/IssueBatch/game/" + entry_name + ".png")
 	return image
 func run() -> void:
 	SaveGame.enabled = false
@@ -50,7 +50,7 @@ func run() -> void:
 			var position := Vector3(0,1.65,10.4) if kind=="hospital" else Vector3(4.9,1.65,9)
 			var target := Vector3(0,1.2,0) if kind=="hospital" else Vector3(9.55,2.2,3)
 			var dark: Image = await capture(camera,kind+"_dark",position,target)
-			check(dark.get_pixel(dark.get_width()/2,dark.get_height()/2).get_luminance()<.002, "Unlit memory is visibly black: "+kind)
+			check(dark.get_pixel(int(dark.get_width() * .5),int(dark.get_height() * .5)).get_luminance()<.002, "Unlit memory is visibly black: "+kind)
 			# Only this fixture uses diagnostic lighting to review collision/art.
 			var lamp := OmniLight3D.new()
 			lamp.omni_range = 30
@@ -69,5 +69,5 @@ func run() -> void:
 		await get_tree().process_frame
 	world.queue_free()
 	await get_tree().process_frame
-	print("Memory art / rendered preload / wood / amber room / black rooms / diagnostic geometry: ", "PASS" if failures.is_empty() else failures)
+	print("Memory art / rendered preload / wood / amber room / black rooms / diagnostic geometry: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

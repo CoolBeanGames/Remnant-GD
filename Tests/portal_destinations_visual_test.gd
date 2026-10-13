@@ -10,16 +10,16 @@ func frames(count: int = 12) -> void:
 	for index in count:
 		await get_tree().process_frame
 
-func capture(name: String, position: Vector3, target: Vector3) -> void:
+func capture(entry_name: String, position: Vector3, target: Vector3) -> void:
 	portal.camera.global_position = position
 	portal.camera.look_at(target)
 	portal.previous_camera_position = position
 	await frames(30)
 	await RenderingServer.frame_post_draw
 	var image: Image = get_viewport().get_texture().get_image()
-	var error: Error = image.save_png("res://Reports/PortalEnvironments/" + name + ".png")
+	var error: Error = image.save_png("res://Reports/PortalEnvironments/" + entry_name + ".png")
 	assert(error == OK)
-	print("Captured engine view: ", name)
+	print("Captured engine view: ", entry_name)
 
 func run() -> void:
 	if DisplayServer.get_name() == "headless":

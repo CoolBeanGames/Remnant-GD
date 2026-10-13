@@ -181,7 +181,7 @@ func _set_grinder_motion(enabled: bool) -> void:
 		if str(node.name).begins_with("Grinder_"):
 			node.set_process(enabled)
 			node.set_physics_process(enabled)
-	Audio.set_spatial_active(machine_audio, enabled)
+	audio_global.set_spatial_active(machine_audio, enabled)
 
 func _enable_computer() -> void:
 	DevTools.log_info("Computer enabled at %d score." % Progression.score(), "level")

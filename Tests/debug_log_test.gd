@@ -131,7 +131,7 @@ func run() -> void:
 		check(zip.open(zip_path) == OK, "Export is a readable ZIP")
 		var files := zip.get_files()
 		check("system.json" in files and "visible_entries.json" in files and "current.jsonl" in files and "current_session.json" in files, "Export includes system info, ring and persistent log")
-		check(not Array(files).any(func(name: String) -> bool: return name.contains("save") or name.contains("blackboard")), "Export omits save files and Blackboard snapshots")
+		check(not Array(files).any(func(entry_name: String) -> bool: return entry_name.contains("save") or entry_name.contains("blackboard")), "Export omits save files and Blackboard snapshots")
 		var system: Variant = JSON.parse_string(zip.read_file("system.json").get_string_from_utf8())
 		check(system is Dictionary and system.session == logger.session_id, "Export metadata matches the running session")
 		zip.close()
@@ -181,5 +181,5 @@ func run() -> void:
 	context.free()
 	get_tree().paused = original_pause
 	Input.mouse_mode = original_mouse
-	print("Debug log capture, bounds, export, interrupted session and modal ownership: ", "PASS" if failures.is_empty() else failures)
+	print("Debug log capture, bounds, export, interrupted session and modal ownership: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

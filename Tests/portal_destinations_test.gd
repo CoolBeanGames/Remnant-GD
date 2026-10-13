@@ -213,5 +213,5 @@ func run() -> void:
 	for audio: audio_player in pool.active:
 		audio.reset()
 	await tick(4)
-	print("Portal destinations / F9 / imported walking / cargo / save restoration: ", "PASS" if failures.is_empty() else failures)
+	print("Portal destinations / F9 / imported walking / cargo / save restoration: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

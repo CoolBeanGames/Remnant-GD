@@ -58,16 +58,16 @@ func start(is_respawn: bool = false) -> void:
 	player.velocity = Vector3.ZERO
 	player.get_node("Controllers/Player_Move_Controller").reset_platform_motion()
 	controller_states.clear()
-	for name in ["Player_Look_Controller", "Player_Move_Controller", "Camera_Breathing"]:
-		var controller: Node = player.get_node_or_null("Controllers/" + name)
+	for entry_name in ["Player_Look_Controller", "Player_Move_Controller", "Camera_Breathing"]:
+		var controller: Node = player.get_node_or_null("Controllers/" + entry_name)
 		if controller != null:
 			controller_states[controller] = {"process": controller.is_processing(), "physics": controller.is_physics_processing()}
 			controller.set_process(false)
 			controller.set_physics_process(false)
 	player.get_node("footstep_sound_players").stop()
 	ui_states.clear()
-	for name in ["CenterContainer", "Prompt_Container"]:
-		var ui: CanvasItem = player.get_parent().get_node_or_null(name)
+	for entry_name in ["CenterContainer", "Prompt_Container"]:
+		var ui: CanvasItem = player.get_parent().get_node_or_null(entry_name)
 		if ui != null:
 			ui_states[ui] = ui.visible
 			ui.hide()
@@ -108,9 +108,9 @@ func _process(delta: float) -> void:
 	_apply_pose(pose_time)
 	while cue_index < 2 and pose_time >= [1.3, 3.65][cue_index]:
 		if slide_sounds.size() > cue_index:
-			Audio.play_global(slide_sounds[cue_index], slide_volume, 1.0, &"RoomSFX")
+			audio_global.play_global(slide_sounds[cue_index], slide_volume, 1.0, &"RoomSFX")
 		if not effort_sounds.is_empty():
-			Audio.play_global(effort_sounds.pick_random(), .7, 1.0, &"Vocals")
+			audio_global.play_global(effort_sounds.pick_random(), .7, 1.0, &"Vocals")
 		cue_index += 1
 	if not dialogue_started and elapsed >= dialogue_delay:
 		dialogue_started = true
@@ -153,8 +153,8 @@ func fade_for_death() -> void:
 	var was_blocked: bool = Blackboard.read_data("player_input_blocked") == true
 	Blackboard.store_data("player_input_blocked", true)
 	var states: Dictionary = {}
-	for name in ["Player_Move_Controller", "Player_Look_Controller", "Camera_Breathing"]:
-		var controller: Node = player.get_node("Controllers/" + name)
+	for entry_name in ["Player_Move_Controller", "Player_Look_Controller", "Camera_Breathing"]:
+		var controller: Node = player.get_node("Controllers/" + entry_name)
 		states[controller] = [controller.is_processing(), controller.is_physics_processing()]
 		controller.set_process(false)
 		controller.set_physics_process(false)
@@ -163,7 +163,7 @@ func fade_for_death() -> void:
 	overlay.show()
 	black.color.a = 0
 	var stream: AudioStream = death_sounds.pick_random() if not death_sounds.is_empty() else null
-	Audio.play_global(stream, 1.0, 1.0, &"Vocals")
+	audio_global.play_global(stream, 1.0, 1.0, &"Vocals")
 	var tween: Tween = create_tween()
 	tween.tween_property(black, "color:a", 1.0, maxf(.01, death_fade_seconds))
 	await tween.finished

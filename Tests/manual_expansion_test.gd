@@ -127,5 +127,5 @@ func _run() -> void:
 	check(not broom.held and not broom.freeze, "F must put down the broom as a physical object.")
 	world.queue_free()
 	await tick()
-	print("Basket, broom, air upgrades and score queue: ", "PASS" if failures.is_empty() else failures)
+	print("Basket, broom, air upgrades and score queue: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -13,12 +13,12 @@ func check(ok: bool, message: String) -> void:
 	if not ok:
 		failures.append(message)
 		push_error(message)
-func capture(name: String, eye: Vector3, target: Vector3) -> void:
+func capture(entry_name: String, eye: Vector3, target: Vector3) -> void:
 	camera.global_position = eye
 	camera.look_at(target)
 	await tick()
 	await RenderingServer.frame_post_draw
-	check(get_viewport().get_texture().get_image().save_png(capture_directory+"/"+name+".png") == OK,"Rendered capture saved")
+	check(get_viewport().get_texture().get_image().save_png(capture_directory+"/"+entry_name+".png") == OK,"Rendered capture saved")
 func spawn_art(scene: String, at: Vector3) -> RigidBody3D:
 	var actor: Node3D = WorldState.spawn_item(load(scene),world,Transform3D(Basis.IDENTITY,at))
 	return physics_items.rigid_body(actor) if actor is RigidBody3D else WorldState._bodies(actor)[0]
@@ -52,13 +52,13 @@ func run() -> void:
 	sun.light_energy = 1.7
 	sun.shadow_enabled = true
 	world.add_child(sun)
-	var floor := StaticBody3D.new()
-	floor.name = "Floor"
+	var floor_body := StaticBody3D.new()
+	floor_body.name = "Floor"
 	var shape := CollisionShape3D.new()
 	var box := BoxShape3D.new()
 	box.size = Vector3(60,.2,60)
 	shape.shape = box
-	floor.add_child(shape)
+	floor_body.add_child(shape)
 	var floor_mesh := MeshInstance3D.new()
 	var mesh := BoxMesh.new()
 	mesh.size = box.size
@@ -67,9 +67,9 @@ func run() -> void:
 	mat.roughness = .95
 	mesh.material = mat
 	floor_mesh.mesh = mesh
-	floor.add_child(floor_mesh)
-	floor.position.y = -.1
-	world.add_child(floor)
+	floor_body.add_child(floor_mesh)
+	floor_body.position.y = -.1
+	world.add_child(floor_body)
 	var player: CharacterBody3D = load("res://Scenes/Player/player.tscn").instantiate()
 	player.process_mode = Node.PROCESS_MODE_DISABLED
 	player.position = Vector3(20,0,0)
@@ -81,7 +81,7 @@ func run() -> void:
 	var rail: train_rail = spawn_art("res://Scenes/Actors/train_rail.tscn",Vector3(0,.015,0))
 	rail.rail_length = 8
 	rail.refresh_geometry()
-	rail.place_on(floor)
+	rail.place_on(floor_body)
 	var loader: rail_station = spawn_art("res://Scenes/Actors/rail_loader.tscn",Vector3.ZERO)
 	loader.global_transform = loader.get_placement_pose(rail,rail.endpoint(1),Vector3.UP,Basis.IDENTITY).transform
 	loader.place_on(rail)
@@ -138,5 +138,5 @@ func run() -> void:
 	WorldState.tracking = false
 	world.queue_free()
 	await tick()
-	print("Rendered rail stations / imported cargo / lever and prestige PC displays: ","PASS" if failures.is_empty() else failures)
+	print("Rendered rail stations / imported cargo / lever and prestige PC displays: ","PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -27,15 +27,15 @@ func run() -> void:
 	world = Node3D.new()
 	add_child(world)
 	Blackboard.store_data("game_root", world)
-	var floor := StaticBody3D.new()
-	floor.name = "Floor"
+	var floor_body := StaticBody3D.new()
+	floor_body.name = "Floor"
 	var shape := CollisionShape3D.new()
 	var box := BoxShape3D.new()
 	box.size = Vector3(60,.2,60)
 	shape.shape = box
-	floor.add_child(shape)
-	floor.position.y = -.1
-	world.add_child(floor)
+	floor_body.add_child(shape)
+	floor_body.position.y = -.1
+	world.add_child(floor_body)
 	var player: CharacterBody3D = load("res://Scenes/Player/player.tscn").instantiate()
 	player.process_mode = Node.PROCESS_MODE_DISABLED
 	player.disable_mode = CollisionObject3D.DISABLE_MODE_KEEP_ACTIVE
@@ -46,7 +46,7 @@ func run() -> void:
 	rail.rail_length = 8
 	rail.position.y = .015
 	world.add_child(rail)
-	rail.place_on(floor)
+	rail.place_on(floor_body)
 	WorldState.track(rail,"rail")
 	var loader: rail_station = load("res://Scenes/Actors/rail_loader.tscn").instantiate()
 	world.add_child(loader)
@@ -67,14 +67,14 @@ func run() -> void:
 	unloader.place_on(rail)
 	WorldState.track(unloader,"unloader")
 	check(unloader.endpoint_end == -1 and unloader.global_basis.z.dot(rail.global_basis.z) < -.99, "Front-end station faces outward automatically")
-	var duplicate: rail_station = load("res://Scenes/Actors/rail_loader.tscn").instantiate()
-	world.add_child(duplicate)
-	check(not duplicate.get_placement_pose(rail,rail.endpoint(1),Vector3.UP,Basis.IDENTITY).valid, "A second station cannot claim an occupied end")
+	var duplicate_actor: rail_station = load("res://Scenes/Actors/rail_loader.tscn").instantiate()
+	world.add_child(duplicate_actor)
+	check(not duplicate_actor.get_placement_pose(rail,rail.endpoint(1),Vector3.UP,Basis.IDENTITY).valid, "A second station cannot claim an occupied end")
 	var extra: train_rail = load("res://Scenes/Actors/train_rail.tscn").instantiate()
 	world.add_child(extra)
 	check(not extra.get_placement_pose(rail,rail.endpoint(1),Vector3.UP,Basis.IDENTITY).valid, "Rail chaining respects the station's reserved endpoint")
 	extra.queue_free()
-	duplicate.queue_free()
+	duplicate_actor.queue_free()
 	player.global_position = Vector3(15,2,0)
 	var car: rail_slider = load("res://Scenes/Actors/rail_slider.tscn").instantiate()
 	world.add_child(car)
@@ -139,7 +139,7 @@ func run() -> void:
 	WorldState.tracking = false
 	world.queue_free()
 	await tick()
-	print("Rail stations / ghosts / real docking / capacity / ejection / nested cargo / save: ", "PASS" if failures.is_empty() else failures)
+	print("Rail stations / ghosts / real docking / capacity / ejection / nested cargo / save: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)
 
 func save_round_trip(_rail: train_rail, _loader: rail_station, _basket: RigidBody3D, _inner: Node3D, _player: CharacterBody3D) -> void:

@@ -59,5 +59,5 @@ func run() -> void:
 	check(not get_tree().paused, "Reporter closes back to original state")
 	node.queue_free()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(SaveGame.save_path))
-	print("F2/F3/F4 inspectors, nested names, disk-only reading and modal ownership: ", "PASS" if failures.is_empty() else failures)
+	print("F2/F3/F4 inspectors, nested names, disk-only reading and modal ownership: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -58,8 +58,8 @@ func interact() -> void:
 		if open_sound != null:
 			audio_global.play_3d(open_sound, global_position, open_sound_volume, open_sound_pitch, open_sound_bus)
 
-func _on_animation_finished(name: StringName) -> void:
-	if name == close_animation and not is_open:
+func _on_animation_finished(entry_name: StringName) -> void:
+	if entry_name == close_animation and not is_open:
 		var sound: AudioStream = close_sound if close_sound != null else open_sound
 		if sound != null:
 			audio_global.play_3d(sound, global_position, close_sound_volume, close_sound_pitch, close_sound_bus)

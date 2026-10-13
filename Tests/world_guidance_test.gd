@@ -41,7 +41,7 @@ func run() -> void:
 	await tick()
 	check(level.room_template != null, "Authored concrete room cached before removal")
 	check(is_equal_approx(level.chute.note_drop_chance, .02), "Notes use a two-percent default")
-	check(level.computer.get_node("Model").scale.x > 2.1, "Computer retains the larger authored model size")
+	check(level.computer.get_node("Model").position.y > .7, "Full-size computer remains on its authored cart")
 	var door: start_room_door = level.get_node("doorway_animated")
 	door.interact()
 	door.animation.advance(door.animation.current_animation_length)
@@ -52,6 +52,8 @@ func run() -> void:
 	level.room._remove_room()
 	await tick()
 	var portal: door_portal = level.get_node("DoorPortal")
+	portal.purchase_required = false
+	portal.activate()
 	check(portal.active and portal.room.global_position.y == 0, "Portal destination shares workshop height")
 	Flags.set_flag("grinder enabled", true)
 	guidance._process(29.9)
@@ -70,7 +72,7 @@ func run() -> void:
 	level.grinder.grind(second.get_node("RigidBody3D"))
 	var grind_players: int = 0
 	for audio: audio_player in pool.active:
-		if audio.audio_global.playing and audio.audio_global.stream == level.grinder.grind_sound:
+		if audio.audio_2d.playing and audio.audio_2d.stream == level.grinder.grind_sound:
 			grind_players += 1
 	check(grind_players == 1 and GrindCombo.item_count == 2, "Batch grinding plays one sound and counts every item")
 	check(messages.current.is_empty() and not guidance.grinder_waiting, "Grinding cancels the reminder immediately")
@@ -85,7 +87,7 @@ func run() -> void:
 	for i in 3:
 		messages._process(1)
 	var count: int = shown.size()
-	Notes.note_read_finished.emit(note)
+	Notes.finish_read(note)
 	check(shown.size() == count, "Note warning is only shown once")
 	Blackboard.store_data("score", 30)
 	level._check_thresholds()
@@ -133,5 +135,5 @@ func run() -> void:
 	for audio: audio_player in pool.active:
 		audio.reset()
 	await get_tree().create_timer(.1).timeout
-	print("World messages, grinder sound, door and concrete respawn: ", "PASS" if failures.is_empty() else failures)
+	print("World messages, grinder sound, door and concrete respawn: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

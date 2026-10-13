@@ -93,5 +93,5 @@ func run() -> void:
 	WorldState.tracking = false
 	world.queue_free()
 	await tick()
-	print("Lever upgrades / real animation / staggered random output / prices / persistence: ", "PASS" if failures.is_empty() else failures)
+	print("Lever upgrades / real animation / staggered random output / prices / persistence: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -103,5 +103,5 @@ func _run() -> void:
 	world.queue_free()
 	await tick()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(SaveGame.save_path))
-	print("Approved upgrades / unified props / lighting / disk restoration: ", "PASS" if failures.is_empty() else failures)
+	print("Approved upgrades / unified props / lighting / disk restoration: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -131,5 +131,5 @@ func _run() -> void:
 	Flags.remove_flag("exited room")
 	AudioServer.set_bus_volume_db(sfx, saved_volume)
 	AudioServer.set_bus_mute(sfx, saved_mute)
-	print("Start room audio/footsteps/SFX gate: ", "PASS" if failures.is_empty() else failures)
+	print("Start room audio/footsteps/SFX gate: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

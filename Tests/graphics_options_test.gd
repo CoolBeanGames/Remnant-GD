@@ -113,5 +113,5 @@ func run() -> void:
 	Settings.restore()
 	SaveGame.saving_disabled = true
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(SaveGame.save_path))
-	print("Graphics options live renderer, portal, UI, persistence and validation: ", "PASS" if failures.is_empty() else failures)
+	print("Graphics options live renderer, portal, UI, persistence and validation: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

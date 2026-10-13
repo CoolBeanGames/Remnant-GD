@@ -17,12 +17,7 @@ func set_flag(key : String, state : bool = true, connection_set : Array[Callable
 		
 	
 	#the state for the flag
-	_flags[key].state = state
-	#fire initial signals
-	if _flags[key].state == true:
-		_flags[key].flag_set.emit()
-	else:
-		_flags[key].flag_unset.emit()
+	_flags[key].set_state(state)
 
 #remove the flag from the system
 func remove_flag(key : String) -> void:

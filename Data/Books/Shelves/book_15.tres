@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="book_sleeve" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Items/book_sleeve.gd" id="1_xhv6v"]
+
+[resource]
+script = ExtResource("1_xhv6v")
+title = ""
+cover_color = Color(0.48452926, 0.3133042, 0.22091636, 1)

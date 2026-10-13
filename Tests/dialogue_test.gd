@@ -46,7 +46,7 @@ func run() -> void:
 	sequence.once = false
 	check(Dialogue.play(sequence), "Repeatable dialogue can play again")
 	var audio: audio_player = pool.active.back()
-	check(audio.audio_global.stream == line.voiceover and audio.audio_global.bus == ui.voice_bus, "Optional voice uses the pooled audio system")
+	check(audio.audio_2d.stream == line.voiceover and audio.audio_2d.bus == ui.voice_bus, "Optional voice uses the pooled audio system")
 	ui._process(1)
 	ui._process(1)
 	check(ui.phase == "holding", "Subtitle stays until its optional voice finishes")
@@ -57,9 +57,9 @@ func run() -> void:
 	skip.action = &"confirm"
 	skip.pressed = true
 	ui._input(skip)
-	check(ui.line_index == 1 and ui.label.text == "Next line" and not audio.audio_global.playing, "E skips to the next line and releases its old voice")
+	check(ui.line_index == 1 and ui.label.text == "Next line" and not audio.audio_2d.playing, "E skips to the next line and releases its old voice")
 	Dialogue.cancel()
-	check(not audio.audio_global.playing and pool.active.is_empty() and ui.current == null, "Cancel stops and releases dialogue audio")
+	check(not audio.audio_2d.playing and pool.active.is_empty() and ui.current == null, "Cancel stops and releases dialogue audio")
 	var empty := dialogue_sequence.new()
 	check(not Dialogue.play(empty), "Empty dialogue safely does nothing")
 	check(Dialogue.say("A dynamic line"), "Dialogue.say supports direct scripted text")
@@ -67,5 +67,5 @@ func run() -> void:
 	ui.queue_free()
 	await get_tree().process_frame
 	await get_tree().create_timer(.1).timeout
-	print("Dialogue typing, fade, pause, voice, once and scripted triggers: ", "PASS" if failures.is_empty() else failures)
+	print("Dialogue typing, fade, pause, voice, once and scripted triggers: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/MedicalTrolley_medical_trolley.tscn" id="8_78ae2"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/NursingCounter_nursing_counter.tscn" id="9_sn878"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_wheelchair.tscn" id="10_fop8q"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_ward_door.tscn" id="11_krnr7"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/memory_door.tscn" id="11_krnr7"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_waiting_chairs.tscn" id="12_rdwnw"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/LandlinePhone_landline_phone.tscn" id="13_iwywc"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_paper_stack.tscn" id="14_mn1qp"]
@@ -26,6 +26,8 @@
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_garbage_bag_a.tscn" id="trip_garbage_bag_a"]
 
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_garbage_bag_b.tscn" id="trip_garbage_bag_b"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Actors/memory_door.tscn" id="world_door"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yeim3"]
 size = Vector3(2.5, 0.16, 1.2)
@@ -205,38 +207,31 @@ script = ExtResource("4_vj24o")
 
 [node name="Ward door 1" type="Node3D" parent="Art" unique_id=1669491552 instance=ExtResource("11_krnr7")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7, 0, 9.4)
-script = ExtResource("4_vj24o")
 
 [node name="Ward door 2" type="Node3D" parent="Art" unique_id=2090114840 instance=ExtResource("11_krnr7")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7, 0, 3.75)
-script = ExtResource("4_vj24o")
 
 [node name="Ward door 3" type="Node3D" parent="Art" unique_id=354264217 instance=ExtResource("11_krnr7")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7, 0, -4.5)
-script = ExtResource("4_vj24o")
 
 [node name="Ward door 4" type="Node3D" parent="Art" unique_id=2090835253 instance=ExtResource("11_krnr7")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7, 0, -10.15)
-script = ExtResource("4_vj24o")
 
 [node name="Ward door 5" type="Node3D" parent="Art" unique_id=301943970 instance=ExtResource("11_krnr7")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.7, 0, 9.4)
-script = ExtResource("4_vj24o")
 
 [node name="Ward door 6" type="Node3D" parent="Art" unique_id=1437258578 instance=ExtResource("11_krnr7")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.7, 0, -4.5)
-script = ExtResource("4_vj24o")
 
 [node name="Ward door 7" type="Node3D" parent="Art" unique_id=493048397 instance=ExtResource("11_krnr7")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.7, 0, -10.15)
-script = ExtResource("4_vj24o")
 
 [node name="Abandoned hall wheelchair" type="Node3D" parent="Art" unique_id=1756139529 instance=ExtResource("10_fop8q")]
 transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, -0.84, 0, 6.8)
 script = ExtResource("4_vj24o")
 
 [node name="Cross hall waiting bench" type="Node3D" parent="Art" unique_id=1465189349 instance=ExtResource("12_rdwnw")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.5, 0, 1.22)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3.5, 0, 1.22)
 script = ExtResource("4_vj24o")
 
 [node name="West waiting bench" type="Node3D" parent="Art" unique_id=1502749506 instance=ExtResource("12_rdwnw")]
@@ -302,9 +297,19 @@ position = Vector3(7.5, 0, -8)
 rotation = Vector3(0, 0.73, 0)
 
 [node name="GarbageBag 3" parent="Art" instance=ExtResource("trip_garbage_bag_a")]
-position = Vector3(1.6, 0, 9.5)
-rotation = Vector3(0, 1.46, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, 9.5)
 
 [node name="GarbageBag 4" parent="Art" instance=ExtResource("trip_garbage_bag_b")]
-position = Vector3(-1.7, 0, -9)
-rotation = Vector3(0, 2.19, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0, -9)
+
+[node name="StaffDoor" parent="Art" instance=ExtResource("world_door")]
+position = Vector3(5.8, 0, 1.7)
+rotation = Vector3(0, 3.14159265, 0)
+door_title = "Staff Door"
+
+[node name="ClosedExitDoor" parent="Art" instance=ExtResource("world_door")]
+position = Vector3(0, 0, -12.94)
+locked = true
+
+[node name="Model" parent="Art/ClosedExitDoor" index="0"]
+scale = Vector3(1.25, 0.95, 0.95)

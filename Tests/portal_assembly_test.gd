@@ -137,5 +137,5 @@ func run() -> void:
 	await get_tree().create_timer(.15).timeout
 	pool.queue_free()
 	await get_tree().process_frame
-	print("Portal loose rail, nested basket and attached vacuum assembly: ", "PASS" if failures.is_empty() else failures)
+	print("Portal loose rail, nested basket and attached vacuum assembly: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

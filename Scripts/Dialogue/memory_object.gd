@@ -1,3 +1,4 @@
+@tool
 class_name memory_object
 extends environment_art
 
@@ -13,6 +14,8 @@ var _surface_anchor: Marker3D
 func _ready() -> void:
 	super._ready()
 	set_process(false)
+	if Engine.is_editor_hint():
+		return
 	add_to_group("look-prompt")
 	if story == null:
 		return

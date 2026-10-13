@@ -170,5 +170,5 @@ func _run() -> void:
 	Blackboard.remove_data("audio_pool")
 	Blackboard.store_data("player_input_blocked", false)
 	Progression.levels.clear()
-	print("Computer purchases/upgrades/abilities/audio: ", "PASS" if failures.is_empty() else failures)
+	print("Computer purchases/upgrades/abilities/audio: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

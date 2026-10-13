@@ -1,0 +1,7 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Scripts/Actors/hinged_world_door.gd" id="script"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/door/door.glb" id="model"]
+[node name="MemoryDoor" type="Node3D"]
+script = ExtResource("script")
+[node name="Model" parent="." instance=ExtResource("model")]
+scale = Vector3(0.74, 0.665, 0.665)

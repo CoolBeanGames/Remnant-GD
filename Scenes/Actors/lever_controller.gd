@@ -54,7 +54,7 @@ func _pull() -> void:
 	state = 1
 	pending_pull_items = clampi(roundi(items_per_pull * maxf(1, output_multiplier)), 1, 256)
 	anim.play("pull")
-	Audio.play_3d(pull_sound, global_position, 1.0, 1.0, &"SFX")
+	audio_global.play_3d(pull_sound, global_position, 1.0, 1.0, &"SFX")
 
 
 func _on_animation_finished(animation_name: StringName) -> void:
@@ -67,7 +67,7 @@ func _on_animation_finished(animation_name: StringName) -> void:
 			if is_instance_valid(chute):
 				chute.spawn_batch(pending_pull_items)
 			pulled.emit()
-			Audio.play_3d(reset_sound, global_position, 1.0, 1.0, &"SFX")
+			audio_global.play_3d(reset_sound, global_position, 1.0, 1.0, &"SFX")
 			anim.play("reset")
 
 		&"reset":

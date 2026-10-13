@@ -94,5 +94,5 @@ func _run() -> void:
 	check(broom.push_acceleration == 52.5 and broom.maximum_speed == 7.5, "Broom acceleration and maximum push speed must be 50% stronger.")
 	world.queue_free()
 	await tick()
-	print("Carry attachments/transparency and dual placement: ", "PASS" if failures.is_empty() else failures)
+	print("Carry attachments/transparency and dual placement: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

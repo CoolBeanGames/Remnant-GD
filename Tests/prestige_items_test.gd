@@ -76,5 +76,5 @@ func run() -> void:
 	world.queue_free()
 	await tick()
 	SaveGame.reset_save()
-	print("Prestige group / targeting / pickup / grinding / price / actual profile reload / New Game: ", "PASS" if failures.is_empty() else failures)
+	print("Prestige group / targeting / pickup / grinding / price / actual profile reload / New Game: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

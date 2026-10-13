@@ -1,19 +1,19 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_mtsit"]
-[ext_resource type="PackedScene" path="res://Models/Architecture/DilapidatedHospital/dilapidated_hospital.glb" id="2_lk6ju"]
-[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/DilapidatedHospital_dilapidated_hospital.tres" id="3_b23jp"]
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_tbttf"]
+[ext_resource type="PackedScene" path="res://Models/Architecture/DilapidatedHospital/dilapidated_hospital.glb" id="2_va43u"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/DilapidatedHospital_dilapidated_hospital.tres" id="3_cx513"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_57har"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x7iro"]
 friction = 0.95
 
-[node name="DilapidatedHospital_dilapidated_hospital" type="Node3D" unique_id=270833041]
-script = ExtResource("1_mtsit")
+[node name="DilapidatedHospital_dilapidated_hospital" type="Node3D" unique_id=462247076]
+script = ExtResource("1_tbttf")
 
-[node name="Model" type="Node3D" parent="." unique_id=351698980 instance=ExtResource("2_lk6ju")]
+[node name="Model" type="Node3D" parent="." unique_id=1035992121 instance=ExtResource("2_va43u")]
 
-[node name="Solid" type="StaticBody3D" parent="." unique_id=1753992394 groups=["Floor"]]
-physics_material_override = SubResource("PhysicsMaterial_57har")
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1903107365 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_x7iro")
 
-[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1467550237]
-shape = ExtResource("3_b23jp")
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=76264628]
+shape = ExtResource("3_cx513")

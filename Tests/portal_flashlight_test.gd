@@ -24,13 +24,13 @@ func key(code: Key) -> void:
 		Input.parse_input_event(event)
 		await tick(2)
 
-func capture(name: String) -> Image:
+func capture(entry_name: String) -> Image:
 	await tick(18)
 	await RenderingServer.frame_post_draw
 	var result: Image = get_viewport().get_texture().get_image()
 	if not capture_directory.is_empty():
 		DirAccess.make_dir_recursive_absolute(capture_directory)
-		check(result.save_png(capture_directory + "/" + name + ".png") == OK, "Portal beam image saved")
+		check(result.save_png(capture_directory + "/" + entry_name + ".png") == OK, "Portal beam image saved")
 	return result
 
 func positive_light_delta(lit: Image, dark: Image) -> float:
@@ -125,5 +125,5 @@ func run() -> void:
 		voice.stop()
 	await tick()
 	pool.queue_free()
-	print("Portal flashlight / forward aperture / direct room / reverse space / suspension / cleanup: ", "PASS" if failures.is_empty() else failures)
+	print("Portal flashlight / forward aperture / direct room / reverse space / suspension / cleanup: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

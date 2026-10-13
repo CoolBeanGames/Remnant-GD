@@ -85,7 +85,7 @@ func _physics_process(delta: float) -> void:
 		var transferred: int = _load_car(car) if mode == Mode.LOAD else _unload_car(car)
 		if transferred > 0:
 			if transfer_sound != null:
-				Audio.play_3d(transfer_sound, global_position, sound_volume, 1.0, sound_bus)
+				audio_global.play_3d(transfer_sound, global_position, sound_volume, 1.0, sound_bus)
 			DevTools.log_info("%s %d cargo item(s)." % ["Loaded" if mode == Mode.LOAD else "Ejected", transferred], "rails")
 			break
 	_update_status()

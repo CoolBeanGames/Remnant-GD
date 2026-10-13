@@ -8,6 +8,9 @@
 [ext_resource type="Script" path="res://Scripts/Actors/score_object.gd" id="score"]
 [ext_resource type="PackedScene" path="res://Scenes/Art/book.tscn" id="model"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/pickup_target.tscn" id="pickup_target"]
+[ext_resource type="Script" path="res://Scripts/Items/book_cover.gd" id="cover"]
+[ext_resource type="Resource" path="res://Data/Books/default_book.tres" id="sleeve"]
+
 [sub_resource type="BoxShape3D" id="Collision"]
 size = Vector3(0.244266, 0.344000, 0.105373)
 [sub_resource type="PhysicsMaterial" id="Physics"]
@@ -37,3 +40,8 @@ score = 1
 mulch_value = 3
 [node name="PickupTarget" parent="RigidBody3D" instance=ExtResource("pickup_target")]
 [connection signal="body_entered" from="RigidBody3D" to="RigidBody3D" method="collide"]
+
+[node name="BookCover" type="Node3D" parent="RigidBody3D"]
+position = Vector3(0, 0.17, 0.052)
+script = ExtResource("cover")
+sleeve = ExtResource("sleeve")

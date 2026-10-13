@@ -10,13 +10,17 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## October 13 fixes
+
+The latest 27 F1 reports are addressed: a larger walkable apartment, interactive ward/staff doors, editable book sleeves, corrected door/lever pivots and CRT focus, smooth empty-hand RMB zoom, outlined text, resource preloading/loading screen and bounded physical grinder debris. The warning pass corrects all project diagnostics without hiding them. [Current authoring and verification](Data/ISSUE_BATCH_2026-10-13.md) · [Reviewed views](Reports/IssueOctober13/index.html) · [Phone summary](https://coolbeangames.github.io/Remnant-GD/index.html#issues-october-13).
+
 ## Trip models and expanded apartment
 
 All **32 spreadsheet models** now have textured, metre-scale GLBs and packed editable Blender sources under `Models/Imported/Trip`. The chute and automatic spawners choose equally from **nine one-score items**: baby bottle, beer bottle, clipboard, two meat slabs, meat block, syringe, book and teddy bear. The original test block remains available for older saves and tests, outside the production pool.
 
 The computer sits on its rusted cart with the interactive screen aligned to the new display. The existing lever controller animates a separate imported handle; the wooden door has an independent hinged leaf and fixed frame. The Mulcher uses the imported machine and a brief debris burst; the Mulch Bin is the wooden crate and pellets use the trash-ball model. Existing audio, upgrades, pickup, save and portal behavior remain connected.
 
-The apartment is now **12.2 × 6.2 m**, with a separate **4.25 × 6.2 m bedroom**, its own bed and desk, a living-room coffee table and open entry/bathroom doors. Warehouse machines and office furniture, hospital beds/wheelchairs/waiting seats and non-colliding garbage bags use the supplied replacements. Story targets retain their existing node names and flags. [Current asset workflow](Data/Items/TRIP_MODELS.md) · [Item art and sounds](Data/Items/ART.md) · [Render gallery](Reports/TripModels/index.html) · [Phone summary](https://coolbeangames.github.io/Remnant-GD/index.html#trip-models-apartment).
+The apartment is now **16.2 × 6.2 m**, with a separate **4.25 × 6.2 m bedroom**, its own bed, a living-room coffee table and open entry/bathroom doors. Warehouse machines and office furniture, hospital beds/wheelchairs/waiting seats and non-colliding garbage bags use the supplied replacements. Story targets retain their existing node names and flags. [Current asset workflow](Data/Items/TRIP_MODELS.md) · [Item art and sounds](Data/Items/ART.md) · [Render gallery](Reports/TripModels/index.html) · [Phone summary](https://coolbeangames.github.io/Remnant-GD/index.html#trip-models-apartment).
 
 ## Title sound, moved Mulcher and window filling
 

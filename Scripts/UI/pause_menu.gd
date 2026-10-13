@@ -70,7 +70,7 @@ func close(notify_reading: bool = true) -> void:
 	Blackboard.store_data("player_input_blocked", previous_block)
 	Input.mouse_mode = previous_mouse
 	if pickup_reader and notify_reading and not current_note.is_empty():
-		Notes.note_read_finished.emit(current_note)
+		Notes.finish_read(current_note)
 	pickup_reader = false
 	current_note = {}
 

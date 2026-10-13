@@ -65,7 +65,7 @@ func _next_line() -> void:
 	characters = 0.0
 	phase = "typing"
 	show()
-	var audio: audio_player = Audio.play_global(line.voiceover, line.voice_volume, 1.0, voice_bus)
+	var audio: audio_player = audio_global.play_global(line.voiceover, line.voice_volume, 1.0, voice_bus)
 	voice = weakref(audio) if audio != null else null
 	voice_playback_id = audio.playback_id if audio != null else -1
 	line_started.emit(line)

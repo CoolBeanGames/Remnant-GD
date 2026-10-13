@@ -122,5 +122,5 @@ func _run() -> void:
 	check(not released_body.freeze and released_body.collision_layer == 1, "Removing a fan releases its bag contents safely.")
 	world.queue_free()
 	await tick(2)
-	print("Approved fan and broom upgrades: ", "PASS" if failures.is_empty() else failures)
+	print("Approved fan and broom upgrades: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -16,13 +16,13 @@ func tick(count: int = 4) -> void:
 		await get_tree().physics_frame
 		await get_tree().process_frame
 
-func capture(name: String) -> void:
+func capture(entry_name: String) -> void:
 	if capture_directory.is_empty() or DisplayServer.get_name() == "headless":
 		return
 	DirAccess.make_dir_recursive_absolute(capture_directory)
 	await tick()
 	await RenderingServer.frame_post_draw
-	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + name + ".png") == OK, "Rendered followup image saved")
+	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + entry_name + ".png") == OK, "Rendered followup image saved")
 
 func bind_level() -> void:
 	level = load("res://Scenes/testing_level.tscn").instantiate()
@@ -196,5 +196,5 @@ func run() -> void:
 		voice.stop()
 	await tick(8)
 	pool.queue_free()
-	print("Mulch followup / repair ray / fractional score ledger / no recycling / legacy fixed bin / real multi-grab / collector / automatic multiplied lever: ", "PASS" if failures.is_empty() else failures)
+	print("Mulch followup / repair ray / fractional score ledger / no recycling / legacy fixed bin / real multi-grab / collector / automatic multiplied lever: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

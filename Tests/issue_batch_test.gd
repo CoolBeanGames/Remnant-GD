@@ -107,5 +107,5 @@ func run() -> void:
 	world.queue_free()
 	await tick()
 	SaveGame.reset_save()
-	print("October issue batch / offer discovery / combo / pellet physics pickup / profile: ", "PASS" if failures.is_empty() else failures)
+	print("October issue batch / offer discovery / combo / pellet physics pickup / profile: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

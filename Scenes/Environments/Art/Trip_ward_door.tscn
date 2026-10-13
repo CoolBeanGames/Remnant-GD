@@ -7,17 +7,17 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fojjg"]
 friction = 0.95
 
-[node name="Trip_ward_door" type="Node3D" unique_id=310030783]
+[node name="Trip_ward_door" type="Node3D" unique_id=1339103881]
 script = ExtResource("1_6kk6d")
 pose_overrides = Dictionary[String, Transform3D]({
-"Model/DoorLeaf": Transform3D(-0.10452851, 0, 0.9945219, 0, 1, 0, -0.9945219, 0, -0.10452851, -0.87, 0.1295, 0)
+"Model/DoorLeaf": Transform3D(-0.10452851, 0, -0.9945219, 0, 1, 0, 0.9945219, 0, -0.10452851, 0.87, 0.1295, 0)
 })
 
-[node name="Model" type="Node3D" parent="." unique_id=1113526635 instance=ExtResource("2_q78w4")]
+[node name="Model" type="Node3D" parent="." unique_id=359301105 instance=ExtResource("2_q78w4")]
 transform = Transform3D(0.59, 0, 0, 0, 0.67, 0, 0, 0, 0.67, 0, 0, 0)
 
-[node name="Solid" type="StaticBody3D" parent="." unique_id=1752027676 groups=["Floor"]]
+[node name="Solid" type="StaticBody3D" parent="." unique_id=114439567 groups=["Floor"]]
 physics_material_override = SubResource("PhysicsMaterial_fojjg")
 
-[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1849454898]
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1566276883]
 shape = ExtResource("3_bhn0c")

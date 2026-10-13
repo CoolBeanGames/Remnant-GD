@@ -31,7 +31,7 @@ func _build() -> void:
 		var folder: String = "DilapidatedWarehouse" if kind == "warehouse" else "DilapidatedHospital"
 		var manifest: Dictionary = _read("res://Models/Interiors/%s/assembly_manifest.json" % folder)
 		_build_room("dilapidated_" + kind, manifest.instances, Vector3(0, 1.7195, 18.44 if kind == "warehouse" else 13.44))
-	print("Environment scene/collision bake: ", "PASS / %d shared art wrappers" % baked.size() if failures.is_empty() else failures)
+	print("Environment scene/collision bake: ", "PASS / %d shared art wrappers" % baked.size() if failures.is_empty() else str(failures))
 	if stage_output and failures.is_empty():
 		var manifest := FileAccess.open("res://.godot/portal_bake/bake_manifest.json", FileAccess.WRITE)
 		if manifest == null:
@@ -49,10 +49,10 @@ func _export_path(source: String) -> String:
 		exported = asset_dir + "/" + source.get_file().get_basename() + ".glb"
 	return "res://" + exported
 
-func _relative_transform(root: Node3D, node: Node3D) -> Transform3D:
+func _relative_transform(asset_root: Node3D, node: Node3D) -> Transform3D:
 	var pose := Transform3D.IDENTITY
 	var current: Node3D = node
-	while current != root:
+	while current != asset_root:
 		pose = current.transform * pose
 		current = current.get_parent() as Node3D
 	return pose
@@ -62,20 +62,20 @@ func _bake_art(source: String) -> String:
 	if baked.has(path):
 		return baked[path]
 	var key: String = path.get_base_dir().get_file() + "_" + path.get_file().get_basename()
-	var root := Node3D.new()
-	root.name = key
-	root.set_script(load("res://Scripts/Portal/environment_art.gd"))
+	var asset_root := Node3D.new()
+	asset_root.name = key
+	asset_root.set_script(load("res://Scripts/Portal/environment_art.gd"))
 	var model: Node3D = (load(path) as PackedScene).instantiate()
 	model.name = "Model"
-	root.add_child(model)
-	model.owner = root
+	asset_root.add_child(model)
+	model.owner = asset_root
 	# The narrative portal replaces the apartment's partially open entry leaf.
 	# Keep its authored frame/threshold, swing the leaf clear of the narrow passage.
 	if path.contains("StudioApartment"):
 		for node in model.find_children("*", "Node3D", true, false):
 			if "Apartment entrance" in str(node.name) and "hinged leaf" in str(node.name):
 				node.rotation.y = deg_to_rad(94.0)
-				root.get("pose_overrides")[str(root.get_path_to(node))] = node.transform
+				asset_root.get("pose_overrides")[str(asset_root.get_path_to(node))] = node.transform
 	var faces := PackedVector3Array()
 	for mesh: MeshInstance3D in model.find_children("*", "MeshInstance3D", true, false):
 		var lower: String = str(mesh.name).to_lower()
@@ -95,8 +95,8 @@ func _bake_art(source: String) -> String:
 				faces.append(c)
 	var collider := StaticBody3D.new()
 	collider.name = "Solid"
-	root.add_child(collider)
-	collider.owner = root
+	asset_root.add_child(collider)
+	collider.owner = asset_root
 	collider.add_to_group("Floor", true)
 	collider.physics_material_override = PhysicsMaterial.new()
 	collider.physics_material_override.friction = 0.95
@@ -109,75 +109,75 @@ func _bake_art(source: String) -> String:
 	collision.name = "Collision"
 	collision.shape = load(shape_path)
 	collider.add_child(collision)
-	collision.owner = root
+	collision.owner = asset_root
 	var art_path: String = OUTPUT + "Art/" + key + ".tscn"
-	_save_scene(root, art_path)
-	print("Baked ", key, " / ", faces.size() / 3, " solid triangles")
-	root.free()
+	_save_scene(asset_root, art_path)
+	print("Baked ", key, " / ", int(faces.size() / 3.0), " solid triangles")
+	asset_root.free()
 	baked[path] = art_path
 	return art_path
 
 func _build_room(kind: String, placements: Array, entrance_position: Vector3) -> void:
-	var root := Node3D.new()
-	root.name = kind.to_pascal_case()
-	root.set_script(load("res://Scripts/Portal/portal_room.gd"))
-	root.set("environment", load("res://Data/Portal/apartment_environment.tres" if kind == "furnished_apartment" else "res://Data/Portal/dark_environment.tres"))
-	root.set("suppress_player_light", true)
+	var asset_root := Node3D.new()
+	asset_root.name = kind.to_pascal_case()
+	asset_root.set_script(load("res://Scripts/Portal/portal_room.gd"))
+	asset_root.set("environment", load("res://Data/Portal/apartment_environment.tres" if kind == "furnished_apartment" else "res://Data/Portal/dark_environment.tres"))
+	asset_root.set("suppress_player_light", true)
 	if kind == "furnished_apartment":
 		var left: Array[AudioStream] = []
 		var right: Array[AudioStream] = []
 		for index in range(1, 4):
 			left.append(load("res://Audio/SFX/Footsteps/Wood/wood_left_%d.wav" % index))
 			right.append(load("res://Audio/SFX/Footsteps/Wood/wood_right_%d.wav" % index))
-		root.set("left_foot_sounds", left)
-		root.set("right_foot_sounds", right)
+		asset_root.set("left_foot_sounds", left)
+		asset_root.set("right_foot_sounds", right)
 	var entrance := Marker3D.new()
 	entrance.name = "Entrance"
-	root.add_child(entrance)
-	entrance.owner = root
+	asset_root.add_child(entrance)
+	entrance.owner = asset_root
 	entrance.position = entrance_position
 	entrance.rotation.y = PI
 	var art := Node3D.new()
 	art.name = "Art"
-	root.add_child(art)
-	art.owner = root
+	asset_root.add_child(art)
+	art.owner = asset_root
 	for entry: Dictionary in placements:
 		var scene: PackedScene = load(_bake_art(entry.source)) as PackedScene
 		var instance: Node3D = scene.instantiate()
 		instance.name = str(entry.name).validate_node_name()
 		art.add_child(instance)
-		instance.owner = root
+		instance.owner = asset_root
 		var pos: Array = entry.position_m
 		instance.position = Vector3(float(pos[0]), float(pos[2]), -float(pos[1]))
 		instance.rotation.y = deg_to_rad(float(entry.rotation_z_degrees))
 	var lighting := Node3D.new()
 	lighting.name = "Lighting"
-	root.add_child(lighting)
-	lighting.owner = root
+	asset_root.add_child(lighting)
+	lighting.owner = asset_root
 	if kind == "furnished_apartment":
 		# A short plaster vestibule accommodates the existing 3.18 m story door;
 		# the apartment's original narrow, lower doorway stays intact behind it.
-		_box(root, "VestibuleFloor", Vector3(1.76, -.08, 3.88), Vector3(2.4, .16, 1.7), Color(.23, .22, .19))
+		_box(asset_root, "VestibuleFloor", Vector3(1.76, -.08, 3.88), Vector3(2.4, .16, 1.7), Color(.23, .22, .19))
 		for side in [-1, 1]:
-			_box(root, "VestibuleWall", Vector3(1.76 + side * 1.13, 1.70, 3.90), Vector3(.14, 3.4, 1.8), Color(.32, .32, .27))
-		_box(root, "VestibuleCeiling", Vector3(1.76, 3.43, 3.9), Vector3(2.4, .14, 1.8), Color(.32, .32, .27))
+			_box(asset_root, "VestibuleWall", Vector3(1.76 + side * 1.13, 1.70, 3.90), Vector3(.14, 3.4, 1.8), Color(.32, .32, .27))
+		_box(asset_root, "VestibuleCeiling", Vector3(1.76, 3.43, 3.9), Vector3(2.4, .14, 1.8), Color(.32, .32, .27))
 		_omni(lighting, Vector3(1.4, 2.45, -1.3), Color(1, .58, .16), .32, 5.0, true)
 		_omni(lighting, Vector3(-2.95, 1.55, .4), Color(1, .49, .09), .18, 3.5, false)
 		_omni(lighting, Vector3(-2.65, 2.3, -2.1), Color(1, .58, .17), .12, 3.0, false)
 		_omni(lighting, Vector3(1.76, 2.85, 3.88), Color(1, .58, .17), .13, 3.4, false)
 	elif kind == "dilapidated_warehouse":
-		_box(root, "EntranceLanding", Vector3(0, -.08, 18.35), Vector3(4.0, .16, 1.2), Color(.23, .24, .22))
-		_stair_ramp(root)
+		_box(asset_root, "EntranceLanding", Vector3(0, -.08, 18.35), Vector3(4.0, .16, 1.2), Color(.23, .24, .22))
+		_stair_ramp(asset_root)
 	else:
-		_box(root, "EntranceLanding", Vector3(0, -.08, 13.25), Vector3(2.5, .16, 1.2), Color(.28, .30, .29))
-	_save_scene(root, OUTPUT + kind + ".tscn")
-	root.free()
+		_box(asset_root, "EntranceLanding", Vector3(0, -.08, 13.25), Vector3(2.5, .16, 1.2), Color(.28, .30, .29))
+	_save_scene(asset_root, OUTPUT + kind + ".tscn")
+	asset_root.free()
 
-func _stair_ramp(root: Node3D) -> void:
+func _stair_ramp(asset_root: Node3D) -> void:
 	var body := StaticBody3D.new()
 	body.name = "StairWalkingSurface"
-	root.add_child(body)
-	body.owner = root
+	asset_root.add_child(body)
+	body.owner = asset_root
 	body.add_to_group("Floor", true)
 	body.add_to_group("smooth-walking-surface", true)
 	var collision := CollisionShape3D.new()
@@ -190,13 +190,13 @@ func _stair_ramp(root: Node3D) -> void:
 	shape.backface_collision = true
 	collision.shape = shape
 	body.add_child(collision)
-	collision.owner = root
+	collision.owner = asset_root
 
-func _box(root: Node3D, name: String, position: Vector3, size: Vector3, color: Color) -> void:
+func _box(asset_root: Node3D, name: String, position: Vector3, size: Vector3, color: Color) -> void:
 	var body := StaticBody3D.new()
 	body.name = name
-	root.add_child(body, true)
-	body.owner = root
+	asset_root.add_child(body, true)
+	body.owner = asset_root
 	body.position = position
 	body.add_to_group("Floor", true)
 	var collision := CollisionShape3D.new()
@@ -204,7 +204,7 @@ func _box(root: Node3D, name: String, position: Vector3, size: Vector3, color: C
 	shape.size = size
 	collision.shape = shape
 	body.add_child(collision)
-	collision.owner = root
+	collision.owner = asset_root
 	var mesh := MeshInstance3D.new()
 	var box := BoxMesh.new()
 	box.size = size
@@ -214,13 +214,13 @@ func _box(root: Node3D, name: String, position: Vector3, size: Vector3, color: C
 	box.material = material
 	mesh.mesh = box
 	body.add_child(mesh)
-	mesh.owner = root
+	mesh.owner = asset_root
 
-func _omni(root: Node3D, position: Vector3, color: Color, energy: float, radius: float, shadow: bool) -> void:
+func _omni(asset_root: Node3D, position: Vector3, color: Color, energy: float, radius: float, shadow: bool) -> void:
 	var light := OmniLight3D.new()
 	light.name = "InteriorLight"
-	root.add_child(light, true)
-	light.owner = root.get_parent()
+	asset_root.add_child(light, true)
+	light.owner = asset_root.get_parent()
 	light.position = position
 	light.light_color = color
 	light.light_energy = energy
@@ -238,9 +238,9 @@ func _save(resource: Resource, path: String) -> void:
 	elif stage_output:
 		staged_files.append(path.trim_prefix(OUTPUT))
 
-func _save_scene(root: Node3D, path: String) -> void:
+func _save_scene(asset_root: Node3D, path: String) -> void:
 	var packed := PackedScene.new()
-	var error: Error = packed.pack(root)
+	var error: Error = packed.pack(asset_root)
 	if error == OK:
 		_save(packed, path)
 	else:

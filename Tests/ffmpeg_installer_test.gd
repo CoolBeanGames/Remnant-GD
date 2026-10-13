@@ -95,8 +95,8 @@ func _process(_delta: float) -> void:
 				peer.disconnect_from_host()
 				clients.remove_at(i)
 
-func archive(name: String, paths: Array[String]) -> PackedByteArray:
-	var file_path := fixture_root.path_join(name + ".zip")
+func archive(entry_name: String, paths: Array[String]) -> PackedByteArray:
+	var file_path := fixture_root.path_join(entry_name + ".zip")
 	var packer := ZIPPacker.new()
 	check(packer.open(file_path) == OK, "Fixture ZIP can be written")
 	var payload := PackedByteArray()
@@ -122,9 +122,9 @@ func add_archive(route: String, bytes: PackedByteArray, expected_digest: String 
 	routes[route + ".zip"] = {"body": bytes, "slow": slow}
 	routes[route + ".sha256"] = {"body": (digest(bytes) if expected_digest.is_empty() else expected_digest).to_utf8_buffer()}
 
-func installer(name: String, route: String) -> FixtureInstaller:
+func installer(entry_name: String, route: String) -> FixtureInstaller:
 	var item := FixtureInstaller.new()
-	item.cache_directory = fixture_root.path_join(name)
+	item.cache_directory = fixture_root.path_join(entry_name)
 	item.archive_url = base_url + route + ".zip"
 	item.checksum_url = base_url + route + ".sha256"
 	item.request_timeout = 3.0
@@ -373,5 +373,5 @@ func run() -> void:
 		client.peer.disconnect_from_host()
 	clients.clear()
 	await get_tree().process_frame
-	print("FFmpeg installer offline transfer, integrity, cache, cancellation and retry: ", "PASS" if failures.is_empty() else failures)
+	print("FFmpeg installer offline transfer, integrity, cache, cancellation and retry: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

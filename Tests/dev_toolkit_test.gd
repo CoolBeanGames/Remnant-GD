@@ -122,5 +122,5 @@ func run() -> void:
 	check(not recorder.recording and (recording_result.contains("FFmpeg") or recording_result.contains("rendered")), "Missing recording dependency produces an explanation without starting capture")
 	context.queue_free()
 	await get_tree().process_frame
-	print("Portable toolkit resource dispatch and adapter integration: ", "PASS" if failures.is_empty() else failures)
+	print("Portable toolkit resource dispatch and adapter integration: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

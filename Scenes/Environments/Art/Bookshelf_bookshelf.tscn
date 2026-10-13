@@ -1,14 +1,41 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_4u73f"]
+[ext_resource type="Script" path="res://Scripts/Items/book_sleeve_library.gd" id="1_5bo57"]
 [ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/Bookshelf/bookshelf.glb" id="2_5bo57"]
+[ext_resource type="Script" path="res://Scripts/Items/book_sleeve.gd" id="2_8ut3n"]
 [ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Bookshelf_bookshelf.tres" id="3_8ut3n"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_01.tres" id="3_iw5si"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_02.tres" id="4_yxds2"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_03.tres" id="5_imwoj"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_04.tres" id="6_4nbsf"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_05.tres" id="7_or5y0"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_06.tres" id="8_d753t"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_07.tres" id="9_5a0ap"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_08.tres" id="10_sbft6"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_09.tres" id="11_cnwch"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_10.tres" id="12_31xir"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_11.tres" id="13_lbyk5"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_12.tres" id="14_sgwj5"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_13.tres" id="15_iba2t"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_14.tres" id="16_0kuhe"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_15.tres" id="17_rjt47"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_16.tres" id="18_q8hnu"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_17.tres" id="19_qdm1f"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_18.tres" id="20_4oi16"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_19.tres" id="21_snwd3"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_20.tres" id="22_knhr1"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_21.tres" id="23_0ydjc"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_22.tres" id="24_7aoxi"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_23.tres" id="25_14hou"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_24.tres" id="26_o10vb"]
+[ext_resource type="Resource" path="res://Data/Books/Shelves/book_25.tres" id="27_js1ml"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vc4hd"]
 friction = 0.95
 
 [node name="Bookshelf_bookshelf" type="Node3D" unique_id=2033440946]
-script = ExtResource("1_4u73f")
+script = ExtResource("1_5bo57")
+sleeves = Array[ExtResource("2_8ut3n")]([ExtResource("3_iw5si"), ExtResource("4_yxds2"), ExtResource("5_imwoj"), ExtResource("6_4nbsf"), ExtResource("7_or5y0"), ExtResource("8_d753t"), ExtResource("9_5a0ap"), ExtResource("10_sbft6"), ExtResource("11_cnwch"), ExtResource("12_31xir"), ExtResource("13_lbyk5"), ExtResource("14_sgwj5"), ExtResource("15_iba2t"), ExtResource("16_0kuhe"), ExtResource("17_rjt47"), ExtResource("18_q8hnu"), ExtResource("19_qdm1f"), ExtResource("20_4oi16"), ExtResource("21_snwd3"), ExtResource("22_knhr1"), ExtResource("23_0ydjc"), ExtResource("24_7aoxi"), ExtResource("25_14hou"), ExtResource("26_o10vb"), ExtResource("27_js1ml")])
 
 [node name="Model" type="Node3D" parent="." unique_id=2050973461 instance=ExtResource("2_5bo57")]
 

@@ -19,16 +19,16 @@ func run() -> void:
 	pool.blackboard_name = &"audio_pool"
 	add_child(pool)
 	var clip: AudioStream = load("res://Audio/SFX/grind.wav")
-	var first: audio_player = Audio.play_global(clip)
+	var first: audio_player = audio_global.play_global(clip)
 	var first_id: int = first.playback_id
 	first.stop(first_id)
 	check(pool.active.is_empty() and pool.available == [first], "Cancelling a pooled clip releases it without manually emitting signals")
 	first.stop(first_id)
 	check(pool.available.size() == 1, "Repeated cancellation does not duplicate a pooled player")
-	var second: audio_player = Audio.play_global(clip)
+	var second: audio_player = audio_global.play_global(clip)
 	check(second == first and second.playback_id != first_id, "Reused player gets a new playback ownership ID")
 	second.stop(first_id)
-	check(second.audio_global.playing and pool.active == [second], "A stale owner cannot stop a reused same-stream sound")
+	check(second.audio_2d.playing and pool.active == [second], "A stale owner cannot stop a reused same-stream sound")
 	second.stop(second.playback_id)
 
 	var movement: Node = load("res://Scripts/Player/player_move_controller.gd").new()
@@ -38,9 +38,9 @@ func run() -> void:
 	movement._update_sprint_audio(6.0, true)
 	var breath: audio_player = pool.active.back()
 	breath._on_audio_finished()
-	var reused_breath: audio_player = Audio.play_global(clip)
+	var reused_breath: audio_player = audio_global.play_global(clip)
 	movement.reset_audio()
-	check(reused_breath.audio_global.playing, "Respawn cleanup cannot cancel another owner's reused breathing clip")
+	check(reused_breath.audio_2d.playing, "Respawn cleanup cannot cancel another owner's reused breathing clip")
 	reused_breath.stop()
 	movement.queue_free()
 
@@ -55,27 +55,27 @@ func run() -> void:
 	ui.play(sequence)
 	var voice: audio_player = pool.active.back()
 	voice._on_audio_finished()
-	var reused_voice: audio_player = Audio.play_global(clip)
+	var reused_voice: audio_player = audio_global.play_global(clip)
 	ui.cancel()
-	check(reused_voice.audio_global.playing, "Skipping dialogue cannot cancel another owner's reused voice clip")
+	check(reused_voice.audio_2d.playing, "Skipping dialogue cannot cancel another owner's reused voice clip")
 	reused_voice.stop()
 	ui.queue_free()
 
 	var local := AudioStreamPlayer3D.new()
 	add_child(local)
-	Audio.set_spatial_active(local, true)
+	audio_global.set_spatial_active(local, true)
 	check(not local.playing, "Optional blank persistent sounds stay silent")
 	local.stream = clip
-	Audio.set_spatial_active(local, true)
-	Audio.set_spatial_active(local, true)
+	audio_global.set_spatial_active(local, true)
+	audio_global.set_spatial_active(local, true)
 	check(local.playing and pool.active.is_empty(), "Persistent spatial sources retain their local player without borrowing pooled slots")
-	Audio.set_spatial_active(local, false)
+	audio_global.set_spatial_active(local, false)
 	check(not local.playing, "Disabling a persistent spatial source stops it immediately")
 	local.queue_free()
 
 	var discarded: audio_player = pool.available.back()
 	discarded.free()
-	var replacement: audio_player = Audio.play_3d(clip, Vector3.ZERO)
+	var replacement: audio_player = audio_global.play_3d(clip, Vector3.ZERO)
 	check(is_instance_valid(replacement) and replacement.audio_3d.playing, "Externally freed available nodes are replaced instead of returned")
 	replacement.stop()
 
@@ -113,5 +113,5 @@ func run() -> void:
 	pool.queue_free()
 	await get_tree().process_frame
 	await get_tree().physics_frame
-	print("Audio cancellation, reuse ownership, spatial loops and scene lifecycle: ", "PASS" if failures.is_empty() else failures)
+	print("Audio cancellation, reuse ownership, spatial loops and scene lifecycle: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

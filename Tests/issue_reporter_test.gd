@@ -59,5 +59,5 @@ func run() -> void:
 	event.keycode = KEY_ESCAPE
 	IssueReporter._input(event)
 	check(not IssueReporter.is_open and not get_tree().paused, "Escape cancels and restores state")
-	print("F1 issue reporter persistence, screenshots, validation, retry and modal ownership: ", "PASS" if failures.is_empty() else failures)
+	print("F1 issue reporter persistence, screenshots, validation, retry and modal ownership: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -71,3 +71,7 @@ Script identities:
 Fan source reimports use Scripts/Actors/fan_import.gd to restore both four-map materials; gameplay fan meshes and BladePivot follow the corrected imported blade origin.
 
 The separate note bottle remains 0.25 kg. Unread notes culled below the floor or in the chute return to their pool; collected journal entries remain excluded. Note drops are independent of the nine regular entries and retain their normal 2% roll.
+
+## Editable book sleeves
+
+Shelf resources Data/Books/Shelves/book_01.tres through book_25.tres expose title, author, optional artwork and colours independently. The production book uses Data/Books/default_book.tres through its BookCover component. Blank text keeps plain covers; no collider/score/save duplicate is introduced. Current APIs and ordering are in Data/ISSUE_BATCH_2026-10-13.md.

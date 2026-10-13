@@ -35,5 +35,5 @@ func run() -> void:
 	check(stage.get_world_3d().direct_space_state.intersect_ray(query).is_empty(), "Solid floor preserves original grinder opening")
 	stage.queue_free()
 	await get_tree().process_frame
-	print("Thick floor / fast notes / grinder opening: ", "PASS" if failures.is_empty() else failures)
+	print("Thick floor / fast notes / grinder opening: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

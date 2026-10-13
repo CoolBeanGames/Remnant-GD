@@ -53,5 +53,5 @@ func run() -> void:
 		print("RECORDING_PATH=", GameplayRecorder.last_path)
 		print("RECORDING_ERROR=", GameplayRecorder.last_error)
 		tone.stop()
-	print("Gameplay recorder availability, live A/V capture, pause and cleanup: ", "PASS" if failures.is_empty() else failures)
+	print("Gameplay recorder availability, live A/V capture, pause and cleanup: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

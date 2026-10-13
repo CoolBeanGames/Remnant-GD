@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func _on_collision(_body: Node) -> void:
 	if collision_sounds != null and not collision_sounds.sounds.is_empty():
-		Audio.play_collision(collision_sounds.sounds.pick_random(), global_position, collision_sounds.volume)
+		audio_global.play_collision(collision_sounds.sounds.pick_random(), global_position, collision_sounds.volume)
 
 func on_culled() -> void:
 	if not collected and note != null:

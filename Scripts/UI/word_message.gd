@@ -70,7 +70,7 @@ func _show_word() -> void:
 	_fit_word()
 	remaining = maxf(.05, word_seconds)
 	show()
-	Audio.play_global(word_sound, sound_volume, 1.0, sound_bus)
+	audio_global.play_global(word_sound, sound_volume, 1.0, sound_bus)
 	word_shown.emit(label.text, current.key)
 
 func _fit_word() -> void:

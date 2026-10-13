@@ -103,6 +103,7 @@ def build():
         next(row for row in index if row['id']==archive_id)['text']=archive_text
     # Current maintained gameplay/workflow guides keep sidebar, body and search in sync.
     maintained = [
+		('page-issues-october-13', 'October 13 fixes, loading and book sleeves', 'Overview', 'Data/ISSUE_BATCH_2026-10-13.md', 'page-development-archive', '27 F1 warnings loading preload resources smooth RMB zoom interactive staff ward doors book sleeves grinder physical debris pool'),
 		('page-item-spawn-pool', 'Random item pool and unique note spawns', 'Actors', 'Data/Items/README.md', None, 'nine production chute automatic spawner random item pool unique note fallback two percent test block excluded'),
 		('page-imported-gameplay-art', 'Imported items and prop art', 'Actors', 'Data/Items/ART.md', None, 'Trip models nine items materials mass collision sounds glass plastic teddy book door UV fan blades'),
 		('page-note-resources', 'Note definitions, catalog and drops', 'Notes', 'Data/Notes/README.md', None, 'physical note paper N transcript journal two percent unique drop cull saved bottle'),

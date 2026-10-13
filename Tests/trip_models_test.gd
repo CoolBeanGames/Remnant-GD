@@ -17,12 +17,12 @@ func tick(count: int = 2) -> void:
 func _ready() -> void:
 	run.call_deferred()
 
-func capture(name: String) -> void:
+func capture(entry_name: String) -> void:
 	if capture_directory.is_empty():
 		return
 	await RenderingServer.frame_post_draw
 	DirAccess.make_dir_recursive_absolute(capture_directory)
-	check(get_viewport().get_texture().get_image().save_png(capture_directory.path_join(name + ".png")) == OK, "Saved actual engine " + name)
+	check(get_viewport().get_texture().get_image().save_png(capture_directory.path_join(entry_name + ".png")) == OK, "Saved actual engine " + entry_name)
 
 func run() -> void:
 	SaveGame.enabled = false
@@ -100,12 +100,12 @@ func run() -> void:
 	portal.activate(true)
 	await tick(4)
 	var room: Node3D = portal.room
-	check(room != null and room.has_node("Art/BedroomBed") and room.has_node("Art/BedroomDesk"), "The portal loads the expanded apartment with a separate bed and desk")
+	check(room != null and room.has_node("Art/BedroomBed") and not room.has_node("Art/BedroomDesk"), "The portal loads the expanded apartment with a separate bed and no office desk")
 	var player: CharacterBody3D = level.player
 	player.collision_mask = portal_space.ROOM_LAYER
 	var movement: Node = player.get_node("Controllers/Player_Move_Controller")
 	# Cross the new 1.2 m doorway using the real 1.8 m capsule, on the same floor.
-	player.global_position = room.global_position + Vector3(3, .03, .575)
+	player.global_position = room.global_position + Vector3(7, .03, .575)
 	player.rotation.y = -PI / 2
 	player.velocity = Vector3.ZERO
 	movement.reset_platform_motion()
@@ -115,7 +115,7 @@ func run() -> void:
 		movement._physics_process(1.0 / 60.0)
 		await get_tree().process_frame
 	Input.action_release("forward")
-	check(player.global_position.x > room.global_position.x + 5 and player.global_position.y > -.03, "Real capsule walks through the bedroom opening onto its supported floor")
+	check(player.global_position.x > room.global_position.x + 9 and player.global_position.y > -.03, "Real capsule walks through the bedroom opening onto its supported floor")
 	player.velocity = Vector3.ZERO
 	portal.set_process(false)
 	camera.cull_mask = portal_space.ROOM_LAYER
@@ -135,5 +135,10 @@ func run() -> void:
 	await capture("engine_terminal")
 	level.queue_free()
 	await tick(3)
-	print("Trip models / nine chute paths / lever and door animation / capsule bedroom traversal: ", "PASS" if failures.is_empty() else failures)
+	for audio: audio_player in audio_pool.active.duplicate():
+		audio.stop()
+	# Real audio playback releases its mixer references asynchronously.
+	Audio.begin_shutdown()
+	await get_tree().create_timer(.12).timeout
+	print("Trip models / nine chute paths / lever and door animation / capsule bedroom traversal: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

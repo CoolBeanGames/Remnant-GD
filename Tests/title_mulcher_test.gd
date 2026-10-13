@@ -19,13 +19,13 @@ func _ready() -> void:
 		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_NO_FOCUS, true)
 	run.call_deferred()
 
-func capture(name: String) -> void:
+func capture(entry_name: String) -> void:
 	if capture_directory.is_empty() or DisplayServer.get_name() == "headless":
 		return
 	DirAccess.make_dir_recursive_absolute(capture_directory)
 	await tick()
 	await RenderingServer.frame_post_draw
-	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + name + ".png") == OK, "Rendered screenshot saved")
+	check(get_viewport().get_texture().get_image().save_png(capture_directory + "/" + entry_name + ".png") == OK, "Rendered screenshot saved")
 
 func check_fill(title: Node3D, size: Vector2i) -> void:
 	var window := get_tree().root
@@ -161,5 +161,5 @@ func run() -> void:
 	for audio: audio_player in pool.active:
 		audio.reset()
 	SaveGame.reset_save()
-	print("Title ambience / resized display / actual Mulcher clearance / 24 physical pellet landings: ", "PASS" if failures.is_empty() else failures)
+	print("Title ambience / resized display / actual Mulcher clearance / 24 physical pellet landings: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

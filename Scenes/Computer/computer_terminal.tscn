@@ -11,7 +11,7 @@ albedo_color = Color(0.01, 0.08, 0.03, 1)
 
 [sub_resource type="QuadMesh" id="Display"]
 material = SubResource("Screen")
-size = Vector2(0.345, 0.265)
+size = Vector2(0.265, 0.212)
 
 [sub_resource type="StandardMaterial3D" id="Off"]
 shading_mode = 0
@@ -19,7 +19,7 @@ albedo_color = Color(0.005, 0.007, 0.006, 1)
 
 [sub_resource type="QuadMesh" id="Offline"]
 material = SubResource("Off")
-size = Vector2(0.345, 0.265)
+size = Vector2(0.265, 0.212)
 
 [sub_resource type="BoxShape3D" id="Collision"]
 size = Vector3(0.60, 0.68, 0.68)
@@ -36,19 +36,19 @@ catalog = ExtResource("catalog")
 position = Vector3(0, 0.76, 0)
 [node name="Cart" parent="." instance=ExtResource("cart")]
 [node name="Screen" type="MeshInstance3D" parent="." unique_id=1216180029]
-position = Vector3(-0.04, 1.26, 0.124)
+position = Vector3(0.018, 1.272, 0.133)
 cast_shadow = 0
 mesh = SubResource("Display")
 
 [node name="OfflineScreen" type="MeshInstance3D" parent="." unique_id=651880102]
-position = Vector3(-0.04, 1.26, 0.126)
+position = Vector3(0.018, 1.272, 0.134)
 visible = false
 cast_shadow = 0
 mesh = SubResource("Offline")
 
 [node name="Text" type="Label3D" parent="." unique_id=1662380564]
-position = Vector3(-0.04, 1.26, 0.128)
-pixel_size = 0.0012
+position = Vector3(0.018, 1.272, 0.135)
+pixel_size = 0.0009
 modulate = Color(0.4, 1, 0.6, 1)
 text = "WORKSHOP
 TERMINAL

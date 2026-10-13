@@ -163,9 +163,9 @@ func _rail_floor_platform() -> Dictionary:
 			return {}
 		if current is rail_slider:
 			return {"slider": current, "relay": hit.collider != current} if current.mounted_rail() != null and not current.held else {}
-		var owner: WeakRef = current.get_meta("rail_cargo_owner") as WeakRef if current.has_meta("rail_cargo_owner") else null
-		if owner != null:
-			current = owner.get_ref() as Node
+		var carry_owner: WeakRef = current.get_meta("rail_cargo_owner") as WeakRef if current.has_meta("rail_cargo_owner") else null
+		if carry_owner != null:
+			current = carry_owner.get_ref() as Node
 		elif current is rotatable_item and current.support != null:
 			current = current.support.get_ref() as Node
 		else:
@@ -216,7 +216,7 @@ func make_axis() -> Vector2:
 	return Vector2(Input.get_axis("left", "right"), Input.get_axis("back", "forward")).limit_length()
 
 func play_jump_sound() -> audio_player:
-	return Audio.play_global(jump_sounds.pick_random(), 1.0, 1.0, voice_bus) if not jump_sounds.is_empty() else null
+	return audio_global.play_global(jump_sounds.pick_random(), 1.0, 1.0, voice_bus) if not jump_sounds.is_empty() else null
 
 func _update_sprint_audio(delta: float, sprinting: bool) -> void:
 	sprint_elapsed = sprint_elapsed + delta if sprinting else 0.0
@@ -225,7 +225,7 @@ func _update_sprint_audio(delta: float, sprinting: bool) -> void:
 	var audio: audio_player = breath_voice.get_ref() as audio_player if breath_voice != null else null
 	if is_instance_valid(audio) and audio.is_playback_active(breath_playback_id):
 		return
-	audio = Audio.play_global(heavy_breathing, 1.0, 1.0, voice_bus)
+	audio = audio_global.play_global(heavy_breathing, 1.0, 1.0, voice_bus)
 	breath_voice = weakref(audio) if audio != null else null
 	breath_playback_id = audio.playback_id if audio != null else -1
 

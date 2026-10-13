@@ -28,8 +28,7 @@ func run() -> void:
 	terminal.player = player
 	world.add_child(terminal)
 	terminal._open_interface()
-	var facing: Basis = terminal.screen.global_basis.orthonormalized()
-	var focused := Transform3D(facing, terminal.screen.global_position + facing.z * terminal.viewing_distance)
+	var focused: Transform3D = terminal.focus_pose(camera)
 	check(camera.global_transform.is_equal_approx(original), "PC opening begins at the current camera pose without teleporting")
 	await wait(.18)
 	check(not camera.global_transform.is_equal_approx(original) and not camera.global_transform.is_equal_approx(focused), "PC position and rotation move through an intermediate pose")
@@ -104,5 +103,5 @@ func run() -> void:
 	world.queue_free()
 	await wait(.08)
 	check(not get_tree().paused and not Blackboard.read_data("player_input_blocked") and Blackboard.read_data("world_view_session") == null, "Unloading during motion releases camera/session ownership immediately")
-	print("World view motion / intermediate poses / cancel / pauses / single completion / unload: ", "PASS" if failures.is_empty() else failures)
+	print("World view motion / intermediate poses / cancel / pauses / single completion / unload: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

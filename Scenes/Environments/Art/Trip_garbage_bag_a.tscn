@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_ebxl1"]
 [ext_resource type="PackedScene" path="res://Models/Imported/Trip/garbage_bag_a/garbage_bag_a.glb" id="2_dfc3r"]
 
-[node name="Trip_garbage_bag_a" type="Node3D" unique_id=276760202]
+[node name="Trip_garbage_bag_a" type="Node3D" unique_id=895644909]
 script = ExtResource("1_ebxl1")
 
 [node name="Model" type="Node3D" parent="." unique_id=1407428792 instance=ExtResource("2_dfc3r")]

@@ -250,6 +250,9 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		exit_game()
 
+func _exit_tree() -> void:
+	scene_warmup.release()
+
 func _fail(message: String) -> bool:
 	push_warning(message)
 	DevTools.log_error(message, "save")

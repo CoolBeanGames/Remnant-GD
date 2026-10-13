@@ -1,0 +1,4 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://Tests/issue_oct13_test.gd" id="script"]
+[node name="IssueOctober13Test" type="Node"]
+script = ExtResource("script")

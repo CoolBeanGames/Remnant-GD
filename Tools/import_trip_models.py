@@ -118,8 +118,9 @@ def refine(name, objects):
         obj.data.update()
     elif name == 'lever':
         # Handle is the left rising arm; the upright indicator post stays fixed.
-        handle = split_faces(obj, lambda p: p.z > .53 and p.x < -.08 - max(0, p.z - .70) * .31, 'LeverHandle')
-        pivot = Vector((-.24, -.08, .62))
+        handle = split_faces(obj, lambda p: p.z > .62 and p.x < .25 - max(0, p.z - .62) * .40 and p.y < -.06, 'LeverHandle')
+        # The shaft meets the housing beside this axle, rather than below it.
+        pivot = Vector((.10, -.205, .62))
         for vertex in handle.data.vertices:
             vertex.co -= pivot
         handle.location = pivot
@@ -150,9 +151,10 @@ def refine(name, objects):
         sz = 3.18 / (high.z - low.z)
         for vertex in leaf.data.vertices:
             p = vertex.co
-            p.x = (p.x - low.x) * sx
+            p.x = (p.x - low.x) * sx - 1.74
             p.z = (p.z - low.z) * sz
-        leaf.location = Vector((-.87, 0, .1295))
+        # The handle is on the left: hinge the leaf at its right-hand edge.
+        leaf.location = Vector((.87, 0, .1295))
         material = bpy.data.materials.new('Door / restored timber edges')
         material.use_nodes = True
         shader = material.node_tree.nodes.get('Principled BSDF')

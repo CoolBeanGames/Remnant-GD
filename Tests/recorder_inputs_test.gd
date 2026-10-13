@@ -66,5 +66,5 @@ func run() -> void:
 		await get_tree().create_timer(.05).timeout
 	check(FileAccess.file_exists(recorder.last_path) and recorder.last_error.is_empty(), "Camera plus microphone recording finalizes without encoding errors")
 	print("INPUT_RECORDING_PATH=",recorder.last_path)
-	print("Recorder inputs / real PNG pipe / 4:3 preview / muted microphone mix / F7 cleanup: ", "PASS" if failures.is_empty() else failures)
+	print("Recorder inputs / real PNG pipe / 4:3 preview / muted microphone mix / F7 cleanup: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

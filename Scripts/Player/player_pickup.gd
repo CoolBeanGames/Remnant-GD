@@ -365,17 +365,17 @@ func _belongs_to_carry(prop: rotatable_item) -> bool:
 	return false
 
 
-func _set_carry_visuals(node: Node, owner: Node = null) -> void:
-	if owner == null:
-		owner = node
+func _set_carry_visuals(node: Node, carry_owner: Node = null) -> void:
+	if carry_owner == null:
+		carry_owner = node
 	if node is GeometryInstance3D:
 		for state in held_visual_state:
 			if state.node.get_ref() == node:
 				return
-		held_visual_state.append({"node": weakref(node), "owner": weakref(owner), "transparency": node.transparency})
+		held_visual_state.append({"node": weakref(node), "owner": weakref(carry_owner), "transparency": node.transparency})
 		node.transparency = 1.0 - (1.0 - node.transparency) * (1.0 - held_transparency)
 	for child in node.get_children():
-		_set_carry_visuals(child, owner)
+		_set_carry_visuals(child, carry_owner)
 
 
 func _refresh_carry_visuals() -> void:

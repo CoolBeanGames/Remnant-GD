@@ -10,7 +10,7 @@ extends rotatable_item
 const EDGES: Array[Vector3] = [Vector3.RIGHT, Vector3.LEFT, Vector3.UP, Vector3.DOWN]
 
 
-func get_placement_pose(host: Node3D, hit_position: Vector3, _normal: Vector3, rotation: Basis) -> Dictionary:
+func get_placement_pose(host: Node3D, hit_position: Vector3, _normal: Vector3, placement_rotation: Basis) -> Dictionary:
 	var target: steel_plate = from_collider(host)
 	if not edge_snap_enabled or target == null or not target.edge_snap_enabled or not target.placed:
 		return {}
@@ -29,8 +29,8 @@ func get_placement_pose(host: Node3D, hit_position: Vector3, _normal: Vector3, r
 	var edge: Vector3 = (Vector3.RIGHT if local_hit.x >= 0 else Vector3.LEFT) if x_distance <= y_distance else (Vector3.UP if local_hit.y >= 0 else Vector3.DOWN)
 	var outward: Vector3 = (target_frame.basis * edge).normalized()
 	var tangent: Vector3 = _tangent(target_frame.basis, edge)
-	var basis: Basis = target_frame.basis * rotation * plate_collision.transform.basis.inverse()
-	var incoming_frame: Basis = basis * plate_collision.transform.basis
+	var placement_basis: Basis = target_frame.basis * placement_rotation * plate_collision.transform.basis.inverse()
+	var incoming_frame: Basis = placement_basis * plate_collision.transform.basis
 	var incoming_edge := Vector3.ZERO
 	var best_score: float = -INF
 	for candidate in EDGES:
@@ -51,7 +51,7 @@ func get_placement_pose(host: Node3D, hit_position: Vector3, _normal: Vector3, r
 	var edge_position: Vector3 = target_frame * _edge_center(target_box, edge)
 	var own_edge_position: Vector3 = plate_collision.transform * _edge_center(own_box, incoming_edge)
 	var gap: float = maxf(edge_gap, target.edge_gap)
-	var pose := Transform3D(basis, edge_position + outward * gap - basis * own_edge_position)
+	var pose := Transform3D(placement_basis, edge_position + outward * gap - placement_basis * own_edge_position)
 	# Folding exposes sheet thickness. Keep its whole solid collider outside
 	# the host edge so perpendicular joins cannot penetrate the existing plate.
 	var bounds := AABB(-own_box.size * .5, own_box.size)
@@ -68,8 +68,8 @@ static func _edge_center(box: BoxShape3D, edge: Vector3) -> Vector3:
 	return edge * box.size * .5
 
 
-static func _tangent(basis: Basis, edge: Vector3) -> Vector3:
-	return (basis.y if edge.x != 0 else basis.x).normalized()
+static func _tangent(placement_basis: Basis, edge: Vector3) -> Vector3:
+	return (placement_basis.y if edge.x != 0 else placement_basis.x).normalized()
 
 
 static func from_collider(collider: Node3D) -> steel_plate:

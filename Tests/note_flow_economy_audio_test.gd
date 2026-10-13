@@ -18,15 +18,15 @@ func run() -> void:
 	add_child(pool)
 	var clip: AudioStream = load("res://Audio/SFX/grind.wav")
 	for i in 25:
-		Audio.play_collision(clip, Vector3.ZERO)
+		audio_global.play_collision(clip, Vector3.ZERO)
 	check(pool.active.size() == 10, "Collision playback never exceeds ten simultaneous clips")
-	Audio.play_3d(clip, Vector3.ZERO)
-	Audio.play_global(clip)
+	audio_global.play_3d(clip, Vector3.ZERO)
+	audio_global.play_global(clip)
 	check(pool.active.size() == 12, "Collision cap leaves important spatial/global sounds unrestricted")
 	var stopped: audio_player = pool.active[0]
 	stopped.stop()
 	stopped.playback_finished.emit()
-	Audio.play_collision(clip, Vector3.ZERO)
+	audio_global.play_collision(clip, Vector3.ZERO)
 	check(pool.active.size() == 12 and stopped.get_meta("audio_category") == &"collision", "Completed collision frees a reusable sound slot")
 	for audio: audio_player in pool.active.duplicate():
 		audio.stop()
@@ -64,8 +64,8 @@ func run() -> void:
 	check(Progression.level(basket) == 2 and basket.cost(Progression.level(basket)) == 98, "Saved purchase counts restore the next price")
 	Progression.levels = saved
 	var masses: Array[float] = []
-	for name in ["syringe", "teddy_bear", "book"]:
-		var actor: Node3D = load("res://Scenes/Items/" + name + ".tscn").instantiate()
+	for entry_name in ["syringe", "teddy_bear", "book"]:
+		var actor: Node3D = load("res://Scenes/Items/" + entry_name + ".tscn").instantiate()
 		masses.append(actor.get_node("RigidBody3D").mass)
 		actor.free()
 	check(masses[0] < masses[1] and masses[1] < masses[2], "Syringes are lighter than teddy bears, which are lighter than books")
@@ -115,5 +115,5 @@ func run() -> void:
 	for audio: audio_player in pool.active:
 		audio.reset()
 	await get_tree().create_timer(.1).timeout
-	print("Real note flow, recycling, collision cap, prices and masses: ", "PASS" if failures.is_empty() else failures)
+	print("Real note flow, recycling, collision cap, prices and masses: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

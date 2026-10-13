@@ -125,7 +125,7 @@ func run() -> void:
 	old_world.queue_free()
 	tracker.queue_free()
 	await tick()
-	print("Gameplay snapshots, cache lifetime and journal review: ", "PASS" if failures.is_empty() else failures)
+	print("Gameplay snapshots, cache lifetime and journal review: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)
 
 func benchmark(tracker: CountingWorld) -> void:

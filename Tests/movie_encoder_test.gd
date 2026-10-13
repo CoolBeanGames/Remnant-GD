@@ -93,5 +93,5 @@ func run() -> void:
 		check(FileAccess.get_file_as_bytes(decoded_video) == expected_rgb, "Decoded RGB matches every submitted pixel exactly")
 		check(FileAccess.get_file_as_bytes(decoded_audio) == expected_audio, "Decoded float PCM matches every submitted sound sample exactly")
 		check(not FileAccess.file_exists(root_dir.path_join("video.mkv")) and not FileAccess.file_exists(root_dir.path_join("audio.f32")), "Successful finalization removes temporary streams")
-	print("Gameplay recorder encoder, exact RGB/float PCM round-trip and missing dependency: ", "PASS" if failures.is_empty() else failures)
+	print("Gameplay recorder encoder, exact RGB/float PCM round-trip and missing dependency: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

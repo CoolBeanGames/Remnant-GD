@@ -84,5 +84,5 @@ func run() -> void:
 	await tick()
 	level.queue_free()
 	await tick()
-	print("Chute cleanup, friction, pickup padding and occlusion: ", "PASS" if failures.is_empty() else failures)
+	print("Chute cleanup, friction, pickup padding and occlusion: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

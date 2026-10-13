@@ -23,9 +23,9 @@ func run() -> void:
 	level.get_node("Player").process_mode = Node.PROCESS_MODE_DISABLED
 	var display: prompt_display = level.get_node("WorldPrompts")
 	var camera: Camera3D = display.camera
-	var lever: Node3D = level.get_node("Lever_Assembly/lever_body")
-	camera.global_position = lever.global_position + Vector3(0, 1.2, 2.6)
-	camera.look_at(lever.global_position + Vector3(0, .4, 0))
+	var lever_node: Node3D = level.get_node("Lever_Assembly/lever_body")
+	camera.global_position = lever_node.global_position + Vector3(0, 1.2, 2.6)
+	camera.look_at(lever_node.global_position + Vector3(0, .4, 0))
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	display.ray._physics_process(0)
@@ -40,7 +40,7 @@ func run() -> void:
 	check(lettering_basis.z.dot(camera.global_basis.z) > .97, "Subtle prompt angle keeps the face readable from the gameplay camera")
 	check(lettering_basis.y.is_equal_approx(camera.global_basis.y), "Prompt tilt stays on its local Y axis without rolling the text")
 	var previous_position: Vector3 = display.global_position
-	var provider: object_prompts = object_prompts.find_for(lever)
+	var provider: object_prompts = object_prompts.find_for(lever_node)
 	var assembly: Node3D = provider.get_parent()
 	var assembly_pose: Transform3D = assembly.global_transform
 	# Include depth motion: a narrow viewport may legitimately clamp lateral text.
@@ -51,7 +51,7 @@ func run() -> void:
 	assembly.global_transform = assembly_pose
 	var marker := Marker3D.new()
 	provider.get_parent().add_child(marker)
-	marker.global_position = lever.global_position + Vector3(.8, .6, 0)
+	marker.global_position = lever_node.global_position + Vector3(.8, .6, 0)
 	provider.world_anchor = marker
 	display.refresh()
 	check(camera.unproject_position(display.global_position).distance_to(camera.unproject_position(marker.global_position)) < 1.0, "Authored marker controls the prompt origin")

@@ -87,7 +87,7 @@ func _run() -> void:
 			check(not prop.placed and not prop.freeze, "Removed supports release prop physics.")
 		prop.queue_free()
 		await tick()
-	print("Prop placement/local axes: ", "PASS" if failures.is_empty() else failures)
+	print("Prop placement/local axes: ", "PASS" if failures.is_empty() else str(failures))
 	world.queue_free()
 	await tick()
 	get_tree().quit(0 if failures.is_empty() else 1)

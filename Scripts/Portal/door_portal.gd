@@ -43,6 +43,8 @@ var memory_id: StringName = &""
 ## F9 previews never complete or clear the purchased memory's ownership.
 var debug_override: bool = false
 var closing_memory: bool = false
+## A resumed concrete room must disappear before a requested debug preview opens.
+var queued_debug_preview: bool = false
 ## Cache resources in the background, while keeping just one instantiated area.
 var warmed_scenes: Dictionary[String, PackedScene] = {}
 var warming_paths: Array[String] = []
@@ -51,11 +53,12 @@ var half_turn := Transform3D(Basis(Vector3.UP, PI), Vector3.ZERO)
 
 func _ready() -> void:
 	add_to_group("story-portal")
+	warmed_scenes.merge(scene_warmup.scenes)
 	# The dummy renderer cannot safely create shared mesh RIDs on loader threads.
 	# Rendered games warm one scene at a time; headless tools load on demand.
 	if DisplayServer.get_name() != "headless":
 		for destination in destinations:
-			if destination != null and ResourceLoader.exists(destination.scene_path, "PackedScene") and not warm_queue.has(destination.scene_path):
+			if destination != null and not warmed_scenes.has(destination.scene_path) and ResourceLoader.exists(destination.scene_path, "PackedScene") and not warm_queue.has(destination.scene_path):
 				warm_queue.append(destination.scene_path)
 		_start_next_warm()
 	if door == null or player == null:
@@ -208,7 +211,13 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func cycle_destination() -> bool:
-	if suspended or switching or closing_memory:
+	if suspended:
+		if Flags.check_flag(activation_flag):
+			queued_debug_preview = true
+			DevTools.log_info("F9 preview queued until the concrete room leaves view.", "portal")
+			return true
+		return false
+	if switching or closing_memory:
 		return false
 	if purchase_required and not active and Flags.check_flag(activation_flag):
 		activate(true)
@@ -630,3 +639,6 @@ func set_suspended(value: bool) -> void:
 		previous_camera_position = camera.global_position
 		previous_bodies.clear()
 		_update_view()
+	if not value and queued_debug_preview:
+		queued_debug_preview = false
+		cycle_destination.call_deferred()

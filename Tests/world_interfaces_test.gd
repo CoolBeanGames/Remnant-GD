@@ -33,12 +33,12 @@ func key(code: Key) -> void:
 	event.pressed = false
 	Input.parse_input_event(event)
 	await frames()
-func capture(name: String) -> void:
+func capture(entry_name: String) -> void:
 	if DisplayServer.get_name() == "headless":
 		return
 	await RenderingServer.frame_post_draw
 	var image: Image = get_viewport().get_texture().get_image()
-	check(image.save_png(capture_directory + "/" + name + ".png") == OK, "Actual rendered capture saves")
+	check(image.save_png(capture_directory + "/" + entry_name + ".png") == OK, "Actual rendered capture saves")
 func click_control(terminal: computer_terminal, control: Control) -> void:
 	var uv: Vector2 = control.get_global_rect().get_center() / Vector2(terminal.display_viewport.size)
 	var quad_size: Vector2 = (terminal.screen.mesh as QuadMesh).size
@@ -88,15 +88,15 @@ func run() -> void:
 	var terminal: computer_terminal = level.computer
 	var original_pose: Transform3D = camera.global_transform
 	var original_rotation: Vector3 = camera.rotation
-	for name in ["CenterContainer", "WorldPrompts", "ComboDisplay", "PortalStatus"]:
-		check(level.get_node_or_null(name) != null, "Essential gameplay feedback restored: " + name)
+	for entry_name in ["CenterContainer", "WorldPrompts", "ComboDisplay", "PortalStatus"]:
+		check(level.get_node_or_null(entry_name) != null, "Essential gameplay feedback restored: " + entry_name)
 	check(level.get_node("DialoguePlayer").show_text and level.get_node("WordMessage").show_text, "Story text retained")
 	var crosshair: Control = level.get_node("CenterContainer")
 	var prompts: prompt_display = level.get_node("WorldPrompts")
 	var ray: raycaster = prompts.ray
-	var lever: Node3D = level.get_node("Lever_Assembly/lever_body")
-	camera.global_position = lever.global_position + Vector3(0, 1.2, 2.6)
-	camera.look_at(lever.global_position + Vector3(0, .4, 0))
+	var lever_node: Node3D = level.get_node("Lever_Assembly/lever_body")
+	camera.global_position = lever_node.global_position + Vector3(0, 1.2, 2.6)
+	camera.look_at(lever_node.global_position + Vector3(0, .4, 0))
 	await frames(4)
 	ray._physics_process(0)
 	prompts.refresh()
@@ -270,5 +270,5 @@ func run() -> void:
 		audio.reset()
 	# Allow the audio mixer to release cancelled WAV playback before quitting.
 	await get_tree().create_timer(.12).timeout
-	print("World interfaces / physical notes / 3D mouse / journal / save / cleanup: ", "PASS" if failures.is_empty() else failures)
+	print("World interfaces / physical notes / 3D mouse / journal / save / cleanup: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

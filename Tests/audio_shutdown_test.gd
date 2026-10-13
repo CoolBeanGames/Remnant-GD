@@ -41,22 +41,22 @@ func run() -> void:
 			OS.set_environment("APPDATA", previous_appdata)
 		else:
 			OS.unset_environment("APPDATA")
-		var log: String = "\n".join(output)
-		check(result == 0 and log.contains("Audio shutdown case PASS / " + mode), "Actual child Exit completed: " + mode)
+		var output_log: String = "\n".join(output)
+		check(result == 0 and output_log.contains("Audio shutdown case PASS / " + mode), "Actual child Exit completed: " + mode)
 		var unexpected: bool = false
-		for line in log.split("\n"):
+		for line in output_log.split("\n"):
 			if line.begins_with("ERROR:") or line.begins_with("SCRIPT ERROR:") or (line.begins_with("WARNING:") and not (mode == "retry" and line.begins_with("WARNING: Cannot write save:"))):
 				unexpected = true
 		check(not unexpected, "Child Exit released all audio without engine warnings: " + mode)
 		if result != 0 or unexpected:
-			print(log)
+			print(output_log)
 		if mode in ["saved", "retry"]:
 			var file: FileAccess = FileAccess.open(saved_file, FileAccess.READ)
 			var payload: Dictionary = file.get_var(false) if file != null else {}
 			check(payload.get("blackboard", {}).get("shutdown_sentinel") == mode, "Exit preserved the run before teardown: " + mode)
 		elif mode == "reset":
 			check(not FileAccess.file_exists(saved_file) and not FileAccess.file_exists(saved_file + ".tmp"), "Reset remained deleted after complete child shutdown")
-	print("Audio shutdown / paused title / saved run / reset / failed-save retry: ", "PASS" if failures.is_empty() else failures)
+	print("Audio shutdown / paused title / saved run / reset / failed-save retry: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)
 
 func run_case(mode: String, path: String) -> void:
@@ -103,8 +103,8 @@ func run_case(mode: String, path: String) -> void:
 	check(SaveGame.exit_started and Audio.shutting_down and get_tree().paused, "Successful Exit pauses and starts shared audio shutdown")
 	for player in sources:
 		check(not player.get("playing") and player.get("stream") == null, "Shutdown stops and releases every player type")
-	Audio.set_spatial_active(sources[2] as AudioStreamPlayer3D, true)
-	check(not sources[2].get("playing") and Audio.play_global(clip) == null and Audio.play_3d(clip, Vector3.ZERO) == null, "Shared helpers refuse new playback during shutdown")
+	audio_global.set_spatial_active(sources[2] as AudioStreamPlayer3D, true)
+	check(not sources[2].get("playing") and audio_global.play_global(clip) == null and audio_global.play_3d(clip, Vector3.ZERO) == null, "Shared helpers refuse new playback during shutdown")
 	if not failures.is_empty():
 		get_tree().quit(1)
 		return

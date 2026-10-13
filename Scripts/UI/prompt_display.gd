@@ -130,7 +130,7 @@ func _layout_labels() -> void:
 		for column in columns:
 			var index: int = row * columns + column
 			if index < labels.size():
-				labels[index].position = Vector3(0 if column == 0 else widths[0] + column_gap, -y, 0)
+				labels[index].position = Vector3(0.0 if column == 0 else widths[0] + column_gap, -y, 0)
 		y += heights[row] + row_gap
 	layout_size = Vector2(widths[0] + (widths[1] + column_gap if columns == 2 else 0.0), y - row_gap)
 

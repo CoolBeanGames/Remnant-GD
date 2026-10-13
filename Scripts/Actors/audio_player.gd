@@ -3,7 +3,7 @@ extends Node3D
 
 
 @export var audio_3d: AudioStreamPlayer3D
-@export var audio_global: AudioStreamPlayer
+@export var audio_2d: AudioStreamPlayer
 
 signal playback_finished
 ## A pooled node can outlive many sounds; retain this ID when owning a clip.
@@ -13,12 +13,12 @@ var playback_active: bool = false
 
 func _ready() -> void:
 	audio_3d.finished.connect(_on_audio_finished)
-	audio_global.finished.connect(_on_audio_finished)
+	audio_2d.finished.connect(_on_audio_finished)
 
 
 func play_3d(
 	stream: AudioStream,
-	position: Vector3,
+	world_position: Vector3,
 	volume: float = 1.0,
 	pitch: float = 1.0,
 	bus: StringName = &"Master"
@@ -28,7 +28,7 @@ func play_3d(
 	playback_id += 1
 	playback_active = true
 
-	global_position = position
+	global_position = world_position
 
 	audio_3d.stream = stream
 	audio_3d.volume_db = linear_to_db(maxf(0.0, volume)) if volume > 0 else -80.0
@@ -49,21 +49,21 @@ func play_global(
 	playback_id += 1
 	playback_active = true
 
-	audio_global.stream = stream
-	audio_global.volume_db = linear_to_db(maxf(0.0, volume)) if volume > 0 else -80.0
-	audio_global.pitch_scale = maxf(0.01, pitch)
-	audio_global.bus = bus
+	audio_2d.stream = stream
+	audio_2d.volume_db = linear_to_db(maxf(0.0, volume)) if volume > 0 else -80.0
+	audio_2d.pitch_scale = maxf(0.01, pitch)
+	audio_2d.bus = bus
 
-	audio_global.play()
+	audio_2d.play()
 
 
 func _stop_streams() -> void:
 	audio_3d.stop()
-	audio_global.stop()
+	audio_2d.stop()
 
 
 func is_playback_active(id: int) -> bool:
-	return playback_active and playback_id == id and (audio_3d.playing or audio_global.playing)
+	return playback_active and playback_id == id and (audio_3d.playing or audio_2d.playing)
 
 
 ## Explicit cancellation returns the player to its pool just like natural completion.
@@ -80,16 +80,16 @@ func reset() -> void:
 	playback_active = false
 
 	audio_3d.stream = null
-	audio_global.stream = null
+	audio_2d.stream = null
 
 	audio_3d.volume_db = 0.0
-	audio_global.volume_db = 0.0
+	audio_2d.volume_db = 0.0
 
 	audio_3d.pitch_scale = 1.0
-	audio_global.pitch_scale = 1.0
+	audio_2d.pitch_scale = 1.0
 
 	audio_3d.bus = &"Master"
-	audio_global.bus = &"Master"
+	audio_2d.bus = &"Master"
 
 
 func _on_audio_finished() -> void:

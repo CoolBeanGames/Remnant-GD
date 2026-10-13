@@ -98,5 +98,5 @@ func run() -> void:
 	check(DevConsole.history.size() == 3, "Console command history stays bounded")
 	check(DevConsole.output.text.length() <= 128 and DevConsole.output.text.contains("bounded-console-output-9"), "Console output is bounded and retains recent results")
 	player.queue_free()
-	print("Console parsing, state commands, teleport, fly/noclip and modal ownership: ", "PASS" if failures.is_empty() else failures)
+	print("Console parsing, state commands, teleport, fly/noclip and modal ownership: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

@@ -48,8 +48,8 @@ func interact() -> void:
 	target.interact()
 
 func _play_open_sound() -> void:
-	Audio.play_3d(target.open_sound, global_position, target.open_sound_volume, target.open_sound_pitch, target.open_sound_bus)
+	audio_global.play_3d(target.open_sound, global_position, target.open_sound_volume, target.open_sound_pitch, target.open_sound_bus)
 
 func _play_close_sound() -> void:
 	var sound: AudioStream = target.close_sound if target.close_sound != null else target.open_sound
-	Audio.play_3d(sound, global_position, target.close_sound_volume, target.close_sound_pitch, target.close_sound_bus)
+	audio_global.play_3d(sound, global_position, target.close_sound_volume, target.close_sound_pitch, target.close_sound_bus)

@@ -7,6 +7,8 @@ signal player_entered(player: CharacterBody3D)
 @export var grind_sound: AudioStream = preload("res://Audio/SFX/grind.wav")
 @export var grind_volume: float = 1.0
 @export var enabled: bool = true
+@export var debris_enabled: bool = true
+var debris: grind_debris_pool
 var grind_audio: WeakRef
 var grind_playback_id: int = -1
 var player_contact_pending: bool = false
@@ -16,6 +18,10 @@ func _ready() -> void:
 	if not Blackboard.data_exists("score"):
 		Blackboard.store_data("score", 0)
 	monitoring = true
+	if debris_enabled:
+		debris = grind_debris_pool.new()
+		debris.name = "GrindDebrisPool"
+		add_child(debris)
 	if not body_entered.is_connected(grind):
 		body_entered.connect(grind)
 
@@ -47,6 +53,8 @@ func grind(body: Node3D) -> bool:
 		Mulch.consume(item, amount)
 	GrindCombo.record_item(amount)
 	_play_grind_sound()
+	if debris != null:
+		debris.burst(rigid.global_position, bool(item.get_meta("portal_inside", false)))
 	WorldState.untrack(item)
 	item.queue_free()
 	item_ground.emit(amount)
@@ -56,7 +64,7 @@ func _play_grind_sound() -> void:
 	var existing: audio_player = grind_audio.get_ref() as audio_player if grind_audio != null else null
 	if is_instance_valid(existing) and existing.is_playback_active(grind_playback_id):
 		return
-	var audio: audio_player = Audio.play_global(grind_sound, grind_volume, 1.0, &"SFX")
+	var audio: audio_player = audio_global.play_global(grind_sound, grind_volume, 1.0, &"SFX")
 	grind_audio = weakref(audio) if audio != null else null
 	grind_playback_id = audio.playback_id if audio != null else -1
 

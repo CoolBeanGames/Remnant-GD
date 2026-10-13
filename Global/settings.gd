@@ -126,8 +126,8 @@ func _register_node_environment(reference: WeakRef) -> void:
 	if is_instance_valid(node):
 		register_environment(node.get("environment") as Environment)
 
-func _set_bus(name: StringName, volume: float) -> void:
-	var index: int = AudioServer.get_bus_index(name)
+func _set_bus(entry_name: StringName, volume: float) -> void:
+	var index: int = AudioServer.get_bus_index(entry_name)
 	if index >= 0:
 		AudioServer.set_bus_volume_db(index, linear_to_db(volume) if volume > 0 else -80.0)
 

@@ -1,4 +1,4 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://Scripts/save_loader.gd" id="script"]
-[node name="SaveLoader" type="Node"]
+[node name="SaveLoader" type="Control"]
 script = ExtResource("script")

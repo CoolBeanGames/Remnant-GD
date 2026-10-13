@@ -169,7 +169,7 @@ func _physics_process(_delta: float) -> void:
 
 ## Looking at an existing rail appends a collinear segment to its nearest end.
 ## Empty means ordinary anchored placement (handled by prop_placement).
-func get_placement_pose(host: Node3D, hit_position: Vector3, _normal: Vector3, rotation: Basis) -> Dictionary:
+func get_placement_pose(host: Node3D, hit_position: Vector3, _normal: Vector3, placement_rotation: Basis) -> Dictionary:
 	var rail: train_rail = from_collider(host)
 	if rail == null:
 		return {}
@@ -180,10 +180,10 @@ func get_placement_pose(host: Node3D, hit_position: Vector3, _normal: Vector3, r
 	var end: int = -1 if rail.to_local(hit_position).z < 0 else 1
 	if not rail.connected_rail(end).is_empty() or rail.endpoint_station(end) != null:
 		return {"valid": false}
-	var reversed: bool = rotation.z.z < 0.0
-	var basis: Basis = rail.global_basis * (Basis(Vector3.UP, PI) if reversed else Basis.IDENTITY)
+	var reversed: bool = placement_rotation.z.z < 0.0
+	var placement_basis: Basis = rail.global_basis * (Basis(Vector3.UP, PI) if reversed else Basis.IDENTITY)
 	var incoming_end: int = end if reversed else -end
-	var pose := Transform3D(basis, rail.endpoint(end) - basis.z * incoming_end * rail_length * .5)
+	var pose := Transform3D(placement_basis, rail.endpoint(end) - placement_basis.z * incoming_end * rail_length * .5)
 	return {"valid": true, "transform": pose, "host": rail, "clearance_exclude": [rail.get_rid()]}
 
 

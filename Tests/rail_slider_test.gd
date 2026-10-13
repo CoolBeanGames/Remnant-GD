@@ -133,7 +133,7 @@ func _run() -> void:
 	await _check_world_roundtrip(world, rail, slider, basket, item)
 	world.queue_free()
 	await tick()
-	print("Rail slider physics, cargo and save state: ", "PASS" if failures.is_empty() else failures)
+	print("Rail slider physics, cargo and save state: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)
 
 

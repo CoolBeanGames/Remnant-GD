@@ -74,5 +74,5 @@ func run() -> void:
 	check(Notes.has_spawned(StringName(ids[0])), "Older found-note saves suppress duplicates without spawn history")
 	world.queue_free()
 	await get_tree().process_frame
-	print("Unique note drops and random item pools: ", "PASS" if failures.is_empty() else failures)
+	print("Unique note drops and random item pools: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)

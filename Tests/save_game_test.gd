@@ -97,5 +97,5 @@ func run() -> void:
 	for audio: audio_player in pool.active:
 		audio.reset()
 	await get_tree().create_timer(.1).timeout
-	print("Single-file persistence, resources, world restoration and reset: ", "PASS" if failures.is_empty() else failures)
+	print("Single-file persistence, resources, world restoration and reset: ", "PASS" if failures.is_empty() else str(failures))
 	get_tree().quit(0 if failures.is_empty() else 1)
