@@ -19,7 +19,7 @@ var damage: float = 0.0
 var repairs: int = 0
 var repair_remaining: float = 0.0
 var level: Node3D
-var station: Node3D
+var station: mulcher_station
 var bin: mulch_bin
 ## FIFO contributions conserve each item's half-score across pellet boundaries.
 var contributions: Array[Dictionary] = []
@@ -157,9 +157,7 @@ func _emit_pellets() -> void:
 	emission_pending = false
 	var index: int = 0
 	while points >= maxf(1, points_per_pellet) and is_instance_valid(level) and level.is_inside_tree() and not level.is_queued_for_deletion() and is_instance_valid(station):
-		var output: Node3D = station.get_node("Output")
-		var pose: Transform3D = output.global_transform
-		pose.origin += output.global_basis * Vector3((index % 3) * .28, 0, floorf(float(index) / 3.0) * .28)
+		var pose: Transform3D = station.pellet_pose(index)
 		index += 1
 		var pellet: Node3D = WorldState.spawn_item(pellet_scene, level, pose)
 		if pellet == null:
@@ -169,7 +167,7 @@ func _emit_pellets() -> void:
 			pellet.stored_score = _take_score(consumed_points)
 		points = maxf(0, points - consumed_points)
 		if pellet is RigidBody3D:
-			pellet.linear_velocity = station.global_basis * Vector3(0, 1.5, 2.5)
+			pellet.linear_velocity = station.pellet_launch_velocity()
 		pellet_produced.emit(pellet)
 		# Deferred output runs outside physics callbacks; never bank a held pellet.
 		if automatic_collection and Flags.check_flag("mulch bin purchased"):

@@ -10,6 +10,10 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Title sound, moved Mulcher and window filling
+
+The designer's new title workshop plays continuous grinder ambience through the shared SFX system, including while Options is open. The moved Mulcher keeps its authored mount and ejects pellets away from the intake onto solid floor; its Output marker controls launch orientation and editable speed/spacing. Normal Play starts maximized, respects saved fullscreen and fills resized windows. [Title/settings authoring](Data/OPTIONS.md), [Mulcher output](Data/Mulch/README.md), [reviewed engine views](Reports/TitleMulcher/index.html).
+
 ## Item upgrades follow ownership
 
 Buy a tool once before its upgrades appear. Existing lifetime-score discovery requirements still apply. Continue keeps purchase history; New Game requires buying ordinary tools again while keeping paid permanent effects and the installed Mulcher. Losing a tool does not relock its upgrades. [Editable requirements](Data/Computer/README.md).

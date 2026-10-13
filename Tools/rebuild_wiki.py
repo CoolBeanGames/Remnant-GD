@@ -103,6 +103,8 @@ def build():
         next(row for row in index if row['id']==archive_id)['text']=archive_text
     # Current maintained gameplay/workflow guides keep sidebar, body and search in sync.
     maintained = [
+		('page-global-settings', 'Settings / audio and mouse', 'Globals', 'Data/OPTIONS.md', None, 'Settings startup maximized fullscreen window filling render scale SFX title ambience'),
+		('page-title-options', 'Title screen, controls and graphics', 'UI', 'Data/OPTIONS.md', None, 'title grinder Machine Audio optional ambience Options SFX resized display fullscreen'),
         ('page-plate-snapping', 'Steel plate edge snapping', 'Actors', 'Data/Items/PLATE_SNAPPING.md', 'page-manual-automation', 'steel_plate left right top bottom four edge snap ghost B R wheel hinge carry save collision'),
         ('page-memory-triggers', 'Memory interactions and look flavor', 'Scripts', 'Data/Dialogue/MEMORY_TRIGGERS.md', 'page-door-portal', 'memory object photo phone bills coffee TV flavor gaze E 3 5 4 completion saved dialogue'),
         ('page-mulch-followup', 'Mulch, flashlight and journal followup', 'Overview', 'Data/ISSUE_FOLLOWUP_2026-10-12.md', 'page-october-issue-pass', 'mulch automatic lever collector pellets half score flashlight T portal F9 journal click'),

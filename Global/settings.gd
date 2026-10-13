@@ -27,6 +27,9 @@ func _ready() -> void:
 	SaveGame.load_profile()
 	get_tree().node_added.connect(_graphics_node_added)
 	restore()
+	# Use the available window space on Play without replacing saved fullscreen.
+	if DisplayServer.get_name() != "headless" and get_tree().root.mode == Window.MODE_WINDOWED:
+		get_tree().root.mode = Window.MODE_MAXIMIZED
 
 func restore() -> void:
 	values = DEFAULTS.duplicate(true)

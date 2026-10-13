@@ -231,6 +231,20 @@
     "description": "Tool upgrades appear only after you buy the tool. Lifetime earnings still control discovery, so the early computer stays focused on what you can actually use."
   },
   {
+    "title": "Sound. Space. Safe output.",
+    "kind": "Development history",
+    "local": "development_summary.html#title-mulcher-window",
+    "online": "../index.html#title-mulcher-window",
+    "description": "Your new title workshop keeps its artwork and gains continuous grinder sound. The moved Mulcher ejects away from the grinder, and Play fills the available window."
+  },
+  {
+    "title": "Title ambience, relocated Mulcher and window filling",
+    "kind": "Rendered gallery",
+    "local": "TitleMulcher/index.html",
+    "online": "../TitleMulcher/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
     "title": "Tool upgrades follow first purchases",
     "kind": "Rendered gallery",
     "local": "UpgradeOwnership/index.html",

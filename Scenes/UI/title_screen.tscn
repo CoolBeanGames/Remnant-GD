@@ -1,49 +1,244 @@
-[gd_scene format=3]
-[ext_resource type="Script" path="res://Scripts/UI/title_screen.gd" id="script"]
+[gd_scene format=4 uid="uid://opu3ob070kw2"]
+
+[ext_resource type="PackedScene" uid="uid://da63abf1yef55" path="res://Scenes/model_instances/game_stage_base.tscn" id="3_3txao"]
+[ext_resource type="AudioStream" uid="uid://br2vqhxetdtba" path="res://Audio/SFX/machine_run.wav" id="4_28uqs"]
+[ext_resource type="Script" uid="uid://b4dbbusrrdhih" path="res://Scripts/Level/staged_light.gd" id="5_bvwvd"]
+[ext_resource type="PackedScene" uid="uid://cho7ut4k28i46" path="res://Models/Chute/ceiling_chute.fbx" id="6_5b5vi"]
+[ext_resource type="AudioStream" uid="uid://tbj605lnr7v0" path="res://Audio/SFX/LightOn.wav" id="8_fw2l0"]
+[ext_resource type="PackedScene" uid="uid://x4o8rin8xvjo" path="res://Scenes/Actors/lever_assembly.tscn" id="9_c5u5f"]
+[ext_resource type="Material" uid="uid://dbxbkry24j1s8" path="res://Models/buildings/lamp/Materials/Lamp_Metal.tres" id="10_pa44j"]
+[ext_resource type="Material" uid="uid://br58wh6k77l6a" path="res://Models/Sign/Materials/Sign Screen.tres" id="11_503er"]
+[ext_resource type="Script" uid="uid://b50s7t3jl3q3f" path="res://Scripts/UI/title_screen.gd" id="script"]
+
+[sub_resource type="Environment" id="Environment_vk2b7"]
+background_mode = 1
+ssao_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.1267241, 0.14171177, 0.16503283, 1)
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.1924
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_bp1hl"]
+_surfaces = [{
+"aabb": AABB(-0.01, -0.12829058, -0.01, 0.02, 0.25658116, 0.08811299),
+"format": 34359742465,
+"index_count": 150,
+"index_data": PackedByteArray("AAABAAIAAQAAAAMAAgAEAAAAAwAFAAEABQADAAYABwAGAAQABgAHAAUABAACAAcACAAHAAIACAACAAkACgAJAAIACQAKAAgACgACAAEACwABAAUACwAMAAEADQABAAwADAALAA0ADQAKAAEADgANAAsACgANAA4ADwALAAUADgAQAAoACwARAA4AEQALAA8AEgAQAA4AEgAOABEACgAQABMAEgATABAAEwAIAAoAEgARABQADwAUABEAEgAUAA8ADwAFABUAFgAVAAUAFQAWAA8ADwAWABIAFgAFAAcAEgAXABMAFwASABYAFwAYABMACAATABgAFgAZABcAGQAWAAcAGAAXABkAGAAaAAgACAAaAAcAGQAaABgAGgAbAAcAGQAHABsAGwAaABkA"),
+"name": "Sign_Frame",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 28,
+"vertex_data": PackedByteArray("H5toO3Nu+D3fg0W7CtcjPHNu+D3fg0W7CtcjPHNu+L3fg0W7H5toO3Nu+D3xqpE9H5toO3Nu+L3fg0W7CtcjPHNu+D3xqpE9H5toO3Nu+L3xqpE9CtcjPHNu+L3xqpE9CtcjPJteA74Uxc+6CtcjPJiN+r1DtIS7CtcjPGmB9b0K1yO8CtcjPJteAz4axc+6CtcjPJiN+j1DtIS7CtcjPGmB9T0K1yO8CtcjvGmB9T0K1yO8CtcjPJteAz7nvY49CtcjvGmB9b0K1yO8CtcjvJteAz4Uxc+6CtcjvGmB9T20+Z89CtcjvJteA74axc+6CtcjvJteAz7nvY49CtcjPJiN+j0WypM9CtcjPGmB9T20+Z89CtcjvGmB9b20+Z89CtcjvJteA77nvY49CtcjPGmB9b20+Z89CtcjPJteA77nvY49CtcjPJiN+r0WypM9")
+}, {
+"aabb": AABB(0.003549285, -0.121304415, -0.0030138416, 1e-05, 0.24260883, 0.07414067),
+"format": 34359742465,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAgADAAAA"),
+"name": "Sign Screen",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("H5toO3Nu+L3xqpE9H5toO3Nu+D3xqpE9H5toO3Nu+D3fg0W7H5toO3Nu+L3fg0W7")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_uexav"]
+resource_name = "Cube"
+_surfaces = [{
+"aabb": AABB(-0.01, -0.12829058, -0.01, 0.02, 0.25658116, 0.08811299),
+"attribute_data": PackedByteArray("DybKPsyD/D4PJso+zIP8Pg4myj40fIM+DibKPjR8gz4OJso+NHyDPg4myj40fIM++ewaPzZ8gz757Bo/NnyDPvnsGj82fIM++ewaPzZ8gz757Bo/zIP8PvnsGj/Mg/w++ewaP8yD/D757Bo/zIP8Pg8myj7Mg/w+DybKPsyD/D6arRs/Ggj9Pkv+Hz929Ps+UuMZPwAAAD/57Bo/zIP8PvnsGj82fIM+Tf4fP4oLhD6arRs/5veCPlPjGT8AAIA+zKTIPhwI/T6W28o+avz/PgAAwD5Wzfs+DybKPsyD/D7//78+qjKEPg4myj40fIM+zKTIPuT3gj6W28o+mAOAPpbbyj5q/P8+AAAAPtRD/T8AAAA+HM3vPwAAwD5Wzfs+XoSvPwAAAAAW+7w/AAAAAE3+Hz+KC4Q+U+MZPwAAgD4AAAA+1EOdv5bbyj6YA4A+//+/PqoyhD4AAAA+HM2Pv1LjGT8AAAA/S/4fP3b0+z4X+7w/cFxOP16Erz8AAEA/UuMZPwAAAD9ehK8/AABAP9/a9T4AAEA/ltvKPmr8/z4X+7w/cFxOP/z/vz4RARtA//+/PmKDTj/f2vU+AABAP16Erz8AAEA/39r1PuqhHkAb+7w/EgEbQGKErz/qoR5AAABgPxzNj78AAGA/HM3vP0v+Hz929Ps+Tf4fP4oLhD7//78+qjKEPgAAwD5Wzfs+AAAAPhzN7z8AAAA+HM2Pv16Erz8AAAAAU+MZPwAAgD6W28o+mAOAPt3a9T4AAAAAUuMZPwAAAD/57Bo/zIP8PpqtGz8aCP0+ltvKPmr8/z4PJso+zIP8PsykyD4cCP0+ltvKPpgDgD4OJso+NHyDPsykyD7k94I++ewaPzZ8gz5T4xk/AACAPpqtGz/m94I+"),
+"format": 34359742487,
+"index_count": 150,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACgALAAgADAANAA4ADgAPAAwAEAARABIAEQAQABMAEQATABQAFQARABQAFQAUABYAFgAXABUAGAAZABoAGgAbABgAGgAcABsAHAAdABsAHAAeAB0AHgAcAB8AIAAhACIAIgAjACAAJAAlACYAJgAnACQAKAApACoAKgArACgALAAtAC4ALgAvACwAMAAxADIAMgAzADAANAA1ADYANAA2ADcANAA3ADgANAA5ADUANAA6ADkAOgA7ADkAPAA9AD4APgA/ADwAQABBAEIAQgBDAEAARABFAEYARgBHAEQASABJAEoASABLAEkASwBMAEkASwBNAEwATgBPAFAATgBRAE8ATgBSAFEAUgBTAFEA"),
+"material": ExtResource("10_pa44j"),
+"name": "Sign_Frame",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 84,
+"vertex_data": PackedByteArray("H5toO3Nu+D3fg0W7CtcjPHNu+D3fg0W7CtcjPHNu+L3fg0W7H5toO3Nu+L3fg0W7H5toO3Nu+L3fg0W7CtcjPHNu+L3fg0W7CtcjPHNu+L3xqpE9H5toO3Nu+L3xqpE9H5toO3Nu+L3xqpE9CtcjPHNu+L3xqpE9CtcjPHNu+D3xqpE9H5toO3Nu+D3xqpE9H5toO3Nu+D3xqpE9CtcjPHNu+D3xqpE9CtcjPHNu+D3fg0W7H5toO3Nu+D3fg0W7CtcjPJiN+j0WypM9CtcjPGmB9T20+Z89CtcjPJteAz7nvY49CtcjPHNu+D3xqpE9CtcjPHNu+L3xqpE9CtcjPGmB9b20+Z89CtcjPJiN+r0WypM9CtcjPJteA77nvY49CtcjPJiN+j1DtIS7CtcjPJteAz4axc+6CtcjPGmB9T0K1yO8CtcjPHNu+D3fg0W7CtcjPGmB9b0K1yO8CtcjPHNu+L3fg0W7CtcjPJiN+r1DtIS7CtcjPJteA74Uxc+6CtcjPJteAz4axc+6CtcjvJteAz4Uxc+6CtcjvGmB9T0K1yO8CtcjPGmB9T0K1yO8CtcjvJteA77nvY49CtcjvGmB9b20+Z89CtcjPGmB9b20+Z89CtcjPJteA77nvY49CtcjvJteA74axc+6CtcjPJteA74Uxc+6CtcjPGmB9b0K1yO8CtcjvGmB9b0K1yO8CtcjPJteAz7nvY49CtcjPGmB9T20+Z89CtcjvGmB9T20+Z89CtcjvJteAz7nvY49CtcjPJteAz7nvY49CtcjvJteAz7nvY49CtcjvJteAz4Uxc+6CtcjPJteAz4axc+6CtcjvGmB9T20+Z89CtcjvGmB9b0K1yO8CtcjvGmB9T0K1yO8CtcjvJteAz4Uxc+6CtcjvJteAz7nvY49CtcjvJteA74axc+6CtcjvGmB9b20+Z89CtcjvJteA77nvY49CtcjvGmB9b20+Z89CtcjvGmB9T20+Z89CtcjPGmB9T20+Z89CtcjPGmB9b20+Z89CtcjPGmB9b0K1yO8CtcjPGmB9T0K1yO8CtcjvGmB9T0K1yO8CtcjvGmB9b0K1yO8CtcjvJteA77nvY49CtcjPJteA77nvY49CtcjPJteA74Uxc+6CtcjvJteA74axc+6CtcjPJteAz7nvY49CtcjPHNu+D3xqpE9CtcjPJiN+j0WypM9CtcjPJteAz4axc+6CtcjPHNu+D3fg0W7CtcjPJiN+j1DtIS7CtcjPJteA74Uxc+6CtcjPHNu+L3fg0W7CtcjPJiN+r1DtIS7CtcjPHNu+L3xqpE9CtcjPJteA77nvY49CtcjPJiN+r0WypM9/3//f////z//f/9/////P/9//3////8//3//f////z//f///////v/9///////+//3///////7//f///////v/////////+//////////7//////////v/////////+//38AAP///7//fwAA////v/9/AAD///+//38AAP///7////9//3/vvP///3//fzy9////f/9/V7z///9//391vf///3//f3zC////f/9/1sL///9//38Ow////3//f6fD////f/9/6b////9//3/Yv////3//f/i/////f/9//7////9//38FwP///3//f/+/////f/9/FMD///9//38mwP8///8ihPbe/z////mJgN3/P///AYc+3v8////kgMXf/3//P2B+l9//f/8//3//3/9//z/pfDnf/3//P1171t7/vwAAbofbof+/AADVgDSg/78AAFaEFaH/vwAAnoqnov9//7+GMnkN/3//v0h87aD/f/+/hjJ5Df9//7+GMnkN/3////9//7//f////3//v/9///8AgP+//3///wCA/78AAP9//3/2vwAA/3//f/m/AAD/f/9/7r8AAP9//3/vvwAA/3//f/+/AAD/f/9//b8AAP9//3//vwAA/3//f/+//3//f9B8Z/7/f/9/YWzOif9//39Qa1eK/3//fzZ+Gv//////rZRWiv/////HgRv//////y2DaP7/////nJPNif9/AAAAgP+//38AAACA/7//fwAA/3//v/9/AAD/f/+//v//f/9/+b/+//9//3/7v/7//3//f/+//v//f/9/BMD+//9//38WwP7//3//fzbA/v//f/9/+r/+//9//3/nv/7//3//f8e//v//f/9/A8D+//9//38FwP7//3//fwDA")
+}, {
+"aabb": AABB(0.003549285, -0.121304415, -0.0030138416, 1e-05, 0.24260883, 0.07414067),
+"attribute_data": PackedByteArray("+ewaPzZ8gz757Bo/zIP8Pg8myj7Mg/w+DibKPjR8gz4="),
+"format": 34359742487,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAgADAAAA"),
+"material": ExtResource("11_503er"),
+"name": "Sign Screen",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("H5toO3Nu+L3xqpE9H5toO3Nu+D3xqpE9H5toO3Nu+D3fg0W7H5toO3Nu+L3fg0W7////f/9//7////9//3//v////3//f/+/////f/9//78=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_bp1hl")
+
 [sub_resource type="SystemFont" id="Font"]
 font_names = PackedStringArray("Consolas", "Courier New")
+
 [sub_resource type="Theme" id="Theme"]
 default_font = SubResource("Font")
 default_font_size = 24
-[node name="TitleScreen" type="Node3D"]
+
+[node name="TitleScreen" type="Node3D" unique_id=1516200052 node_paths=PackedStringArray("machine_audio")]
 script = ExtResource("script")
-[node name="Background" type="Node3D" parent="."]
-[node name="UI" type="CanvasLayer" parent="."]
-[node name="Screen" type="ColorRect" parent="UI"]
+machine_audio = NodePath("Background/testing_level/game_stage_base/MachineRun")
+
+[node name="Background" type="Node3D" parent="." unique_id=163630965]
+
+[node name="testing_level" type="Node3D" parent="Background" unique_id=1676298962]
+
+[node name="game_stage_base" parent="Background/testing_level" unique_id=1628373784 instance=ExtResource("3_3txao")]
+
+[node name="MachineRun" type="AudioStreamPlayer3D" parent="Background/testing_level/game_stage_base" unique_id=1326311253]
+stream = ExtResource("4_28uqs")
+volume_db = -6.0
+max_distance = 50.0
+bus = &"SFX"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Background/testing_level" unique_id=1614001260]
+environment = SubResource("Environment_vk2b7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Background/testing_level" unique_id=620566388]
+transform = Transform3D(1, 0, 0, 0, 0.6507046, 0.7593309, 0, -0.7593309, 0.6507046, 0, 0, 0)
+light_color = Color(0.10747976, 0.10747973, 0.10747973, 1)
+
+[node name="AreaLight3D" type="OmniLight3D" parent="Background/testing_level" unique_id=423178080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7904339, 0.9406817, 2.818627)
+light_color = Color(0.5135869, 0.50602263, 0, 1)
+shadow_enabled = true
+
+[node name="AreaLight3D2" type="OmniLight3D" parent="Background/testing_level" unique_id=798727261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7904339, 0.9406817, -2.6207402)
+light_color = Color(0.5135869, 0.50602263, 0, 1)
+shadow_enabled = true
+
+[node name="ceiling_chute" parent="Background/testing_level" unique_id=1899975167 groups=["Chute"] instance=ExtResource("6_5b5vi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5213981, 4.962456, -7.3776603)
+
+[node name="Cube" parent="Background/testing_level/ceiling_chute" index="0" unique_id=394777762 groups=["Chute"]]
+transform = Transform3D(90.23538, 43.099636, 5.137877e-06, 0, -1.1920929e-05, 100.00001, 43.09964, -90.235374, -1.0756895e-05, 0, 0, 0)
+
+[node name="StaticBody3D" parent="Background/testing_level/ceiling_chute/Cube" index="0" unique_id=686007670 groups=["Chute"]]
+
+[node name="CollisionShape3D" parent="Background/testing_level/ceiling_chute/Cube/StaticBody3D" index="0" unique_id=528326347 groups=["Chute"]]
+
+[node name="ChuteLight" type="SpotLight3D" parent="Background/testing_level/ceiling_chute" unique_id=1839820588]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.2842555, 2.0291424)
+light_energy = 4.485
+shadow_enabled = true
+spot_range = 10.896327
+spot_angle = 23.225727
+script = ExtResource("5_bvwvd")
+power_on_sound = ExtResource("8_fw2l0")
+
+[node name="GrinderLight" type="SpotLight3D" parent="Background/testing_level/ceiling_chute" unique_id=631665265]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -7.3144393, 2.2842555, 5.733866)
+light_energy = 4.485
+shadow_enabled = true
+spot_range = 10.896327
+spot_angle = 23.225727
+script = ExtResource("5_bvwvd")
+unlock_flag = "grinder enabled"
+power_on_sound = ExtResource("8_fw2l0")
+
+[node name="LevelLight" type="SpotLight3D" parent="Background/testing_level/ceiling_chute" unique_id=309319353]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.5422888, 2.2842555, 0.7085819)
+light_energy = 4.485
+shadow_enabled = true
+spot_range = 10.896327
+spot_angle = 23.225727
+script = ExtResource("5_bvwvd")
+power_on_sound = ExtResource("8_fw2l0")
+
+[node name="LevelLight2" type="SpotLight3D" parent="Background/testing_level/ceiling_chute" unique_id=2044200266]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 8.903375, 2.2842555, 1.2182145)
+light_energy = 4.485
+shadow_enabled = true
+spot_range = 10.896327
+spot_angle = 16.760414
+script = ExtResource("5_bvwvd")
+unlock_flag = "computer enabled"
+power_on_sound = ExtResource("8_fw2l0")
+
+[node name="Spawn_Location" type="Node3D" parent="Background/testing_level/ceiling_chute" unique_id=1645039688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.655333, -3.3814478)
+
+[node name="Lever_Assembly" parent="Background/testing_level" unique_id=768832775 instance=ExtResource("9_c5u5f")]
+transform = Transform3D(0.35958397, 0, 0.93311274, 0, 1, 0, -0.93311274, 0, 0.35958397, 4.8904214, 0.0064259213, -4.21009)
+script = null
+
+[node name="Score Sign" type="Node3D" parent="Background/testing_level" unique_id=168954924]
+transform = Transform3D(-0.99835026, 0, -0.05741742, 0, 1, 0, 0.05741742, 0, -0.99835026, 9.16464, 6.4280214, 0.20451593)
+
+[node name="Cube" type="MeshInstance3D" parent="Background/testing_level/Score Sign" unique_id=348963496]
+transform = Transform3D(100, 0, 0, 0, -1.1920929e-05, 99.99999, 0, -99.99999, -1.1920929e-05, 0, 0, 0)
+mesh = SubResource("ArrayMesh_uexav")
+
+[node name="Label3D" type="Label3D" parent="Background/testing_level/Score Sign" unique_id=886110391]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.43513346, 3.4028907, 0.2713163)
+modulate = Color(0, 0, 0, 1)
+text = "Remnant"
+font_size = 452
+
+[node name="AreaLight3D" type="AreaLight3D" parent="Background/testing_level/Score Sign" unique_id=1071592498]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.23972654, 3.4163613, 0)
+light_energy = 16.0
+light_indirect_energy = 2.52
+light_volumetric_fog_energy = 16.0
+area_size = Vector2(22.641357, 8.762053)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2089137950]
+
+[node name="Screen" type="ColorRect" parent="UI" unique_id=765748887]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.015, 0.015, 0.015, 0.85)
 theme = SubResource("Theme")
-[node name="Center" type="CenterContainer" parent="UI/Screen"]
-anchors_preset = 15
+color = Color(0.015686275, 0.015686275, 0.015686275, 0)
+
+[node name="Center" type="CenterContainer" parent="UI/Screen" unique_id=790859845]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-[node name="Rows" type="VBoxContainer" parent="UI/Screen/Center"]
-layout_mode = 2
+offset_left = -232.4
+offset_right = -232.40002
+
+[node name="Rows" type="VBoxContainer" parent="UI/Screen/Center" unique_id=41313512]
 custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
 theme_override_constants/separation = 18
-[node name="Title" type="Label" parent="UI/Screen/Center/Rows"]
+
+[node name="Title" type="Label" parent="UI/Screen/Center/Rows" unique_id=951552935]
 layout_mode = 2
-text = "REMNANT"
 theme_override_font_sizes/font_size = 58
-[node name="NewGame" type="Button" parent="UI/Screen/Center/Rows"]
-layout_mode = 2
+
+[node name="NewGame" type="Button" parent="UI/Screen/Center/Rows" unique_id=792658861]
 custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
 text = "NEW GAME"
-[node name="Continue" type="Button" parent="UI/Screen/Center/Rows"]
-layout_mode = 2
+
+[node name="Continue" type="Button" parent="UI/Screen/Center/Rows" unique_id=124787659]
 custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
 text = "CONTINUE"
-[node name="Options" type="Button" parent="UI/Screen/Center/Rows"]
-layout_mode = 2
+
+[node name="Options" type="Button" parent="UI/Screen/Center/Rows" unique_id=1264836857]
 custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
 text = "OPTIONS"
-[node name="Exit" type="Button" parent="UI/Screen/Center/Rows"]
-layout_mode = 2
+
+[node name="Exit" type="Button" parent="UI/Screen/Center/Rows" unique_id=1308874127]
 custom_minimum_size = Vector2(0, 54)
-text = "EXIT"
-[node name="Status" type="Label" parent="UI/Screen/Center/Rows"]
 layout_mode = 2
-autowrap_mode = 2
+text = "EXIT"
+
+[node name="Status" type="Label" parent="UI/Screen/Center/Rows" unique_id=341431335]
+layout_mode = 2
 theme_override_font_sizes/font_size = 16
+autowrap_mode = 2
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1120716677]
+transform = Transform3D(0.5768838, -0.22294597, -0.78581184, 0, 0.9620306, -0.27294174, 0.8168263, 0.15745565, 0.5549798, -2.4003482, 0.5066719, 1.1395179)
+current = true
+
+[editable path="Background/testing_level/ceiling_chute"]

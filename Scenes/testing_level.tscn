@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://cho7ut4k28i46" path="res://Models/Chute/ceiling_chute.fbx" id="4_1cks4"]
 [ext_resource type="Script" uid="uid://di3swkqh5sn4a" path="res://Scripts/Actors/ceiling_chute.gd" id="5_rhpwq"]
 [ext_resource type="PackedScene" uid="uid://x4o8rin8xvjo" path="res://Scenes/Actors/lever_assembly.tscn" id="7_esepx"]
+[ext_resource type="Texture2D" uid="uid://b7yhmhlfgdnyq" path="res://Textures/UI/Aim.png" id="8_46ng8"]
 [ext_resource type="AudioStream" uid="uid://tbj605lnr7v0" path="res://Audio/SFX/LightOn.wav" id="9_5f81q"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/world_prompts.tscn" id="10_prompts"]
 [ext_resource type="Script" uid="uid://bcxrh405f124t" path="res://Scripts/Level/grinding_area.gd" id="15_grinding"]
 [ext_resource type="PackedScene" uid="uid://dnpgvodrsbg0f" path="res://Scenes/Actors/score_sign.tscn" id="16_bfm0w"]
 [ext_resource type="Material" uid="uid://c8hi1mot5we01" path="res://Materials/Concrete.tres" id="21_cuoug"]
@@ -30,15 +32,18 @@
 [ext_resource type="AudioStream" uid="uid://cxvroce8w3q8m" path="res://Audio/SFX/Sonic_Soundfx_household_kitchen_microwave_door_open_1.wav" id="41_okd6y"]
 [ext_resource type="AudioStream" uid="uid://uumnvveh55wn" path="res://Audio/SFX/zapsplat_household_door_int_wood_close_slight_room_perspective_004_91210.wav" id="43_axeev"]
 [ext_resource type="Script" uid="uid://tkhos0n6dl5f" path="res://Scripts/Level/chute_zone.gd" id="chute_zone"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/combo_display.tscn" id="combo_ui"]
 [ext_resource type="PackedScene" uid="uid://dgdb7704h3tdk" path="res://Scenes/Computer/computer_terminal.tscn" id="computer"]
+[ext_resource type="Script" uid="uid://d2vp0rgn4opt3" path="res://Scripts/UI/gameplay_crosshair.gd" id="crosshair_script"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/dialogue_player.tscn" id="dialogue_player"]
 [ext_resource type="Script" uid="uid://bt22t5fy4mlpu" path="res://Scripts/Portal/door_portal.gd" id="door_portal"]
-[ext_resource type="Resource" path="res://Data/Portal/apartment.tres" id="portal_apartment"]
-[ext_resource type="Script" path="res://Scripts/Portal/portal_destination.gd" id="portal_destination_script"]
-[ext_resource type="Resource" path="res://Data/Portal/warehouse.tres" id="portal_warehouse"]
-[ext_resource type="Resource" path="res://Data/Portal/hospital.tres" id="portal_hospital"]
 [ext_resource type="PackedScene" path="res://Scenes/Notes/note_reader.tscn" id="note_reader"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/pause_menu.tscn" id="pause_menu"]
+[ext_resource type="Resource" path="res://Data/Portal/apartment.tres" id="portal_apartment"]
+[ext_resource type="Script" uid="uid://b0xc5v5ygqx2" path="res://Scripts/Portal/portal_destination.gd" id="portal_destination_script"]
+[ext_resource type="Resource" path="res://Data/Portal/hospital.tres" id="portal_hospital"]
+[ext_resource type="PackedScene" path="res://Scenes/Portal/portal_status.tscn" id="portal_status"]
+[ext_resource type="Resource" path="res://Data/Portal/warehouse.tres" id="portal_warehouse"]
 [ext_resource type="Script" uid="uid://b8dj368txul6f" path="res://Scripts/Level/light_flicker.gd" id="room_flicker"]
 [ext_resource type="Script" uid="uid://dex5nct350r2k" path="res://Scripts/Level/level_sequence.gd" id="sequence"]
 [ext_resource type="Script" uid="uid://b4dbbusrrdhih" path="res://Scripts/Level/staged_light.gd" id="staged_light"]
@@ -47,12 +52,6 @@
 [ext_resource type="PackedScene" path="res://Scenes/UI/word_message.tscn" id="word_message"]
 [ext_resource type="Script" uid="uid://ce012vxidcxe0" path="res://Scripts/Level/world_boundary.gd" id="world_boundary"]
 [ext_resource type="Script" uid="uid://ishkfcqyoce0" path="res://Scripts/Level/world_guidance.gd" id="world_guidance"]
-
-[ext_resource type="Texture2D" uid="uid://b7yhmhlfgdnyq" path="res://Textures/UI/Aim.png" id="8_46ng8"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/world_prompts.tscn" id="10_prompts"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/combo_display.tscn" id="combo_ui"]
-[ext_resource type="PackedScene" path="res://Scenes/Portal/portal_status.tscn" id="portal_status"]
-[ext_resource type="Script" path="res://Scripts/UI/gameplay_crosshair.gd" id="crosshair_script"]
 
 [sub_resource type="Environment" id="Environment_ig4qq"]
 background_mode = 1
@@ -224,11 +223,11 @@ chute = NodePath("../ceiling_chute")
 collision_layer = 0
 script = ExtResource("15_grinding")
 
-[node name="MulcherMount" type="Marker3D" parent="grinding_area"]
-position = Vector3(2.0, 0.55, 1.4)
+[node name="MulcherMount" type="Marker3D" parent="grinding_area" unique_id=338363286]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.5901313, 0.55, -4.3860297)
 
-[node name="MulchBinMount" type="Marker3D" parent="grinding_area"]
-position = Vector3(3.55, 0.08, 1.4)
+[node name="MulchBinMount" type="Marker3D" parent="grinding_area" unique_id=1215059528]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.6089816, 0.08, -5.110854)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="grinding_area" unique_id=1834579255]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03955078, -0.13726807, -0.07897949)
@@ -290,13 +289,12 @@ delivery_parent = NodePath("..")
 
 [node name="DoorPortal" type="Node3D" parent="." unique_id=1263641720 node_paths=PackedStringArray("door", "player")]
 script = ExtResource("door_portal")
-purchase_required = true
 door = NodePath("../doorway_animated")
 player = NodePath("../Player")
 destinations = Array[ExtResource("portal_destination_script")]([ExtResource("portal_apartment"), ExtResource("portal_warehouse"), ExtResource("portal_hospital")])
+purchase_required = true
 
 [node name="WordMessage" parent="." unique_id=138878723 instance=ExtResource("word_message")]
-show_text = true
 word_sound = ExtResource("9_5f81q")
 
 [node name="WorldGuidance" type="Node" parent="." unique_id=1315693518 node_paths=PackedStringArray("level", "messages")]
@@ -305,16 +303,15 @@ level = NodePath("..")
 messages = NodePath("../WordMessage")
 
 [node name="DialoguePlayer" parent="." unique_id=751087534 instance=ExtResource("dialogue_player")]
-show_text = true
 
 [node name="WorldBoundary" type="StaticBody3D" parent="." unique_id=293164494 node_paths=PackedStringArray("centre_target")]
 script = ExtResource("world_boundary")
 centre_target = NodePath("../Player")
 
-[node name="NoteReader" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("note_reader")]
+[node name="NoteReader" parent="." unique_id=1080185073 node_paths=PackedStringArray("camera") instance=ExtResource("note_reader")]
 camera = NodePath("../Player/Camera3D")
 
-[node name="CenterContainer" type="CenterContainer" parent="." groups=["gameplay_hud"] unique_id=2093236951]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2093236951 groups=["gameplay_hud"]]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -326,26 +323,24 @@ offset_right = 400.0
 offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
-
-script = ExtResource("crosshair_script")
 mouse_filter = 2
+script = ExtResource("crosshair_script")
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer" unique_id=1806873442]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("8_46ng8")
 stretch_mode = 4
 
-mouse_filter = 2
-
-[node name="WorldPrompts" parent="." node_paths=PackedStringArray("camera", "ray", "pickup", "placement") instance=ExtResource("10_prompts")]
+[node name="WorldPrompts" parent="." unique_id=1106196840 node_paths=PackedStringArray("camera", "ray", "pickup", "placement") instance=ExtResource("10_prompts")]
 camera = NodePath("../Player/Camera3D")
 ray = NodePath("../Player/Camera3D/RayCast3D")
 pickup = NodePath("../Player/Controllers/Player_Pickup")
 placement = NodePath("../Player/Controllers/Prop_Placement")
 
-[node name="ComboDisplay" groups=["gameplay_hud"] parent="." unique_id=76884644 instance=ExtResource("combo_ui")]
+[node name="ComboDisplay" parent="." unique_id=76884644 groups=["gameplay_hud"] instance=ExtResource("combo_ui")]
 
-[node name="PortalStatus" groups=["gameplay_hud"] parent="." node_paths=PackedStringArray("portal") instance=ExtResource("portal_status")]
+[node name="PortalStatus" parent="." unique_id=1810475800 node_paths=PackedStringArray("portal") groups=["gameplay_hud"] instance=ExtResource("portal_status")]
 portal = NodePath("../DoorPortal")
 
 [editable path="ceiling_chute"]
