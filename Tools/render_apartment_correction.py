@@ -2,13 +2,15 @@
 from pathlib import Path
 
 import bpy
+import sys
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / 'Reports/ApartmentCorrection'
+fridge_review = '--fridge' in sys.argv
+OUT = ROOT / ('Reports/FridgeCorrection' if fridge_review else 'Reports/ApartmentCorrection')
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / '.gdignore').write_text('')
-NATIVE = ROOT / 'Models/Interiors/ApartmentCorrectionPresentation/Source'
+NATIVE = ROOT / ('Models/Interiors/FridgeCorrectionPresentation/Source' if fridge_review else 'Models/Interiors/ApartmentCorrectionPresentation/Source')
 NATIVE.mkdir(parents=True, exist_ok=True)
 (NATIVE / '.gdignore').write_text('')
 bpy.context.preferences.filepaths.save_version = 0
@@ -42,6 +44,12 @@ views = [
     ('floor', (5.5, -.65, 1.0), (3.9, .15, .015), 27),
     ('doorway', (8.4, -.575, 1.65), (5.5, -.575, 1.1), 22),
 ]
+if fridge_review:
+    views = [
+        ('front', (-1.7, -2.05, 1.55), (-3.49, -2.48, .9), 28),
+        ('kitchen', (-.8, -.45, 1.65), (-3.5, -1.4, .95), 24),
+        ('living', (6.8, -.5, 1.65), (2, -.5, 1.1), 22),
+    ]
 for name, point, target, lens in views:
     data = bpy.data.cameras.new('Correction / ' + name)
     data.lens, data.clip_start = lens, .03
@@ -54,4 +62,4 @@ for name, point, target, lens in views:
     bpy.ops.render.render(write_still=True)
 scene.camera = bpy.data.objects['Correction / living']
 bpy.ops.wm.save_as_mainfile(filepath=str(NATIVE / 'apartment_presentation.blend'))
-print('Apartment correction: four final Cycles views', flush=True)
+print('Apartment correction: %d final Cycles views' % len(views), flush=True)

@@ -124,7 +124,9 @@ for directory, filename, key in [('FurnishedStudio', 'studio_apartment_furnished
         if transform:
             values = [float(v) for v in transform[1].split(',')]
             scale = sum(v*v for v in values[:3]) ** .5
-            poses[header[1]] = {'position_m': [values[9], -values[11], values[10]], 'rotation_z_degrees': math.degrees(math.atan2(-values[2], values[0])), 'scale': [scale]*3}
+            # TSCN writes the basis by rows; m02 is +sin(yaw), not the
+            # third component of its X column. Y-up/Z-up conversion keeps yaw.
+            poses[header[1]] = {'position_m': [values[9], -values[11], values[10]], 'rotation_z_degrees': math.degrees(math.atan2(values[2], values[0])), 'scale': [scale]*3}
         elif position:
             values = [float(v) for v in position[1].split(',')]
             poses[header[1]] = {'position_m': [values[0], -values[2], values[1]], 'rotation_z_degrees': math.degrees(float(rotation[1].split(',')[1])) if rotation else 0}

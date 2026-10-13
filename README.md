@@ -18,6 +18,8 @@ The latest 27 F1 reports are addressed: a larger walkable apartment, interactive
 
 The living-room floor now joins the extension with an ordinary 1.8 mm board seam, replacing the visible 102 mm strip. The TV, entertainment center, VCR and phone are beside the coffee table on the south wall; required phone interaction and TV look flavor remain connected. [Reviewed correction views](Reports/ApartmentCorrection/index.html) · [Phone summary](https://coolbeangames.github.io/Remnant-GD/index.html#apartment-floor-tv).
 
+The fridge doors face into the kitchen in both the game and linked Blender assembly. Corrected TSCN yaw conversion also aligns the other apartment prop orientations with their authored game poses. [Fridge and kitchen views](Reports/FridgeCorrection/index.html).
+
 All **32 spreadsheet models** now have textured, metre-scale GLBs and packed editable Blender sources under `Models/Imported/Trip`. The chute and automatic spawners choose equally from **nine one-score items**: baby bottle, beer bottle, clipboard, two meat slabs, meat block, syringe, book and teddy bear. The original test block remains available for older saves and tests, outside the production pool.
 
 The computer sits on its rusted cart with the interactive screen aligned to the new display. The existing lever controller animates a separate imported handle; the wooden door has an independent hinged leaf and fixed frame. The Mulcher uses the imported machine and a brief debris burst; the Mulch Bin is the wooden crate and pellets use the trash-ball model. Existing audio, upgrades, pickup, save and portal behavior remain connected.

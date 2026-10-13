@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Facing the kitchen.",
+    "kind": "Development history",
+    "local": "development_summary.html#apartment-fridge",
+    "online": "../index.html#apartment-fridge",
+    "description": "The fridge doors face into the room. Blender and the game now agree on which way the kitchen appliances face."
+  },
+  {
     "title": "Floor closed. TV moved.",
     "kind": "Development history",
     "local": "development_summary.html#apartment-floor-tv",
@@ -264,6 +271,13 @@
     "local": "development_summary.html#title-mulcher-window",
     "online": "../index.html#title-mulcher-window",
     "description": "Your new title workshop keeps its artwork and gains continuous grinder sound. The moved Mulcher ejects away from the grinder, and Play fills the available window."
+  },
+  {
+    "title": "Fridge orientation and matching kitchen views",
+    "kind": "Rendered gallery",
+    "local": "FridgeCorrection/index.html",
+    "online": "../FridgeCorrection/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "Apartment floor repair and relocated television",

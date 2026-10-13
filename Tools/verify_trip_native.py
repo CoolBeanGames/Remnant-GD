@@ -27,6 +27,8 @@ for directory, filename in [('FurnishedStudio', 'studio_apartment_furnished.blen
         assert not any(o.name.endswith('BedroomDesk') for o in instances), 'The desk belongs only in the warehouse office'
         television = next(o for o in instances if o.name.endswith(' / TV'))
         assert (television.location - Vector((4.45, -2.8, .658))).length < .0001, 'TV assembly does not match the current game scene'
+        refrigerator = next(o for o in instances if o.name.endswith(' / Fridge'))
+        assert (refrigerator.matrix_world.to_3x3() @ Vector((0, -1, 0))).x > .99, 'Fridge doors must face into the kitchen'
 bpy.ops.wm.open_mainfile(filepath=str(ROOT / 'Models/Architecture/StudioApartment/Source/studio_apartment.blend'))
 floor = bpy.data.objects['Oak floor | staggered individual boards']
 original_end = max((floor.matrix_world @ Vector(v)).x for v in floor.bound_box)

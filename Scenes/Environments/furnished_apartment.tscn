@@ -123,7 +123,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.5
 script = ExtResource("10_yqikv")
 
 [node name="Fridge" type="Node3D" parent="Art" unique_id=685521532 instance=ExtResource("12_ucrso")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.49, 0, 2.48)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.49, 0, 2.48)
 script = ExtResource("10_yqikv")
 
 [node name="Stove" type="Node3D" parent="Art" unique_id=115997937 instance=ExtResource("13_q7pot")]
