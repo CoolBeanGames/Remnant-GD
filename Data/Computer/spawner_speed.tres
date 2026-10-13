@@ -18,3 +18,4 @@ base_cost = 250
 effects = Array[ExtResource("effect")]([SubResource("Effect")])
 
 reveal_lifetime_score = 4500
+required_purchase = &"buy_automatic_spawner"

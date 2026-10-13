@@ -40,3 +40,7 @@ New Game keeps coins, permanent tiers, Mulcher ownership and lifetime earnings. 
 Flags: mulcher purchased, mulch bin purchased. Blackboard: mulch_points, mulch_contributions [{points,score}], mulcher_damage, mulcher_repairs, mulcher_repair_remaining, lever_auto_paused, upgrade_levels. Profile: mulch_coins, mulch_upgrades, mulcher_unlocked. Individual actor records store pellet_score. All remain in the existing single save file.
 
 Tests/mulch_system_test checks installation, production, real deposits, repairs, stacked upgrades and New Game. Tests/mulch_followup_test checks actual repair ray/prompt, fractional ledger conservation and reload, no recycling, old duplicate bins, real radius multi-grab, collection and actual automatic animations. Its rendered fixture uses Reports/MulchFollowup/game. Related authoring: Data/Computer/LEVER_UPGRADES.md and Data/Mulch/PRESTIGE_ITEMS.md.
+
+## Item upgrade prerequisites
+
+Permanent Fan and Spawner upgrades additionally require the matching first Store purchase in the current run. The paid permanent effects survive New Game and apply to later deliveries, but further tiers remain hidden until that run buys the tool. Regular/permanent Mulcher durability and efficiency accept its persistent installation; Collector accepts the run's Mulch Bin purchase. The shared `required_purchase` field and both purchase APIs enforce this rule. See [computer authoring](../Computer/README.md).

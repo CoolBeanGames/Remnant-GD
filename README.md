@@ -10,6 +10,10 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Item upgrades follow ownership
+
+Buy a tool once before its upgrades appear. Existing lifetime-score discovery requirements still apply. Continue keeps purchase history; New Game requires buying ordinary tools again while keeping paid permanent effects and the installed Mulcher. Losing a tool does not relock its upgrades. [Editable requirements](Data/Computer/README.md).
+
 ## Starter tools and joined plates
 
 The Store leads with **Light, Steel Plate and Push Broom**, available as soon as the computer opens. Fans appear at **500 lifetime earned score**, Fan Power at **600**. Fans still start at 175 score. Broom discovery starts immediately.

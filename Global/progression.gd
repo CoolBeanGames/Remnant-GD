@@ -43,6 +43,8 @@ func record_earned_score(amount: int) -> void:
 		SaveGame.profile["lifetime_score"] = maxi(score(), int(SaveGame.profile.get("lifetime_score", 0)) + amount)
 
 func entry_visible(entry: computer_entry) -> bool:
+	if entry == null or not purchase_requirement_error(entry).is_empty():
+		return false
 	if not entry.memory_destination.is_empty():
 		if level(entry) > 0:
 			return false
@@ -54,9 +56,24 @@ func entry_visible(entry: computer_entry) -> bool:
 		return revealed.has(entry.id)
 	return lifetime_score() >= entry.reveal_lifetime_score or level(entry) > 0 or (entry.installation == "mulcher" and Mulch.installed_unlock())
 
+## Purchase history, not a live prop, unlocks upgrades for the rest of the run.
+## The permanently installed Mulcher also qualifies after New Game.
+func purchase_requirement_error(entry: computer_entry) -> String:
+	if entry.required_purchase == &"":
+		return ""
+	var required: computer_entry = entries.get(entry.required_purchase)
+	if required == null or required.tab != computer_entry.Tab.STORE:
+		return "Required item purchase unavailable."
+	if level(required) > 0 or (required.installation == "mulcher" and Mulch.installed_unlock()) or (required.installation == "mulch_bin" and Flags.check_flag("mulch bin purchased")):
+		return ""
+	return "Purchase %s first." % required.title
+
 func purchase(entry: computer_entry, world: Node, spawn_point: Node3D, player: Node) -> String:
 	if entry == null or entry.id == &"" or entries.get(entry.id) != entry:
 		return "Unavailable entry."
+	var requirement: String = purchase_requirement_error(entry)
+	if not requirement.is_empty():
+		return requirement
 	if entry.single_purchase and level(entry) > 0:
 		return "Already purchased."
 	if not entry_visible(entry) and level(entry) == 0:

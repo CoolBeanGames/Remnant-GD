@@ -113,6 +113,7 @@ def build():
         ('page-door-portal', 'Doorway portal and memory areas', 'Scripts', 'Data/Portal/ENVIRONMENTS.md', None, 'portal memory unlock completion return closure cargo F9 preview'),
         ('page-memory-upgrades', 'Memory unlock upgrades', 'Scripts', 'Data/Computer/MEMORY_UPGRADES.md', 'page-lever-upgrades', 'memory unlock story flags score 1500 25000 50000 Self save New Game'),
         ('page-global-progression', 'Progression / computer purchases', 'Globals', 'Data/Computer/README.md', None, 'computer upgrade purchase score levels unlock_flag memory flag'),
+        ('page-computer-catalog', 'Editable catalog and effects', 'Computer', 'Data/Computer/README.md', None, 'computer_entry required_purchase Store ownership prerequisite upgrade catalog effects'),
         ('page-lever-upgrades', 'Manual lever upgrades', 'Scripts', 'Data/Computer/LEVER_UPGRADES.md', 'page-scripts-actors-lever-controller', 'lever cooldown animation speed output spawn batch manual queue'),
         ('page-prestige-items', 'Prestige items permission', 'Mulch', 'Data/Mulch/PRESTIGE_ITEMS.md', 'page-mulch-scenes', 'prestige items grind additional items true ending mulch permanent pickup'),
         ('page-development-reports', 'Development reporting skill', 'Overview', 'Data/REPORTING.md', 'page-development-archive', 'reporting skill html template style GitHub Pages publication Notion'),

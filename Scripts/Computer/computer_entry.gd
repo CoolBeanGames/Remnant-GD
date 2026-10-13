@@ -11,6 +11,8 @@ enum Tab { MECHANICS, SELF, STORE, MULCH }
 @export var escalating_store_price: bool = false
 ## Score earned across runs, rather than current spendable balance; zero is immediate.
 @export_range(0, 1000000, 1) var reveal_lifetime_score: int = 0
+## Store entry Id that must have been purchased; empty means no item requirement.
+@export var required_purchase: StringName = &""
 @export var single_purchase: bool = false
 ## Zero means unlimited. Store entries repeat unless single_purchase is enabled.
 @export_range(0, 100, 1) var max_level: int = 5

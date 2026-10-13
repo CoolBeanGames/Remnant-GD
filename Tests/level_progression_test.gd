@@ -61,6 +61,11 @@ func run() -> void:
 	check(Progression.score() == 30, "Culling awards no score")
 	Blackboard.store_data("score", 500)
 	SaveGame.profile["lifetime_score"] = 4500 # Offer discovery; balance still tests its real cost.
+	check(Progression.purchase(Progression.entries[&"buy_automatic_spawner"], level, level.computer.delivery_point, level.player).is_empty(), "Buy the first spawner before unlocking its upgrades")
+	var purchased_spawner: Node3D = level.get_child(level.get_child_count() - 1)
+	WorldState.untrack(purchased_spawner)
+	purchased_spawner.queue_free()
+	Blackboard.store_data("score", 500)
 	var upgrade: computer_entry = load("res://Data/Computer/spawner_speed.tres")
 	check(Progression.purchase(upgrade, level, null, level.player).is_empty(), "Spawner upgrade can be bought")
 	check(is_equal_approx(spawner.spawn_interval, 6.4), "Upgrade speeds an existing spawner up by 20 percent")

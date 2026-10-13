@@ -4,9 +4,21 @@ Open `Scenes/testing_level.tscn` and select **Computer**. Press E to focus the a
 
 ## Catalog and prices
 
-The Computer's **Catalog** is `Data/Computer/default_catalog.tres`. Each entry is its own `.tres` in this folder. Select an entry in Godot to edit its title, description, tab (Mechanics / Self / Store), base cost, cost multiplier, and maximum level. A zero maximum is unlimited; Store entries are always repeatable. Enable Escalating Store Price to increase cost by Cost Multiplier after each successful purchase; leave it off for fixed prices.
+The Computer's **Catalog** is `Data/Computer/default_catalog.tres`. Each entry is its own `.tres` in this folder. Select an entry in Godot to edit its title, description, tab (Mechanics / Self / Store), base cost, cost multiplier, and maximum level. A zero maximum is unlimited; Store entries repeat unless Single Purchase is enabled. Enable Escalating Store Price to increase cost by Cost Multiplier after each successful purchase; leave it off for fixed prices.
 
 To add something, duplicate an entry, give it a unique **Id**, and add it to the catalog's Entries array. Upgrade entries need one or more Effects, or a nonempty Unlock Flag for a regular story permission. Store entries need a Delivery Scene and Delivery Kind. No UI code changes are needed to add rows.
+
+## Buy the item before upgrading it
+
+Tool upgrades stay hidden and cannot be bought until the first matching Store purchase **in this run**. Lifetime score discovery is also required; buying a fan at 500 earnings still leaves Fan Power hidden until 600. Losing, grinding or removing the delivered object does not relock upgrades. The screen updates immediately after the purchase.
+
+Set **Required Purchase** (`computer_entry.required_purchase`, StringName) on an upgrade resource to the matching Store entry **Id**, for example `buy_fan`, `buy_steel_plate`, `buy_light`, `buy_push_broom` or `buy_automatic_spawner`. Empty means no item prerequisite. It is checked by `Progression.entry_visible`, `Progression.purchase` and the direct `Mulch.buy_upgrade` path. `Progression.purchase_requirement_error(entry)` returns an empty string when satisfied, or a user-readable error; missing/non-Store IDs fail closed. No extra flags, live actor references or save fields are needed.
+
+All current fan, plate, broom, light and automatic-spawner upgrades use this field, including permanent Mulch fan/spawner upgrades. Mulcher durability/efficiency require `buy_mulcher`; the collector requires `buy_mulch_bin`. The permanently installed Mulcher qualifies across New Game; the bin's run purchase flag qualifies on Continue. Self, chute item-value, combo, lever and memory upgrades have no Store prerequisite because their systems already exist.
+
+Continue restores `upgrade_levels`, including Store delivery counts, so surviving objects are not required. New Game clears ordinary purchase history: buy the tool again before purchasing more of its upgrades. Already paid permanent effects remain and still apply to future deliveries. Existing regular upgrade tiers/stats are not removed by the new gate; they cannot bypass a missing prerequisite to buy another tier.
+
+`Tests/upgrade_ownership_test.tscn` exercises all seventeen gated entries, actual PC row refresh, currency/event protection, both purchase APIs, score thresholds, missing IDs, disk Continue and New Game. Optional Capture Directory produces actual rendered before/after computer views.
 
 ## Upgrade effects
 
@@ -128,3 +140,9 @@ Computer entries export reveal_lifetime_score (default 0), checked against Progr
 Mechanics adds Combo Maximum (+5 cap, 250 initial score / 350 reveal), Combo Increment (+0.25 step, 500 / 800 reveal) and Combo Decay (20% less window-shortening penalty, 750 / 1,500 reveal). Five tiers each, ×3 price growth, target=combo in upgrade_effect; effects apply immediately and restore from original baselines. Global/grind_combo.gd now caps the base multiplier at 15; initial 1.0 and +0.5 steps remain. The payout still uses the accelerating one-point queue.
 
 single_purchase (default false) makes a Store resource one-time. Mulcher installs persistently and Mulch Bin is limited to one purchase per run. The physical screen layout fills its viewport with 18 px outer margins, 20 px default text and 114 px offer rows. F1–F7/tilde pass to global diagnostic tools before PC input forwarding, including focus/return motion.
+
+## Resource and service API
+
+`Scripts/Computer/computer_entry.gd` is `computer_entry : Resource`, UID `uid://dl5o07aajxv84`. It exports identity/text/tab, cost/level/discovery/single-purchase rules, `required_purchase`, saved/story/installation fields, delivery scene/kind and typed effects; `cost(level)` returns the tier price. `Scripts/Computer/computer_catalog.gd` is `computer_catalog : Resource`, UID `uid://db6sfmir5a706`, exporting ordered `entries: Array[computer_entry]`. `Scripts/Computer/upgrade_effect.gd` is `upgrade_effect : Resource`, UID `uid://bqbfjxrccwgvv`, exporting target/property/operation/amount; `apply_value(value)` preserves bool/int/float types.
+
+`Global/progression.gd` is Node autoload **Progression**, UID `uid://wmyou0qisasn`. Signals are `changed` and `purchased(entry, delivered)`. Runtime dictionaries `entries` and `levels`, with `restored_levels`, bind catalogs and saved Blackboard upgrade history. Its public ownership gate is `purchase_requirement_error(entry)`; `entry_visible` combines ownership/discovery and `purchase` validates before spending or delivery. Catalog/UI, Mulch, Blackboard, Flags, SaveGame and WorldState supply the existing dependencies. Tool destruction does not edit purchase history; no ownership polling or per-frame scene searches are added.

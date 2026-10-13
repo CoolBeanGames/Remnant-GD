@@ -19,3 +19,4 @@ base_cost = 30
 effects = Array[ExtResource("effect")]([SubResource("Effect0")])
 
 reveal_lifetime_score = 100
+required_purchase = &"buy_steel_plate"

@@ -43,6 +43,8 @@ func run() -> void:
 	check(Progression.entry_visible(fan_offer) and not Progression.entry_visible(fan), "At 500 earnings the fan appears before its power upgrades")
 	Progression.record_earned_score(100)
 	Blackboard.store_data("score", 0)
+	check(not Progression.entry_visible(fan), "Lifetime earnings alone do not unlock unpurchased fan upgrades")
+	Progression.levels[fan_offer.id] = 1
 	check(Progression.entry_visible(fan) and Progression.lifetime_score() == 600, "At 600 earnings Fan Power appears and remains after spending")
 	GrindCombo.reset()
 	GrindCombo.set_process(false)

@@ -45,9 +45,10 @@ func _run() -> void:
 	old_fan.position = Vector3(20, 2, 20)
 	world.add_child(old_fan)
 	var old_force: float = old_fan.force
+	check(terminal.buy(Progression.entries[&"buy_fan"]).is_empty(), "Buy the first fan before its upgrade.")
 	check(terminal.buy(Progression.entries[&"fan_power"]) == "", "Buy mechanics upgrade.")
 	var current_score: int = Progression.score()
-	check(terminal.buy(Progression.entries[&"buy_fan"]) == "" and Progression.score() == current_score - 175, "Fan purchase deducts its rebalanced 175-score price.")
+	check(terminal.buy(Progression.entries[&"buy_fan"]) == "" and Progression.score() == current_score - 315, "Fan purchase deducts its escalating second-purchase 315-score price.")
 	var new_fan: Node3D = world.get_child(world.get_child_count() - 1)
 	check(new_fan.global_position.is_equal_approx(delivery.global_position) and new_fan.force == old_force * 1.25, "Purchased fan drops from the sky with upgraded force.")
 	check(old_fan.force == old_force, "Mechanics upgrades never modify existing fans.")
@@ -55,6 +56,7 @@ func _run() -> void:
 	old_plate.position = Vector3(-20, 2, -20)
 	world.add_child(old_plate)
 	var bounce: float = old_plate.physics_material_override.bounce
+	check(terminal.buy(Progression.entries[&"buy_steel_plate"]).is_empty(), "Buy the first plate before its upgrade.")
 	terminal.buy(Progression.entries[&"plate_bounce"])
 	terminal.buy(Progression.entries[&"buy_steel_plate"])
 	var new_plate: RigidBody3D = world.get_child(world.get_child_count() - 1)

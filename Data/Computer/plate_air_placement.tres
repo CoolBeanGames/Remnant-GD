@@ -17,3 +17,4 @@ max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("Unlock")])
 
 reveal_lifetime_score = 900
+required_purchase = &"buy_steel_plate"

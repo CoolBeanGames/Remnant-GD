@@ -38,6 +38,8 @@ func _run() -> void:
 	var old_fan: Node3D = load("res://Scenes/Actors/fan.tscn").instantiate()
 	world.add_child(old_fan)
 	check(not Progression.entries.has(&"buy_upgraded_fan") and not Progression.entries.has(&"buy_upgraded_steel_plate"), "Air fan/plate are removed from store stock")
+	for id in [&"buy_fan", &"buy_steel_plate", &"buy_push_broom", &"buy_light"]:
+		check(Progression.purchase(Progression.entries[id], world, delivery, player).is_empty(), "Buy starter tool before upgrading: " + str(id))
 	var count: int = world.get_child_count()
 	for id in [&"fan_air_placement", &"plate_air_placement", &"vacuum_head", &"fan_swivel", &"broom_side_skirt", &"light_beam_hood", &"light_coloured_lens"]:
 		var entry: computer_entry = Progression.entries[id]

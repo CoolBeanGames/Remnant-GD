@@ -16,3 +16,4 @@ tab = 3
 base_cost = 25
 max_level = 1
 effects = Array[ExtResource("effect")]([SubResource("collect")])
+required_purchase = &"buy_mulch_bin"

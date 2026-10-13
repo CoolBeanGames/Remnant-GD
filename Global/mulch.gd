@@ -244,6 +244,9 @@ func deposit(pellet: Node3D, persist: bool = true) -> bool:
 func buy_upgrade(entry: computer_entry, player: Node) -> String:
 	if not tab_unlocked():
 		return "Buy the Mulcher and Mulch Bin first."
+	var requirement: String = Progression.purchase_requirement_error(entry)
+	if not requirement.is_empty():
+		return requirement
 	var price: int = entry.cost(upgrade_level(entry.id))
 	if coins() < price:
 		return "Not enough mulch coins."

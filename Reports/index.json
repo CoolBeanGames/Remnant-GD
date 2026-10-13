@@ -224,6 +224,20 @@
     "description": "Light, plate and broom lead the Store. Fans arrive later, and steel sheets snap together into larger manual contraptions."
   },
   {
+    "title": "Buy it. Then improve it.",
+    "kind": "Development history",
+    "local": "development_summary.html#upgrade-ownership",
+    "online": "../index.html#upgrade-ownership",
+    "description": "Tool upgrades appear only after you buy the tool. Lifetime earnings still control discovery, so the early computer stays focused on what you can actually use."
+  },
+  {
+    "title": "Tool upgrades follow first purchases",
+    "kind": "Rendered gallery",
+    "local": "UpgradeOwnership/index.html",
+    "online": "../UpgradeOwnership/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
+  },
+  {
     "title": "Four-edge plate joins and starter Store",
     "kind": "Rendered gallery",
     "local": "PlateEdges/index.html",

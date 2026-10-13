@@ -19,3 +19,4 @@ max_level = 0
 effects = Array[ExtResource("effect")]([SubResource("effect0")])
 
 reveal_lifetime_score = 2000
+required_purchase = &"buy_mulcher"
