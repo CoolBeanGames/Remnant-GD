@@ -1,0 +1,29 @@
+{
+  "id": "office_chair",
+  "zip": "office+chair+3d+model.zip",
+  "size": 1.18,
+  "usage": "replace chair in warehouse",
+  "processing": "",
+  "native": "Models/Imported/Trip/office_chair/Source/office_chair.blend",
+  "collection": "ASSET | office_chair",
+  "source": "Models/Imported/Trip/office_chair/Source/tripo_convert_eb71485a-84b5-43db-999e-bd0517b6321a.fbx",
+  "export": "Models/Imported/Trip/office_chair/office_chair.glb",
+  "original_bounds": [
+    0.6540527939796448,
+    0.6234132051467896,
+    1.0
+  ],
+  "dimensions_m": [
+    0.7717822790145874,
+    0.7356274127960205,
+    1.1799999475479126
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4660,
+  "triangles": 9355,
+  "texture": "Models/Imported/Trip/office_chair/Source/tripo_convert_eb71485a-84b5-43db-999e-bd0517b6321a.fbm/office_chair_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "office_chair / mesh"
+  ]
+}

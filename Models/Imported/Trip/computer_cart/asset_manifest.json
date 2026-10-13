@@ -1,0 +1,29 @@
+{
+  "id": "computer_cart",
+  "zip": "rusted+cart+3d+model.zip",
+  "size": 1.05,
+  "usage": "Put new computer on top",
+  "processing": "",
+  "native": "Models/Imported/Trip/computer_cart/Source/computer_cart.blend",
+  "collection": "ASSET | computer_cart",
+  "source": "Models/Imported/Trip/computer_cart/Source/tripo_convert_3d29e979-17bf-4a6d-ba31-2288707d5567.fbx",
+  "export": "Models/Imported/Trip/computer_cart/computer_cart.glb",
+  "original_bounds": [
+    0.7587891817092896,
+    0.8378297090530396,
+    1.0
+  ],
+  "dimensions_m": [
+    0.7967286109924316,
+    0.8797211647033691,
+    1.0499999523162842
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4550,
+  "triangles": 9224,
+  "texture": "Models/Imported/Trip/computer_cart/Source/tripo_convert_3d29e979-17bf-4a6d-ba31-2288707d5567.fbm/rusted_cart_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "computer_cart / mesh"
+  ]
+}

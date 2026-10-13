@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dnpgvodrsbg0f" path="res://Scenes/Actors/score_sign.tscn" id="16_bfm0w"]
 [ext_resource type="Material" uid="uid://c8hi1mot5we01" path="res://Materials/Concrete.tres" id="21_cuoug"]
 [ext_resource type="AudioStream" uid="uid://dns35hdt3bmxe" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L2.wav" id="22_fue33"]
-[ext_resource type="PackedScene" uid="uid://dv68owuoi4dtq" path="res://Models/Door/source/doorway_animated.glb" id="22_y5evj"]
+[ext_resource type="PackedScene" path="res://Scenes/Art/doorway.tscn" id="22_y5evj"]
 [ext_resource type="AudioStream" uid="uid://decvroel1cqe5" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L3.wav" id="23_5f81q"]
 [ext_resource type="AudioStream" uid="uid://d2nv7m3vqrrcs" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L4.wav" id="24_axeev"]
 [ext_resource type="AudioStream" uid="uid://c3ru3m68iu8lg" path="res://Audio/SFX/footsteps_concrete/Footstep_Concrete_L5.wav" id="25_4ea81"]

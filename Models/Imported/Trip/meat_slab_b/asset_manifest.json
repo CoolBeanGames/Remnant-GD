@@ -1,0 +1,29 @@
+{
+  "id": "meat_slab_b",
+  "zip": "meat+slab+3d+model.zip",
+  "size": 0.3,
+  "usage": "chute item",
+  "processing": "",
+  "native": "Models/Imported/Trip/meat_slab_b/Source/meat_slab_b.blend",
+  "collection": "ASSET | meat_slab_b",
+  "source": "Models/Imported/Trip/meat_slab_b/Source/tripo_convert_d73ed4ad-53a6-4a3e-b125-ca52826f29df.fbx",
+  "export": "Models/Imported/Trip/meat_slab_b/meat_slab_b.glb",
+  "original_bounds": [
+    0.6496583223342896,
+    1.0000001192092896,
+    0.527587890625
+  ],
+  "dimensions_m": [
+    0.19489747285842896,
+    0.29999998211860657,
+    0.15827634930610657
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4706,
+  "triangles": 9408,
+  "texture": "Models/Imported/Trip/meat_slab_b/Source/tripo_convert_d73ed4ad-53a6-4a3e-b125-ca52826f29df.fbm/meat_slab_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "meat_slab_b / mesh"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "television",
+  "zip": "old+television+3d+model.zip",
+  "size": 0.64,
+  "usage": "replace tv in apartment",
+  "processing": "",
+  "native": "Models/Imported/Trip/television/Source/television.blend",
+  "collection": "ASSET | television",
+  "source": "Models/Imported/Trip/television/Source/tripo_convert_64b0368b-ca04-4807-9e11-103172707024.fbx",
+  "export": "Models/Imported/Trip/television/television.glb",
+  "original_bounds": [
+    0.95068359375,
+    0.75732421875,
+    0.99951171875
+  ],
+  "dimensions_m": [
+    0.6087347269058228,
+    0.4849242866039276,
+    0.64000004529953
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 5227,
+  "triangles": 9349,
+  "texture": "Models/Imported/Trip/television/Source/tripo_convert_64b0368b-ca04-4807-9e11-103172707024.fbm/tripo_image_64b0368b-ca04-4807-9e11-103172707024_0_0.jpg",
+  "views": 3,
+  "objects": [
+    "television / mesh"
+  ]
+}

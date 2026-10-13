@@ -76,7 +76,10 @@ func _run() -> void:
 		key.physical_keycode = KEY_V
 		placement._unhandled_input(key)
 		check(prop.placed and prop.support == null and prop.global_transform.is_equal_approx(pose), "V independently locks the exact held pose in air.")
-		check(prop.get_node("Model/Fan_Base" if id == "upgraded_fan" else "Plate/Mesh_0").transparency == 0.0, "Placed upgrades must return to opaque rendering.")
+		var visuals: Array[Node] = prop.find_children("*", "MeshInstance3D", true, false)
+		check(not visuals.is_empty(), "Placed upgrades contain their imported art.")
+		for visual: MeshInstance3D in visuals:
+			check(visual.transparency == 0.0, "Placed upgrades must return to opaque rendering.")
 		pickup.pickup_object(prop)
 		prop.held_rotation = Basis.from_euler(Vector3(.3, .6, .7))
 		pickup._update_held_object(1.0 / 60.0)

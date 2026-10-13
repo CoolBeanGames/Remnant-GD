@@ -9,10 +9,10 @@
 [ext_resource type="PackedScene" path="res://Scenes/Art/book.tscn" id="model"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/pickup_target.tscn" id="pickup_target"]
 [sub_resource type="BoxShape3D" id="Collision"]
-size = Vector3(0.36, 0.1, 0.251)
+size = Vector3(0.244266, 0.344000, 0.105373)
 [sub_resource type="PhysicsMaterial" id="Physics"]
 friction = 0.35
-bounce = 0.1
+bounce = 0.05
 [node name="Book" type="Node3D" node_paths=PackedStringArray("rb") groups=["grindable", "pick-up"]]
 script = ExtResource("manager")
 start_force = 0.0

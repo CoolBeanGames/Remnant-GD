@@ -9,6 +9,7 @@ var notice: String = ""
 var displayed_cells: int = -1
 var look_prompts: prompt_set = prompt_set.new()
 var look_entry: prompt_entry = prompt_entry.new()
+var _debris_pending: bool = false
 
 func pellet_pose(index: int) -> Transform3D:
 	var output: Node3D = $Output
@@ -23,7 +24,21 @@ func pellet_launch_velocity() -> Vector3:
 func _ready() -> void:
 	look_prompts.entries.append(look_entry)
 	Mulch.changed.connect(refresh)
+	Mulch.pellet_produced.connect(_on_pellet_produced)
 	refresh()
+
+func _on_pellet_produced(_pellet: Node3D) -> void:
+	if Mulch.station != self or _debris_pending:
+		return
+	_debris_pending = true
+	_emit_debris.call_deferred()
+
+func _emit_debris() -> void:
+	_debris_pending = false
+	var particles: CPUParticles3D = get_node_or_null("Output/Debris")
+	if particles != null and is_visible_in_tree():
+		particles.restart()
+		particles.emitting = true
 func refresh() -> void:
 	var cells: int = clampi(ceili(100 * Mulch.damage / maxf(1, Mulch.maximum_damage)), 0, 100)
 	if displayed_cells != cells:

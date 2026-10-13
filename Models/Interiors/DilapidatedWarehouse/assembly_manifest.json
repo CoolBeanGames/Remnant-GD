@@ -15,8 +15,8 @@
     },
     {
       "name": "HydraulicPress 1",
-      "source": "Models/Interiors/WarehouseMachinery/HydraulicPress/Source/hydraulic_press.blend",
-      "collection": "ASSET | HydraulicPress",
+      "source": "Models/Imported/Trip/industrial_machine_a/Source/industrial_machine_a.blend",
+      "collection": "ASSET | industrial_machine_a",
       "position_m": [
         -5,
         4,
@@ -26,8 +26,8 @@
     },
     {
       "name": "HydraulicPress 2",
-      "source": "Models/Interiors/WarehouseMachinery/HydraulicPress/Source/hydraulic_press.blend",
-      "collection": "ASSET | HydraulicPress",
+      "source": "Models/Imported/Trip/industrial_machine_a/Source/industrial_machine_a.blend",
+      "collection": "ASSET | industrial_machine_a",
       "position_m": [
         -5,
         10,
@@ -37,8 +37,8 @@
     },
     {
       "name": "IndustrialLathe 1",
-      "source": "Models/Interiors/WarehouseMachinery/IndustrialLathe/Source/industrial_lathe.blend",
-      "collection": "ASSET | IndustrialLathe",
+      "source": "Models/Imported/Trip/industrial_machine_b/Source/industrial_machine_b.blend",
+      "collection": "ASSET | industrial_machine_b",
       "position_m": [
         -5,
         -4,
@@ -48,8 +48,8 @@
     },
     {
       "name": "IndustrialLathe 2",
-      "source": "Models/Interiors/WarehouseMachinery/IndustrialLathe/Source/industrial_lathe.blend",
-      "collection": "ASSET | IndustrialLathe",
+      "source": "Models/Imported/Trip/industrial_machine_b/Source/industrial_machine_b.blend",
+      "collection": "ASSET | industrial_machine_b",
       "position_m": [
         0,
         5,
@@ -59,8 +59,8 @@
     },
     {
       "name": "AirCompressor 1",
-      "source": "Models/Interiors/WarehouseMachinery/AirCompressor/Source/air_compressor.blend",
-      "collection": "ASSET | AirCompressor",
+      "source": "Models/Imported/Trip/industrial_machine_c/Source/industrial_machine_c.blend",
+      "collection": "ASSET | industrial_machine_c",
       "position_m": [
         4,
         3,
@@ -70,8 +70,8 @@
     },
     {
       "name": "ControlCabinet 1",
-      "source": "Models/Interiors/WarehouseMachinery/ControlCabinet/Source/control_cabinet.blend",
-      "collection": "ASSET | ControlCabinet",
+      "source": "Models/Imported/Trip/industrial_machine_c/Source/industrial_machine_c.blend",
+      "collection": "ASSET | industrial_machine_c",
       "position_m": [
         7,
         13,
@@ -81,8 +81,8 @@
     },
     {
       "name": "ControlCabinet 2",
-      "source": "Models/Interiors/WarehouseMachinery/ControlCabinet/Source/control_cabinet.blend",
-      "collection": "ASSET | ControlCabinet",
+      "source": "Models/Imported/Trip/industrial_machine_c/Source/industrial_machine_c.blend",
+      "collection": "ASSET | industrial_machine_c",
       "position_m": [
         -10,
         6,
@@ -92,8 +92,8 @@
     },
     {
       "name": "OfficeDesk 1",
-      "source": "Models/Interiors/WarehouseMachinery/OfficeDesk/Source/office_desk.blend",
-      "collection": "ASSET | OfficeDesk",
+      "source": "Models/Imported/Trip/desk/Source/desk.blend",
+      "collection": "ASSET | desk",
       "position_m": [
         6.4,
         13.5,
@@ -147,8 +147,8 @@
     },
     {
       "name": "Chair",
-      "source": "Models/Interiors/StudioFurniture/Chair/Source/chair.blend",
-      "collection": "ASSET | Chair",
+      "source": "Models/Imported/Trip/office_chair/Source/office_chair.blend",
+      "collection": "ASSET | office_chair",
       "position_m": [
         6.4,
         14.85,
@@ -163,18 +163,18 @@
       "position_m": [
         5.95,
         13.72,
-        4.995
+        4.952
       ],
       "rotation_z_degrees": -12
     },
     {
       "name": "PileOfMail",
-      "source": "Models/Interiors/StudioFurniture/PileOfMail/Source/pile_of_mail.blend",
-      "collection": "ASSET | PileOfMail",
+      "source": "Models/Imported/Trip/paper_stack/Source/paper_stack.blend",
+      "collection": "ASSET | paper_stack",
       "position_m": [
         6.4,
         13.21,
-        4.997
+        4.951
       ],
       "rotation_z_degrees": 16
     },
@@ -188,6 +188,54 @@
         4.2
       ],
       "rotation_z_degrees": 0
+    },
+    {
+      "name": "GarbageBag 1",
+      "source": "Models/Imported/Trip/garbage_bag_a/Source/garbage_bag_a.blend",
+      "collection": "ASSET | garbage_bag_a",
+      "position_m": [
+        -8,
+        -8,
+        0
+      ],
+      "rotation_z_degrees": 0.0,
+      "collision": false
+    },
+    {
+      "name": "GarbageBag 2",
+      "source": "Models/Imported/Trip/garbage_bag_b/Source/garbage_bag_b.blend",
+      "collection": "ASSET | garbage_bag_b",
+      "position_m": [
+        9,
+        11,
+        0
+      ],
+      "rotation_z_degrees": 41.8259190445501,
+      "collision": false
+    },
+    {
+      "name": "GarbageBag 3",
+      "source": "Models/Imported/Trip/garbage_bag_a/Source/garbage_bag_a.blend",
+      "collection": "ASSET | garbage_bag_a",
+      "position_m": [
+        -9.5,
+        9,
+        0
+      ],
+      "rotation_z_degrees": 83.6518380891002,
+      "collision": false
+    },
+    {
+      "name": "GarbageBag 4",
+      "source": "Models/Imported/Trip/garbage_bag_b/Source/garbage_bag_b.blend",
+      "collection": "ASSET | garbage_bag_b",
+      "position_m": [
+        3,
+        -15,
+        0
+      ],
+      "rotation_z_degrees": 125.47775713365029,
+      "collision": false
     }
   ],
   "views": [
@@ -201,5 +249,6 @@
   "render_samples": 128,
   "complete_model_saved": true,
   "render_device": "GPU",
-  "limits": "Art assets only. No level insertion or gameplay collision. Blender daylight is presentation lighting."
+  "limits": "Art assets only. No level insertion or gameplay collision. Blender daylight is presentation lighting.",
+  "revision": "Trip spreadsheet replacements and expanded one-bedroom apartment"
 }

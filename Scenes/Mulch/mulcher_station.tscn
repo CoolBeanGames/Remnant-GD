@@ -1,16 +1,23 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://Scripts/Mulch/mulcher_station.gd" id="script"]
 [ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
+[ext_resource type="PackedScene" path="res://Scenes/Art/Trip/mulcher.tscn" id="model"]
 [sub_resource type="SystemFont" id="Font"]
 font_names = PackedStringArray("Consolas", "Courier New")
 [sub_resource type="BoxShape3D" id="Shape"]
-size = Vector3(1.2, 1.1, 0.8)
+size = Vector3(0.96, 1.3, 1.35)
 [sub_resource type="BoxMesh" id="Mesh"]
 size = Vector3(1.2, 1.1, 0.8)
 [sub_resource type="StandardMaterial3D" id="Material"]
 albedo_color = Color(0.13, 0.16, 0.12, 1)
 metallic = 0.6
 roughness = 0.8
+[sub_resource type="StandardMaterial3D" id="DebrisMaterial"]
+albedo_color = Color(0.29, 0.18, 0.08, 1)
+roughness = 1.0
+[sub_resource type="BoxMesh" id="DebrisMesh"]
+material = SubResource("DebrisMaterial")
+size = Vector3(0.018, 0.012, 0.008)
 [node name="Mulcher" type="StaticBody3D" groups=["interact", "machine-immune"]]
 script = ExtResource("script")
 [node name="Prompts" type="Node" parent="." node_paths=PackedStringArray("world_anchor")]
@@ -18,24 +25,39 @@ script = ExtResource("prompts")
 world_anchor = NodePath("../PromptAnchor")
 [node name="PromptAnchor" type="Marker3D" parent="."]
 position = Vector3(-0.5, 0.85, 0.6)
-[node name="Mesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("Mesh")
-material_override = SubResource("Material")
+[node name="Model" parent="." instance=ExtResource("model")]
+position = Vector3(0, -0.55, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.1, 0)
 shape = SubResource("Shape")
 [node name="Output" type="Marker3D" parent="."]
-position = Vector3(0, 0.55, 0.65)
+position = Vector3(0, 0.55, 0.9)
 [node name="Status" type="Label3D" parent="."]
-position = Vector3(0, 0.38, 0.43)
+position = Vector3(0, 0.65, 0.68)
 font = SubResource("Font")
 font_size = 34
 pixel_size = 0.002
 outline_size = 5
 text = "MULCHER"
 [node name="DamageGrid" type="Label3D" parent="."]
-position = Vector3(0, -0.12, 0.43)
+position = Vector3(0, 0.23, 0.69)
 font = SubResource("Font")
 font_size = 26
 pixel_size = 0.002
 outline_size = 0
 modulate = Color(0.92, 0.87, 0.72, 1)
+
+[node name="Debris" type="CPUParticles3D" parent="Output"]
+emitting = false
+amount = 24
+lifetime = 0.45
+one_shot = true
+explosiveness = 0.9
+mesh = SubResource("DebrisMesh")
+direction = Vector3(0, 0.25, 1)
+spread = 32.0
+initial_velocity_min = 1.8
+initial_velocity_max = 3.2
+gravity = Vector3(0, -9.8, 0)
+scale_amount_min = 0.6
+scale_amount_max = 1.3

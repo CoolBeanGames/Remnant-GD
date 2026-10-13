@@ -1,0 +1,29 @@
+{
+  "id": "wheelchair",
+  "zip": "rusty+wheelchair+3d+model.zip",
+  "size": 1.13,
+  "usage": "replace wheelchairs in hospital",
+  "processing": "",
+  "native": "Models/Imported/Trip/wheelchair/Source/wheelchair.blend",
+  "collection": "ASSET | wheelchair",
+  "source": "Models/Imported/Trip/wheelchair/Source/tripo_convert_f5961dbf-2681-444f-a489-221b07549a0f.fbx",
+  "export": "Models/Imported/Trip/wheelchair/wheelchair.glb",
+  "original_bounds": [
+    1.0,
+    0.6041871905326843,
+    0.942138671875
+  ],
+  "dimensions_m": [
+    1.1299999952316284,
+    0.6827313899993896,
+    1.0646166801452637
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4597,
+  "triangles": 9616,
+  "texture": "Models/Imported/Trip/wheelchair/Source/tripo_convert_f5961dbf-2681-444f-a489-221b07549a0f.fbm/rusty_wheelchair_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "wheelchair / mesh"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "industrial_machine_c",
+  "zip": "rusty+industrial+machine+3d+model.zip",
+  "size": 2.35,
+  "usage": "replace machines in warehouse",
+  "processing": "",
+  "native": "Models/Imported/Trip/industrial_machine_c/Source/industrial_machine_c.blend",
+  "collection": "ASSET | industrial_machine_c",
+  "source": "Models/Imported/Trip/industrial_machine_c/Source/tripo_convert_ead9cee9-4d27-4106-93f1-2ddc6aa3c351.fbx",
+  "export": "Models/Imported/Trip/industrial_machine_c/industrial_machine_c.glb",
+  "original_bounds": [
+    0.5008544921875,
+    1.000000238418579,
+    0.70477294921875
+  ],
+  "dimensions_m": [
+    1.177007794380188,
+    2.3499996662139893,
+    1.656216025352478
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4452,
+  "triangles": 9758,
+  "texture": "Models/Imported/Trip/industrial_machine_c/Source/tripo_convert_ead9cee9-4d27-4106-93f1-2ddc6aa3c351.fbm/rusty_industrial_machine_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "industrial_machine_c / mesh"
+  ]
+}

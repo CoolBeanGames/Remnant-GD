@@ -1,0 +1,11 @@
+{
+  "native": "Models/Interiors/StudioFurniture/BedroomBed/Source/bedroom_bed.blend",
+  "export": "Models/Interiors/StudioFurniture/BedroomBed/bedroom_bed.glb",
+  "collection": "ASSET | BedroomBed",
+  "dimensions_m": [
+    1.66,
+    2.18,
+    1.23
+  ],
+  "textures": "Existing worn oak and aged fabric maps, packed"
+}

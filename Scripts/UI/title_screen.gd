@@ -28,7 +28,12 @@ func _start_machine_audio() -> void:
 	Audio.set_spatial_active(machine_audio, is_inside_tree())
 
 func _exit_tree() -> void:
+	if is_instance_valid(machine_audio):
+		if machine_audio.finished.is_connected(_start_machine_audio):
+			machine_audio.finished.disconnect(_start_machine_audio)
 	Audio.set_spatial_active(machine_audio, false)
+	if is_instance_valid(machine_audio):
+		machine_audio.stream = null
 
 func _new_game() -> void:
 	if SaveGame.new_game():

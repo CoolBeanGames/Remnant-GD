@@ -1,0 +1,30 @@
+{
+  "id": "door",
+  "zip": "wooden+door+3d+model.zip",
+  "size": 3.18,
+  "usage": "replace doors",
+  "processing": "remove empty frame model, split door from panel, fix any gaps, animate",
+  "native": "Models/Imported/Trip/door/Source/door.blend",
+  "collection": "ASSET | door",
+  "source": "Models/Imported/Trip/door/Source/tripo_convert_c36a255a-6901-4012-905e-642af1ce0c9f.fbx",
+  "export": "Models/Imported/Trip/door/door.glb",
+  "original_bounds": [
+    1.0000001192092896,
+    0.164947509765625,
+    0.9954833984375
+  ],
+  "dimensions_m": [
+    2.076000213623047,
+    0.4357198476791382,
+    3.4770002365112305
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 2391,
+  "triangles": 4389,
+  "texture": "Models/Imported/Trip/door/Source/tripo_convert_c36a255a-6901-4012-905e-642af1ce0c9f.fbm/wooden_door_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "DoorFrame",
+    "DoorLeaf"
+  ]
+}

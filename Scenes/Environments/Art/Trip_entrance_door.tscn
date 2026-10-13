@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_wo7md"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/door/door.glb" id="2_mfdty"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_entrance_door.tres" id="3_6mvph"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wnwhy"]
+friction = 0.95
+
+[node name="Trip_entrance_door" type="Node3D" unique_id=305947646]
+script = ExtResource("1_wo7md")
+pose_overrides = Dictionary[String, Transform3D]({
+"Model/DoorLeaf": Transform3D(-0.10452851, 0, 0.9945219, 0, 1, 0, -0.9945219, 0, -0.10452851, -0.87, 0.1295, 0)
+})
+
+[node name="Model" type="Node3D" parent="." unique_id=1113526635 instance=ExtResource("2_mfdty")]
+transform = Transform3D(0.49, 0, 0, 0, 0.63, 0, 0, 0, 0.63, 0, 0, 0)
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1775028990 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_wnwhy")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1493103964]
+shape = ExtResource("3_6mvph")

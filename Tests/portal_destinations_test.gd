@@ -92,7 +92,7 @@ func run() -> void:
 	level.room._remove_room()
 	await tick()
 	check(portal.active_destination_id == &"apartment", "Apartment is the default destination")
-	check(portal.room.get_node("Art").get_child_count() == 19, "Apartment includes all 18 separate furniture instances")
+	check(portal.room.get_node("Art").get_child_count() == 24, "Expanded apartment includes 23 separate furniture and door instances")
 	var old_room: WeakRef = weakref(portal.room)
 	Blackboard.store_data("player_input_blocked", true)
 	portal._input(f9())
@@ -129,7 +129,7 @@ func run() -> void:
 	Input.parse_input_event(release)
 	check(portal.active_destination_id == &"warehouse" and not portal.inside, "F9 while inside returns player and selects warehouse")
 	check(old_room.get_ref() == null, "Previous room is freed rather than cached")
-	check(portal.room.get_node("Art").get_child_count() == 17, "Warehouse includes its separately authored machines and office")
+	check(portal.room.get_node("Art").get_child_count() == 21, "Warehouse includes replacement machines, office and four decorative garbage bags")
 	check(player.global_position.distance_to(portal.source_frame.global_position) < 2.3 and player.collision_mask == 1, "Cycling lands safely outside the workshop door")
 	check(not basket.get_meta("portal_inside") and not item.get_meta("portal_inside"), "Loaded held basket returns with original actors")
 	var returned_pose: Transform3D = basket.global_transform.affine_inverse() * item_body.global_transform
@@ -152,7 +152,7 @@ func run() -> void:
 	portal._input(f9())
 	await tick(4)
 	check(portal.active_destination_id == &"hospital", "F9 selects hospital after warehouse")
-	check(portal.room.get_node("Art").get_child_count() == 50, "Hospital includes its 50 separate architectural/furniture instances")
+	check(portal.room.get_node("Art").get_child_count() == 54, "Hospital includes replacement furniture and four decorative garbage bags")
 	await enter()
 	# Exercise every room opening with the actual capsule and imported collision.
 	for z in [9.4, 3.75, -4.5, -10.15]:

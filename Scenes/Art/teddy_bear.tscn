@@ -1,11 +1,6 @@
 [gd_scene format=3]
-[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/teddy_bear_Mesh_0.res" id="mesh2"]
-[ext_resource type="Material" path="res://Materials/Items/teddy_bear_Mesh_0.tres" id="material_override2"]
-
-[node name="Model" type="Node3D" unique_id=1244615415]
-metadata/source_model = "res://Models/items/Meshy_AI_a_teddy_bear_1009172346_texture_fbx/Meshy_AI_a_teddy_bear_1009172346_texture.fbx"
-
-[node name="Mesh_0" type="MeshInstance3D" parent="." unique_id=578147659]
-transform = Transform3D(52.66326, 0, 0, 0, 0, 52.66326, 0, -52.66326, 0, 0.0003968606, 0.00027247873, 0.000319014)
-material_override = ExtResource("material_override2")
-mesh = ExtResource("mesh2")
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/teddy_bear/teddy_bear.glb" id="art"]
+[node name="Model" type="Node3D"]
+metadata/source_model = "res://Models/Imported/Trip/teddy_bear/teddy_bear.glb"
+[node name="Art" parent="." instance=ExtResource("art")]
+position = Vector3(0, -0.1599999964237213, 0)

@@ -8,12 +8,11 @@
 [ext_resource type="Script" path="res://Scripts/Actors/score_object.gd" id="score"]
 [ext_resource type="PackedScene" path="res://Scenes/Art/syringe.tscn" id="model"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/pickup_target.tscn" id="pickup_target"]
-[sub_resource type="CapsuleShape3D" id="Collision"]
-radius = 0.025
-height = 0.3
+[sub_resource type="BoxShape3D" id="Collision"]
+size = Vector3(0.203573, 0.204000, 0.066671)
 [sub_resource type="PhysicsMaterial" id="Physics"]
 friction = 0.35
-bounce = 0.1
+bounce = 0.05
 [node name="Syringe" type="Node3D" node_paths=PackedStringArray("rb") groups=["grindable", "pick-up"]]
 script = ExtResource("manager")
 start_force = 0.0
@@ -31,7 +30,6 @@ script = ExtResource("matrix")
 sound_matrix = Array[ExtResource("entry")]([ExtResource("sounds")])
 [node name="Model" parent="RigidBody3D" instance=ExtResource("model")]
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-rotation = Vector3(0, 0, 1.57079633)
 shape = SubResource("Collision")
 [node name="score_object" type="Node" parent="."]
 script = ExtResource("score")

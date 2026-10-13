@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_8p6sd"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/couch/couch.glb" id="2_43n5k"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_couch.tres" id="3_mrrfn"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_py8s6"]
+friction = 0.95
+
+[node name="Trip_couch" type="Node3D" unique_id=847555450]
+script = ExtResource("1_8p6sd")
+
+[node name="Model" type="Node3D" parent="." unique_id=413338993 instance=ExtResource("2_43n5k")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1351647229 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_py8s6")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=987322238]
+shape = ExtResource("3_mrrfn")

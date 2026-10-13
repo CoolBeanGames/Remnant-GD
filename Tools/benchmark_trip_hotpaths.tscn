@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://Tools/benchmark_trip_hotpaths.gd" id="benchmark"]
+[node name="TripBenchmarks" type="Node"]
+script = ExtResource("benchmark")

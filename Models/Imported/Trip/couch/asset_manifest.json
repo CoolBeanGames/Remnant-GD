@@ -1,0 +1,29 @@
+{
+  "id": "couch",
+  "zip": "three-seat+couch+3d+model.zip",
+  "size": 2.25,
+  "usage": "replace couchs",
+  "processing": "",
+  "native": "Models/Imported/Trip/couch/Source/couch.blend",
+  "collection": "ASSET | couch",
+  "source": "Models/Imported/Trip/couch/Source/tripo_convert_0f13964f-da1b-446d-8277-68ec5988e590.fbx",
+  "export": "Models/Imported/Trip/couch/couch.glb",
+  "original_bounds": [
+    0.99951171875,
+    0.4682617783546448,
+    0.44384765625
+  ],
+  "dimensions_m": [
+    2.25,
+    1.0541036128997803,
+    0.9991450905799866
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 5066,
+  "triangles": 9268,
+  "texture": "Models/Imported/Trip/couch/Source/tripo_convert_0f13964f-da1b-446d-8277-68ec5988e590.fbm/tripo_image_0f13964f-da1b-446d-8277-68ec5988e590_0_0.jpg",
+  "views": 3,
+  "objects": [
+    "couch / mesh"
+  ]
+}

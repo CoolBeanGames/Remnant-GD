@@ -1,0 +1,29 @@
+{
+  "id": "book",
+  "zip": "steampunk+book+3d+model.zip",
+  "size": 0.34,
+  "usage": "replace books",
+  "processing": "",
+  "native": "Models/Imported/Trip/book/Source/book.blend",
+  "collection": "ASSET | book",
+  "source": "Models/Imported/Trip/book/Source/tripo_convert_2c16bc6a-b7ba-4117-bfc8-a387cfdbe0d1.fbx",
+  "export": "Models/Imported/Trip/book/book.glb",
+  "original_bounds": [
+    0.7066650986671448,
+    0.2981567978858948,
+    1.0
+  ],
+  "dimensions_m": [
+    0.2402661293745041,
+    0.10137330740690231,
+    0.3400000035762787
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4392,
+  "triangles": 8771,
+  "texture": "Models/Imported/Trip/book/Source/tripo_convert_2c16bc6a-b7ba-4117-bfc8-a387cfdbe0d1.fbm/steampunk_book_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "book / mesh"
+  ]
+}

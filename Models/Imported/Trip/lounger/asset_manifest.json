@@ -1,0 +1,29 @@
+{
+  "id": "lounger",
+  "zip": "lounger+chair.zip",
+  "size": 1.12,
+  "usage": "replace chair in aparment",
+  "processing": "",
+  "native": "Models/Imported/Trip/lounger/Source/lounger.blend",
+  "collection": "ASSET | lounger",
+  "source": "Models/Imported/Trip/lounger/Source/tripo_convert_258e857f-67b5-4065-aa5c-bfaa13608c2c.fbx",
+  "export": "Models/Imported/Trip/lounger/lounger.glb",
+  "original_bounds": [
+    0.75439453125,
+    0.83935546875,
+    0.99951171875
+  ],
+  "dimensions_m": [
+    0.8453346490859985,
+    0.9405374526977539,
+    1.1200000047683716
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 5440,
+  "triangles": 8987,
+  "texture": "Models/Imported/Trip/lounger/Source/tripo_convert_258e857f-67b5-4065-aa5c-bfaa13608c2c.fbm/tripo_image_258e857f-67b5-4065-aa5c-bfaa13608c2c_0_0.jpg",
+  "views": 3,
+  "objects": [
+    "lounger / mesh"
+  ]
+}

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_w3lmb"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/television/television.glb" id="2_by6op"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_television.tres" id="3_15tv7"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_thb63"]
+friction = 0.95
+
+[node name="Trip_television" type="Node3D" unique_id=1952084729]
+script = ExtResource("1_w3lmb")
+
+[node name="Model" type="Node3D" parent="." unique_id=1985647337 instance=ExtResource("2_by6op")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1660865069 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_thb63")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=789075691]
+shape = ExtResource("3_15tv7")

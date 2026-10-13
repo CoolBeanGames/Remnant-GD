@@ -103,6 +103,11 @@ def build():
         next(row for row in index if row['id']==archive_id)['text']=archive_text
     # Current maintained gameplay/workflow guides keep sidebar, body and search in sync.
     maintained = [
+		('page-item-spawn-pool', 'Random item pool and unique note spawns', 'Actors', 'Data/Items/README.md', None, 'nine production chute automatic spawner random item pool unique note fallback two percent test block excluded'),
+		('page-imported-gameplay-art', 'Imported items and prop art', 'Actors', 'Data/Items/ART.md', None, 'Trip models nine items materials mass collision sounds glass plastic teddy book door UV fan blades'),
+		('page-note-resources', 'Note definitions, catalog and drops', 'Notes', 'Data/Notes/README.md', None, 'physical note paper N transcript journal two percent unique drop cull saved bottle'),
+		('page-global-save-game', 'SaveGame / single-file persistence', 'Globals', 'Data/SAVING.md', None, 'save entire blackboard flags profile reset exit audio shutdown graceful mixer failure retry'),
+		('page-trip-models', 'Trip models and enlarged apartment', 'Actors', 'Data/Items/TRIP_MODELS.md', 'page-plate-snapping', 'Trip spreadsheet FBX GLB UV door lever nine chute items bedroom materials native scale mulcher cart collision'),
 		('page-global-settings', 'Settings / audio and mouse', 'Globals', 'Data/OPTIONS.md', None, 'Settings startup maximized fullscreen window filling render scale SFX title ambience'),
 		('page-title-options', 'Title screen, controls and graphics', 'UI', 'Data/OPTIONS.md', None, 'title grinder Machine Audio optional ambience Options SFX resized display fullscreen'),
         ('page-plate-snapping', 'Steel plate edge snapping', 'Actors', 'Data/Items/PLATE_SNAPPING.md', 'page-manual-automation', 'steel_plate left right top bottom four edge snap ghost B R wheel hinge carry save collision'),
@@ -137,7 +142,7 @@ def build():
         else:
             pages[slot]=page
             row=next(row for row in index if row['id']==ref_id)
-            row.update({'title':title,'keywords':keywords,'text':markdown})
+            row.update({'title':title,'keywords':keywords,'text':markdown,'summary':markdown.split('\n\n')[1].replace('\n',' ')[:260]})
     page_ids=[re.search(r'id="([^"]+)"',page)[1] for page in pages]
 
     if feedback_id not in page_ids: page_ids.append(feedback_id)

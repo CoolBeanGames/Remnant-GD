@@ -96,6 +96,7 @@ func run() -> void:
 	title._start_machine_audio()
 	remove_child(title)
 	check(not machine.playing, "Leaving title stops its machine sound")
+	check(machine.stream == null and not machine.finished.is_connected(title._start_machine_audio), "Title teardown releases its sound and prevents a pending restart")
 	title.free()
 	Settings.set_value("sfx", 1.0)
 	var pool := object_pool.new()

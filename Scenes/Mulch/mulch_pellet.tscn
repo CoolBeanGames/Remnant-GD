@@ -2,6 +2,7 @@
 [ext_resource type="Script" path="res://Scripts/Mulch/mulch_pellet.gd" id="script"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/pickup_target.tscn" id="target"]
 [ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
+[ext_resource type="PackedScene" path="res://Scenes/Art/Trip/mulch_pellet.tscn" id="model"]
 [sub_resource type="BoxShape3D" id="Shape"]
 size = Vector3(0.24, 0.24, 0.24)
 [sub_resource type="BoxMesh" id="Mesh"]
@@ -17,9 +18,8 @@ script = ExtResource("script")
 mass = 0.08
 continuous_cd = true
 physics_material_override = SubResource("Physics")
-[node name="Mesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("Mesh")
-material_override = SubResource("Material")
+[node name="Model" parent="." instance=ExtResource("model")]
+position = Vector3(0, -0.12, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("Shape")
 [node name="PickupTarget" parent="." instance=ExtResource("target")]

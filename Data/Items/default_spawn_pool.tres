@@ -1,12 +1,15 @@
 [gd_resource type="Resource" script_class="item_spawn_pool" format=3 uid="uid://dudfdiaoxtybp"]
-
+[ext_resource type="Script" path="res://Scripts/Actors/item_spawn_pool.gd" id="pool"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/baby_bottle.tscn" id="baby_bottle"]
 [ext_resource type="PackedScene" path="res://Scenes/Items/beer_bottle.tscn" id="beer_bottle"]
-[ext_resource type="PackedScene" path="res://Scenes/Items/book.tscn" id="book"]
-[ext_resource type="Script" uid="uid://dh6aqxub3dcnh" path="res://Scripts/Actors/item_spawn_pool.gd" id="pool"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/clipboard.tscn" id="clipboard"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/meat_slab_a.tscn" id="meat_slab_a"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/meat_slab_b.tscn" id="meat_slab_b"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/meat_block.tscn" id="meat_block"]
 [ext_resource type="PackedScene" path="res://Scenes/Items/syringe.tscn" id="syringe"]
+[ext_resource type="PackedScene" path="res://Scenes/Items/book.tscn" id="book"]
 [ext_resource type="PackedScene" path="res://Scenes/Items/teddy_bear.tscn" id="teddy_bear"]
-[ext_resource type="PackedScene" uid="uid://0851ilsmei5g" path="res://Scenes/test_object.tscn" id="test"]
 
 [resource]
 script = ExtResource("pool")
-items = Array[PackedScene]([ExtResource("test"), ExtResource("beer_bottle"), ExtResource("book"), ExtResource("syringe"), ExtResource("teddy_bear")])
+items = Array[PackedScene]([ExtResource("baby_bottle"), ExtResource("beer_bottle"), ExtResource("clipboard"), ExtResource("meat_slab_a"), ExtResource("meat_slab_b"), ExtResource("meat_block"), ExtResource("syringe"), ExtResource("book"), ExtResource("teddy_bear")])

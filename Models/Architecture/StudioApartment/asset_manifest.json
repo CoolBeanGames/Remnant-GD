@@ -1,7 +1,7 @@
 {
   "blender": "4.5.1 LTS",
   "dimensions_m": [
-    7.8,
+    12.2,
     6.2,
     2.8
   ],
@@ -9,7 +9,7 @@
     2.5,
     2.3
   ],
-  "architecture_meshes": 158,
+  "architecture_meshes": 249,
   "triangles": 133024,
   "render_samples": 128,
   "furniture": false,
@@ -29,5 +29,14 @@
     "entry",
     "bathroom"
   ],
-  "surface_finish": "Worn oak, mottled yellowed plaster, aged enamel/tile and 10 local damp/grease/traffic stain patches"
+  "surface_finish": "Worn oak, mottled yellowed plaster, aged enamel/tile and 10 local damp/grease/traffic stain patches",
+  "bedroom_m": [
+    4.25,
+    6.2
+  ],
+  "bedroom_door_clearance_m": [
+    1.195,
+    2.2
+  ],
+  "revision": "October Trip spreadsheet: separate east bedroom, original bath/entrance/newsprint retained"
 }

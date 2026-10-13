@@ -1,0 +1,29 @@
+{
+  "id": "mulch_pellet",
+  "zip": "trash+ball+3d+model.zip",
+  "size": 0.24,
+  "usage": "replace mulch pellets",
+  "processing": "",
+  "native": "Models/Imported/Trip/mulch_pellet/Source/mulch_pellet.blend",
+  "collection": "ASSET | mulch_pellet",
+  "source": "Models/Imported/Trip/mulch_pellet/Source/tripo_convert_21ae8f92-f3f0-4291-ae5c-dc36b3316e53.fbx",
+  "export": "Models/Imported/Trip/mulch_pellet/mulch_pellet.glb",
+  "original_bounds": [
+    1.0000001192092896,
+    0.9296265840530396,
+    0.884521484375
+  ],
+  "dimensions_m": [
+    0.23999999463558197,
+    0.2231103479862213,
+    0.2122851312160492
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4141,
+  "triangles": 9421,
+  "texture": "Models/Imported/Trip/mulch_pellet/Source/tripo_convert_21ae8f92-f3f0-4291-ae5c-dc36b3316e53.fbm/trash_ball_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "mulch_pellet / mesh"
+  ]
+}

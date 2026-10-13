@@ -114,10 +114,12 @@ def main() -> int:
     if not executable.is_file() or not executable.with_suffix('.pck').is_file():
         raise RuntimeError('Export did not produce an executable and separate PCK.')
     smoke_environment = dict(os.environ, APPDATA=str(folder / 'smoke_profile'))
-    run([str(executable), '--headless', '--quit-after', '90', '--log-file', str(folder / 'smoke-engine.log')], smoke_environment, folder / 'smoke.log', 60)
+    run([str(executable), '--headless', '--log-file', str(folder / 'smoke-engine.log'), '--', '--verify-startup-exit'], smoke_environment, folder / 'smoke.log', 60)
+    if 'Export smoke: 90 startup frames; requesting graceful Exit' not in (folder / 'smoke.log').read_text(encoding='utf-8', errors='replace'):
+        raise RuntimeError('Export did not verify the configured startup and graceful Exit.')
     revision = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
     worktree = subprocess.check_output(['git', '-C', str(root), 'status', '--short'], text=True).strip().splitlines()
-    manifest = {'created_at': dt.datetime.now().astimezone().isoformat(), 'engine': raw_version, 'mode': 'release', 'preset': args.preset, 'source_commit': revision, 'source_worktree_changes': worktree, 'templates': source, 'verification': ['editor import', 'Windows release export', 'isolated headless exported startup 90 frames'], 'files': {path.name: {'bytes': path.stat().st_size, 'sha256': sha256(path)} for path in folder.iterdir() if path.is_file() and path.suffix.lower() in ('.exe', '.pck', '.dll')}}
+    manifest = {'created_at': dt.datetime.now().astimezone().isoformat(), 'engine': raw_version, 'mode': 'release', 'preset': args.preset, 'source_commit': revision, 'source_worktree_changes': worktree, 'templates': source, 'verification': ['editor import', 'Windows release export', 'isolated headless exported startup 90 frames and graceful Exit'], 'files': {path.name: {'bytes': path.stat().st_size, 'sha256': sha256(path)} for path in folder.iterdir() if path.is_file() and path.suffix.lower() in ('.exe', '.pck', '.dll')}}
     (folder / 'build.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
     (builds_root / 'latest.txt').write_text(str(folder) + '\n', encoding='utf-8')
     print('Windows build verified: ' + str(executable), flush=True)

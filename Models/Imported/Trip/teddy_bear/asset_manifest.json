@@ -1,0 +1,29 @@
+{
+  "id": "teddy_bear",
+  "zip": "teddy+bear+3d+model.zip",
+  "size": 0.32,
+  "usage": "replace teddy bear",
+  "processing": "",
+  "native": "Models/Imported/Trip/teddy_bear/Source/teddy_bear.blend",
+  "collection": "ASSET | teddy_bear",
+  "source": "Models/Imported/Trip/teddy_bear/Source/tripo_convert_d11ee179-b237-4504-9f2d-b8fa4a116b56.fbx",
+  "export": "Models/Imported/Trip/teddy_bear/teddy_bear.glb",
+  "original_bounds": [
+    0.8408204317092896,
+    0.6552735567092896,
+    1.0
+  ],
+  "dimensions_m": [
+    0.26906251907348633,
+    0.20968753099441528,
+    0.3199999928474426
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4738,
+  "triangles": 9468,
+  "texture": "Models/Imported/Trip/teddy_bear/Source/tripo_convert_d11ee179-b237-4504-9f2d-b8fa4a116b56.fbm/teddy_bear_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "teddy_bear / mesh"
+  ]
+}

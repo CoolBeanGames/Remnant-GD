@@ -1,0 +1,29 @@
+{
+  "id": "computer",
+  "zip": "Computer.zip",
+  "size": 0.68,
+  "usage": "Replace Computer, Put on top of rusted+cart+3d+model.zip",
+  "processing": "",
+  "native": "Models/Imported/Trip/computer/Source/computer.blend",
+  "collection": "ASSET | computer",
+  "source": "Models/Imported/Trip/computer/Source/tripo_convert_b3e98f7f-b77d-408f-8e66-ccace7c8b337.fbx",
+  "export": "Models/Imported/Trip/computer/computer.glb",
+  "original_bounds": [
+    0.85107421875,
+    0.9995117783546448,
+    0.99072265625
+  ],
+  "dimensions_m": [
+    0.5790131092071533,
+    0.6799999475479126,
+    0.6740204691886902
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 5449,
+  "triangles": 9339,
+  "texture": "Models/Imported/Trip/computer/Source/tripo_convert_b3e98f7f-b77d-408f-8e66-ccace7c8b337.fbm/tripo_image_b3e98f7f-b77d-408f-8e66-ccace7c8b337_0_0.jpg",
+  "views": 3,
+  "objects": [
+    "computer / mesh"
+  ]
+}

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_08ovl"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/lounger/lounger.glb" id="2_0333b"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_lounger.tres" id="3_4jfc1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ir8dy"]
+friction = 0.95
+
+[node name="Trip_lounger" type="Node3D" unique_id=1442555738]
+script = ExtResource("1_08ovl")
+
+[node name="Model" type="Node3D" parent="." unique_id=2045852201 instance=ExtResource("2_0333b")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=636145520 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_ir8dy")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=1744664491]
+shape = ExtResource("3_4jfc1")

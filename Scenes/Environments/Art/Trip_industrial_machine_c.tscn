@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_b5qap"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/industrial_machine_c/industrial_machine_c.glb" id="2_d1sbb"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_industrial_machine_c.tres" id="3_qyn83"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_s0str"]
+friction = 0.95
+
+[node name="Trip_industrial_machine_c" type="Node3D" unique_id=469441121]
+script = ExtResource("1_b5qap")
+
+[node name="Model" type="Node3D" parent="." unique_id=372024198 instance=ExtResource("2_d1sbb")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1568968079 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_s0str")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=517415910]
+shape = ExtResource("3_qyn83")

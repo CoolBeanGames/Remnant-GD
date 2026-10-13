@@ -1,0 +1,29 @@
+{
+  "id": "clipboard",
+  "zip": "clipboard+with+papers+3d+model.zip",
+  "size": 0.34,
+  "usage": "Chute Item",
+  "processing": "",
+  "native": "Models/Imported/Trip/clipboard/Source/clipboard.blend",
+  "collection": "ASSET | clipboard",
+  "source": "Models/Imported/Trip/clipboard/Source/tripo_convert_74910b8e-00e6-47f5-87dd-8d8f19445050.fbx",
+  "export": "Models/Imported/Trip/clipboard/clipboard.glb",
+  "original_bounds": [
+    0.72613525390625,
+    1.0000001192092896,
+    0.2929382920265198
+  ],
+  "dimensions_m": [
+    0.2468859702348709,
+    0.3400000035762787,
+    0.09959898144006729
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4581,
+  "triangles": 9242,
+  "texture": "Models/Imported/Trip/clipboard/Source/tripo_convert_74910b8e-00e6-47f5-87dd-8d8f19445050.fbm/clipboard_with_papers_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "clipboard / mesh"
+  ]
+}

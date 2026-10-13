@@ -1,0 +1,29 @@
+{
+  "id": "garbage_bag_a",
+  "zip": "garbage+bag+3d+model (1).zip",
+  "size": 0.68,
+  "usage": "set dressing, no collisions, scatter a few around hospital and warehouse",
+  "processing": "",
+  "native": "Models/Imported/Trip/garbage_bag_a/Source/garbage_bag_a.blend",
+  "collection": "ASSET | garbage_bag_a",
+  "source": "Models/Imported/Trip/garbage_bag_a/Source/tripo_convert_4cf5caeb-ad38-4135-b78f-9d0d1eb4d18a.fbx",
+  "export": "Models/Imported/Trip/garbage_bag_a/garbage_bag_a.glb",
+  "original_bounds": [
+    0.8932495713233948,
+    0.6915284395217896,
+    1.0
+  ],
+  "dimensions_m": [
+    0.6074097156524658,
+    0.4702393114566803,
+    0.6800000071525574
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4816,
+  "triangles": 9842,
+  "texture": "Models/Imported/Trip/garbage_bag_a/Source/tripo_convert_4cf5caeb-ad38-4135-b78f-9d0d1eb4d18a.fbm/garbage_bag_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "garbage_bag_a / mesh"
+  ]
+}

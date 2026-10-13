@@ -2,21 +2,38 @@ class_name audio_global
 extends Node
 
 @export_range(1, 64, 1) var maximum_collision_sounds: int = 10
+@export_range(.05, .5, .01) var shutdown_grace_seconds: float = .12
+var shutting_down: bool = false
+
+## Stop the final scene's sources before quitting so the mixer releases playback.
+func begin_shutdown() -> void:
+	if shutting_down:
+		return
+	shutting_down = true
+	var pending: Array[Node] = [get_tree().root]
+	while not pending.is_empty():
+		var node: Node = pending.pop_back()
+		pending.append_array(node.get_children())
+		if node is AudioStreamPlayer or node is AudioStreamPlayer2D or node is AudioStreamPlayer3D:
+			node.call("stop")
+			node.set("stream", null)
+			node.process_mode = Node.PROCESS_MODE_DISABLED
 
 ## Persistent spatial sources retain their local player and authored attenuation.
 ## They share null-safe start/stop policy without borrowing a transient pool slot.
 static func set_spatial_active(player: AudioStreamPlayer3D, enabled: bool) -> void:
 	if not is_instance_valid(player):
 		return
-	if enabled and player.stream != null:
+	if enabled and not Audio.shutting_down and player.stream != null:
 		if not player.playing:
 			player.play()
-	elif player.playing:
+	else:
+		# Stop also cancels a spatial play queued for the next physics tick.
 		player.stop()
 
 static func play_collision(stream: AudioStream, position: Vector3, volume: float = 1.0, pitch: float = 1.0) -> void:
 	var pool: object_pool = Blackboard.read_data("audio_pool")
-	if stream == null or not is_instance_valid(pool):
+	if Audio.shutting_down or stream == null or not is_instance_valid(pool):
 		return
 	var active: int = 0
 	for player in pool.active:
@@ -38,7 +55,7 @@ static func play_3d(
 	bus: StringName = &"Master"
 ) -> audio_player:
 
-	if stream == null:
+	if Audio.shutting_down or stream == null:
 		return null
 	var pool: object_pool = Blackboard.read_data("audio_pool")
 
@@ -82,7 +99,7 @@ static func play_global(
 	bus: StringName = &"Master"
 ) -> audio_player:
 
-	if stream == null:
+	if Audio.shutting_down or stream == null:
 		return null
 	var pool: object_pool = Blackboard.read_data("audio_pool")
 

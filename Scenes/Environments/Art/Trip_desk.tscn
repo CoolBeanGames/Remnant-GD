@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_evk31"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/desk/desk.glb" id="2_jlwq3"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_desk.tres" id="3_x3n5v"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_se0se"]
+friction = 0.95
+
+[node name="Trip_desk" type="Node3D" unique_id=949294894]
+script = ExtResource("1_evk31")
+
+[node name="Model" type="Node3D" parent="." unique_id=1332287559 instance=ExtResource("2_jlwq3")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=2063899518 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_se0se")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=942955873]
+shape = ExtResource("3_x3n5v")

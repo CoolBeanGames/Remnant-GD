@@ -1,0 +1,29 @@
+{
+  "id": "waiting_chairs",
+  "zip": "rusted+waiting+chairs+3d+model.zip",
+  "size": 2.15,
+  "usage": "replace waiting room chairs in hospital",
+  "processing": "",
+  "native": "Models/Imported/Trip/waiting_chairs/Source/waiting_chairs.blend",
+  "collection": "ASSET | waiting_chairs",
+  "source": "Models/Imported/Trip/waiting_chairs/Source/tripo_convert_711afe0e-78a3-4009-b4e3-ac240555f366.fbx",
+  "export": "Models/Imported/Trip/waiting_chairs/waiting_chairs.glb",
+  "original_bounds": [
+    1.0000001192092896,
+    0.404266357421875,
+    0.3558349609375
+  ],
+  "dimensions_m": [
+    2.1500000953674316,
+    0.8691726326942444,
+    0.7650450468063354
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4870,
+  "triangles": 9768,
+  "texture": "Models/Imported/Trip/waiting_chairs/Source/tripo_convert_711afe0e-78a3-4009-b4e3-ac240555f366.fbm/rusted_waiting_chairs_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "waiting_chairs / mesh"
+  ]
+}

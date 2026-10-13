@@ -1,0 +1,30 @@
+{
+  "id": "lever",
+  "zip": "rusty+lever+switch+3d+model.zip",
+  "size": 2.05,
+  "usage": "replace lever switchs",
+  "processing": "separate level from base, animate, add lights ",
+  "native": "Models/Imported/Trip/lever/Source/lever.blend",
+  "collection": "ASSET | lever",
+  "source": "Models/Imported/Trip/lever/Source/tripo_convert_a86c5cfa-e93c-45bf-a0fe-651275d047cc.fbx",
+  "export": "Models/Imported/Trip/lever/lever.glb",
+  "original_bounds": [
+    1.0000001192092896,
+    0.39724743366241455,
+    0.947021484375
+  ],
+  "dimensions_m": [
+    2.049999952316284,
+    0.8143570423126221,
+    1.9413937330245972
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4837,
+  "triangles": 9626,
+  "texture": "Models/Imported/Trip/lever/Source/tripo_convert_a86c5cfa-e93c-45bf-a0fe-651275d047cc.fbm/rusty_lever_switch_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "LeverBase",
+    "LeverHandle"
+  ]
+}

@@ -4,15 +4,15 @@
 [ext_resource type="Environment" path="res://Data/Portal/dark_environment.tres" id="2_oxtih"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/DilapidatedWarehouse_dilapidated_warehouse.tscn" id="3_1naje"]
 [ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="4_4mnnn"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/HydraulicPress_hydraulic_press.tscn" id="5_w7p5s"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/IndustrialLathe_industrial_lathe.tscn" id="6_piy71"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/AirCompressor_air_compressor.tscn" id="7_aa2u3"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/ControlCabinet_control_cabinet.tscn" id="8_wugvk"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/OfficeDesk_office_desk.tscn" id="9_40uv8"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_industrial_machine_a.tscn" id="5_w7p5s"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_industrial_machine_b.tscn" id="6_piy71"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_industrial_machine_c.tscn" id="7_aa2u3"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_industrial_machine_c.tscn" id="8_wugvk"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_desk.tscn" id="9_40uv8"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/DebrisKit_debris_kit.tscn" id="10_d845c"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Chair_chair.tscn" id="11_e65ju"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_office_chair.tscn" id="11_e65ju"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/LandlinePhone_landline_phone.tscn" id="12_ece5m"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="13_lrx5n"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_paper_stack.tscn" id="13_lrx5n"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="14_w460q"]
 
 [ext_resource type="Script" path="res://Scripts/Dialogue/memory_object.gd" id="memory_object"]
@@ -22,6 +22,10 @@
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/warehouse_cabinet.tres" id="story_cabinet"]
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/warehouse_phone.tres" id="story_phone"]
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/warehouse_paperwork.tres" id="story_paperwork"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_garbage_bag_a.tscn" id="trip_garbage_bag_a"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_garbage_bag_b.tscn" id="trip_garbage_bag_b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vc7yg"]
 size = Vector3(4, 0.16, 1.2)
@@ -113,12 +117,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 4.2, -14.85)
 script = ExtResource("4_4mnnn")
 
 [node name="LandlinePhone" type="Node3D" parent="Art" unique_id=1832182349 instance=ExtResource("12_ece5m")]
-transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 5.95, 4.995, -13.72)
+transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 5.95, 4.952, -13.72)
 script = ExtResource("memory_object")
 story = ExtResource("story_phone")
 
 [node name="PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("13_lrx5n")]
-transform = Transform3D(0.9612617, 0, 0.27563736, 0, 1, 0, -0.27563736, 0, 0.9612617, 6.4, 4.997, -13.21)
+transform = Transform3D(0.9612617, 0, 0.27563736, 0, 1, 0, -0.27563736, 0, 0.9612617, 6.4, 4.951, -13.21)
 script = ExtResource("memory_object")
 story = ExtResource("story_paperwork")
 
@@ -166,3 +170,19 @@ shape = SubResource("StoryAimShape_paperwork")
 script = ExtResource("memory_completion")
 completion_flag = "memory 2 complete"
 required_flags = Array[String](["memory 2 press", "memory 2 lathe", "memory 2 cabinet", "memory 2 phone", "memory 2 paperwork"])
+
+[node name="GarbageBag 1" parent="Art" instance=ExtResource("trip_garbage_bag_a")]
+position = Vector3(-8, 0, 8)
+rotation = Vector3(0, 0.0, 0)
+
+[node name="GarbageBag 2" parent="Art" instance=ExtResource("trip_garbage_bag_b")]
+position = Vector3(9, 0, -11)
+rotation = Vector3(0, 0.73, 0)
+
+[node name="GarbageBag 3" parent="Art" instance=ExtResource("trip_garbage_bag_a")]
+position = Vector3(-9.5, 0, -9)
+rotation = Vector3(0, 1.46, 0)
+
+[node name="GarbageBag 4" parent="Art" instance=ExtResource("trip_garbage_bag_b")]
+position = Vector3(3, 0, 15)
+rotation = Vector3(0, 2.19, 0)

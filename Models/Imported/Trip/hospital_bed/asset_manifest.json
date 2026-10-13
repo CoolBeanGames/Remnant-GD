@@ -1,0 +1,29 @@
+{
+  "id": "hospital_bed",
+  "zip": "rusty+hospital+bed+3d+model.zip",
+  "size": 2.15,
+  "usage": "replace hospital beds",
+  "processing": "",
+  "native": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+  "collection": "ASSET | hospital_bed",
+  "source": "Models/Imported/Trip/hospital_bed/Source/tripo_convert_a47584de-71c7-4c42-a211-3313e4c038cf.fbx",
+  "export": "Models/Imported/Trip/hospital_bed/hospital_bed.glb",
+  "original_bounds": [
+    0.50982666015625,
+    1.0000001192092896,
+    0.4951172471046448
+  ],
+  "dimensions_m": [
+    1.0961272716522217,
+    2.1500000953674316,
+    1.0645017623901367
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4535,
+  "triangles": 9427,
+  "texture": "Models/Imported/Trip/hospital_bed/Source/tripo_convert_a47584de-71c7-4c42-a211-3313e4c038cf.fbm/rusty_hospital_bed_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "hospital_bed / mesh"
+  ]
+}

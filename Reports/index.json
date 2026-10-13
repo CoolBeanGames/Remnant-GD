@@ -7,6 +7,13 @@
     "description": "Searchable current systems, authoring guides, API and scene dependencies."
   },
   {
+    "title": "Supplied objects. A larger apartment.",
+    "kind": "Development history",
+    "local": "development_summary.html#trip-models-apartment",
+    "online": "../index.html#trip-models-apartment",
+    "description": "Thirty-two spreadsheet models become editable, textured game assets. Nine new chute items, working machinery and a separate bedroom fit into the existing physics, audio, save and memory systems."
+  },
+  {
     "title": "Make mulch. Keep moving.",
     "kind": "Development history",
     "local": "development_summary.html#mulch-followup",
@@ -236,6 +243,13 @@
     "local": "development_summary.html#title-mulcher-window",
     "online": "../index.html#title-mulcher-window",
     "description": "Your new title workshop keeps its artwork and gains continuous grinder sound. The moved Mulcher ejects away from the grinder, and Play fills the available window."
+  },
+  {
+    "title": "Trip models, expanded apartment and retained gameplay",
+    "kind": "Rendered gallery",
+    "local": "TripModels/index.html",
+    "online": "../TripModels/index.html",
+    "description": "Reviewed actual renders and authored assets. Earlier work retained as history."
   },
   {
     "title": "Title ambience, relocated Mulcher and window filling",

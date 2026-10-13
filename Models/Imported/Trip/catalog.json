@@ -1,0 +1,226 @@
+[
+  {
+    "id": "baby_bottle",
+    "zip": "baby+bottle+3d+model.zip",
+    "size": 0.24,
+    "usage": "Chute Item",
+    "processing": ""
+  },
+  {
+    "id": "beer_bottle",
+    "zip": "beer+bottle+3d+model.zip",
+    "size": 0.3,
+    "usage": "Chute Item",
+    "processing": ""
+  },
+  {
+    "id": "clipboard",
+    "zip": "clipboard+with+papers+3d+model.zip",
+    "size": 0.34,
+    "usage": "Chute Item",
+    "processing": ""
+  },
+  {
+    "id": "computer",
+    "zip": "Computer.zip",
+    "size": 0.68,
+    "usage": "Replace Computer, Put on top of rusted+cart+3d+model.zip",
+    "processing": ""
+  },
+  {
+    "id": "garbage_bag_a",
+    "zip": "garbage+bag+3d+model (1).zip",
+    "size": 0.68,
+    "usage": "set dressing, no collisions, scatter a few around hospital and warehouse",
+    "processing": ""
+  },
+  {
+    "id": "garbage_bag_b",
+    "zip": "garbage+bag+3d+model.zip",
+    "size": 0.64,
+    "usage": "set dressing, no collisions, scatter a few around hospital and warehouse",
+    "processing": ""
+  },
+  {
+    "id": "lounger",
+    "zip": "lounger+chair.zip",
+    "size": 1.12,
+    "usage": "replace chair in aparment",
+    "processing": ""
+  },
+  {
+    "id": "meat_slab_a",
+    "zip": "meat+slab+3d+model (1).zip",
+    "size": 0.28,
+    "usage": "chute item",
+    "processing": ""
+  },
+  {
+    "id": "meat_slab_b",
+    "zip": "meat+slab+3d+model.zip",
+    "size": 0.3,
+    "usage": "chute item",
+    "processing": ""
+  },
+  {
+    "id": "syringe",
+    "zip": "medical+syringe+3d+model.zip",
+    "size": 0.2,
+    "usage": "replace syringe",
+    "processing": ""
+  },
+  {
+    "id": "office_chair",
+    "zip": "office+chair+3d+model.zip",
+    "size": 1.18,
+    "usage": "replace chair in warehouse",
+    "processing": ""
+  },
+  {
+    "id": "television",
+    "zip": "old+television+3d+model.zip",
+    "size": 0.64,
+    "usage": "replace tv in apartment",
+    "processing": ""
+  },
+  {
+    "id": "mulch_bin",
+    "zip": "old+wooden+crate+3d+model.zip",
+    "size": 1.0,
+    "usage": "Replace hopper bin",
+    "processing": ""
+  },
+  {
+    "id": "paper_stack",
+    "zip": "paper+stack+3d+model.zip",
+    "size": 0.32,
+    "usage": "replace papers in aparment",
+    "processing": ""
+  },
+  {
+    "id": "meat_block",
+    "zip": "raw+meat+block+3d+model.zip",
+    "size": 0.28,
+    "usage": "Chute Item",
+    "processing": ""
+  },
+  {
+    "id": "computer_cart",
+    "zip": "rusted+cart+3d+model.zip",
+    "size": 1.05,
+    "usage": "Put new computer on top",
+    "processing": ""
+  },
+  {
+    "id": "steel_plate",
+    "zip": "rusted+metal+siding+3d+model.zip",
+    "size": 2.4,
+    "usage": "replace plate",
+    "processing": ""
+  },
+  {
+    "id": "waiting_chairs",
+    "zip": "rusted+waiting+chairs+3d+model.zip",
+    "size": 2.15,
+    "usage": "replace waiting room chairs in hospital",
+    "processing": ""
+  },
+  {
+    "id": "coffee_table",
+    "zip": "rustic+coffee+table+3d+model.zip",
+    "size": 1.15,
+    "usage": "add hospital to apartment",
+    "processing": ""
+  },
+  {
+    "id": "hospital_bed",
+    "zip": "rusty+hospital+bed+3d+model.zip",
+    "size": 2.15,
+    "usage": "replace hospital beds",
+    "processing": ""
+  },
+  {
+    "id": "industrial_machine_a",
+    "zip": "rusty+industrial+machine+3d+model (1).zip",
+    "size": 2.45,
+    "usage": "replace machines in warehouse",
+    "processing": ""
+  },
+  {
+    "id": "industrial_machine_b",
+    "zip": "rusty+industrial+machine+3d+model (2).zip",
+    "size": 2.5,
+    "usage": "replace machines in warehouse",
+    "processing": ""
+  },
+  {
+    "id": "industrial_machine_c",
+    "zip": "rusty+industrial+machine+3d+model.zip",
+    "size": 2.35,
+    "usage": "replace machines in warehouse",
+    "processing": ""
+  },
+  {
+    "id": "lever",
+    "zip": "rusty+lever+switch+3d+model.zip",
+    "size": 2.05,
+    "usage": "replace lever switchs",
+    "processing": "separate level from base, animate, add lights "
+  },
+  {
+    "id": "mulcher",
+    "zip": "rusty+mulcher+3d+model.zip",
+    "size": 1.35,
+    "usage": "replace mulchers",
+    "processing": "add particle effect to spawning mulch pellet (spray debris)"
+  },
+  {
+    "id": "wheelchair",
+    "zip": "rusty+wheelchair+3d+model.zip",
+    "size": 1.13,
+    "usage": "replace wheelchairs in hospital",
+    "processing": ""
+  },
+  {
+    "id": "book",
+    "zip": "steampunk+book+3d+model.zip",
+    "size": 0.34,
+    "usage": "replace books",
+    "processing": ""
+  },
+  {
+    "id": "teddy_bear",
+    "zip": "teddy+bear+3d+model.zip",
+    "size": 0.32,
+    "usage": "replace teddy bear",
+    "processing": ""
+  },
+  {
+    "id": "couch",
+    "zip": "three-seat+couch+3d+model.zip",
+    "size": 2.25,
+    "usage": "replace couchs",
+    "processing": ""
+  },
+  {
+    "id": "mulch_pellet",
+    "zip": "trash+ball+3d+model.zip",
+    "size": 0.24,
+    "usage": "replace mulch pellets",
+    "processing": ""
+  },
+  {
+    "id": "desk",
+    "zip": "wooden+desk+3d+model.zip",
+    "size": 1.45,
+    "usage": "replace desks",
+    "processing": ""
+  },
+  {
+    "id": "door",
+    "zip": "wooden+door+3d+model.zip",
+    "size": 3.18,
+    "usage": "replace doors",
+    "processing": "remove empty frame model, split door from panel, fix any gaps, animate"
+  }
+]

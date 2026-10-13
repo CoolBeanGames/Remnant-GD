@@ -1,0 +1,29 @@
+{
+  "id": "mulch_bin",
+  "zip": "old+wooden+crate+3d+model.zip",
+  "size": 1.0,
+  "usage": "Replace hopper bin",
+  "processing": "",
+  "native": "Models/Imported/Trip/mulch_bin/Source/mulch_bin.blend",
+  "collection": "ASSET | mulch_bin",
+  "source": "Models/Imported/Trip/mulch_bin/Source/tripo_convert_8ae3a3e5-f2a9-46e2-a566-cbe4368d24f8.fbx",
+  "export": "Models/Imported/Trip/mulch_bin/mulch_bin.glb",
+  "original_bounds": [
+    1.0,
+    0.7211304903030396,
+    0.78240966796875
+  ],
+  "dimensions_m": [
+    1.0,
+    0.7211304903030396,
+    0.78240966796875
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4343,
+  "triangles": 9017,
+  "texture": "Models/Imported/Trip/mulch_bin/Source/tripo_convert_8ae3a3e5-f2a9-46e2-a566-cbe4368d24f8.fbm/old_wooden_crate_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "mulch_bin / mesh"
+  ]
+}

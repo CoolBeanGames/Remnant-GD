@@ -34,7 +34,8 @@ func run() -> void:
 	body.freeze = true
 	var target: pickup_target = body.get_node("PickupTarget")
 	check(target.collision_mask == 0 and target.get_node("Shape").shape.radius == .25, "Larger pickup sphere adds no physics collision")
-	check(is_equal_approx(body.get_node("CollisionShape3D").shape.radius, .025), "Syringe physical collider stays compact")
+	var physical: BoxShape3D = body.get_node("CollisionShape3D").shape
+	check(physical.size.x < .21 and physical.size.y < .21 and physical.size.z < .07, "Replacement syringe physical collider stays compact and matches its diagonal model")
 	var ray := raycaster.new()
 	level.add_child(ray)
 	ray.position = Vector3(10, 1, 0)

@@ -4,16 +4,16 @@
 [ext_resource type="Environment" path="res://Data/Portal/dark_environment.tres" id="2_ygtjd"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/DilapidatedHospital_dilapidated_hospital.tscn" id="3_el0x8"]
 [ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="4_vj24o"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/HospitalBed_hospital_bed.tscn" id="5_tfjl8"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_hospital_bed.tscn" id="5_tfjl8"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/BedsideCabinet_bedside_cabinet.tscn" id="6_0onav"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/IVStand_iv_stand.tscn" id="7_8u2os"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/MedicalTrolley_medical_trolley.tscn" id="8_78ae2"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/NursingCounter_nursing_counter.tscn" id="9_sn878"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Wheelchair_wheelchair.tscn" id="10_fop8q"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/HospitalDoor_hospital_door.tscn" id="11_krnr7"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/WaitingBench_waiting_bench.tscn" id="12_rdwnw"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_wheelchair.tscn" id="10_fop8q"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_ward_door.tscn" id="11_krnr7"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_waiting_chairs.tscn" id="12_rdwnw"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/LandlinePhone_landline_phone.tscn" id="13_iwywc"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="14_mn1qp"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_paper_stack.tscn" id="14_mn1qp"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="15_n0uy0"]
 
 [ext_resource type="Script" path="res://Scripts/Dialogue/memory_object.gd" id="memory_object"]
@@ -22,6 +22,10 @@
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/hospital_trolley.tres" id="story_trolley"]
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/hospital_phone.tres" id="story_phone"]
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/hospital_paperwork.tres" id="story_paperwork"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_garbage_bag_a.tscn" id="trip_garbage_bag_a"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_garbage_bag_b.tscn" id="trip_garbage_bag_b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yeim3"]
 size = Vector3(2.5, 0.16, 1.2)
@@ -288,3 +292,19 @@ shape = SubResource("StoryAimShape_paperwork")
 script = ExtResource("memory_completion")
 completion_flag = "memory 3 complete"
 required_flags = Array[String](["memory 3 bed", "memory 3 trolley", "memory 3 phone", "memory 3 paperwork"])
+
+[node name="GarbageBag 1" parent="Art" instance=ExtResource("trip_garbage_bag_a")]
+position = Vector3(-7.5, 0, 5)
+rotation = Vector3(0, 0.0, 0)
+
+[node name="GarbageBag 2" parent="Art" instance=ExtResource("trip_garbage_bag_b")]
+position = Vector3(7.5, 0, -8)
+rotation = Vector3(0, 0.73, 0)
+
+[node name="GarbageBag 3" parent="Art" instance=ExtResource("trip_garbage_bag_a")]
+position = Vector3(1.6, 0, 9.5)
+rotation = Vector3(0, 1.46, 0)
+
+[node name="GarbageBag 4" parent="Art" instance=ExtResource("trip_garbage_bag_b")]
+position = Vector3(-1.7, 0, -9)
+rotation = Vector3(0, 2.19, 0)

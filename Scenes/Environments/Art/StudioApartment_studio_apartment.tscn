@@ -1,22 +1,19 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_fuw6p"]
-[ext_resource type="PackedScene" path="res://Models/Architecture/StudioApartment/studio_apartment.glb" id="2_27br8"]
-[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/StudioApartment_studio_apartment.tres" id="3_nu6l4"]
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_d8dk0"]
+[ext_resource type="PackedScene" path="res://Models/Architecture/StudioApartment/studio_apartment.glb" id="2_x0g0e"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/StudioApartment_studio_apartment.tres" id="3_3xwye"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hh4f6"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v5pwk"]
 friction = 0.95
 
-[node name="StudioApartment_studio_apartment" type="Node3D" unique_id=1984634560]
-script = ExtResource("1_fuw6p")
-pose_overrides = Dictionary[String, Transform3D]({
-"Model/Apartment entrance _ hinged leaf": Transform3D(-0.06975648, 0, 0.9975641, 0, 1, 0, -0.9975641, 0, -0.06975648, 1.274, 0, 3.175)
-})
+[node name="StudioApartment_studio_apartment" type="Node3D" unique_id=181669910]
+script = ExtResource("1_d8dk0")
 
-[node name="Model" type="Node3D" parent="." unique_id=1167611044 instance=ExtResource("2_27br8")]
+[node name="Model" type="Node3D" parent="." unique_id=2069132846 instance=ExtResource("2_x0g0e")]
 
-[node name="Solid" type="StaticBody3D" parent="." unique_id=304505052 groups=["Floor"]]
-physics_material_override = SubResource("PhysicsMaterial_hh4f6")
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1376411212 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_v5pwk")
 
-[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=318941060]
-shape = ExtResource("3_nu6l4")
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=745057865]
+shape = ExtResource("3_3xwye")

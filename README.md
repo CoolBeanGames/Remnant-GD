@@ -10,6 +10,14 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Trip models and expanded apartment
+
+All **32 spreadsheet models** now have textured, metre-scale GLBs and packed editable Blender sources under `Models/Imported/Trip`. The chute and automatic spawners choose equally from **nine one-score items**: baby bottle, beer bottle, clipboard, two meat slabs, meat block, syringe, book and teddy bear. The original test block remains available for older saves and tests, outside the production pool.
+
+The computer sits on its rusted cart with the interactive screen aligned to the new display. The existing lever controller animates a separate imported handle; the wooden door has an independent hinged leaf and fixed frame. The Mulcher uses the imported machine and a brief debris burst; the Mulch Bin is the wooden crate and pellets use the trash-ball model. Existing audio, upgrades, pickup, save and portal behavior remain connected.
+
+The apartment is now **12.2 × 6.2 m**, with a separate **4.25 × 6.2 m bedroom**, its own bed and desk, a living-room coffee table and open entry/bathroom doors. Warehouse machines and office furniture, hospital beds/wheelchairs/waiting seats and non-colliding garbage bags use the supplied replacements. Story targets retain their existing node names and flags. [Current asset workflow](Data/Items/TRIP_MODELS.md) · [Item art and sounds](Data/Items/ART.md) · [Render gallery](Reports/TripModels/index.html) · [Phone summary](https://coolbeangames.github.io/Remnant-GD/index.html#trip-models-apartment).
+
 ## Title sound, moved Mulcher and window filling
 
 The designer's new title workshop plays continuous grinder ambience through the shared SFX system, including while Options is open. The moved Mulcher keeps its authored mount and ejects pellets away from the intake onto solid floor; its Output marker controls launch orientation and editable speed/spacing. Normal Play starts maximized, respects saved fullscreen and fills resized windows. [Title/settings authoring](Data/OPTIONS.md), [Mulcher output](Data/Mulch/README.md), [reviewed engine views](Reports/TitleMulcher/index.html).
@@ -62,25 +70,25 @@ Export/texture guidance and a Remnant-specific authoring reference live alongsid
 
 The furnished apartment, warehouse and hospital are now **game scenes with static collision, furniture and editable lighting**. Leave the concrete room and let it disappear, then buy a memory at the computer to open its portal. **F9** remains a debug preview when no paid memory is active or unfinished. Open the Strange Door with E and walk through; its counterpart permits returning freely, retaining unfinished memories and closing completed ones. Only one destination is live at a time. Cycling from inside brings you/held cargo back outside the door and preserves other collected items in the workshop. Selection uses saved Blackboard.portal_destination_id; F9 respects menu/wake-up/respawn locks.
 
-[Environment authoring](Data/Portal/ENVIRONMENTS.md) explains the 35 shared art/collision wrappers, engine scenes, destination resources and future select_destination trigger API. The player capsule fits the apartment entrance, warehouse stairs reach the office, and the hospital rooms/staff entrance are walkable. [Actual engine captures](Reports/PortalEnvironments/index.html) show all three destinations. Existing Blender sources stay separate; selected furniture/machines now provide memory interactions and optional look flavor.
+[Environment authoring](Data/Portal/ENVIRONMENTS.md) explains the shared art/collision wrappers, engine scenes, destination resources and select_destination trigger API. Current apartment/warehouse/hospital scenes contain 24/21/54 art instances. The player capsule fits the apartment entrance and new bedroom doorway, warehouse stairs reach the office, and hospital rooms/staff entrance are walkable. [Earlier engine captures](Reports/PortalEnvironments/index.html) and the [Trip gallery](Reports/TripModels/index.html) document these revisions. Existing Blender sources stay separate; selected furniture/machines provide memory interactions and optional look flavor.
 
 ## Dilapidated hospital art collection
 
 The [hospital wing](Models/Architecture/DilapidatedHospital/README.md) has six patient wards, a treatment room, an open nursing station and two connected 3.2 m hallways across an 18 × 26 m floor plan. Broken/missing window panes, dirty clinical surfaces, rusted medical equipment, damaged ceilings and dried blood stains finish the space. Eight medical props each have their own packed Blender source and separate GLB.
 
-[hospital_assembly.blend](Models/Interiors/DilapidatedHospital/hospital_assembly.blend) uses 50 relative collection instances. Eight actual environment renders and three angles per new prop are in the [offline gallery](Reports/Hospital/index.html) and [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/Hospital/index.html). Native and export checks verify textures, bounds, hinges, real glass openings, connected room access, staff access and furniture clearances; Godot imports all nine exports with 730 textured surfaces. The hospital remains a reusable art collection and now also has an explorable portal game scene with baked collision and separate engine lighting. Windows release/startup, GitHub and Notion delivery accompany the assets.
+[hospital_assembly.blend](Models/Interiors/DilapidatedHospital/hospital_assembly.blend) now uses 54 relative collection instances, including Trip replacements and visual-only garbage bags. The earlier eight environment renders and three angles per original prop remain in the [offline gallery](Reports/Hospital/index.html) and [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/Hospital/index.html); current assets/views are in the [Trip gallery](Reports/TripModels/index.html). The original native/export checks covered textures, bounds, hinges, real glass openings, connected room/staff access and furniture clearances, with nine exports and 730 textured surfaces. The hospital remains reusable art and an explorable portal game scene with baked collision, memory targets and separate engine lighting. Current delivery evidence belongs to the dated development summary.
 
 ## Dilapidated warehouse art collection
 
 The [warehouse](Models/Architecture/DilapidatedWarehouse/README.md) has a 24 × 36 m production hall, broken factory windows, rusted trusses, jointed stained concrete, a 4.2 m catwalk and an elevated production office reached by stairs. Six new independently packed Blender/GLB props provide broken presses, lathes, a failed compressor, an open electrical cabinet, office desk and loose debris. Existing office furniture remains separately linked.
 
-[warehouse_assembly.blend](Models/Interiors/DilapidatedWarehouse/warehouse_assembly.blend) uses 17 relative collection instances. Six actual Cycles environment views plus three angles per new prop are in the [offline gallery](Reports/Warehouse/index.html) and [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/Warehouse/index.html). Native/GLB checks verify packing, UVs, pivots, relative links, physical glazing holes and stairs; the Godot import test checks all seven exports. This is a standalone art collection; gameplay placement, collision and engine lighting require scene setup. Normal Windows release/startup and GitHub/Notion delivery accompany this work.
+[warehouse_assembly.blend](Models/Interiors/DilapidatedWarehouse/warehouse_assembly.blend) now uses 21 relative collection instances, including the Trip machines/office furniture and visual-only garbage bags. Earlier six Cycles environment views plus three angles per original prop remain in the [offline gallery](Reports/Warehouse/index.html) and [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/Warehouse/index.html); the [Trip gallery](Reports/TripModels/index.html) covers replacements. Original native/GLB checks verified packing, UVs, pivots, relative links, physical glazing holes and stairs, with seven original exports imported. The reusable collection now also has an explorable portal scene with static collision, memory targets, the smooth stair ramp and separately authored dark lighting.
 
 ## Worn Blender apartment and furniture
 
 The [studio apartment](Models/Architecture/StudioApartment/README.md) now has stained plaster, worn oak, aged trim and local damp/grease patches. Its windows use 48 overlapping, torn newspaper clippings with varied scan print and irregular physical daylight openings. A separate kitchenette and all 17 requested furniture types have individual packed Blender sources and metre-scale GLBs under [Models/Interiors/StudioFurniture](Models/Interiors/StudioFurniture/README.md).
 
-[studio_apartment_furnished.blend](Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend) links the independent room plus 18 furniture assets. Room geometry and props remain separate. The full delivery has 54 actual Cycles prop renders (three views each) plus five furnished-room angles, including a newspaper close-up. [Phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/StudioFurniture/index.html) · [Local gallery](Reports/StudioFurniture/index.html). This is a reusable art collection, not a new gameplay level; engine colliders/interaction/lighting need scene setup. The earlier [unfurnished gallery](Reports/StudioApartment/index.html) remains development history.
+[studio_apartment_furnished.blend](Models/Interiors/FurnishedStudio/studio_apartment_furnished.blend) now links the expanded independent room and furniture as 24 collection instances, including the separate bedroom bed/desk and entry/bathroom doors. Room geometry and props remain separate. The original furniture delivery's 54 Cycles prop renders and five furnished-room angles, including the newspaper close-up, remain in the [phone gallery](https://remnant-development-summary.callmehaptic.chatgpt.site/StudioFurniture/index.html) and [local gallery](Reports/StudioFurniture/index.html). The [Trip gallery](Reports/TripModels/index.html) covers the current expanded apartment and replacement props. Its portal gameplay scene includes baked collision, memory targets and separate engine lighting. The earlier [unfurnished gallery](Reports/StudioApartment/index.html) remains development history.
 
 Authoring tools: make_studio_furniture_textures.py, model_studio_furniture.py, assemble_worn_studio.py and make_studio_gallery.py under Tools/. Portable/native verification tools are documented in the furniture README. All final renders are visually reviewed; native packed images/library links and Godot import are checked alongside the Windows release/startup delivery.
 
@@ -128,7 +136,7 @@ flowchart TD
     LeverAssembly -->|3. Proxy via interact_pass_through.gd| LeverCtrl[Scenes/Actors/lever_controller.gd]
     LeverCtrl -->|4. Pull Anim & Audio.play_3d| AG
     LeverCtrl -->|5. Trigger spawn| CeilingChute
-    CeilingChute -->|6. Instantiate to game_root| TestObject[Scenes/test_object.tscn]
+    CeilingChute -->|6. Choose and instantiate to game_root| TestObject[Scenes/Items: nine physical item scenes]
 
     TestObject --> ObjManager[Scripts/Actors/object_manager.gd: Impulse]
     TestObject --> SoundMatrix[Scripts/Actors/collision_sound_matrix.gd]
@@ -154,7 +162,7 @@ Remnant-GD/
 │   ├── Game.tscn                          # Main root entry scene (hosts audio_pool)
 │   ├── testing_level.tscn                 # 3D sandbox testing stage with lighting & fog
 │   ├── audio_player.tscn                  # Pooled audio player prefab (3D + Global)
-│   ├── test_object.tscn                   # Physics prop with impulse & collision sound matrix
+│   ├── test_object.tscn                   # Compatibility/test prop; excluded from production pool
 │   ├── Actors/                            # Interactive actor prefabs
 │   │   ├── lever_assembly.tscn            # Interactive lever machine with lights & animations
 │   │   ├── lever_controller.gd            # FSM controller for lever mechanics
@@ -395,7 +403,7 @@ audio_global.play_3d(footstep_sample, foot_position, 0.8, 1.0, "SFX")
 - **Class Name**: `ceiling_chute`
 - **Inherits**: `Node3D`
 - **UID**: `uid://di3swkqh5sn4a`
-- **Description**: Overhead industrial chute spawner. Chooses a random scene from `item_pool` (default pool currently contains `test_object.tscn`) and parents it to `Blackboard["game_root"]` at `spawn_point.global_position`.
+- **Description**: Overhead industrial chute spawner. Chooses a random scene from `item_pool` (the default pool contains nine physical item scenes) and parents it to `Blackboard["game_root"]` at `spawn_point.global_position`.
 - **Exported Properties**:
   - `@export var spawn_point: Node3D`: Spawn marker transform.
   - `@export var item_pool: item_spawn_pool`: Editable pool of physical item scenes.
@@ -534,11 +542,11 @@ audio_global.play_3d(footstep_sample, foot_position, 0.8, 1.0, "SFX")
   - Instanced from `Models/Level/game_stage_base.fbx`.
   - Configures 6 rotating grinder rollers with alternating rotation speeds (`-25` and `+25` deg/s) running `grinder_rotator.gd`.
 - **`Scenes/Actors/lever_assembly.tscn`** (`uid://x4o8rin8xvjo`):
-  - Complete interactive lever apparatus with FBX model meshes, green/red status indicator lights, `AnimationPlayer`, and a `StaticBody3D` collision volume running `interact_pass_through.gd` in group `"interact"`.
+  - Complete interactive lever apparatus with the Trip GLB's separate base/handle meshes, retained green/red status indicator lights, `AnimationPlayer`, and a `StaticBody3D` collision volume running `interact_pass_through.gd` in group `"interact"`.
 - **`Scenes/audio_player.tscn`** (`uid://drn170duudujd`):
   - Pooled audio emitter entity running `audio_player.gd`, housing an `AudioStreamPlayer3D` and an `AudioStreamPlayer`.
 - **`Scenes/test_object.tscn`** (`uid://0851ilsmei5g`):
-  - Interactive physics prop spawned by the ceiling chute. Runs `object_manager.gd` on root and `collision_sound_matrix.gd` on child `RigidBody3D` with continuous collision detection and chute/floor audio profiles.
+  - Compatibility/test physics prop, excluded from the default production pool. Runs `object_manager.gd` on root and `collision_sound_matrix.gd` on child `RigidBody3D` with continuous collision detection and chute/floor audio profiles; saved scene paths and explicit test pools remain supported.
 
 ---
 
@@ -966,7 +974,7 @@ The Left/Right colliders share FloorSides; Front/Back share FloorEnds. Edit thes
 
 # Random item spawn pool
 
-The lever/chute and automatic spawner share `Data/Items/default_spawn_pool.tres`. Select it in Godot and add physical item scenes to **Items**. Each nonempty entry has an equal chance. The pool contains `Scenes/test_object.tscn` plus `Scenes/Items/beer_bottle.tscn`, `book.tscn`, `syringe.tscn` and `teddy_bear.tscn`, each with base value 1 and its own collision bank. See [imported art guide](ART.md) for materials, sounds and replacement props. Models alone are not entries: each needs a gameplay scene with rigid-body collision, pick-up/score groups, prompts, score component and collision sounds matching the test item. Keep the colliders small enough to clear the chute and enable continuous collision detection. Base item value remains 1; value upgrades still apply at spawn.
+The lever/chute and automatic spawner share `Data/Items/default_spawn_pool.tres`. Select it in Godot and add physical item scenes to **Items**. Each nonempty entry has an equal chance. The nine production entries under `Scenes/Items` are baby_bottle, beer_bottle, clipboard, meat_slab_a, meat_slab_b, meat_block, syringe, book and teddy_bear, each with base value 1 and a configured collision bank. `Scenes/test_object.tscn` remains for older saves/tests and is excluded from this pool. See the [imported art guide](Data/Items/ART.md) and [Trip workflow](Data/Items/TRIP_MODELS.md) for materials, sounds and replacement props. Models need gameplay scenes with rigid-body collision, pick-up/score groups, prompts, score components and pooled collision sounds. Keep colliders small enough to clear the chute and enable continuous collision detection. Value upgrades still apply at spawn.
 
 Select **ceiling_chute** or a placed automatic spawner to override its **Item Pool** with another resource. Lever pulls first try the eligible-note roll (2% by default); if that roll fails or no eligible notes remain, they pick a random regular item. Automatic spawners use the item pool without notes. Null scene entries are ignored; an empty/null pool produces no regular item safely.
 
@@ -978,7 +986,7 @@ To deliberately reset a note during development, clear its Id from spawned_notes
 
 ## Script API
 
-`Scripts/Actors/item_spawn_pool.gd`: class item_spawn_pool extends Resource, UID `uid://dh6aqxub3dcnh`; no autoload, signals or runtime state. Export `items: Array[PackedScene]`; `pick_item() -> PackedScene` returns a random valid entry or null. Default resource: Data/Items/default_spawn_pool.tres. ceiling_chute and automatic_spawner now export `item_pool` instead of their former single-scene properties test_actor/item_scene. WorldState.spawn_item still applies value effects, positions, tracks and restores each selected scene separately.
+`Scripts/Actors/item_spawn_pool.gd`: class item_spawn_pool extends Resource, UID `uid://dh6aqxub3dcnh`; no autoload, signals or runtime state. Export `items: Array[PackedScene]`; `pick_item() -> PackedScene` returns a random valid entry or null. Valid authored pools pick directly without allocating a temporary list; null entries use a safe fallback while retaining equal valid-entry weighting. Default resource: Data/Items/default_spawn_pool.tres. ceiling_chute and automatic_spawner export `item_pool`. WorldState.spawn_item applies value effects, positions, tracks and restores each selected scene separately.
 
 Notes adds `has_spawned(id: StringName) -> bool` and `mark_spawned(id: StringName)`; note_drop._ready calls mark_spawned for fresh and restored drops, and collect also marks legacy journal entries. note_catalog.available uses has_spawned.
 
@@ -990,7 +998,7 @@ After the initial room disappears, open the retained Strange Door and walk throu
 
 ## Imported gameplay art
 
-Four textured item scenes are now in the random pool: beer bottle (glass sounds), book (book sounds), syringe (plastic sounds) and teddy bear (squeak sounds). All collision targets use their custom bank on SFX. The old computer, corrugated plate and fan replace their placeholder art; fan blades stop when off. Notes use the partially transparent bottle and separate paper materials with glass sounds. Portal colour conversion is corrected, with full-resolution and matching MSAA. See [Data/Items/ART.md](Data/Items/ART.md) for editable resources and API details. `Tests/imported_items_test.tscn` covers physics, chute flow, sound, scoring and restoration.
+Nine textured item scenes are in the production random pool, with shared glass, book, plastic and teddy-bear collision banks on SFX. Trip art replaces the computer/cart, plate, lever, door, Mulcher/bin/pellets and selected memory furniture. Fan blades stop when off; notes retain their partially transparent bottle and separate opaque paper materials with glass sounds. Portal colour conversion uses linear HDR, full resolution and matching MSAA. See [Data/Items/ART.md](Data/Items/ART.md) for editable resources and API details, and [Data/Items/TRIP_MODELS.md](Data/Items/TRIP_MODELS.md) for packed sources and safe targeted baking. `Tests/imported_items_test.tscn` covers physics, sound, scoring and restoration; `Tests/trip_models_test.tscn` checks all nine chute paths, independent lever/door animation and real bedroom traversal.
 
 ## World messages and item handling
 

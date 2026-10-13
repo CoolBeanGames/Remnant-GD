@@ -73,30 +73,32 @@
     },
     {
       "asset": "Couch",
-      "source": "Models/Interiors/StudioFurniture/Couch/Source/couch.blend",
+      "source": "Models/Imported/Trip/couch/Source/couch.blend",
       "position_m": [
-        1.05,
-        0.32,
+        0.1,
+        -0.25,
         0
       ],
-      "rotation_z_degrees": 0
+      "rotation_z_degrees": 0,
+      "collection": "ASSET | couch"
     },
     {
       "asset": "Chair",
-      "source": "Models/Interiors/StudioFurniture/Chair/Source/chair.blend",
+      "source": "Models/Imported/Trip/lounger/Source/lounger.blend",
       "position_m": [
         -0.48000000000000004,
         1.6300000000000001,
         0
       ],
-      "rotation_z_degrees": -25
+      "rotation_z_degrees": -25,
+      "collection": "ASSET | lounger"
     },
     {
       "asset": "TableAndChairs",
       "source": "Models/Interiors/StudioFurniture/TableAndChairs/Source/table_and_chairs.blend",
       "position_m": [
-        2.77,
-        1.71,
+        1.8,
+        1.65,
         0
       ],
       "rotation_z_degrees": 90
@@ -113,13 +115,14 @@
     },
     {
       "asset": "TV",
-      "source": "Models/Interiors/StudioFurniture/TV/Source/t_v.blend",
+      "source": "Models/Imported/Trip/television/Source/television.blend",
       "position_m": [
         -0.83,
         -2.8,
         0.658
       ],
-      "rotation_z_degrees": 180
+      "rotation_z_degrees": 180,
+      "collection": "ASSET | television"
     },
     {
       "asset": "VCR",
@@ -146,7 +149,7 @@
       "source": "Models/Interiors/StudioFurniture/Bookshelf/Source/bookshelf.blend",
       "position_m": [
         3.59,
-        -1.41,
+        2.15,
         0
       ],
       "rotation_z_degrees": -90
@@ -163,23 +166,91 @@
     },
     {
       "asset": "PileOfMail",
-      "source": "Models/Interiors/StudioFurniture/PileOfMail/Source/pile_of_mail.blend",
+      "source": "Models/Imported/Trip/paper_stack/Source/paper_stack.blend",
       "position_m": [
-        2.77,
-        1.71,
+        1.8,
+        1.65,
         0.781
       ],
-      "rotation_z_degrees": -12
+      "rotation_z_degrees": -12,
+      "collection": "ASSET | paper_stack"
     },
     {
       "asset": "FamilyPhoto",
       "source": "Models/Interiors/StudioFurniture/FamilyPhoto/Source/family_photo.blend",
       "position_m": [
         3.54,
-        -1.57,
+        2.0,
         1.851
       ],
       "rotation_z_degrees": -90
+    },
+    {
+      "asset": "CoffeeTable",
+      "source": "Models/Imported/Trip/coffee_table/Source/coffee_table.blend",
+      "collection": "ASSET | coffee_table",
+      "position_m": [
+        0,
+        -1.55,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "asset": "BedroomDesk",
+      "source": "Models/Imported/Trip/desk/Source/desk.blend",
+      "collection": "ASSET | desk",
+      "position_m": [
+        6.2,
+        -2.4,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "asset": "BedroomBed",
+      "source": "Models/Interiors/StudioFurniture/BedroomBed/Source/bedroom_bed.blend",
+      "collection": "ASSET | BedroomBed",
+      "position_m": [
+        6.3,
+        1.5,
+        0
+      ],
+      "rotation_z_degrees": 0
+    },
+    {
+      "asset": "EntranceDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
+      "position_m": [
+        1.76,
+        -3.15,
+        0
+      ],
+      "rotation_z_degrees": 0,
+      "scale": [
+        0.49,
+        0.63,
+        0.63
+      ],
+      "leaf_open_degrees": 96
+    },
+    {
+      "asset": "BathroomDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
+      "position_m": [
+        -2.64,
+        0.75,
+        0
+      ],
+      "rotation_z_degrees": 0,
+      "scale": [
+        0.577,
+        0.61,
+        0.61
+      ],
+      "leaf_open_degrees": 96
     }
   ],
   "views": [
@@ -191,5 +262,6 @@
   ],
   "render_samples": 128,
   "render_device": "GPU",
-  "physics": "Standalone linked art preview; no gameplay integration"
+  "physics": "Standalone linked art preview; no gameplay integration",
+  "revision": "Trip spreadsheet replacements and expanded one-bedroom apartment"
 }

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_2nk2s"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/waiting_chairs/waiting_chairs.glb" id="2_nbhn3"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_waiting_chairs.tres" id="3_l3c7c"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_exc4l"]
+friction = 0.95
+
+[node name="Trip_waiting_chairs" type="Node3D" unique_id=1711193958]
+script = ExtResource("1_2nk2s")
+
+[node name="Model" type="Node3D" parent="." unique_id=585462290 instance=ExtResource("2_nbhn3")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=532732022 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_exc4l")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=300061488]
+shape = ExtResource("3_l3c7c")

@@ -5,6 +5,13 @@ extends Resource
 @export var items: Array[PackedScene] = []
 
 func pick_item() -> PackedScene:
+	if items.is_empty():
+		return null
+	# Normal authored pools contain valid scenes: avoid a temporary array per drop.
+	var selected: PackedScene = items.pick_random()
+	if selected != null:
+		return selected
+	# Null slots remain safe and equally weighted, even when edited at runtime.
 	var available: Array[PackedScene] = []
 	for scene in items:
 		if scene != null:

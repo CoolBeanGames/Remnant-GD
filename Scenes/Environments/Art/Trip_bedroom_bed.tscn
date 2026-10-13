@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_1wf3p"]
+[ext_resource type="PackedScene" path="res://Models/Interiors/StudioFurniture/BedroomBed/bedroom_bed.glb" id="2_osnhv"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_bedroom_bed.tres" id="3_b27kv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nrg3j"]
+friction = 0.95
+
+[node name="Trip_bedroom_bed" type="Node3D" unique_id=1417220873]
+script = ExtResource("1_1wf3p")
+
+[node name="Model" type="Node3D" parent="." unique_id=110371168 instance=ExtResource("2_osnhv")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=1934825755 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_nrg3j")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=12016494]
+shape = ExtResource("3_b27kv")

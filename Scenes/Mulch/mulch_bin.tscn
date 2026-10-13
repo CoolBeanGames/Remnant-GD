@@ -1,17 +1,18 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://Scripts/Mulch/mulch_bin.gd" id="script"]
 [ext_resource type="Script" path="res://Scripts/UI/object_prompts.gd" id="prompts"]
+[ext_resource type="PackedScene" path="res://Scenes/Art/Trip/mulch_bin.tscn" id="model"]
 [sub_resource type="StandardMaterial3D" id="Material"]
 albedo_color = Color(0.16, 0.22, 0.16, 1)
 metallic = 0.45
 [sub_resource type="BoxShape3D" id="Base"]
-size = Vector3(1.0, 0.12, 1.0)
+size = Vector3(1.0, 0.12, 0.72)
 [sub_resource type="BoxShape3D" id="Side"]
-size = Vector3(0.08, 0.7, 1.0)
+size = Vector3(0.08, 0.7, 0.72)
 [sub_resource type="BoxShape3D" id="End"]
 size = Vector3(0.84, 0.7, 0.08)
 [sub_resource type="BoxShape3D" id="Deposit"]
-size = Vector3(0.82, 0.8, 0.82)
+size = Vector3(0.82, 0.8, 0.55)
 [node name="MulchBin" type="StaticBody3D" groups=["mulch-bin", "machine-immune"]]
 script = ExtResource("script")
 [node name="Prompts" type="Node" parent="."]
@@ -23,42 +24,25 @@ collision_mask = 1
 [node name="Shape" type="CollisionShape3D" parent="Deposit"]
 shape = SubResource("Deposit")
 [node name="Label" type="Label3D" parent="."]
-position = Vector3(0, 0.4, 0.55)
+position = Vector3(0, 0.4, 0.39)
 font_size = 36
 pixel_size = 0.003
 text = "MULCH BIN"
-[node name="Base" type="CSGBox3D" parent="."]
-position = Vector3(0, 0, 0)
-size = Vector3(1, 0.12, 1)
-material = SubResource("Material")
 [node name="BaseCollision" type="CollisionShape3D" parent="."]
 position = Vector3(0, 0, 0)
 shape = SubResource("Base")
-[node name="Left" type="CSGBox3D" parent="."]
-position = Vector3(-0.46, 0.4, 0)
-size = Vector3(0.08, 0.7, 1)
-material = SubResource("Material")
 [node name="LeftCollision" type="CollisionShape3D" parent="."]
 position = Vector3(-0.46, 0.4, 0)
 shape = SubResource("Side")
-[node name="Right" type="CSGBox3D" parent="."]
-position = Vector3(0.46, 0.4, 0)
-size = Vector3(0.08, 0.7, 1)
-material = SubResource("Material")
 [node name="RightCollision" type="CollisionShape3D" parent="."]
 position = Vector3(0.46, 0.4, 0)
 shape = SubResource("Side")
-[node name="Front" type="CSGBox3D" parent="."]
-position = Vector3(0, 0.4, 0.46)
-size = Vector3(0.84, 0.7, 0.08)
-material = SubResource("Material")
 [node name="FrontCollision" type="CollisionShape3D" parent="."]
-position = Vector3(0, 0.4, 0.46)
+position = Vector3(0, 0.4, 0.32)
 shape = SubResource("End")
-[node name="Back" type="CSGBox3D" parent="."]
-position = Vector3(0, 0.4, -0.46)
-size = Vector3(0.84, 0.7, 0.08)
-material = SubResource("Material")
 [node name="BackCollision" type="CollisionShape3D" parent="."]
-position = Vector3(0, 0.4, -0.46)
+position = Vector3(0, 0.4, -0.32)
 shape = SubResource("End")
+
+[node name="Model" parent="." instance=ExtResource("model")]
+position = Vector3(0, -0.06, 0)

@@ -1,0 +1,29 @@
+{
+  "id": "mulcher",
+  "zip": "rusty+mulcher+3d+model.zip",
+  "size": 1.35,
+  "usage": "replace mulchers",
+  "processing": "add particle effect to spawning mulch pellet (spray debris)",
+  "native": "Models/Imported/Trip/mulcher/Source/mulcher.blend",
+  "collection": "ASSET | mulcher",
+  "source": "Models/Imported/Trip/mulcher/Source/tripo_convert_9adb1875-588b-4a97-9754-94507ee78a39.fbx",
+  "export": "Models/Imported/Trip/mulcher/mulcher.glb",
+  "original_bounds": [
+    0.6965332627296448,
+    1.000000238418579,
+    0.96356201171875
+  ],
+  "dimensions_m": [
+    0.9403196573257446,
+    1.3500001430511475,
+    1.3008084297180176
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4736,
+  "triangles": 9628,
+  "texture": "Models/Imported/Trip/mulcher/Source/tripo_convert_9adb1875-588b-4a97-9754-94507ee78a39.fbm/rusty_mulcher_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "mulcher / mesh"
+  ]
+}

@@ -34,8 +34,8 @@ def main() -> None:
     files = sorted((staged / name).resolve() for name in manifest['files'])
     if len(set(files)) != len(files) or any(not p.is_relative_to(staged.resolve()) or p.suffix not in ('.tscn', '.tres') for p in files):
         raise ValueError('Invalid staged resource manifest')
-    if len(files) != 73:
-        raise ValueError('Expected 35 art wrappers, 35 shapes and 3 rooms from a successful --stage bake')
+    if not files:
+        raise ValueError('Empty staged resource manifest')
     for source in files:
         target = (destination / source.relative_to(staged.resolve())).resolve()
         if not target.is_relative_to(destination):
@@ -43,7 +43,7 @@ def main() -> None:
         data = source.read_bytes()
         if not target.exists() or target.read_bytes() != data:
             atomic_write(target, data)
-    print('Published 73 staged portal resources atomically')
+    print(f'Published {len(files)} staged portal resources atomically')
 
 
 if __name__ == '__main__':

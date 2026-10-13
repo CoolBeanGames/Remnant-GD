@@ -1,0 +1,29 @@
+{
+  "id": "desk",
+  "zip": "wooden+desk+3d+model.zip",
+  "size": 1.45,
+  "usage": "replace desks",
+  "processing": "",
+  "native": "Models/Imported/Trip/desk/Source/desk.blend",
+  "collection": "ASSET | desk",
+  "source": "Models/Imported/Trip/desk/Source/tripo_convert_13281f62-f48d-4b01-8e19-a882c0b0b6c2.fbx",
+  "export": "Models/Imported/Trip/desk/desk.glb",
+  "original_bounds": [
+    1.0000001192092896,
+    0.526611328125,
+    0.59063720703125
+  ],
+  "dimensions_m": [
+    1.4499999284744263,
+    0.7635863423347473,
+    0.9881812930107117
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4328,
+  "triangles": 8708,
+  "texture": "Models/Imported/Trip/desk/Source/tripo_convert_13281f62-f48d-4b01-8e19-a882c0b0b6c2.fbm/wooden_desk_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "desk / mesh"
+  ]
+}

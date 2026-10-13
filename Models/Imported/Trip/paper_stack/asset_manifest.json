@@ -1,0 +1,29 @@
+{
+  "id": "paper_stack",
+  "zip": "paper+stack+3d+model.zip",
+  "size": 0.32,
+  "usage": "replace papers in aparment",
+  "processing": "",
+  "native": "Models/Imported/Trip/paper_stack/Source/paper_stack.blend",
+  "collection": "ASSET | paper_stack",
+  "source": "Models/Imported/Trip/paper_stack/Source/tripo_convert_80c27bc0-3d37-4e4e-b346-7c0d91fce60a.fbx",
+  "export": "Models/Imported/Trip/paper_stack/paper_stack.glb",
+  "original_bounds": [
+    0.9918823838233948,
+    1.0000001192092896,
+    0.2522888779640198
+  ],
+  "dimensions_m": [
+    0.31740233302116394,
+    0.3199999928474426,
+    0.08073241263628006
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4368,
+  "triangles": 8723,
+  "texture": "Models/Imported/Trip/paper_stack/Source/tripo_convert_80c27bc0-3d37-4e4e-b346-7c0d91fce60a.fbm/paper_stack_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "paper_stack / mesh"
+  ]
+}

@@ -15,8 +15,8 @@
     },
     {
       "name": "Ward 01 bed 1",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         -6.7,
         -10.85,
@@ -37,8 +37,8 @@
     },
     {
       "name": "Ward 01 bed 2",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         -6.7,
         -7.95,
@@ -70,8 +70,8 @@
     },
     {
       "name": "Treatment examination bed",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         -6.7,
         -3.8,
@@ -103,8 +103,8 @@
     },
     {
       "name": "Ward 03 bed 1",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         -6.7,
         3.05,
@@ -125,8 +125,8 @@
     },
     {
       "name": "Ward 03 bed 2",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         -6.7,
         5.95,
@@ -158,8 +158,8 @@
     },
     {
       "name": "Ward 05 bed 1",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         -6.7,
         8.700000000000001,
@@ -180,8 +180,8 @@
     },
     {
       "name": "Ward 05 bed 2",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         -6.7,
         11.6,
@@ -213,8 +213,8 @@
     },
     {
       "name": "Ward 02 bed 1",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         6.7,
         -10.85,
@@ -235,8 +235,8 @@
     },
     {
       "name": "Ward 02 bed 2",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         6.7,
         -7.95,
@@ -290,8 +290,8 @@
     },
     {
       "name": "Stored nursing wheelchair",
-      "source": "Models/Interiors/HospitalProps/Wheelchair/Source/wheelchair.blend",
-      "collection": "ASSET | Wheelchair",
+      "source": "Models/Imported/Trip/wheelchair/Source/wheelchair.blend",
+      "collection": "ASSET | wheelchair",
       "position_m": [
         7.35,
         -4.65,
@@ -301,8 +301,8 @@
     },
     {
       "name": "Ward 04 bed 1",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         6.7,
         3.05,
@@ -323,8 +323,8 @@
     },
     {
       "name": "Ward 04 bed 2",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         6.7,
         5.95,
@@ -356,8 +356,8 @@
     },
     {
       "name": "Ward 06 bed 1",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         6.7,
         8.700000000000001,
@@ -378,8 +378,8 @@
     },
     {
       "name": "Ward 06 bed 2",
-      "source": "Models/Interiors/HospitalProps/HospitalBed/Source/hospital_bed.blend",
-      "collection": "ASSET | HospitalBed",
+      "source": "Models/Imported/Trip/hospital_bed/Source/hospital_bed.blend",
+      "collection": "ASSET | hospital_bed",
       "position_m": [
         6.7,
         11.6,
@@ -411,85 +411,127 @@
     },
     {
       "name": "Ward door 1",
-      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
-      "collection": "ASSET | HospitalDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
       "position_m": [
         -1.7,
         -9.4,
         0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": 90,
+      "scale": [
+        0.59,
+        0.67,
+        0.67
+      ],
+      "leaf_open_degrees": 96
     },
     {
       "name": "Ward door 2",
-      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
-      "collection": "ASSET | HospitalDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
       "position_m": [
         -1.7,
         -3.75,
         0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": 90,
+      "scale": [
+        0.59,
+        0.67,
+        0.67
+      ],
+      "leaf_open_degrees": 96
     },
     {
       "name": "Ward door 3",
-      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
-      "collection": "ASSET | HospitalDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
       "position_m": [
         -1.7,
         4.5,
         0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": 90,
+      "scale": [
+        0.59,
+        0.67,
+        0.67
+      ],
+      "leaf_open_degrees": 96
     },
     {
       "name": "Ward door 4",
-      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
-      "collection": "ASSET | HospitalDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
       "position_m": [
         -1.7,
         10.15,
         0
       ],
-      "rotation_z_degrees": 90
+      "rotation_z_degrees": 90,
+      "scale": [
+        0.59,
+        0.67,
+        0.67
+      ],
+      "leaf_open_degrees": 96
     },
     {
       "name": "Ward door 5",
-      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
-      "collection": "ASSET | HospitalDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
       "position_m": [
         1.7,
         -9.4,
         0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": -90,
+      "scale": [
+        0.59,
+        0.67,
+        0.67
+      ],
+      "leaf_open_degrees": 96
     },
     {
       "name": "Ward door 6",
-      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
-      "collection": "ASSET | HospitalDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
       "position_m": [
         1.7,
         4.5,
         0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": -90,
+      "scale": [
+        0.59,
+        0.67,
+        0.67
+      ],
+      "leaf_open_degrees": 96
     },
     {
       "name": "Ward door 7",
-      "source": "Models/Interiors/HospitalProps/HospitalDoor/Source/hospital_door.blend",
-      "collection": "ASSET | HospitalDoor",
+      "source": "Models/Imported/Trip/door/Source/door.blend",
+      "collection": "ASSET | door",
       "position_m": [
         1.7,
         10.15,
         0
       ],
-      "rotation_z_degrees": -90
+      "rotation_z_degrees": -90,
+      "scale": [
+        0.59,
+        0.67,
+        0.67
+      ],
+      "leaf_open_degrees": 96
     },
     {
       "name": "Abandoned hall wheelchair",
-      "source": "Models/Interiors/HospitalProps/Wheelchair/Source/wheelchair.blend",
-      "collection": "ASSET | Wheelchair",
+      "source": "Models/Imported/Trip/wheelchair/Source/wheelchair.blend",
+      "collection": "ASSET | wheelchair",
       "position_m": [
         -0.84,
         -6.8,
@@ -499,8 +541,8 @@
     },
     {
       "name": "Cross hall waiting bench",
-      "source": "Models/Interiors/HospitalProps/WaitingBench/Source/waiting_bench.blend",
-      "collection": "ASSET | WaitingBench",
+      "source": "Models/Imported/Trip/waiting_chairs/Source/waiting_chairs.blend",
+      "collection": "ASSET | waiting_chairs",
       "position_m": [
         4.5,
         -1.22,
@@ -510,8 +552,8 @@
     },
     {
       "name": "West waiting bench",
-      "source": "Models/Interiors/HospitalProps/WaitingBench/Source/waiting_bench.blend",
-      "collection": "ASSET | WaitingBench",
+      "source": "Models/Imported/Trip/waiting_chairs/Source/waiting_chairs.blend",
+      "collection": "ASSET | waiting_chairs",
       "position_m": [
         -5.4,
         1.22,
@@ -532,8 +574,8 @@
     },
     {
       "name": "Nursing PileOfMail",
-      "source": "Models/Interiors/StudioFurniture/PileOfMail/Source/pile_of_mail.blend",
-      "collection": "ASSET | PileOfMail",
+      "source": "Models/Imported/Trip/paper_stack/Source/paper_stack.blend",
+      "collection": "ASSET | paper_stack",
       "position_m": [
         3.6,
         -4.27,
@@ -551,6 +593,54 @@
         0
       ],
       "rotation_z_degrees": 0
+    },
+    {
+      "name": "GarbageBag 1",
+      "source": "Models/Imported/Trip/garbage_bag_a/Source/garbage_bag_a.blend",
+      "collection": "ASSET | garbage_bag_a",
+      "position_m": [
+        -7.5,
+        -5,
+        0
+      ],
+      "rotation_z_degrees": 0.0,
+      "collision": false
+    },
+    {
+      "name": "GarbageBag 2",
+      "source": "Models/Imported/Trip/garbage_bag_b/Source/garbage_bag_b.blend",
+      "collection": "ASSET | garbage_bag_b",
+      "position_m": [
+        7.5,
+        8,
+        0
+      ],
+      "rotation_z_degrees": 41.8259190445501,
+      "collision": false
+    },
+    {
+      "name": "GarbageBag 3",
+      "source": "Models/Imported/Trip/garbage_bag_a/Source/garbage_bag_a.blend",
+      "collection": "ASSET | garbage_bag_a",
+      "position_m": [
+        1.6,
+        -9.5,
+        0
+      ],
+      "rotation_z_degrees": 83.6518380891002,
+      "collision": false
+    },
+    {
+      "name": "GarbageBag 4",
+      "source": "Models/Imported/Trip/garbage_bag_b/Source/garbage_bag_b.blend",
+      "collection": "ASSET | garbage_bag_b",
+      "position_m": [
+        -1.7,
+        9,
+        0
+      ],
+      "rotation_z_degrees": 125.47775713365029,
+      "collision": false
     }
   ],
   "views": [
@@ -566,5 +656,6 @@
   "render_samples": 128,
   "render_device": "GPU",
   "complete_model_saved": true,
-  "limits": "Standalone linked art; no gameplay level insertion, collision or engine lighting."
+  "limits": "Standalone linked art; no gameplay level insertion, collision or engine lighting.",
+  "revision": "Trip spreadsheet replacements and expanded one-bedroom apartment"
 }

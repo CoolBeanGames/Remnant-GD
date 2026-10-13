@@ -9,12 +9,26 @@ var enabled: bool = false
 var saving_disabled: bool = false
 var load_attempted: bool = false
 var elapsed: float = 0.0
+var exit_started: bool = false
 const VERSION: int = 2
 var profile: Dictionary = {"mulch_coins": 0, "mulch_upgrades": {}, "settings": {}}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().auto_accept_quit = false
+	if "--verify-startup-exit" in OS.get_cmdline_user_args():
+		_verify_startup_exit.call_deferred()
+
+func _verify_startup_exit() -> void:
+	# Opt-in export check: ordinary sessions never start this coroutine.
+	var startup_frames: int = 0
+	while startup_frames < 90 and not exit_started:
+		await get_tree().process_frame
+		if is_instance_valid(get_tree().current_scene):
+			startup_frames += 1
+	if not exit_started:
+		print("Export smoke: 90 startup frames; requesting graceful Exit")
+		exit_game()
 
 # All Blackboard keys are retained. Live scene handles are session-only, rebuilt
 # by their owners; Resources retain their path and built-in Variants stay typed.
@@ -184,11 +198,33 @@ func _process(delta: float) -> void:
 		save_now()
 
 func exit_game() -> void:
+	if exit_started:
+		return
 	if not saving_disabled and has_node("/root/Settings") and not Settings.flush():
 		return
 	if enabled and not saving_disabled and not save_now():
 		return
+	_request_exit()
+
+func _request_exit() -> void:
+	if exit_started:
+		return
+	exit_started = true
 	saving_disabled = true
+	enabled = false
+	get_tree().paused = true
+	Audio.begin_shutdown()
+	_finish_exit.call_deferred()
+
+func _finish_exit() -> void:
+	# Scene callbacks (including always-processing dialogue) cannot restart audio.
+	var scene: Node = get_tree().current_scene
+	if is_instance_valid(scene):
+		get_tree().current_scene = null
+		scene.queue_free()
+	await get_tree().process_frame
+	# The audio server fades stopped streams before removing their references.
+	await get_tree().create_timer(Audio.shutdown_grace_seconds, true, false, true).timeout
 	get_tree().quit()
 
 func reset_save() -> bool:
@@ -205,8 +241,10 @@ func reset_save() -> bool:
 	return true
 
 func reset_and_quit() -> void:
+	if exit_started:
+		return
 	if reset_save():
-		get_tree().quit()
+		_request_exit()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

@@ -1,0 +1,29 @@
+{
+  "id": "coffee_table",
+  "zip": "rustic+coffee+table+3d+model.zip",
+  "size": 1.15,
+  "usage": "add hospital to apartment",
+  "processing": "",
+  "native": "Models/Imported/Trip/coffee_table/Source/coffee_table.blend",
+  "collection": "ASSET | coffee_table",
+  "source": "Models/Imported/Trip/coffee_table/Source/tripo_convert_6866d81e-4179-48dd-8f9b-5237d2c3c01a.fbx",
+  "export": "Models/Imported/Trip/coffee_table/coffee_table.glb",
+  "original_bounds": [
+    0.9995117783546448,
+    0.60302734375,
+    0.26708984375
+  ],
+  "dimensions_m": [
+    1.149999976158142,
+    0.6938201785087585,
+    0.42000001668930054
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 5339,
+  "triangles": 10179,
+  "texture": "Models/Imported/Trip/coffee_table/Source/tripo_convert_6866d81e-4179-48dd-8f9b-5237d2c3c01a.fbm/tripo_image_6866d81e-4179-48dd-8f9b-5237d2c3c01a_0_0.jpg",
+  "views": 3,
+  "objects": [
+    "coffee_table / mesh"
+  ]
+}

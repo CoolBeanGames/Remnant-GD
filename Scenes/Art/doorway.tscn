@@ -1,0 +1,48 @@
+[gd_scene format=3]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/door/door.glb" id="model"]
+[sub_resource type="Animation" id="0_idle_closed"]
+resource_name = "0_idle_closed"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Model/DoorLeaf:rotation")
+tracks/0/interp = 1
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+[sub_resource type="Animation" id="4_open_left"]
+resource_name = "4_open_left"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Model/DoorLeaf:rotation")
+tracks/0/interp = 1
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1.8, 0)]
+}
+[sub_resource type="Animation" id="4_close_left"]
+resource_name = "4_close_left"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Model/DoorLeaf:rotation")
+tracks/0/interp = 1
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 1.8, 0), Vector3(0, 0, 0)]
+}
+[sub_resource type="AnimationLibrary" id="Library"]
+_data = {
+&"0_idle_closed": SubResource("0_idle_closed"),
+&"4_open_left": SubResource("4_open_left"),
+&"4_close_left": SubResource("4_close_left")
+}
+[node name="Doorway" type="Node3D"]
+[node name="Model" parent="." instance=ExtResource("model")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("Library")

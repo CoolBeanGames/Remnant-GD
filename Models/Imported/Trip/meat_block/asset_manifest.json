@@ -1,0 +1,29 @@
+{
+  "id": "meat_block",
+  "zip": "raw+meat+block+3d+model.zip",
+  "size": 0.28,
+  "usage": "Chute Item",
+  "processing": "",
+  "native": "Models/Imported/Trip/meat_block/Source/meat_block.blend",
+  "collection": "ASSET | meat_block",
+  "source": "Models/Imported/Trip/meat_block/Source/tripo_convert_1d7a8b87-1332-4f2c-b30b-1f75bf067664.fbx",
+  "export": "Models/Imported/Trip/meat_block/meat_block.glb",
+  "original_bounds": [
+    1.0,
+    0.7932130098342896,
+    0.4326782822608948
+  ],
+  "dimensions_m": [
+    0.2800000011920929,
+    0.2220996469259262,
+    0.12114991247653961
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4951,
+  "triangles": 9901,
+  "texture": "Models/Imported/Trip/meat_block/Source/tripo_convert_1d7a8b87-1332-4f2c-b30b-1f75bf067664.fbm/raw_meat_block_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "meat_block / mesh"
+  ]
+}

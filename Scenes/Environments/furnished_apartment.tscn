@@ -17,16 +17,16 @@
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Microwave_microwave.tscn" id="15_p4ac4"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/CoffeePot_coffee_pot.tscn" id="16_ft7no"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TrashCan_trash_can.tscn" id="17_h5cbs"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Couch_couch.tscn" id="18_ulykf"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Chair_chair.tscn" id="19_wjtbe"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_couch.tscn" id="18_ulykf"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_lounger.tscn" id="19_wjtbe"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TableAndChairs_table_and_chairs.tscn" id="20_r33i3"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/EntertainmentCenter_entertainment_center.tscn" id="21_215sw"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/TV_t_v.tscn" id="22_xw0cx"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_television.tscn" id="22_xw0cx"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/VCR_v_c_r.tscn" id="23_rob50"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/LandlinePhone_landline_phone.tscn" id="24_lqgbl"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Bookshelf_bookshelf.tscn" id="25_6to3u"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PottedPlant_potted_plant.tscn" id="26_iibbq"]
-[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/PileOfMail_pile_of_mail.tscn" id="27_hqb0u"]
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_paper_stack.tscn" id="27_hqb0u"]
 [ext_resource type="PackedScene" path="res://Scenes/Environments/Art/FamilyPhoto_family_photo.tscn" id="28_3lnt4"]
 
 [ext_resource type="Script" path="res://Scripts/Dialogue/memory_object.gd" id="memory_object"]
@@ -36,6 +36,16 @@
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_bills.tres" id="story_bills"]
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_coffee.tres" id="story_coffee"]
 [ext_resource type="Resource" path="res://Data/Dialogue/Memories/apartment_tv.tres" id="story_tv"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_coffee_table.tscn" id="trip_coffee_table"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_desk.tscn" id="trip_desk"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_bedroom_bed.tscn" id="bedroom_bed"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_entrance_door.tscn" id="trip_entrance_door"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Environments/Art/Trip_bathroom_door.tscn" id="trip_bathroom_door"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w5hi0"]
 size = Vector3(2.4, 0.16, 1.7)
@@ -138,7 +148,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.53, 0, 1.39)
 script = ExtResource("10_yqikv")
 
 [node name="Couch" type="Node3D" parent="Art" unique_id=445037688 instance=ExtResource("18_ulykf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, 0, -0.32)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0.25)
 script = ExtResource("10_yqikv")
 
 [node name="Chair" type="Node3D" parent="Art" unique_id=2090323947 instance=ExtResource("19_wjtbe")]
@@ -146,7 +156,7 @@ transform = Transform3D(0.90630776, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.90
 script = ExtResource("10_yqikv")
 
 [node name="TableAndChairs" type="Node3D" parent="Art" unique_id=1456710361 instance=ExtResource("20_r33i3")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.77, 0, -1.71)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.8, 0, -1.65)
 script = ExtResource("10_yqikv")
 
 [node name="EntertainmentCenter" type="Node3D" parent="Art" unique_id=530894412 instance=ExtResource("21_215sw")]
@@ -168,7 +178,7 @@ script = ExtResource("memory_object")
 story = ExtResource("story_phone")
 
 [node name="Bookshelf" type="Node3D" parent="Art" unique_id=2033440946 instance=ExtResource("25_6to3u")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.59, 0, 1.41)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.59, 0, -2.15)
 script = ExtResource("10_yqikv")
 
 [node name="PottedPlant" type="Node3D" parent="Art" unique_id=470598459 instance=ExtResource("26_iibbq")]
@@ -176,12 +186,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.91, 0, -2.7)
 script = ExtResource("10_yqikv")
 
 [node name="PileOfMail" type="Node3D" parent="Art" unique_id=1031069350 instance=ExtResource("27_hqb0u")]
-transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 2.77, 0.781, -1.71)
+transform = Transform3D(0.9781476, 0, -0.2079117, 0, 1, 0, 0.2079117, 0, 0.9781476, 1.8, 0.781, -1.65)
 script = ExtResource("memory_object")
 story = ExtResource("story_bills")
 
 [node name="FamilyPhoto" type="Node3D" parent="Art" unique_id=976005215 instance=ExtResource("28_3lnt4")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.54, 1.851, 1.57)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.54, 1.851, -2.0)
 script = ExtResource("memory_object")
 story = ExtResource("story_photo")
 
@@ -281,3 +291,28 @@ shape = SubResource("StoryAimShape_bills")
 script = ExtResource("memory_completion")
 completion_flag = "memory 1 complete"
 required_flags = Array[String](["memory 1 photo", "memory 1 phone", "memory 1 bills"])
+
+[node name="CoffeeTable" parent="Art" instance=ExtResource("trip_coffee_table")]
+position = Vector3(0, 0, 1.55)
+rotation = Vector3(0, 0, 0)
+
+[node name="BedroomDesk" parent="Art" instance=ExtResource("trip_desk")]
+position = Vector3(6.2, 0, 2.4)
+rotation = Vector3(0, 0, 0)
+
+[node name="BedroomBed" parent="Art" instance=ExtResource("bedroom_bed")]
+position = Vector3(6.3, 0, -1.5)
+[node name="BedroomLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(6.2, 2.35, 0)
+light_color = Color(1, 0.64, 0.27, 1)
+light_energy = 0.35
+omni_range = 5.0
+shadow_enabled = true
+
+[node name="EntranceDoor" parent="Art" instance=ExtResource("trip_entrance_door")]
+position = Vector3(1.76, 0, 3.15)
+rotation = Vector3(0, 0, 0)
+
+[node name="BathroomDoor" parent="Art" instance=ExtResource("trip_bathroom_door")]
+position = Vector3(-2.64, 0, -0.75)
+rotation = Vector3(0, 0, 0)

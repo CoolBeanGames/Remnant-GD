@@ -1,11 +1,6 @@
 [gd_scene format=3]
-[ext_resource type="ArrayMesh" path="res://Data/ArtMeshes/beer_bottle_Mesh_0.res" id="mesh2"]
-[ext_resource type="Material" path="res://Materials/Items/beer_bottle_Mesh_0.tres" id="material_override2"]
-
-[node name="Model" type="Node3D" unique_id=1691126686]
-metadata/source_model = "res://Models/items/Meshy_AI_a_beer_bottle_1009173131_texture_fbx/Meshy_AI_a_beer_bottle_1009173131_texture.fbx"
-
-[node name="Mesh_0" type="MeshInstance3D" parent="." unique_id=1713211851]
-transform = Transform3D(36.85167, 0, 0, 0, 0, 36.85167, 0, -36.85167, 0, 0.0003605001, 0.000346316, 0.000334614)
-material_override = ExtResource("material_override2")
-mesh = ExtResource("mesh2")
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/beer_bottle/beer_bottle.glb" id="art"]
+[node name="Model" type="Node3D"]
+metadata/source_model = "res://Models/Imported/Trip/beer_bottle/beer_bottle.glb"
+[node name="Art" parent="." instance=ExtResource("art")]
+position = Vector3(0, -0.15000000596046448, 0)

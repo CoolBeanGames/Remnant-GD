@@ -1,0 +1,29 @@
+{
+  "id": "steel_plate",
+  "zip": "rusted+metal+siding+3d+model.zip",
+  "size": 2.4,
+  "usage": "replace plate",
+  "processing": "",
+  "native": "Models/Imported/Trip/steel_plate/Source/steel_plate.blend",
+  "collection": "ASSET | steel_plate",
+  "source": "Models/Imported/Trip/steel_plate/Source/tripo_convert_e4146a48-1d3b-424f-b312-cc978da574ad.fbx",
+  "export": "Models/Imported/Trip/steel_plate/steel_plate.glb",
+  "original_bounds": [
+    1.0000001192092896,
+    0.2136078029870987,
+    0.99993896484375
+  ],
+  "dimensions_m": [
+    2.3999998569488525,
+    0.11500000208616257,
+    2.399853229522705
+  ],
+  "origin": "centred XY sheet",
+  "vertices": 4781,
+  "triangles": 9692,
+  "texture": "Models/Imported/Trip/steel_plate/Source/tripo_convert_e4146a48-1d3b-424f-b312-cc978da574ad.fbm/rusted_metal_siding_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "steel_plate / mesh"
+  ]
+}

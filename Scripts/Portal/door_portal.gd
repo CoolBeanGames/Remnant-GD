@@ -8,7 +8,7 @@ signal destination_changed(id: StringName, title: String)
 @export var destination_scene: PackedScene = preload("res://Scenes/Portal/sky_test_room.tscn")
 @export var destinations: Array[portal_destination] = []
 @export var cycle_key: Key = KEY_F9
-@export var return_door_scene: PackedScene = preload("res://Models/Door/source/doorway_animated.glb")
+@export var return_door_scene: PackedScene = preload("res://Scenes/Art/doorway.tscn")
 @export var sky_position: Vector3 = Vector3(1600, 0, 0)
 @export var activation_flag: String = "exited room"
 @export var purchase_required: bool = false

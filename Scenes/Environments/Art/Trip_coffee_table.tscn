@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Portal/environment_art.gd" id="1_647em"]
+[ext_resource type="PackedScene" path="res://Models/Imported/Trip/coffee_table/coffee_table.glb" id="2_dluf4"]
+[ext_resource type="Shape3D" path="res://Scenes/Environments/Collision/Trip_coffee_table.tres" id="3_ctrue"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6kgn5"]
+friction = 0.95
+
+[node name="Trip_coffee_table" type="Node3D" unique_id=1495439815]
+script = ExtResource("1_647em")
+
+[node name="Model" type="Node3D" parent="." unique_id=1204501443 instance=ExtResource("2_dluf4")]
+
+[node name="Solid" type="StaticBody3D" parent="." unique_id=665381073 groups=["Floor"]]
+physics_material_override = SubResource("PhysicsMaterial_6kgn5")
+
+[node name="Collision" type="CollisionShape3D" parent="Solid" unique_id=611231363]
+shape = ExtResource("3_ctrue")

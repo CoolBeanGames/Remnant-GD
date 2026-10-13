@@ -1,0 +1,29 @@
+{
+  "id": "baby_bottle",
+  "zip": "baby+bottle+3d+model.zip",
+  "size": 0.24,
+  "usage": "Chute Item",
+  "processing": "",
+  "native": "Models/Imported/Trip/baby_bottle/Source/baby_bottle.blend",
+  "collection": "ASSET | baby_bottle",
+  "source": "Models/Imported/Trip/baby_bottle/Source/tripo_convert_9b30f4f7-ae33-48d6-89b4-0fd96bfbbcab.fbx",
+  "export": "Models/Imported/Trip/baby_bottle/baby_bottle.glb",
+  "original_bounds": [
+    0.4309998154640198,
+    0.42706310749053955,
+    1.0
+  ],
+  "dimensions_m": [
+    0.10343995690345764,
+    0.10249512642621994,
+    0.23999999463558197
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4759,
+  "triangles": 9589,
+  "texture": "Models/Imported/Trip/baby_bottle/Source/tripo_convert_9b30f4f7-ae33-48d6-89b4-0fd96bfbbcab.fbm/baby_bottle_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "baby_bottle / mesh"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "syringe",
+  "zip": "medical+syringe+3d+model.zip",
+  "size": 0.2,
+  "usage": "replace syringe",
+  "processing": "",
+  "native": "Models/Imported/Trip/syringe/Source/syringe.blend",
+  "collection": "ASSET | syringe",
+  "source": "Models/Imported/Trip/syringe/Source/tripo_convert_5d42a80b-bd95-4db9-a2bc-91970654601e.fbx",
+  "export": "Models/Imported/Trip/syringe/syringe.glb",
+  "original_bounds": [
+    0.9978638887405396,
+    0.3133545517921448,
+    1.0
+  ],
+  "dimensions_m": [
+    0.19957278668880463,
+    0.06267090886831284,
+    0.20000000298023224
+  ],
+  "origin": "bottom centre / named moving pivots",
+  "vertices": 4759,
+  "triangles": 9509,
+  "texture": "Models/Imported/Trip/syringe/Source/tripo_convert_5d42a80b-bd95-4db9-a2bc-91970654601e.fbm/medical_syringe_3d_model_basecolor.JPEG",
+  "views": 3,
+  "objects": [
+    "syringe / mesh"
+  ]
+}
