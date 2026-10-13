@@ -10,6 +10,10 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Fan pricing
+
+Fans start at **175 score** and rise by **1.8× per purchase**: 175, 315, then 567. Saved purchase counts retain this curve. Edit [the fan offer](Data/Computer/buy_fan.tres) to tune it; [catalog pricing](Data/Computer/README.md) covers all offers.
+
 ## Memory interactions
 
 Apartment memories require E on the **family photo, phone and stack of bills**. The **coffee pot, phone and TV** also offer look-only flavor after a short steady aim. Warehouse has five required props and hospital four, using editable dialogue drafts. Individual flags survive Continue; all required interactions set the existing completion flag, so returning closes that memory portal. Prompts reuse the world labels and follow the visible target surface. [Objects, flags and authoring](Data/Dialogue/MEMORY_TRIGGERS.md) · [Actual engine views](Reports/MemoryTriggers/index.html).

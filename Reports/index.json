@@ -210,6 +210,13 @@
     "description": "Explore existing props, press E to acknowledge required memories, and complete the area before its portal closes on your return. Optional flavor comes from looking."
   },
   {
+    "title": "Fans cost more.",
+    "kind": "Development history",
+    "local": "development_summary.html#fan-price-balance",
+    "online": "../index.html#fan-price-balance",
+    "description": "Building a powerful fan setup takes more score. The first fan now costs 175, five times its previous price."
+  },
+  {
     "title": "Memory objects: required E interactions and look flavor",
     "kind": "Rendered gallery",
     "local": "MemoryTriggers/index.html",

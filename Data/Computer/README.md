@@ -87,12 +87,14 @@ Mechanics/self tier costs are `ceil(base_cost * multiplier^purchased_level)`. Fa
 |---|---|---|
 | Steel plate | 20 | 1.8 |
 | Basket | 30 | 1.8 |
-| Fan | 35 | 1.8 |
+| Fan | 175 | 1.8 |
 | Automatic spawner | 400 | 1.8 |
 | Train Rail | 90 | 1.8 |
 | Rail Slider | 65 | 1.8 |
 | Light | 10 | Fixed |
 | Push broom | 10 | Fixed |
+
+The fan now starts at 175 score (previously 35). Its existing 1.8 multiplier makes the first three purchases cost 175, 315 and 567. Saved delivery counts continue to determine the next price. Tune `buy_fan.tres` to adjust this balance; Fan Power and other fan upgrade prices are unchanged.
 
 Successful deliveries increment their entry count in Progression.levels and Blackboard upgrade_levels. These counts persist separately from current world ownership: dropping, losing or retrieving an item does not reduce its next purchase price. The store shows DELIVERED / RISING PRICE for escalating offers. Snapshots are duplicated so resetting the live progression dictionary cannot erase saved counts. computer_entry exports escalating_store_price; cost(level) applies its exponent to upgrades and opted-in store entries, with bounded nonnegative integer costs.
 

@@ -47,7 +47,7 @@ func _run() -> void:
 	var old_force: float = old_fan.force
 	check(terminal.buy(Progression.entries[&"fan_power"]) == "", "Buy mechanics upgrade.")
 	var current_score: int = Progression.score()
-	check(terminal.buy(Progression.entries[&"buy_fan"]) == "" and Progression.score() == current_score - 35, "Store deducts exact score.")
+	check(terminal.buy(Progression.entries[&"buy_fan"]) == "" and Progression.score() == current_score - 175, "Fan purchase deducts its rebalanced 175-score price.")
 	var new_fan: Node3D = world.get_child(world.get_child_count() - 1)
 	check(new_fan.global_position.is_equal_approx(delivery.global_position) and new_fan.force == old_force * 1.25, "Purchased fan drops from the sky with upgraded force.")
 	check(old_fan.force == old_force, "Mechanics upgrades never modify existing fans.")
