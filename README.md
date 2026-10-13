@@ -1081,3 +1081,8 @@ All 30 October 12 F1 reports were reviewed with their screenshots. Current chang
 ## Mulch / portal / journal followup
 
 The ten new October 12 F1 reports are addressed. Pellets are square, multi-grabbable, and preserve half their contributing base item score for optional regrinding without recursive mulch. The bin stays beside the mulcher, whose repair prompt is now wired. Permanent upgrades automate the lever (E pause/resume), double its output and collect pellets. T controls the flashlight through/directly inside portals. F9 cycles previews while retaining unfinished memory ownership. Actual clicks on the first journal note now open its physical page. [Current details, controls and verification](Data/ISSUE_FOLLOWUP_2026-10-12.md), [mulch authoring](Data/Mulch/README.md), [reviewed report](Reports/MulchFollowup/index.html).
+
+
+### Lexicon authoring
+
+The reusable external Notes/Dialog/Flavor editor and Godot SDK are documented in [Data/LEXICON.md](Data/LEXICON.md) and [Tools/Lexicon/README.md](Tools/Lexicon/README.md). It maintains master Resources, branching conversations and copied shared media for any Godot project. Latest local Windows tool: `Builds/latest_lexicon.txt`; game builds remain separate. Existing story scenes remain authored independently until explicitly connected to Lexicon.
