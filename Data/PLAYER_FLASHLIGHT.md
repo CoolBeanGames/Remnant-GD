@@ -1,0 +1,9 @@
+# Player flashlight
+
+Press **T** to switch the player's flashlight. Its last choice is saved as the boolean Blackboard key `flashlight_powered`. When off, a small camera-relative 3D prompt says `[T] Turn On Flashlight`. Turning it on hides the hint. Menus, focused reading/PC views and the wake-up input lock hide the hint and block the key. The existing console can change the Blackboard value; the real lamp now observes that value live, including while the game is paused, rather than reading it only at spawn.
+
+Scripts/Player/player_flashlight.gd extends SpotLight3D, UID uid://ceglhwl86leb1. It is attached to Scenes/Player/player.tscn / Camera3D/SpotLight3D. Exports are `toggle_key=KEY_T`, `powered=true` and `show_off_hint=true`; `set_powered(value)` updates the light and Blackboard. The component processes always so modal/paused state changes can hide the hint and debug edits reach the live light. It depends on Blackboard and DevTools. Normal New Game clears the saved run choice; Continue restores it.
+
+The off hint reuses Scenes/UI/world_prompt_label.tscn under the camera, with the same seven-degree Y angle, outlined lettering and no panel. Transparent alpha with depth testing disabled keeps this essential camera control readable; normal object prompts retain their authored depth behavior. The component removes its hint on teardown. Edit the reusable label scene to change the shared typography, or disable Show Off Hint on the light.
+
+DoorPortal continues copying the actual flashlight's visibility, properties and mapped pose for its preview beam, with workshop/memory light masks routed by portal_space. Player crossings retain the chosen on/off state. [Portal setup](Portal/README.md). Tests/issue_tools_test verifies T, live Blackboard edits, the off hint and modal blocking; Tests/portal_flashlight_test verifies direct/preview/reverse-space illumination and cleanup.

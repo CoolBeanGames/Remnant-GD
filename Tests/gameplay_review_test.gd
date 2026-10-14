@@ -2,9 +2,13 @@ extends Node
 
 class CountingWorld extends "res://Global/world_state.gd":
 	var captures: int = 0
+	var background_captures: int = 0
 	func capture() -> void:
 		captures += 1
 		super.capture()
+	func capture_background() -> void:
+		background_captures += 1
+		super.capture_background()
 
 var failures: Array[String] = []
 func check(ok: bool, message: String) -> void:
@@ -48,6 +52,7 @@ func run() -> void:
 	var scene: PackedScene = load("res://Tests/Fixtures/spawn_pool_item.tscn")
 	var actors: Array[Node3D] = []
 	var previous_captures: int = tracker.captures
+	var previous_background: int = tracker.background_captures
 	for index in 30:
 		var actor: Node3D = tracker.spawn_item(scene, world, Transform3D(Basis.IDENTITY, Vector3(index * 2, 5, 10)))
 		actors.append(actor)
@@ -55,7 +60,10 @@ func run() -> void:
 			body.freeze = true
 	check(tracker.captures == previous_captures and tracker.items.size() == 30, "Burst spawn updates registry without rebuilding every snapshot")
 	await tick()
-	check(tracker.captures == previous_captures + 1 and Blackboard.read_data("spawned_items").size() == 30, "Burst spawn produces one complete deferred snapshot")
+	for step in 10:
+		tracker._physics_process(1.0 / 60.0)
+		await tick()
+	check(tracker.background_captures == previous_background + 1 and tracker.captures == previous_captures and Blackboard.read_data("spawned_items").size() == 30, "Burst spawn produces one complete background snapshot within bounded frames")
 	previous_captures = tracker.captures
 	for index in 10:
 		tracker.untrack(actors[index])

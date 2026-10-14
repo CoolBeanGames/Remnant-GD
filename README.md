@@ -10,6 +10,12 @@ A modular, decoupled game architecture built on **Godot Engine 4.7 Forward+**, u
 ---
 
 
+## Item piles and tool controls
+
+World updates now build save snapshots in bounded batches and reuse sleeping-item records, with fair cleanup even during continuous spawning. An 800-item benchmark reduced the 95th-percentile world-maintenance time from 61.2 to 4.4 ms; the rendered 400-item workshop improved from 48.5 to 13.4 ms per frame on the test machine. [Measured scope and reproduction](Data/PHYSICS_PERFORMANCE.md).
+
+The fan's Sweep prompt no longer accumulates. Upgraded lights switch between cone and omni with **K**, individually. **Automatic Mulcher Repair** costs 100 mulch coins once and still pays the normal escalating score cost/time. The flashlight uses **T**, displays an off hint, and responds to live `flashlight_powered` Blackboard edits. [Controls, saves and authoring](Data/ISSUE_TOOLS_FOLLOWUP.md) · [Phone summary](https://coolbeangames.github.io/Remnant-GD/index.html#item-pile-followup).
+
 ## October 13 fixes
 
 The latest 27 F1 reports are addressed: a larger walkable apartment, interactive ward/staff doors, editable book sleeves, corrected door/lever pivots and CRT focus, smooth empty-hand RMB zoom, outlined text, resource preloading/loading screen and bounded physical grinder debris. The warning pass corrects all project diagnostics without hiding them. [Current authoring and verification](Data/ISSUE_BATCH_2026-10-13.md) · [Reviewed views](Reports/IssueOctober13/index.html) · [Phone summary](https://coolbeangames.github.io/Remnant-GD/index.html#issues-october-13).

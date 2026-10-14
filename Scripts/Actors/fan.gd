@@ -67,7 +67,7 @@ func _physics_process(delta: float) -> void:
 	if placed and not held and not get_meta("carried_by_player", false):
 		if drive != null:
 			drive.apply_drive_impulse(-direction * reaction_force * delta)
-	var seen: Array[int] = []
+	var seen: Dictionary = {}
 	for collider in $Wind.get_overlapping_bodies():
 		if collider is CharacterBody3D:
 			if held or get_meta("carried_by_player", false):
@@ -79,7 +79,7 @@ func _physics_process(delta: float) -> void:
 		var body: RigidBody3D = physics_items.rigid_body(collider)
 		if body == self or body == drive or not physics_items.is_loose(body) or seen.has(body.get_instance_id()):
 			continue
-		seen.append(body.get_instance_id())
+		seen[body.get_instance_id()] = true
 		if body.linear_velocity.dot(direction) < maximum_speed:
 			body.sleeping = false
 			body.apply_central_force(direction * force)
@@ -157,7 +157,9 @@ func _append_vacuum_prompts(result: prompt_set) -> prompt_set:
 	if result == null:
 		result = prompt_set.new()
 	else:
-		result = result.duplicate()
+		var copy := prompt_set.new()
+		copy.entries.assign(result.entries)
+		result = copy
 	if swivel_enabled:
 		var swivel := prompt_entry.new()
 		swivel.text = "Stop Sweep" if swivel_active else "Sweep"

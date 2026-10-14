@@ -10,6 +10,17 @@ var serial: int = 0
 var session: int = 0
 var capture_scheduled: bool = false
 var body_cache: Dictionary = {}
+@export_range(0.1, 2.0, 0.1) var snapshot_interval: float = 0.5
+@export_range(1, 1024, 1) var cull_checks_per_tick: int = 64
+var _cull_ids: Array = []
+var _cull_cursor: int = 0
+var _record_cache: Dictionary = {}
+@export_range(1, 128, 1) var snapshot_items_per_tick: int = 32
+@export_range(250, 8000, 250) var snapshot_budget_usec: int = 2000
+var _snapshot_ids: Array = []
+var _snapshot_cursor: int = 0
+var _snapshot_records: Dictionary = {}
+var _snapshot_carried: Dictionary = {}
 
 func begin(root: Node3D, avatar: CharacterBody3D, kill_y: float = -10.0) -> void:
 	tracking = false
@@ -20,6 +31,12 @@ func begin(root: Node3D, avatar: CharacterBody3D, kill_y: float = -10.0) -> void
 	player = avatar
 	items.clear()
 	body_cache.clear()
+	_record_cache.clear()
+	_snapshot_ids = []
+	_snapshot_records.clear()
+	_snapshot_carried.clear()
+	_cull_ids = []
+	_cull_cursor = 0
 	kill_height = kill_y
 	var pose: Variant = Blackboard.read_data("player_transform")
 	if pose is Transform3D:
@@ -76,11 +93,18 @@ func track(actor: Node3D, id: String = "") -> void:
 		id = "%d-%d" % [Time.get_ticks_usec(), serial]
 	actor.set_meta("persistent_item_id", id)
 	items[id] = weakref(actor)
+	_record_cache.erase(id)
+	_snapshot_records.erase(id)
+	_cull_ids = []
 	if tracking:
 		_request_capture()
 
 func untrack(actor: Node3D) -> void:
-	items.erase(str(actor.get_meta("persistent_item_id", "")))
+	var id: String = str(actor.get_meta("persistent_item_id", ""))
+	items.erase(id)
+	_record_cache.erase(id)
+	_snapshot_records.erase(id)
+	_cull_ids = []
 	body_cache.erase(actor.get_instance_id())
 	if tracking:
 		_request_capture()
@@ -95,7 +119,7 @@ func _flush_capture(request_session: int) -> void:
 	if request_session != session or not capture_scheduled:
 		return
 	capture_scheduled = false
-	capture()
+	capture_background()
 
 func _restore(records: Array, request_session: int = -1) -> void:
 	if request_session != -1 and request_session != session:
@@ -207,10 +231,19 @@ func cull(actor: Node3D) -> void:
 func _physics_process(delta: float) -> void:
 	if not tracking or not is_instance_valid(level) or not level.is_inside_tree() or level.is_queued_for_deletion():
 		return
-	for id in items.keys():
+	if _cull_ids.size() != items.size():
+		_cull_ids = items.keys()
+		# Continuous births must not restart at the oldest items every frame.
+		_cull_cursor %= maxi(1, _cull_ids.size())
+	# Retain this batch if an untrack invalidates the next scan while culling.
+	var scan_ids: Array = _cull_ids
+	var budget: int = scan_ids.size() if delta <= 0 else mini(cull_checks_per_tick, scan_ids.size())
+	for offset in budget:
+		var id: String = scan_ids[(_cull_cursor + offset) % scan_ids.size()]
 		var actor: Node3D = _actor(id)
 		if not is_instance_valid(actor) or actor.is_queued_for_deletion():
 			items.erase(id)
+			_record_cache.erase(id)
 			continue
 		var below: bool = true
 		var live_bodies: int = 0
@@ -227,7 +260,9 @@ func _physics_process(delta: float) -> void:
 		if below:
 			cull(actor)
 			items.erase(id)
-			snapshot_elapsed = .1
+			snapshot_elapsed = snapshot_interval
+	if not scan_ids.is_empty():
+		_cull_cursor = (_cull_cursor + budget) % scan_ids.size()
 
 	if is_instance_valid(player) and player.is_inside_tree():
 		Blackboard.store_data("player_transform", player.global_transform)
@@ -238,9 +273,10 @@ func _physics_process(delta: float) -> void:
 			var view_session: world_view_session = Blackboard.read_data("world_view_session") as world_view_session
 			Blackboard.store_data("player_camera_rotation", view_session.original_camera_rotation if view_session != null and view_session.active else camera.rotation)
 	snapshot_elapsed += delta
-	if snapshot_elapsed >= .1:
+	if snapshot_elapsed >= snapshot_interval:
 		snapshot_elapsed = 0.0
-		capture()
+		capture_background()
+	_advance_snapshot()
 
 ## Refresh topology at snapshot cadence, rather than searching every physics tick.
 ## Weak handles never keep discarded actors alive; detached bodies are ignored.
@@ -263,73 +299,118 @@ func _body_references(actor: Node3D, refresh: bool = false) -> Array[WeakRef]:
 		body_cache[actor_id] = {"actor": weakref(actor), "bodies": references}
 	return body_cache[actor_id].bodies
 
+## Explicit saves/interactions force a fresh record; periodic snapshots reuse
+## sleeping ordinary items only while their actual root/body transforms agree.
 func capture() -> void:
+	_start_snapshot(true)
+
+func capture_background() -> void:
+	_start_snapshot(false)
+
+func _start_snapshot(force_refresh: bool) -> void:
 	if not tracking or not is_instance_valid(level) or not level.is_inside_tree():
 		return
 	capture_scheduled = false
-	var records: Array[Dictionary] = []
-	# Prune handles from actors that disappeared without an explicit untrack.
+	if not force_refresh and not _snapshot_ids.is_empty():
+		return
+	_snapshot_ids = items.keys()
+	_snapshot_cursor = 0
+	_snapshot_records.clear()
+	_snapshot_carried.clear()
 	for actor_id in body_cache.keys():
 		if body_cache[actor_id].actor.get_ref() == null:
 			body_cache.erase(actor_id)
-	var carried_body_ids: Dictionary = {}
 	for id in items:
 		var container: Node3D = _actor(id)
-		if is_instance_valid(container) and container.has_method("get_carried_bodies"):
+		if is_instance_valid(container) and not container is object_manager and container.has_method("get_carried_bodies"):
 			for body in container.get_carried_bodies():
-				carried_body_ids[body.get_instance_id()] = true
-	for id in items:
+				_snapshot_carried[body.get_instance_id()] = true
+	if _snapshot_ids.is_empty():
+		Blackboard.store_data("spawned_items", [])
+	elif force_refresh:
+		_advance_snapshot(true)
+
+func _advance_snapshot(force_refresh: bool = false) -> void:
+	if _snapshot_ids.is_empty():
+		return
+	var started: int = Time.get_ticks_usec()
+	var processed: int = 0
+	while _snapshot_cursor < _snapshot_ids.size():
+		var id: String = _snapshot_ids[_snapshot_cursor]
+		_snapshot_cursor += 1
 		var actor: Node3D = _actor(id)
-		if not is_instance_valid(actor) or actor.is_queued_for_deletion():
-			continue
-		var record: Dictionary = {"id": id, "scene": actor.scene_file_path, "transform": actor.global_transform, "bodies": [], "properties": {}, "bases": actor.get_meta("upgrade_base_values", {}).duplicate(true)}
-		record.portal_inside = actor.get_meta("portal_inside", false)
-		if actor is note_drop and actor.note != null:
-			record.note = actor.note.resource_path
-		if actor is mulch_pellet:
-			record.pellet_score = actor.stored_score
-		if actor is switchable_prop:
-			record.properties["powered"] = actor.powered
-		if actor.has_method("cycle_lens"):
-			record.properties["lens_index"] = actor.get("lens_index")
-		if actor.has_method("get_tool_state"):
-			record.tool_state = actor.get_tool_state()
-			record.properties["vacuum_mode"] = actor.get("vacuum_mode")
-			record.properties["swivel_active"] = actor.get("swivel_active")
-		if actor.has_method("get_rail_state"):
-			record.rail_state = actor.get_rail_state()
-		if actor is train_rail:
-			for property in ["rail_length", "carriage_height", "end_margin", "connection_tolerance"]:
-				record.properties[property] = actor.get(property)
-		if actor is rail_station:
-			for property in ["mode", "capacity", "scan_interval", "dock_tolerance", "bin_bounds", "loading_batch", "eject_speed", "eject_lift", "eject_spacing"]:
-				record.properties[property] = actor.get(property)
-		if actor is rail_slider:
-			for property in ["travel_damping", "deck_half_size", "deck_surface", "cargo_tolerance"]:
-				record.properties[property] = actor.get(property)
-		for property in record.bases:
-			record.properties[property] = actor.get_indexed(NodePath(property))
-		for property in ["spawn_interval", "remaining"]:
-			if actor is automatic_spawner:
-				record.properties[property] = actor.get(property)
-		var component: score_object = physics_items.score_component(actor)
-		if component != null:
-			record.score = component.score
-			record.mulch_value = component.mulch_value
-		for body in _bodies(actor, true):
-			var extra: Dictionary = {"chute_settled": body.get_meta("chute_settled", false), "friction": body.physics_material_override.friction if body.physics_material_override != null else 1.0, "linear_damp": body.linear_damp, "angular_damp": body.angular_damp}
-			record.bodies.append({"path": str(actor.get_path_to(body)), "transform": body.global_transform, "freeze": body.freeze and not body.get_meta("carried_by_player", false) and not carried_body_ids.has(body.get_instance_id()), "mode": body.freeze_mode, "velocity": body.linear_velocity, "angular_velocity": body.angular_velocity})
-			record.bodies.back().merge(extra)
-		if actor is rotatable_item and actor.placed:
-			record.placed = true
-			record.air = actor.support == null
-			var host: Node3D = actor.support.get_ref() as Node3D if actor.support != null else null
-			if is_instance_valid(host):
-				var root: Node = host
-				while root != null and not root.has_meta("persistent_item_id") and root != level:
-					root = root.get_parent()
-				if root != null:
-					record.support_id = str(root.get_meta("persistent_item_id", ""))
-					record.support_path = str(root.get_path_to(host))
-		records.append(record)
-	Blackboard.store_data("spawned_items", records)
+		if is_instance_valid(actor) and not actor.is_queued_for_deletion():
+			var record: Dictionary = _make_record(id, actor, _snapshot_carried, force_refresh)
+			_record_cache[id] = record
+			_snapshot_records[id] = record
+		processed += 1
+		if not force_refresh and (processed >= snapshot_items_per_tick or Time.get_ticks_usec() - started >= snapshot_budget_usec):
+			break
+	if _snapshot_cursor >= _snapshot_ids.size():
+		var records: Array[Dictionary] = []
+		for id in _snapshot_records:
+			if items.has(id):
+				records.append(_snapshot_records[id])
+		Blackboard.store_data("spawned_items", records)
+		_snapshot_ids = []
+		_snapshot_records.clear()
+		_snapshot_carried.clear()
+
+func _make_record(id: String, actor: Node3D, carried_body_ids: Dictionary, force_refresh: bool) -> Dictionary:
+	if not force_refresh and actor is object_manager and _record_cache.has(id):
+		var cached: Dictionary = _record_cache[id]
+		var body: RigidBody3D = actor.rb
+		if is_instance_valid(body) and body.sleeping and not body.freeze and not body.get_meta("carried_by_player", false) and cached.transform == actor.global_transform and cached.bodies.size() == 1 and cached.bodies[0].transform == body.global_transform:
+			return cached
+	var record: Dictionary = {"id": id, "scene": actor.scene_file_path, "transform": actor.global_transform, "bodies": [], "properties": {}, "bases": actor.get_meta("upgrade_base_values", {}).duplicate(true)}
+	record.portal_inside = actor.get_meta("portal_inside", false)
+	if actor is note_drop and actor.note != null:
+		record.note = actor.note.resource_path
+	if actor is mulch_pellet:
+		record.pellet_score = actor.stored_score
+	if actor is switchable_prop:
+		record.properties["powered"] = actor.powered
+	if actor.has_method("cycle_lens"):
+		record.properties["lens_index"] = actor.get("lens_index")
+	if actor.has_method("set_beam_active"):
+		record.properties["beam_hood_active"] = actor.get("beam_hood_active")
+	if actor.has_method("get_tool_state"):
+		record.tool_state = actor.get_tool_state()
+		record.properties["vacuum_mode"] = actor.get("vacuum_mode")
+		record.properties["swivel_active"] = actor.get("swivel_active")
+	if actor.has_method("get_rail_state"):
+		record.rail_state = actor.get_rail_state()
+	if actor is train_rail:
+		for property in ["rail_length", "carriage_height", "end_margin", "connection_tolerance"]:
+			record.properties[property] = actor.get(property)
+	if actor is rail_station:
+		for property in ["mode", "capacity", "scan_interval", "dock_tolerance", "bin_bounds", "loading_batch", "eject_speed", "eject_lift", "eject_spacing"]:
+			record.properties[property] = actor.get(property)
+	if actor is rail_slider:
+		for property in ["travel_damping", "deck_half_size", "deck_surface", "cargo_tolerance"]:
+			record.properties[property] = actor.get(property)
+	for property in record.bases:
+		record.properties[property] = actor.get_indexed(NodePath(property))
+	for property in ["spawn_interval", "remaining"]:
+		if actor is automatic_spawner:
+			record.properties[property] = actor.get(property)
+	var component: score_object = physics_items.score_component(actor)
+	if component != null:
+		record.score = component.score
+		record.mulch_value = component.mulch_value
+	for body in _bodies(actor, force_refresh or not actor is object_manager):
+		var extra: Dictionary = {"chute_settled": body.get_meta("chute_settled", false), "friction": body.physics_material_override.friction if body.physics_material_override != null else 1.0, "linear_damp": body.linear_damp, "angular_damp": body.angular_damp}
+		record.bodies.append({"path": str(actor.get_path_to(body)), "transform": body.global_transform, "freeze": body.freeze and not body.get_meta("carried_by_player", false) and not carried_body_ids.has(body.get_instance_id()), "mode": body.freeze_mode, "velocity": body.linear_velocity, "angular_velocity": body.angular_velocity})
+		record.bodies.back().merge(extra)
+	if actor is rotatable_item and actor.placed:
+		record.placed = true
+		record.air = actor.support == null
+		var host: Node3D = actor.support.get_ref() as Node3D if actor.support != null else null
+		if is_instance_valid(host):
+			var root: Node = host
+			while root != null and not root.has_meta("persistent_item_id") and root != level:
+				root = root.get_parent()
+			if root != null:
+				record.support_id = str(root.get_meta("persistent_item_id", ""))
+				record.support_path = str(root.get_path_to(host))
+	return record

@@ -18,13 +18,14 @@ Each ordinary item adds one damage; base durability is 100. The physical machine
 
 ## Upgrades
 
-Regular Mechanics buys durability (250 score, ×1.5 per tier) and efficiency (500 score, ×1.25); both have ×3 prices. The fourth PC tab requires installed Mulcher and the current run's bin. Its twelve entries use permanent banked coins and stack after ordinary upgrades. Existing item value, run speed, carry capacity, jumping/height, durability, efficiency, fan power, spawner interval and Grind Additional Items remain available.
+Regular Mechanics buys durability (250 score, ×1.5 per tier) and efficiency (500 score, ×1.25); both have ×3 prices. The fourth PC tab requires installed Mulcher and the current run's bin. Its thirteen entries use permanent banked coins and stack after ordinary upgrades. Existing item value, run speed, carry capacity, jumping/height, durability, efficiency, fan power, spawner interval and Grind Additional Items remain available.
 
 | New permanent entry | Initial cost | Behavior / adjustable resource |
 | --- | --- | --- |
 | Automatic Lever | 50 coins, once | Data/Mulch/automatic_lever.tres. Automates the existing lever; E pauses/resumes. Default two-second delay after reset; it waits for the previous spaced batch to drain. |
 | Lever Output Multiplier | 12 coins, ×2.5 price, unlimited | Data/Mulch/lever_output.tres. Doubles output after ordinary output tiers; maximum 256 items per pull, individually spaced through the existing chute. |
 | Mulch Collector | 25 coins, once | Data/Mulch/collector.tres. Banks new output automatically and collects loose workshop pellets at purchase. Held pellets and memory-space pellets are excluded. |
+| Automatic Mulcher Repair | 100 coins, once | Data/Mulch/auto_repair.tres. A broken machine repairs itself when spendable score covers the normal escalating price. Uses the normal four-second duration, guards duplicate charges and resumes saved repairs. Status shows enabled/waiting; the tier survives New Game. |
 
 New Game keeps coins, permanent tiers, Mulcher ownership and lifetime earnings. Run score/regular upgrades, bin ownership, damage/repairs, pending contribution ledger and unbanked pellets reset. Explicit Delete Save in Options deletes run and profile data. Collector banking coalesces profile persistence for each output batch or existing-pellet sweep.
 
@@ -32,7 +33,7 @@ New Game keeps coins, permanent tiers, Mulcher ownership and lifetime earnings. 
 
 | Script / identity | State / API / dependencies |
 | --- | --- |
-| Global/mulch.gd / Mulch / Node autoload / uid://dgh4wrf1yedj6 | points_per_pellet, base durability/efficiency, damage_per_item, repair settings, pellet_scene; level, station, bin, contributions, automatic_collection. restore(), bind_level(root), install()->bool, install_bin()->mulch_bin, consume(item,score_value=-1), deposit(pellet,persist=true)->bool, repair()->String, buy_upgrade(entry,player). Signals changed, pellet_produced, coins_changed. Uses Blackboard, Flags, SaveGame, WorldState and Progression. |
+| Global/mulch.gd / Mulch / Node autoload / uid://dgh4wrf1yedj6 | points_per_pellet, base durability/efficiency, damage_per_item, repair settings, pellet_scene; level, station, bin, contributions, automatic_collection, automatic_repair. restore(), bind_level(root), install()->bool, install_bin()->mulch_bin, consume(item,score_value=-1), deposit(pellet,persist=true)->bool, repair()->String, buy_upgrade(entry,player). Signals changed, pellet_produced, coins_changed. Uses Blackboard, Flags, SaveGame, WorldState and Progression. |
 | Scripts/Mulch/mulcher_station.gd / mulcher_station / StaticBody3D / uid://xu0ohq42ko84 | pellet_velocity, pellet_spacing, pellet_columns; pellet_pose(index)->Transform3D, pellet_launch_velocity()->Vector3, refresh, interact, get_look_prompts. Retain Output, existing reusable object_prompts child and authored anchor. |
 | Scripts/Mulch/mulch_pellet.gd / mulch_pellet / RigidBody3D / uid://bdrh7fn1s7rta | coin_value=1, stored_score=0, can_grind; WorldState tracking and dynamic F prompt. Groups pick-up, mulch-pellet, machine-immune. |
 | Scripts/Mulch/mulch_bin.gd / mulch_bin / StaticBody3D / uid://dhnsd4qfajvhf | Deposit Area3D, solid open-top walls, _deposit and get_look_prompts. Groups mulch-bin, machine-immune, look-prompt; no pickup. |

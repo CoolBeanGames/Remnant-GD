@@ -9,6 +9,8 @@ var maximum_damage: float = 100.0
 var efficiency: float = 1.0
 ## Permanent collector permission is applied through editable upgrade effects.
 var automatic_collection: bool = false
+## Permanent upgrade; automatic repairs still pay the normal escalating score cost.
+var automatic_repair: bool = false
 @export var damage_per_item: float = 1.0
 @export var repair_seconds: float = 4.0
 @export var repair_base_cost: int = 100
@@ -36,6 +38,7 @@ func restore() -> void:
 	maximum_damage = maxf(1, base_maximum_damage)
 	efficiency = maxf(0, base_efficiency)
 	automatic_collection = false
+	automatic_repair = false
 	contributions.clear()
 	var saved: Variant = Blackboard.read_data("mulch_contributions")
 	var accounted: float = 0.0
@@ -210,13 +213,18 @@ func repair() -> String:
 	return ""
 
 func _process(delta: float) -> void:
+	if automatic_repair and is_instance_valid(level) and level.is_inside_tree() and Flags.check_flag("mulcher purchased") and broken() and repair_remaining <= 0 and Progression.score() >= repair_cost():
+		repair()
 	if repair_remaining > 0 and is_instance_valid(level) and level.is_inside_tree():
 		repair_remaining = maxf(0, repair_remaining - delta)
 		if repair_remaining <= 0:
 			damage = 0
 			repairs += 1
 			DevTools.log_info("Mulcher repair finished / repairs %d" % repairs, "mulch")
-		_store()
+			_store()
+		else:
+			Blackboard.store_data("mulcher_repair_remaining", repair_remaining)
+			changed.emit()
 
 func _store() -> void:
 	Blackboard.store_data("mulch_points", points)

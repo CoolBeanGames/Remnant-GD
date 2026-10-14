@@ -103,6 +103,9 @@ def build():
         next(row for row in index if row['id']==archive_id)['text']=archive_text
     # Current maintained gameplay/workflow guides keep sidebar, body and search in sync.
     maintained = [
+        ('page-issue-tools-followup', 'Item piles and tool-control followup', 'Overview', 'Data/ISSUE_TOOLS_FOLLOWUP.md', 'page-issues-october-13', 'F1 fan sweep duplicate prompts K cone omni light T flashlight blackboard automatic mulcher repair 100 coins'),
+        ('page-physics-performance', 'Item-pile physics performance', 'Overview', 'Data/PHYSICS_PERFORMANCE.md', 'page-issue-tools-followup', 'physics Jolt items piles sleeping snapshots budget culling cleanup framerate benchmark fan scanning'),
+        ('page-global-world-state', 'WorldState / bounded snapshots', 'Globals', 'Data/PHYSICS_PERFORMANCE.md', 'page-global-save-game', 'world_state actor save capture background exact snapshots cache cull continuous spawning'),
         ('page-lexicon', 'Lexicon / notes, branching dialog and flavor', 'Overview', 'Data/LEXICON.md', 'page-issues-october-13', 'external authoring Windows tool reusable Godot plugin notes image transcript dialog conversation branching choices flavor voice portable master catalogs exporter shared assets rollback'),
 		('page-issues-october-13', 'October 13 fixes, loading and book sleeves', 'Overview', 'Data/ISSUE_BATCH_2026-10-13.md', 'page-development-archive', '27 F1 warnings loading preload resources smooth RMB zoom interactive staff ward doors book sleeves grinder physical debris pool'),
 		('page-item-spawn-pool', 'Random item pool and unique note spawns', 'Actors', 'Data/Items/README.md', None, 'nine production chute automatic spawner random item pool unique note fallback two percent test block excluded'),
@@ -115,7 +118,7 @@ def build():
         ('page-plate-snapping', 'Steel plate edge snapping', 'Actors', 'Data/Items/PLATE_SNAPPING.md', 'page-manual-automation', 'steel_plate left right top bottom four edge snap ghost B R wheel hinge carry save collision'),
         ('page-memory-triggers', 'Memory interactions and look flavor', 'Scripts', 'Data/Dialogue/MEMORY_TRIGGERS.md', 'page-door-portal', 'memory object photo phone bills coffee TV flavor gaze E 3 5 4 completion saved dialogue'),
         ('page-mulch-followup', 'Mulch, flashlight and journal followup', 'Overview', 'Data/ISSUE_FOLLOWUP_2026-10-12.md', 'page-october-issue-pass', 'mulch automatic lever collector pellets half score flashlight T portal F9 journal click'),
-        ('page-player-flashlight', 'Player flashlight and portal beam', 'Scripts', 'Data/Portal/README.md', 'page-door-portal', 'SpotLight3D T player flashlight beam portal lighting on off'),
+        ('page-player-flashlight', 'Player flashlight and portal beam', 'Scripts', 'Data/PLAYER_FLASHLIGHT.md', 'page-door-portal', 'SpotLight3D T player flashlight off hint live blackboard powered console portal lighting'),
         ('page-october-issue-pass', 'October issue pass / recorder inputs', 'Overview', 'Data/ISSUE_BATCH_2026-10-12.md', 'page-development-archive', 'F1 F7 webcam microphone camera lifetime discovery combo Mulcher pellets memory return stairs'),
         ('page-global-gameplay-recorder', 'Gameplay recorder / optional inputs', 'Globals', 'Data/RECORDING.md', None, 'F6 F7 webcam microphone recorder lossless FFmpeg aspect'),
         ('page-rail-stations', 'Rail loader and unloader', 'Actors', 'Data/Items/RAIL_STATIONS.md', 'page-manual-automation', 'rail station loader unloader endpoint cargo basket docking queue save'),

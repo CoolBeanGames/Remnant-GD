@@ -56,6 +56,8 @@ func refresh() -> void:
 		status += "BROKEN / REPAIR %d SCORE" % Mulch.repair_cost()
 	else:
 		status += "DAMAGE / %.0f / %.0f" % [Mulch.damage, Mulch.maximum_damage]
+	if Mulch.automatic_repair:
+		status += "\nAUTO REPAIR / " + ("WAITING FOR SCORE" if Mulch.broken() and Mulch.repair_remaining <= 0 else "ENABLED")
 	if not notice.is_empty():
 		status += "\n" + notice
 	if $Status.text != status:

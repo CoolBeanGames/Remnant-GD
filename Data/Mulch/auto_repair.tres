@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="computer_entry" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Computer/upgrade_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://Scripts/Computer/computer_entry.gd" id="entry"]
+
+[sub_resource type="Resource" id="AutomaticRepair"]
+script = ExtResource("effect")
+target = "mulcher"
+property = NodePath("automatic_repair")
+operation = 2
+amount = 1.0
+
+[resource]
+script = ExtResource("entry")
+id = &"mulch_auto_repair"
+title = "Automatic Mulcher Repair"
+description = "Automatically repairs a broken Mulcher when you can afford its normal score cost. Keeps the normal repair time and escalating cost. Persists across New Game."
+tab = 3
+base_cost = 100
+required_purchase = &"buy_mulcher"
+max_level = 1
+effects = Array[ExtResource("effect")]([SubResource("AutomaticRepair")])
