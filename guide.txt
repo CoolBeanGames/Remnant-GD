@@ -1,5 +1,5 @@
 REMNANT-GD AGENT INSTRUCTION & MAINTENANCE GUIDE
-Last Updated: 2026-10-14 05:48:18 UTC
+Last Updated: 2026-10-14 06:01:54 UTC
 
 Maintain README.md, the offline .wiki/index.html (sidebar, content and search), and this guide for every script/system/scene change. Globals must remain the first script category; other categories follow Scripts subfolders. Wiki must remain self-contained. Document script path, class/inheritance, UID/autoload, signals, exported/runtime state, public API and scene dependencies. Add a timestamped running-log entry using [YYYY-MM-DD][HH:MM:SS] - updated the guide to include 'feature'.
 
@@ -288,3 +288,4 @@ HISTORICAL RUNNING LOG (older designs are retired)
 [2026-10-13][18:59:57] - updated the guide to include 'verified fridge correction delivery'; implementation 711e943 pushed and remote-confirmed, Pages 38450969519 succeeded, all 24 live hashes/21 browser checks pass. Same Windows_2026-10-13_13-46-06 build; documentation-only completion record.
 [2026-10-14][05:34:36] - updated the guide to include 'item-pile optimization and three F1 tool fixes'; 12 targeted scene suites, 26/31 headless/rendered tool checks, 13 world-budget checks, zero diagnostics across 237 scripts and seven reviewed views. Measured 800-item world p95 61.2 to 4.4 ms; rendered workshop mean 48.5 to 13.4 ms. Build/push record follows verification.
 [2026-10-14][05:48:18] - updated the guide to include 'verified item-pile Windows package'; Windows_2026-10-14_00-32-43 release/import/export/90-frame startup clean, 26 headless/31 rendered release-PCK tool checks and five reviewed package captures. Three original F1 reports resolved locally; no pending reports remain. Final fixed-count workshop measurement verifies 400 live sleeping items; designer bytes are preserved.
+[2026-10-14][06:01:54] - updated the guide to include 'published item-pile and F1 followup'; implementation 751b197 pushed/remote-confirmed, Pages 38519532517 succeeded, 25 live hashes and 21 browser checks pass. 124 wiki/search/sidebar entries, 61 archive entries, 370 validated references. Same verified Windows_2026-10-14_00-32-43; this is a documentation-only completion record.
